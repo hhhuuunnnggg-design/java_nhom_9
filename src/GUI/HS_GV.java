@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package do_an;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -52,51 +52,64 @@ public class HS_GV {
         f.setUndecorated(true);
         f.setSize(1000, 700);
 
-        // Tạo JPanel jp1 ở phía trên
-        jp1 = new JPanel(new BorderLayout());
-        jp1.setPreferredSize(new Dimension(0, 30));
-        jp1.setBackground( new Color(78,78,234));
-        jp1.setOpaque(true);
-        
-        // Thêm các JLabel vào jp1
-        //Tạo LeftPanel chứa jl1,jl2
-        LeftPanel = new JPanel ();
-        LeftPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        LeftPanel.setBackground( new Color(78,78,234));
-        LeftPanel.setOpaque(true);
-        LeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        //Tạo RightPanel chứa exitbutton
-        RightPanel = new JPanel();
-        RightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-        RightPanel.setBackground( new Color(78,78,234));
-        RightPanel.setOpaque(true);
-        RightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        // Tạo JLabel jl1 với hình ảnh kích thước (20, 20)
-        jl1 = new JLabel();
-        jl1.setPreferredSize(new Dimension (20,20));
-        ImageIcon imageIcon = new ImageIcon("path_to_image.png");
-//        Image image = imageIcon.getImage().getScaledInstance(40, 40);
-        jl1.setBackground(Color.WHITE);
-//        jl1.setIcon(new ImageIcon(image));
-        jl1.setOpaque(true);
-        LeftPanel.add(jl1);
-        // Tạo JLabel jl2 với nội dung "Quản lí học sinh"
-        jl2 = new JLabel("QUẢN LÝ HỌC SINH");
-        LeftPanel.add(jl2);
-        // Tạo JButton để thoát
-        JButton exitButton = new JButton("X");
-        exitButton.setBackground(Color.red);
-        exitButton.setFont(exitButton.getFont().deriveFont(Font.BOLD, 8));
-        exitButton.setPreferredSize(new Dimension(40, 20));
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Thoát ứng dụng khi nhấp vào nút "X"
-            }
-        });
-        RightPanel.add(exitButton);
-        jp1.add(LeftPanel, BorderLayout.WEST);
-        jp1.add(RightPanel, BorderLayout.EAST);
+       // Tạo JPanel jp1 ở phía trên
+       jp1 = new JPanel(new BorderLayout());
+       jp1.setPreferredSize(new Dimension(0, 40));
+       jp1.setBackground(new Color(78, 78, 234));
+       jp1.setPreferredSize(new Dimension(0, 40));
+       jp1.setOpaque(true);
+
+       // Thêm các JLabel vào jp1
+       // Tạo LeftPanel chứa jl1,jl2
+       // LeftPanel = new JPanel();
+       // LeftPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+       // LeftPanel.setBackground(new Color(78, 78, 234));
+       // LeftPanel.setOpaque(true);
+       // LeftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+       // Tạo RightPanel chứa exitbutton
+       // RightPanel = new JPanel();
+       // RightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+       // RightPanel.setBackground(new Color(78, 78, 234));
+       // RightPanel.setOpaque(true);
+       // RightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+       // Tạo JLabel jl1 với hình ảnh kích thước (20, 20)
+       // jl1 = new JLabel();
+       // jl1.setPreferredSize(new Dimension(20, 20));
+       ImageIcon imageIcon = new ImageIcon("path_to_image.png");
+       // Image image = imageIcon.getImage().getScaledInstance(40, 40);
+       // jl1.setBackground(Color.WHITE);
+       // jl1.setIcon(new ImageIcon(image));
+       // jl1.setOpaque(true);
+       // LeftPanel.add(jl1);
+       // Tạo JLabel jl2 với nội dung "Quản lí học sinh"
+       jl2 = new JLabel("QUẢN LÝ HỌC SINH");
+       jl2.setIcon(new javax.swing.ImageIcon(getClass().getResource("Students-icon.png")));
+       // LeftPanel.add(jl2);
+       // Tạo JButton để thoát
+       JLabel exitButton = new JLabel("X");
+       exitButton.setFont(exitButton.getFont().deriveFont(Font.BOLD, 20));
+       exitButton.setPreferredSize(new Dimension(30, 30));
+       exitButton.addMouseListener(new MouseAdapter() {
+           @Override
+           public void mouseEntered(MouseEvent e) {
+               exitButton.setForeground(Color.WHITE);
+           }
+
+           @Override
+           public void mouseExited(MouseEvent e) {
+               exitButton.setForeground(Color.BLACK);
+           }
+
+           @Override
+           public void mouseClicked(MouseEvent e) {
+               // Xử lý sự kiện khi nhấp vào JLabel
+               System.exit(0); // Ví dụ: Thoát ứng dụng khi nhấp vào JLabel
+           }
+       });
+
+       // RightPanel.add(exitButton);
+       jp1.add(jl2, BorderLayout.WEST);
+       jp1.add(exitButton, BorderLayout.EAST);
         
         // Tạo JPanel jp2 nằm bên trái và dưới jp1 với độ rộng 1/5 của JFrame
         jp2 = new JPanel();

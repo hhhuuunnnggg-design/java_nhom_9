@@ -1,5 +1,5 @@
 
-package do_an;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
