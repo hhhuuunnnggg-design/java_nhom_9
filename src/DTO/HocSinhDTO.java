@@ -6,18 +6,29 @@ public class HocSinhDTO {
     private String GioiTinh;
     private String NgaySinh;
     private String DiaChi;
-    private Integer DienThoai;
+    private String DienThoai;
     private String HocPhi;
-
-    public HocSinhDTO(String hocSinhID, String tenHocSinh, String gioiTinh, String ngaySinh, String diaChi,
-            Integer dienThoai, String hocPhi) {
+    private String IMG;
+    private int enable;
+    public HocSinhDTO(String hocSinhID, String tenHocSinh, String gioiTinh, String ngaySinh,String dienThoai,String diaChi) {
         HocSinhID = hocSinhID;
         TenHocSinh = tenHocSinh;
         GioiTinh = gioiTinh;
         NgaySinh = ngaySinh;
         DiaChi = diaChi;
         DienThoai = dienThoai;
-        HocPhi = hocPhi;
+        HocPhi = "Chưa thanh toán";
+        IMG = null;
+        enable = 1;
+    }
+
+    
+    public String getIMG() {
+        return IMG;
+    }
+
+    public void setIMG(String IMG) {
+        this.IMG = IMG;
     }
 
     public String getHocSinhID() {
@@ -60,11 +71,11 @@ public class HocSinhDTO {
         DiaChi = diaChi;
     }
 
-    public Integer getDienThoai() {
+    public String getDienThoai() {
         return DienThoai;
     }
 
-    public void setDienThoai(Integer dienThoai) {
+    public void setDienThoai(String dienThoai) {
         DienThoai = dienThoai;
     }
 
@@ -76,4 +87,12 @@ public class HocSinhDTO {
         HocPhi = hocPhi;
     }
 
+    public int getEnable() {
+        return enable;
+    }
+
+    public void setEnable(int enable) {
+        this.enable = enable;
+    }
+    
 }
