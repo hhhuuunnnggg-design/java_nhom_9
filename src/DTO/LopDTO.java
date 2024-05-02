@@ -4,10 +4,9 @@ public class LopDTO {
     private String TenLop;
     private Integer SiSo;
 
-    public LopDTO(String lopID, String tenLop, Integer siSo) {
+    public LopDTO(String lopID, String tenLop) {
         LopID = lopID;
         TenLop = tenLop;
-        SiSo = siSo;
     }
 
     public String getLopID() {
@@ -26,12 +25,5 @@ public class LopDTO {
         TenLop = tenLop;
     }
 
-    public Integer getSiSo() {
-        return SiSo;
-    }
-
-    public void setSiSo(Integer siSo) {
-        SiSo = siSo;
-    }
 
 }
