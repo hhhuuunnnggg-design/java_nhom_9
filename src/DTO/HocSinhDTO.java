@@ -1,4 +1,5 @@
 package DTO;
+
 public class HocSinhDTO {
 
     private String HocSinhID;
@@ -8,9 +9,10 @@ public class HocSinhDTO {
     private String DiaChi;
     private Integer DienThoai;
     private String HocPhi;
+    private String IMG;
 
     public HocSinhDTO(String hocSinhID, String tenHocSinh, String gioiTinh, String ngaySinh, String diaChi,
-            Integer dienThoai, String hocPhi) {
+            Integer dienThoai, String hocPhi, String iMG) {
         HocSinhID = hocSinhID;
         TenHocSinh = tenHocSinh;
         GioiTinh = gioiTinh;
@@ -18,6 +20,7 @@ public class HocSinhDTO {
         DiaChi = diaChi;
         DienThoai = dienThoai;
         HocPhi = hocPhi;
+        IMG = iMG;
     }
 
     public String getHocSinhID() {
@@ -74,6 +77,14 @@ public class HocSinhDTO {
 
     public void setHocPhi(String hocPhi) {
         HocPhi = hocPhi;
+    }
+
+    public String getIMG() {
+        return IMG;
+    }
+
+    public void setIMG(String iMG) {
+        IMG = iMG;
     }
 
 }

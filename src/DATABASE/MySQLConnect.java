@@ -1,6 +1,5 @@
 package DATABASE;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MySQLConnect {
-    
+
     private Connection conn = null;
     private Statement st = null;
 
@@ -21,10 +20,16 @@ public class MySQLConnect {
     private void Connect() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/sieuthimini", "root", "");
+            // conn = DriverManager.getConnection("jdbc:mysql://localhost/sieuthimini",
+            // "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/new", "root", "");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public Connection getConnection() {
+        return conn;
     }
 
     public void disConnect() {
@@ -60,21 +65,17 @@ public class MySQLConnect {
         }
     }
 
-  
     public boolean isConnect() {
         return conn != null;
     }
 
-
-
     public boolean isConnected() {
         try {
-        return conn != null && !conn.isClosed();
-    } catch (SQLException ex) {
-        Logger.getLogger(MySQLConnect.class.getName()).log(Level.SEVERE, null, ex);
-        return false;
-    }
+            return conn != null && !conn.isClosed();
+        } catch (SQLException ex) {
+            Logger.getLogger(MySQLConnect.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
-    
 }

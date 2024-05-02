@@ -138,7 +138,7 @@ public class GiaoVienDAO {
             XSSFRow row = sheet.createRow(0);
             XSSFCell cell;
 
-             cell = row.createCell(0);
+            cell = row.createCell(0);
             cell.setCellValue("MAGV");
             cell.setCellStyle(style);
             cell = row.createCell(1);
