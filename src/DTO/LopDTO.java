@@ -2,7 +2,6 @@ package DTO;
 public class LopDTO {
     private String LopID;
     private String TenLop;
-    private Integer SiSo;
 
     public LopDTO(String lopID, String tenLop) {
         LopID = lopID;
@@ -24,6 +23,5 @@ public class LopDTO {
     public void setTenLop(String tenLop) {
         TenLop = tenLop;
     }
-
 
 }

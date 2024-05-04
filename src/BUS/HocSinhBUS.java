@@ -143,6 +143,6 @@ public class HocSinhBUS{
         System.out.println("IMG: " + hs.getIMG());
         System.out.println(); // for readability
     }
-}
+    }
 
 }

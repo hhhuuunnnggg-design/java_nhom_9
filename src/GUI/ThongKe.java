@@ -4,36 +4,56 @@
  */
 package GUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
+
+import BUS.HocSinhBUS;
+import BUS.KQ_HocSinhCaNamBUS;
+import DTO.HocSinhDTO;
+import DTO.KQ_HocSinhCaNamDTO;
+
 import java.sql.*;
+import java.util.ArrayList;
+
+
 
 
 /**
  *
  * @author PHUONG ANH
  */
-public class ThongKe extends JPanel{
-
-    private JPanel topThongke, selectPanel, radioPanel, dropdownPanel, totalPanel, btnPanel, contentThongke;
+public class ThongKe {
+    private JFrame f;
+    private JPanel topThongKe, selectPanel, radioPanel, dropdownPanel, totalPanel, btnPanel, contentThongKe;
     private JLabel l1, l2;
     private JRadioButton b1, b2, b3;
     private JComboBox<String> c1, c2, c3;
     private JTextField s;
-    private JButton filterBtn;
+    private JButton showBtn;
     private DefaultTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
+    KQ_HocSinhCaNamBUS kq = new KQ_HocSinhCaNamBUS();
+    HocSinhBUS hsbus = new HocSinhBUS(1);
+    ArrayList <HocSinhDTO> dsHS = hsbus.getList();
+    ArrayList <KQ_HocSinhCaNamDTO> dsKQ = kq.getList();
     public ThongKe() throws SQLException {
-        this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(850, 670));
+        f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setLayout(new BorderLayout());
+        f.setSize(850, 670);
+        f.setLocationRelativeTo(null);
+                f.setResizable(false);
           
 
-        topThongke = new JPanel();
-        topThongke.setLayout(new BorderLayout());
-        topThongke.setPreferredSize(new Dimension(0, 150));
-        topThongke.setBackground(new Color(180, 204, 227));
+        topThongKe = new JPanel();
+        topThongKe.setLayout(new BorderLayout());
+        topThongKe.setPreferredSize(new Dimension(0, 150));
+        topThongKe.setBackground(new Color(180, 204, 227));
 
         selectPanel = new JPanel();
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.Y_AXIS));
@@ -48,6 +68,12 @@ public class ThongKe extends JPanel{
         b1 = new JRadioButton("Học lực");
         b2 = new JRadioButton("Hạnh kiểm");
         b3 = new JRadioButton("Học phí");
+        
+        ButtonGroup group = new ButtonGroup();
+        group.add(b1);
+        group.add(b2);
+        group.add(b3);
+        
         b1.setFont(new Font("Arial", Font.PLAIN, 14));
         b2.setFont(new Font("Arial", Font.PLAIN, 14));
         b3.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -75,21 +101,23 @@ public class ThongKe extends JPanel{
         l2.setFont(new Font("Arial", Font.BOLD, 14));
         s = new JTextField(4);
         s.setEditable(false);
+        s.setHorizontalAlignment(SwingConstants.CENTER);
+        
 
         btnPanel = new JPanel(new GridBagLayout());
-        btnPanel.setPreferredSize(new Dimension(150, 0));
+        btnPanel.setPreferredSize(new Dimension(80, 0));
         btnPanel.setOpaque(false);
-        filterBtn = new JButton("Lọc");
-        filterBtn.setPreferredSize(new Dimension(70, 30));
-        filterBtn.setBackground(new Color(31, 28, 77));
-        filterBtn.setForeground(Color.WHITE);
+        showBtn = new JButton("Hiển thị");
+        showBtn.setPreferredSize(new Dimension(100, 30));
+        showBtn.setBackground(new Color(31, 28, 77));
+        showBtn.setForeground(Color.WHITE);
 
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         
-        btnPanel.add(filterBtn, gbc);
+        btnPanel.add(showBtn, gbc);
         
         totalPanel.add(l2);
         totalPanel.add(s);
@@ -105,18 +133,21 @@ public class ThongKe extends JPanel{
         selectPanel.add(dropdownPanel);
         selectPanel.add(totalPanel);
         
-        topThongke.add(selectPanel,BorderLayout.CENTER);
-        topThongke.add(btnPanel,BorderLayout.EAST);
+        topThongKe.add(selectPanel,BorderLayout.CENTER);
+        topThongKe.add(btnPanel,BorderLayout.EAST);
         
-        this.add(topThongke,BorderLayout.NORTH);
+        f.add(topThongKe,BorderLayout.NORTH);
         
-        contentThongke=new JPanel();
-        contentThongke.setLayout(new BorderLayout());
-        contentThongke.setOpaque(true);
-        contentThongke.add(initTable(), BorderLayout.NORTH);
+        contentThongKe=new JPanel();
+        contentThongKe.setLayout(new BorderLayout());
+        contentThongKe.setOpaque(true);
+        contentThongKe.add(initTable(), BorderLayout.NORTH);
         
-        this.add(contentThongke, BorderLayout.CENTER);
+        f.add(contentThongKe, BorderLayout.CENTER);
+        
+        f.setVisible(true);
 
+        showBtn.addActionListener(new ShowBtnListener());
         }
         
     public JScrollPane initTable() throws SQLException{
@@ -125,7 +156,7 @@ public class ThongKe extends JPanel{
         scrollPane = new JScrollPane(t);
                 scrollPane.setPreferredSize(new Dimension(0,520));
 
-        String[] headers = {"ID", "Ten HS", "Gioi tinh", "Ngay sinh", "Dien thoai", "Dia chi"};
+        String[] headers = {"ID", "Tên HS", "Giới tính", "Ngày sinh", "Điện thoại", "Địa chỉ","Hạnh Kiểm", "Học Lực", "Tình trạng học phí"};
         tblModel = new DefaultTableModel();
         for (String header : headers) {
             tblModel.addColumn(header);
@@ -141,34 +172,27 @@ public class ThongKe extends JPanel{
         }
         return scrollPane;
     }
-    public void loaddatatoTable() throws SQLException{
-        try{
-            String url="jdbc:mysql://localhost:3306/student_management?zeroDateTimeBehavior=CONVERT_TO_NULL";
-            String user="admin";
-            String password="1234";
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection mydb = DriverManager.getConnection(url, user, password);
-            
-            String sql="SELECT * FROM hocsinh";
-            PreparedStatement pst=mydb.prepareStatement(sql);
-            ResultSet rs= pst.executeQuery();
-            
-            tblModel.setRowCount(0);
-            
-            while(rs.next()){
-                String [] rowData=new String[]{
-                    rs.getString("HocSinhid"),rs.getString("hovaten"), rs.getString("gioiTinh"), rs.getString("ngaySinh").toString(), rs.getString("DienThoai"), rs.getString("diaChi")
-                };
-                tblModel.addRow(rowData);
-            }
-            
-            tblModel.fireTableDataChanged();
-            mydb.close();
-            
-        }catch(SQLException| ClassNotFoundException e){
-            JOptionPane.showMessageDialog(null,e);
+    
+    public void loaddatatoTable(){
+        for (HocSinhDTO x  : dsHS){
+            String []rowData = new String[]{
+                x.getHocSinhID(), x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(), kq.getHanhKiemById(x.getHocSinhID()), kq.getHocLucById(x.getHocSinhID()), x.getHocPhi()
+            };
+            tblModel.addRow(rowData);
         }
-    }    
+        tblModel.fireTableDataChanged();
+        s.setText(String.valueOf(dsHS.size()));
+    }
+    public static void main(String[] args) throws SQLException {
+        new ThongKe();
+    }
 
-
+    private class ShowBtnListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e){
+            
+            
+        }
+        
+    }
 }
