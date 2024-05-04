@@ -21,7 +21,7 @@ public class HocSinhDAO {
     public ArrayList <HocSinhDTO> list(){
         ArrayList <HocSinhDTO> dsHS=new ArrayList();
         try{
-            String sql="select * from hocsinh ";
+            String sql="select * from hocsinh where enable = 1";
             ResultSet rs=mySQL.executeQuery(sql);
             
             while(rs.next()){
@@ -67,7 +67,7 @@ public class HocSinhDAO {
     
     public void add(HocSinhDTO hs) {
         MySQLConnect mySQL = new MySQLConnect();
-         String sql = "INSERT INTO nhanvien VALUES (";
+         String sql = "INSERT INTO hocsinh VALUES (";
                 sql += "'"+hs.getHocSinhID()+"',";
                 sql += "'"+hs.getTenHocSinh()+"',";
                 sql += "'"+hs.getGioiTinh()+"',";
@@ -84,7 +84,7 @@ public class HocSinhDAO {
     public void delete(String id)
     {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "UPDATE hócinh SET enable = 0 WHERE HocSinhid='"+id+"'";
+        String sql = "UPDATE hocsinh SET enable = 0 WHERE HocSinhid='"+id+"'";
         mySQL.executeUpdate(sql);
         System.out.println(sql);
     }

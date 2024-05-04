@@ -21,8 +21,8 @@ public class MySQLConnect {
     
 
     private String url="jdbc:mysql://localhost:3306/student_management?zeroDateTimeBehavior=CONVERT_TO_NULL";
-    private String user="admin";
-    private String password="1234";
+    private String user="root";
+    private String password="";
     private Connection conn=null;
     private Statement st=null;
     

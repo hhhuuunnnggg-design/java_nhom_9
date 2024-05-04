@@ -6,13 +6,14 @@ public class KQ_HocSinhCaNamDTO {
     private String HocLuc;
     private Float DiemTrungBinhNam;
     private String KetQua;
-
-    public KQ_HocSinhCaNamDTO(String hocSinhID, String namHocID, String hocLuc, Float diemTrungBinhNam, String ketQua) {
+    private String HanhKiem;
+    public KQ_HocSinhCaNamDTO(String hocSinhID, String namHocID, String hocLuc, String HKiem, Float diemTrungBinhNam, String ketQua) {
         HocSinhID = hocSinhID;
         NamHocID = namHocID;
         HocLuc = hocLuc;
         DiemTrungBinhNam = diemTrungBinhNam;
         KetQua = ketQua;
+        HanhKiem = HKiem;
     }
 
     public String getHocSinhID() {
@@ -29,6 +30,14 @@ public class KQ_HocSinhCaNamDTO {
 
     public void setNamHocID(String namHocID) {
         NamHocID = namHocID;
+    }
+
+    public String getHanhKiem() {
+        return HanhKiem;
+    }
+
+    public void setHanhKiem(String hanhKiem) {
+        HanhKiem = hanhKiem;
     }
 
     public String getHocLuc() {
