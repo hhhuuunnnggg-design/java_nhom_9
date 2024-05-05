@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  * @author PHUONG ANH
  */
 public class MySQLConnect {
-    
 
     private String url="jdbc:mysql://localhost:3306/student_management?zeroDateTimeBehavior=CONVERT_TO_NULL";
     private String user="root";

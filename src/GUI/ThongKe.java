@@ -30,8 +30,8 @@ public class ThongKe {
     private JFrame f;
     private JPanel topThongKe, selectPanel, radioPanel, dropdownPanel, totalPanel, btnPanel, contentThongKe;
     private JLabel l1, l2;
-    private JRadioButton b1, b2, b3;
-    private JComboBox<String> c1, c2, c3;
+    private JLabel b1, b2, b3;
+    private JComboBox<String> optionHL, optionHK, optionHP;
     private JTextField s;
     private JButton showBtn;
     private DefaultTableModel tblModel;
@@ -39,15 +39,15 @@ public class ThongKe {
     private JTable t;
     KQ_HocSinhCaNamBUS kq = new KQ_HocSinhCaNamBUS();
     HocSinhBUS hsbus = new HocSinhBUS(1);
-    ArrayList <HocSinhDTO> dsHS = hsbus.getList();
-    ArrayList <KQ_HocSinhCaNamDTO> dsKQ = kq.getList();
+    ArrayList <HocSinhDTO> dsHS;
+    ArrayList <KQ_HocSinhCaNamDTO> dsKQ;
     public ThongKe() throws SQLException {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setLayout(new BorderLayout());
         f.setSize(850, 670);
         f.setLocationRelativeTo(null);
-                f.setResizable(false);
+            f.setResizable(false);
           
 
         topThongKe = new JPanel();
@@ -60,39 +60,38 @@ public class ThongKe {
         selectPanel.setOpaque(false);
 
         l1 = new JLabel("Hiển thị danh sách thống kê theo:                     ");
-        l1.setFont(new Font("Arial", Font.BOLD, 16));
+        l1.setFont(new Font("Arial", Font.BOLD, 20));
         l1.setBorder(new EmptyBorder(10, 0, 0, 0));
         radioPanel = new JPanel();
         radioPanel.setOpaque(false);
 
-        b1 = new JRadioButton("Học lực");
-        b2 = new JRadioButton("Hạnh kiểm");
-        b3 = new JRadioButton("Học phí");
+        b1 = new JLabel("Học lực");
+        b2 = new JLabel("Hạnh kiểm");
+        b3 = new JLabel("Học phí");
         
-        ButtonGroup group = new ButtonGroup();
-        group.add(b1);
-        group.add(b2);
-        group.add(b3);
-        
-        b1.setFont(new Font("Arial", Font.PLAIN, 14));
-        b2.setFont(new Font("Arial", Font.PLAIN, 14));
-        b3.setFont(new Font("Arial", Font.PLAIN, 14));
-        b1.setBackground(new Color(180, 204, 227));
-        b2.setBackground(new Color(180, 204, 227));
-        b3.setBackground(new Color(180, 204, 227));
+        b1.setFont(new Font("Arial", Font.PLAIN, 16));
+        b2.setFont(new Font("Arial", Font.PLAIN, 16));
+        b3.setFont(new Font("Arial", Font.PLAIN, 16));
+        int topMargin = 10;
+        int leftMargin = 10;
+        int bottomMargin = 0;
+        int rightMargin = 35;
+        b1.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
+        b2.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
+        b3.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
 
         dropdownPanel = new JPanel();
         dropdownPanel.setOpaque(false);
 
-        String[] optionc1 = {"Giỏi", "Khá", "Trung bình", "Yếu"};
-        c1 = new JComboBox<>(optionc1);
-        String[] optionc2 = {"Tốt", "Khá", "Trung bình", "Yếu"};
-        c2 = new JComboBox<>(optionc2);
-        String[] optionc3 = {"Đã hoàn thành", "Chưa hoàn thành"};
-        c3 = new JComboBox<>(optionc3);
-        c1.setFont(new Font("Arial", Font.PLAIN, 14));
-        c2.setFont(new Font("Arial", Font.PLAIN, 14));
-        c3.setFont(new Font("Arial", Font.PLAIN, 14));
+        String[] option1 = {"Tất cả","Giỏi", "Khá", "Trung bình", "Yếu"};
+        optionHL = new JComboBox<>(option1);
+        String[] option2 = {"Tất cả","Tốt", "Khá", "Trung bình", "Yếu"};
+        optionHK = new JComboBox<>(option2);
+        String[] option3 = {"Tất cả","Đã thanh toán", "Chưa thanh toán"};
+        optionHP = new JComboBox<>(option3);
+        optionHL.setFont(new Font("Arial", Font.PLAIN, 14));
+        optionHK.setFont(new Font("Arial", Font.PLAIN, 14));
+        optionHP.setFont(new Font("Arial", Font.PLAIN, 14));
 
         totalPanel = new JPanel();
         totalPanel.setOpaque(false);
@@ -112,7 +111,6 @@ public class ThongKe {
         showBtn.setBackground(new Color(31, 28, 77));
         showBtn.setForeground(Color.WHITE);
 
-
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -124,9 +122,9 @@ public class ThongKe {
         radioPanel.add(b1);
         radioPanel.add(b2);
         radioPanel.add(b3);
-        dropdownPanel.add(c1);
-        dropdownPanel.add(c2);
-        dropdownPanel.add(c3);
+        dropdownPanel.add(optionHL);
+        dropdownPanel.add(optionHK);
+        dropdownPanel.add(optionHP);
         
         selectPanel.add(l1);
         selectPanel.add(radioPanel);
@@ -142,7 +140,8 @@ public class ThongKe {
         contentThongKe.setLayout(new BorderLayout());
         contentThongKe.setOpaque(true);
         contentThongKe.add(initTable(), BorderLayout.NORTH);
-        
+        loaddatatoTable();
+
         f.add(contentThongKe, BorderLayout.CENTER);
         
         f.setVisible(true);
@@ -154,7 +153,7 @@ public class ThongKe {
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollPane = new JScrollPane(t);
-                scrollPane.setPreferredSize(new Dimension(0,520));
+        scrollPane.setPreferredSize(new Dimension(0,520));
 
         String[] headers = {"ID", "Tên HS", "Giới tính", "Ngày sinh", "Điện thoại", "Địa chỉ","Hạnh Kiểm", "Học Lực", "Tình trạng học phí"};
         tblModel = new DefaultTableModel();
@@ -162,7 +161,7 @@ public class ThongKe {
             tblModel.addColumn(header);
         }
         t.setModel(tblModel);
-        loaddatatoTable();
+        
 
         ((DefaultTableCellRenderer)t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -174,6 +173,10 @@ public class ThongKe {
     }
     
     public void loaddatatoTable(){
+        tblModel.setRowCount(0);
+
+        dsHS = hsbus.getList();
+        dsKQ = kq.getList();
         for (HocSinhDTO x  : dsHS){
             String []rowData = new String[]{
                 x.getHocSinhID(), x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(), kq.getHanhKiemById(x.getHocSinhID()), kq.getHocLucById(x.getHocSinhID()), x.getHocPhi()
@@ -183,6 +186,11 @@ public class ThongKe {
         tblModel.fireTableDataChanged();
         s.setText(String.valueOf(dsHS.size()));
     }
+
+    public void reloadTable(){
+
+        
+    }
     public static void main(String[] args) throws SQLException {
         new ThongKe();
     }
@@ -190,9 +198,29 @@ public class ThongKe {
     private class ShowBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e){
+            tblModel.setRowCount(0);
             
-            
+            String hocluc = (String) optionHL.getSelectedItem();
+            String hanhkiem = (String) optionHK.getSelectedItem();
+            String hocphi = (String) optionHP.getSelectedItem();
+            dsHS = hsbus.search(null,null,null,null,null,null,  hocphi);
+            dsKQ = kq.search(null, null, hocluc, hanhkiem,0.0f,null);
+            for (HocSinhDTO x : dsHS){
+                for(KQ_HocSinhCaNamDTO y : dsKQ){
+                    if(x.getHocSinhID().equals(y.getHocSinhID())){
+                        String []rowData = new String[]{
+                            x.getHocSinhID(), x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(), y.getHanhKiem(), y.getHocLuc(), x.getHocPhi()
+                        };
+                        tblModel.addRow(rowData);
+                    }
+                }
+            }
+            s.setText(String.valueOf(tblModel.getRowCount()));
+            if (tblModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
+            }    
         }
-        
     }
+        
 }
+

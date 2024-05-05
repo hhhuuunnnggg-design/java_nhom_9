@@ -4,9 +4,9 @@ public class KQ_HocSinhCaNamDTO {
     private String HocSinhID;
     private String NamHocID;
     private String HocLuc;
+    private String HanhKiem;
     private Float DiemTrungBinhNam;
     private String KetQua;
-    private String HanhKiem;
     public KQ_HocSinhCaNamDTO(String hocSinhID, String namHocID, String hocLuc, String HKiem, Float diemTrungBinhNam, String ketQua) {
         HocSinhID = hocSinhID;
         NamHocID = namHocID;

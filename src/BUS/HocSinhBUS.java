@@ -82,15 +82,26 @@ public class HocSinhBUS{
         }
         return false;
     }
-    public ArrayList<HocSinhDTO> search(String id,String hoten)
+    public ArrayList<HocSinhDTO> search(String id,String hoten,String gioitinh, String ngaysinh, String dienthoai,String diachi,  String hocphi)
     {
         ArrayList<HocSinhDTO> search = new ArrayList<>();
-        id = id.isEmpty()?id = "": id;
-        hoten = hoten.isEmpty()?hoten = "": hoten;
+        id = id==null?id = "": id;
+        hoten = hoten==null?hoten = "": hoten;
+        gioitinh = gioitinh==null?gioitinh = "": gioitinh;
+        ngaysinh = ngaysinh==null?ngaysinh = "": ngaysinh;
+        diachi = diachi==null?diachi = "": diachi;
+        dienthoai = dienthoai==null?dienthoai = "": dienthoai;
+        hocphi = (hocphi==null || hocphi.equals("Tất cả"))?hocphi = "": hocphi;
+        
         for(HocSinhDTO hs : dshs)
         {
             if( hs.getHocSinhID().contains(id) && 
-                hs.getTenHocSinh().contains(hoten))
+                hs.getTenHocSinh().contains(hoten) &&
+                hs.getGioiTinh().contains(gioitinh) &&
+                hs.getNgaySinh().contains(ngaysinh) &&
+                hs.getDiaChi().contains(diachi) &&
+                hs.getDienThoai().contains(dienthoai) &&
+                hs.getHocPhi().contains(hocphi))
             {
                 search.add(hs);
             }
@@ -98,20 +109,6 @@ public class HocSinhBUS{
         return search;
     }
 
-    public ArrayList<HocSinhDTO> search(String hoten)
-    {
-        ArrayList<HocSinhDTO> search = new ArrayList<>();
-        hoten = hoten.isEmpty()?hoten = "": hoten;
-        for(HocSinhDTO hs : dshs)
-        {
-            if( hs.getTenHocSinh().contains(hoten))
-            {
-                search.add(hs);
-            }
-        }
-        return search;
-    }
-        
     public HocSinhDTO searchById(String id)
     {
         HocSinhDTO hs = null;
@@ -142,7 +139,7 @@ public class HocSinhBUS{
         System.out.println("HocPhi: " + hs.getHocPhi());
         System.out.println("IMG: " + hs.getIMG());
         System.out.println(); // for readability
-    }
+        }
     }
 
 }

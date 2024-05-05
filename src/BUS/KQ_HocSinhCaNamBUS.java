@@ -97,23 +97,44 @@ public class KQ_HocSinhCaNamBUS {
         }
         return false;
     }
-    // public ArrayList<KQ_HocSinhCaNamDTO> search(String id,String hoten)
-    // {
+    public ArrayList<KQ_HocSinhCaNamDTO> search(String id,String idnamhoc, String hocluc, String hanhkiem, float diemtb, String ketqua)
+    {
+        ArrayList<KQ_HocSinhCaNamDTO> search = new ArrayList<>();
+        id = id==null ?id = "": id;
+        idnamhoc = idnamhoc==null?idnamhoc = "": idnamhoc;
+        hocluc = (hocluc==null || hocluc.equals("Tất cả"))?hocluc = "": hocluc;
+        hanhkiem = (hanhkiem==null || hanhkiem.equals("Tất cả"))?hanhkiem = "": hanhkiem;
+        String diem = String.valueOf(diemtb);
+        diem = diem=="0.0"?diem = "": diem;
+        ketqua = ketqua==null?ketqua = "": ketqua;
+
+        for(KQ_HocSinhCaNamDTO kq : dskq)
+        {
+            if( kq.getHocSinhID().contains(id) && 
+                kq.getNamHocID().contains(idnamhoc) &&
+                kq.getHocLuc().contains(hocluc) &&
+                kq.getHanhKiem().contains(hanhkiem) &&
+                String.valueOf(kq.getDiemTrungBinhNam()).contains(diem) &&
+                kq.getKetQua().contains(ketqua) )
+                {
+                    search.add(kq);
+                }
+        }
+        return search;
+    }
+
+    // public ArrayList<KQ_HocSinhCaNamDTO> search(String hocluc, String hanhkiem){
     //     ArrayList<KQ_HocSinhCaNamDTO> search = new ArrayList<>();
-    //     id = id.isEmpty()?id = "": id;
-    //     hoten = hoten.isEmpty()?hoten = "": hoten;
-    //     for(KQ_HocSinhCaNamDTO kq : dskq)
-    //     {
-    //         if( kq.getHocSinhID().contains(id) && 
-    //             kq.getTenHocSinh().contains(hoten))
-    //         {
+    //     hocluc = (hocluc.equals("Tất cả")) ? "" : hocluc;
+    //     hanhkiem = (hanhkiem.equals("Tất cả")) ? "" : hanhkiem;
+
+    //     for(KQ_HocSinhCaNamDTO kq : dskq){
+    //         if((kq.getHocLuc().contains(hocluc)) && (kq.getHanhKiem().contains(hanhkiem))){
     //             search.add(kq);
     //         }
     //     }
     //     return search;
     // }
-
-    
     
     public ArrayList<KQ_HocSinhCaNamDTO> getList() {
         return dskq;

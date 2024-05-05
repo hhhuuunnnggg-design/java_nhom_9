@@ -6,8 +6,8 @@ public class HocSinhDTO {
     private String TenHocSinh;
     private String GioiTinh;
     private String NgaySinh;
-    private String DiaChi;
     private String DienThoai;
+    private String DiaChi;
     private String HocPhi;
     private String IMG;
     private int enable;
