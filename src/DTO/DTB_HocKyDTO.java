@@ -3,9 +3,9 @@ package DTO;
 public class DTB_HocKyDTO {
     private String HocSinhID;
     private String HocKyID;
-    private String DiemTrungBinh;
+    private Float DiemTrungBinh;
 
-    public DTB_HocKyDTO(String hocSinhID, String hocKyID, String diemTrungBinh) {
+    public DTB_HocKyDTO(String hocSinhID, String hocKyID, Float diemTrungBinh) {
         HocSinhID = hocSinhID;
         HocKyID = hocKyID;
         DiemTrungBinh = diemTrungBinh;
@@ -27,12 +27,13 @@ public class DTB_HocKyDTO {
         HocKyID = hocKyID;
     }
 
-    public String getDiemTrungBinh() {
+    public Float getDiemTrungBinh() {
         return DiemTrungBinh;
     }
 
-    public void setDiemTrungBinh(String diemTrungBinh) {
+    public void setDiemTrungBinh(Float diemTrungBinh) {
         DiemTrungBinh = diemTrungBinh;
     }
+
 
 }

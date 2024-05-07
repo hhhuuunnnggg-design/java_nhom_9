@@ -2,16 +2,16 @@ package DTO;
 
 public class ChiTietDiemDTO {
     private String HocSinhID;
-    private String HocKyID;
     private String MonHocID;
-    private String TenHeSo;
+    private String HocKyID;
+    private String HeSoID;
     private Float Diem;
 
-    public ChiTietDiemDTO(String hocSinhID, String hocKyID, String monHocID, String tenHeSo, Float diem) {
+    public ChiTietDiemDTO(String hocSinhID, String monHocID, String hocKyID, String HeSoid, Float diem) {
         HocSinhID = hocSinhID;
         HocKyID = hocKyID;
         MonHocID = monHocID;
-        TenHeSo = tenHeSo;
+        HeSoID = HeSoid;
         Diem = diem;
     }
 
@@ -39,20 +39,20 @@ public class ChiTietDiemDTO {
         MonHocID = monHocID;
     }
 
-    public String getTenHeSo() {
-        return TenHeSo;
-    }
-
-    public void setTenHeSo(String tenHeSo) {
-        TenHeSo = tenHeSo;
-    }
-
     public Float getDiem() {
         return Diem;
     }
 
     public void setDiem(Float diem) {
         Diem = diem;
+    }
+
+    public String getHeSoID() {
+        return HeSoID;
+    }
+
+    public void setHeSoID(String heSoID) {
+        HeSoID = heSoID;
     }
 
 }

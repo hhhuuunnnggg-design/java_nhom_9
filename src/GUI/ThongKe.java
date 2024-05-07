@@ -37,7 +37,7 @@ public class ThongKe {
     private DefaultTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
-    KQ_HocSinhCaNamBUS kq = new KQ_HocSinhCaNamBUS();
+    KQ_HocSinhCaNamBUS kq = new KQ_HocSinhCaNamBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
     ArrayList <HocSinhDTO> dsHS;
     ArrayList <KQ_HocSinhCaNamDTO> dsKQ;
@@ -48,8 +48,7 @@ public class ThongKe {
         f.setSize(850, 670);
         f.setLocationRelativeTo(null);
             f.setResizable(false);
-          
-
+        
         topThongKe = new JPanel();
         topThongKe.setLayout(new BorderLayout());
         topThongKe.setPreferredSize(new Dimension(0, 150));
@@ -187,10 +186,6 @@ public class ThongKe {
         s.setText(String.valueOf(dsHS.size()));
     }
 
-    public void reloadTable(){
-
-        
-    }
     public static void main(String[] args) throws SQLException {
         new ThongKe();
     }

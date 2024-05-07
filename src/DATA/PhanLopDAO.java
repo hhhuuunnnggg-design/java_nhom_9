@@ -43,7 +43,7 @@ public class PhanLopDAO {
     
     public void set(PhanLopDTO pl) {
             MySQLConnect mySQL = new MySQLConnect();
-            String sql = "UPDATE hocsinh SET ";
+            String sql = "UPDATE phanlop SET ";
             sql += "HocSinhid='"+pl.getHocSinhID()+"', ";
             sql += "Lopid='"+pl.getLopID()+"', ";
 
@@ -55,7 +55,7 @@ public class PhanLopDAO {
     
     public void add(PhanLopDTO pl) {
         MySQLConnect mySQL = new MySQLConnect();
-         String sql = "INSERT INTO nhanvien VALUES (";
+         String sql = "INSERT INTO phanlop VALUES (";
                 sql += "'"+pl.getHocSinhID()+"',";
                 sql += "'"+pl.getLopID()+"',";
 

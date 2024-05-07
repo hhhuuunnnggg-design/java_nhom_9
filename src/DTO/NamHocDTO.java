@@ -1,10 +1,10 @@
 package DTO;
 public class NamHocDTO {
     private String NamHocID;
-    private String NamHocBatDau;
-    private String NamHocKetThuc;
+    private int NamHocBatDau;
+    private int NamHocKetThuc;
 
-    public NamHocDTO(String namHocID, String namHocBatDau, String namHocKetThuc) {
+    public NamHocDTO(String namHocID, int namHocBatDau, int namHocKetThuc) {
         NamHocID = namHocID;
         NamHocBatDau = namHocBatDau;
         NamHocKetThuc = namHocKetThuc;
@@ -18,20 +18,22 @@ public class NamHocDTO {
         NamHocID = namHocID;
     }
 
-    public String getNamHocBatDau() {
+    public int getNamHocBatDau() {
         return NamHocBatDau;
     }
 
-    public void setNamHocBatDau(String namHocBatDau) {
+    public void setNamHocBatDau(int namHocBatDau) {
         NamHocBatDau = namHocBatDau;
     }
 
-    public String getNamHocKetThuc() {
+    public int getNamHocKetThuc() {
         return NamHocKetThuc;
     }
 
-    public void setNamHocKetThuc(String namHocKetThuc) {
+    public void setNamHocKetThuc(int namHocKetThuc) {
         NamHocKetThuc = namHocKetThuc;
     }
+
+
 
 }

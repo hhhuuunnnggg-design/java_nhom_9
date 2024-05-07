@@ -9,6 +9,9 @@ public class KQ_HocSinhCaNamBUS {
     private ArrayList<KQ_HocSinhCaNamDTO> dskq ;
     public KQ_HocSinhCaNamBUS()
     {
+    }
+    public KQ_HocSinhCaNamBUS(int i)
+    {
         list();
     }
     
@@ -123,33 +126,16 @@ public class KQ_HocSinhCaNamBUS {
         return search;
     }
 
-    // public ArrayList<KQ_HocSinhCaNamDTO> search(String hocluc, String hanhkiem){
-    //     ArrayList<KQ_HocSinhCaNamDTO> search = new ArrayList<>();
-    //     hocluc = (hocluc.equals("Tất cả")) ? "" : hocluc;
-    //     hanhkiem = (hanhkiem.equals("Tất cả")) ? "" : hanhkiem;
-
-    //     for(KQ_HocSinhCaNamDTO kq : dskq){
-    //         if((kq.getHocLuc().contains(hocluc)) && (kq.getHanhKiem().contains(hanhkiem))){
-    //             search.add(kq);
-    //         }
-    //     }
-    //     return search;
-    // }
-    
     public ArrayList<KQ_HocSinhCaNamDTO> getList() {
         return dskq;
     }
 
     
         public static void main(String[] args) {
-            // Create an instance of KQ_HocSinhCaNamBUS
-            KQ_HocSinhCaNamBUS hsbus = new KQ_HocSinhCaNamBUS();
-            
-            // Populate the list (assuming it's populated somewhere in your application)
-            // For demonstration purposes, let's assume the list is populated in the constructor
-            hsbus.list(); // This method populates the list
-            
-            // Call showInfoOfList method to display information
+            KQ_HocSinhCaNamBUS hsbus = new KQ_HocSinhCaNamBUS(1);
+   
+            hsbus.list(); 
+
             for (KQ_HocSinhCaNamDTO kq : hsbus.getList()) {
                 System.out.println("HocSinhID: " + kq.getHocSinhID());
                 System.out.println("HocLuc: " + kq.getHocLuc());
