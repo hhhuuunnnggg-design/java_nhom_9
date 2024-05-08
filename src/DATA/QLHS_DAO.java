@@ -22,11 +22,13 @@ public class QLHS_DAO {
                 String gioiTinh = rs.getString("GioiTinh");
                 String namSinh = rs.getString("NgaySinh");
                 String diaChi = rs.getString("DiaChi");
-                int dienThoai = rs.getInt("DienThoai");
+                String dienThoai = rs.getString("DienThoai");
                 String hocphi = rs.getString("HocPhi");
                 String IMG = rs.getString("IMG");
 
-                HocSinhDTO hs = new HocSinhDTO(maHS, tenHS, gioiTinh, namSinh, diaChi, dienThoai, hocphi, IMG);
+                HocSinhDTO hs = new HocSinhDTO(maHS, tenHS, gioiTinh, namSinh, diaChi, dienThoai);
+                hs.setHocPhi(hocphi);
+                hs.setIMG(IMG);
                 dshs.add(hs);
             }
         } catch (SQLException e) {

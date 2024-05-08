@@ -10,7 +10,9 @@ public class HocSinhDTO {
     private String DiaChi;
     private String HocPhi;
     private String IMG;
-    public HocSinhDTO(String hocSinhID, String tenHocSinh, String gioiTinh, String ngaySinh,String dienThoai,String diaChi) {
+
+    public HocSinhDTO(String hocSinhID, String tenHocSinh, String gioiTinh, String ngaySinh, String dienThoai,
+            String diaChi) {
         HocSinhID = hocSinhID;
         TenHocSinh = tenHocSinh;
         GioiTinh = gioiTinh;
@@ -21,7 +23,6 @@ public class HocSinhDTO {
         IMG = null;
     }
 
-    
     public String getIMG() {
         return IMG;
     }
@@ -86,6 +87,4 @@ public class HocSinhDTO {
         HocPhi = hocPhi;
     }
 
-
-    
 }
