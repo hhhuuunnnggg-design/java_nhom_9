@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import DATABASE.MySQLConnect;
 import DTO.HocKyDTO;
 
 public class HocKyDAO {
@@ -51,7 +52,7 @@ public class HocKyDAO {
         MySQLConnect mySQL = new MySQLConnect();
          String sql = "INSERT INTO hocky VALUES (";
                 sql += "'"+ctd.getHocKyID()+"',";
-                sql += "'"+ctd.getTenHocKy()+"',";
+                sql += "'"+ctd.getTenHocKy()+"')";
 
          System.out.println(sql);
          mySQL.executeUpdate(sql);

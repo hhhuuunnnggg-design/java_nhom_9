@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import DATABASE.MySQLConnect;
+
 /**
  *
  * @author PHUONG ANH
@@ -20,7 +22,7 @@ public class MonHocDAO {
     public ArrayList <MonHocDTO> list(){
         ArrayList <MonHocDTO> ds=new ArrayList();
         try{
-            String sql="select * from MonHoc";
+            String sql="select * from monhoc";
             ResultSet rs=mySQL.executeQuery(sql);
             
             while(rs.next()){

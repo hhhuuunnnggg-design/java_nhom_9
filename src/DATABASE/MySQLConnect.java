@@ -1,4 +1,9 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DATABASE;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,46 +13,41 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author PHUONG ANH
+ */
 public class MySQLConnect {
 
-    private Connection conn = null;
-    private Statement st = null;
-
-    public MySQLConnect() {
-        Connect();
-    }
-
-    private void Connect() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            // conn = DriverManager.getConnection("jdbc:mysql://localhost/sieuthimini",
-            // "root", "");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/new", "root", "");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+    private String url="jdbc:mysql://localhost:3306/student_management?zeroDateTimeBehavior=CONVERT_TO_NULL";
+    private String user="root";
+    private String password="";
+    private Connection conn=null;
+    private Statement st=null;
+    
+    public MySQLConnect(){};
+    public void Connect(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn=(Connection) DriverManager.getConnection(url, user, password);
+        }catch(ClassNotFoundException | SQLException ex){
+            Logger.getLogger(MySQLConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public Connection getConnection() {
-        return conn;
+    
+    public void disConnect()
+    { 
+        try{
+            st.close();
+            conn.close();
+        }catch (SQLException E){}
     }
-
-    public void disConnect() {
-        try {
-            if (st != null) {
-                st.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException E) {
-            System.out.println("Error: " + E.getMessage());
-        }
-    }
-
-    public ResultSet executeQuery(String sql) {
+    
+    public ResultSet executeQuery(String sql)
+    {
         ResultSet rs = null;
         try {
+            Connect();
             st = conn.createStatement();
             rs = st.executeQuery(sql);
         } catch (SQLException ex) {
@@ -55,27 +55,28 @@ public class MySQLConnect {
         }
         return rs;
     }
-
-    public void executeUpdate(String sql) {
+    
+    public void executeUpdate(String sql)
+    {
         try {
+            Connect();
             st = conn.createStatement();
             st.executeUpdate(sql);
+            disConnect();
         } catch (SQLException ex) {
             Logger.getLogger(MySQLConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public boolean isConnect() {
-        return conn != null;
+    public Connection getConnection()
+    {
+        Connect();
+        return conn;
     }
-
-    public boolean isConnected() {
-        try {
-            return conn != null && !conn.isClosed();
-        } catch (SQLException ex) {
-            Logger.getLogger(MySQLConnect.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+    public boolean isConnect()
+    {
+        return conn!=null?true:false;
     }
-
+    public static void main(String[] args){
+        new MySQLConnect();
+    }
 }

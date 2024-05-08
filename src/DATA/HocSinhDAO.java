@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import DATABASE.MySQLConnect;
 /**
  *
  * @author PHUONG ANH
@@ -33,9 +35,7 @@ public class HocSinhDAO {
                 String dc=rs.getString("DiaChi");
                 String hp=rs.getString("HocPhi");
                 String img=  rs.getString("IMG");
-                int e = rs.getInt("enable");
                 HocSinhDTO hs=new HocSinhDTO(id,hoten,gt,ns,dt,dc);
-                hs.setEnable(e);
                 hs.setHocPhi(hp);
                 hs.setIMG(img);
                 dsHS.add(hs);
@@ -76,7 +76,7 @@ public class HocSinhDAO {
                 sql += "'"+hs.getDiaChi()+"',";
                 sql += "'"+hs.getHocPhi()+"',";
                 sql += "'"+hs.getIMG()+"',";
-                sql += "'"+hs.getEnable()+"',";
+                sql += "'1')";
          System.out.println(sql);
          mySQL.executeUpdate(sql);
     }

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import DATABASE.MySQLConnect;
+
 /**
  *
  * @author PHUONG ANH
@@ -57,7 +59,7 @@ public class PhanLopDAO {
         MySQLConnect mySQL = new MySQLConnect();
          String sql = "INSERT INTO phanlop VALUES (";
                 sql += "'"+pl.getHocSinhID()+"',";
-                sql += "'"+pl.getLopID()+"',";
+                sql += "'"+pl.getLopID()+"')";
 
          System.out.println(sql);
          mySQL.executeUpdate(sql);

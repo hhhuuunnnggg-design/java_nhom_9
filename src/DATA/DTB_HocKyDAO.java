@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import DATABASE.MySQLConnect;
 import DTO.DTB_HocKyDTO;
 
 public class DTB_HocKyDAO {
@@ -55,7 +56,7 @@ public class DTB_HocKyDAO {
          String sql = "INSERT INTO diemtbhocky VALUES (";
                 sql += "'"+ctd.getHocSinhID()+"',";
                 sql += "'"+ctd.getHocKyID()+"',";
-                sql += "'"+ctd.getDiemTrungBinh()+"',";
+                sql += "'"+ctd.getDiemTrungBinh()+"')";
 
          System.out.println(sql);
          mySQL.executeUpdate(sql);
