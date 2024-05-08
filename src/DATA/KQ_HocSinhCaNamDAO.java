@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import DATABASE.MySQLConnect;
+
 public class KQ_HocSinhCaNamDAO {
     private MySQLConnect mySQL=new MySQLConnect();
 
@@ -64,7 +66,7 @@ public class KQ_HocSinhCaNamDAO {
                 sql += "'"+kqHS.getHocLuc()+"',";
                 sql += "'"+kqHS.getHanhKiem()+"',";
                 sql += "'"+kqHS.getDiemTrungBinhNam()+"',";
-                sql += "'"+kqHS.getKetQua()+"',";
+                sql += "'"+kqHS.getKetQua()+"')";
 
         System.out.println(sql);
         mySQL.executeUpdate(sql);

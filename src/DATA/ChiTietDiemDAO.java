@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import DATABASE.MySQLConnect;
+
 /**
  *
  * @author PHUONG ANH
@@ -64,7 +66,7 @@ public class ChiTietDiemDAO {
                 sql += "'"+ctd.getMonHocID()+"',";
                 sql += "'"+ctd.getHocKyID()+"',";
                 sql += "'"+ctd.getHeSoID()+"',";
-                sql += "'"+ctd.getDiem()+"',";
+                sql += "'"+ctd.getDiem()+"')";
 
          System.out.println(sql);
          mySQL.executeUpdate(sql);
