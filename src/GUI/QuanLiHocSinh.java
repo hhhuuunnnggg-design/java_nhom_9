@@ -310,9 +310,8 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         String soDienThoai = tf[4].getText();
 
         HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi,
-                Integer.parseInt(soDienThoai), "", "");
+                soDienThoai);
 
-        // Gọi phương thức addHS() từ lớp QLHS_BUS để thêm học sinh vào cơ sở dữ liệu
         hsBUS.addHS(hocSinh);
 
         Object[] rowData = { hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai };
@@ -344,7 +343,7 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         String soDienThoai = tf[4].getText();
 
         HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi,
-                Integer.parseInt(soDienThoai), "", "");
+                soDienThoai);
 
         // Gọi phương thức addHS() từ lớp QLHS_BUS để thêm học sinh vào cơ sở dữ liệu
         hsBUS.updateHS(hocSinh);

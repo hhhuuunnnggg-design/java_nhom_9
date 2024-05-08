@@ -10,8 +10,9 @@ public class HocSinhDTO {
     private String DiaChi;
     private String HocPhi;
     private String IMG;
-    private int enable;
-    public HocSinhDTO(String hocSinhID, String tenHocSinh, String gioiTinh, String ngaySinh,String dienThoai,String diaChi) {
+
+    public HocSinhDTO(String hocSinhID, String tenHocSinh, String gioiTinh, String ngaySinh, String dienThoai,
+            String diaChi) {
         HocSinhID = hocSinhID;
         TenHocSinh = tenHocSinh;
         GioiTinh = gioiTinh;
@@ -20,10 +21,8 @@ public class HocSinhDTO {
         DienThoai = dienThoai;
         HocPhi = "Chưa thanh toán";
         IMG = null;
-        enable = 1;
     }
 
-    
     public String getIMG() {
         return IMG;
     }
@@ -88,12 +87,4 @@ public class HocSinhDTO {
         HocPhi = hocPhi;
     }
 
-    public int getEnable() {
-        return enable;
-    }
-
-    public void setEnable(int enable) {
-        this.enable = enable;
-    }
-    
 }
