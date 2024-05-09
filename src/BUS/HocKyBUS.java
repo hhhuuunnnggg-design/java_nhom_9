@@ -70,7 +70,7 @@ public class HocKyBUS {
         return search;
     }
   
-    public HocKyDTO search(String id)
+    public HocKyDTO get(String id)
     {
         HocKyDTO hk = null;
         for(HocKyDTO x : dshk)

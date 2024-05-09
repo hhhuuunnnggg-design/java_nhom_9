@@ -34,6 +34,4 @@ public class NamHocDTO {
         NamHocKetThuc = namHocKetThuc;
     }
 
-
-
 }

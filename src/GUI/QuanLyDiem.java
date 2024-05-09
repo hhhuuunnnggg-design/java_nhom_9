@@ -4,15 +4,31 @@
  */
 package GUI;
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import BUS.ChiTietDiemBUS;
+import BUS.DTB_HocKyBUS;
+import BUS.HocKyBUS;
 import BUS.HocSinhBUS;
 import BUS.KQ_HocSinhCaNamBUS;
+import BUS.LopBUS;
+import BUS.MonHocBUS;
+import BUS.NamHocBUS;
+import BUS.PhanLopBUS;
 import DTO.ChiTietDiemDTO;
 import DTO.DTB_HocKyDTO;
 import DTO.HocKyDTO;
+import DTO.HocSinhDTO;
+import DTO.KQ_HocSinhCaNamDTO;
+import DTO.LopDTO;
+import DTO.MonHocDTO;
+import DTO.NamHocDTO;
+import DTO.PhanLopDTO;
+
 
 
 /**
@@ -31,6 +47,18 @@ public class QuanLyDiem extends JPanel{
     private JScrollPane scrollPane;
     private JTable t;
 
+    ArrayList <HocSinhDTO> dshs;
+    ArrayList <KQ_HocSinhCaNamDTO> dskq;
+    ArrayList<MonHocDTO> dsmon;
+    ArrayList<ChiTietDiemDTO> dsct;
+    ArrayList<HocKyDTO> dshk;
+    ArrayList<DTB_HocKyDTO> dsdtb;
+    ArrayList<NamHocDTO> dsnh;
+    ArrayList<PhanLopDTO> dspl;
+    ArrayList<LopDTO> dslop;
+    
+    PhanLopBUS plbus = new PhanLopBUS(1);
+    LopBUS lopbus = new LopBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
     MonHocBUS mhbus = new MonHocBUS(1);
     ChiTietDiemBUS ctbus = new ChiTietDiemBUS(1);
@@ -195,6 +223,27 @@ public class QuanLyDiem extends JPanel{
     public void loaddatatoTable(){
         tblModel.setRowCount(0);
 
+        dshs = hsbus.getList();
+        dskq = kqbus.getList();
+        dsmon = mhbus.getList();
+        dsct = ctbus.getList();
+        dsdtb = dtbbus.getList();
+        dshk = hkbus.getList();
+        dsnh = nhbus.getList();
+        
+        for (HocSinhDTO hs  : dshs){
+            String id = hs.getHocSinhID();
+            String []rowData = new String[]{
+                id,
+                hs.getTenHocSinh(),
+                lopbus.get(plbus.searchById(id).getLopID()).getTenLop(),
+                mhbus.get((ctbus.get(id)).getMonHocID()).getTenMonHoc(),
+                (ctbus.get(id)).getHeSoID(), 
+                String.valueOf((ctbus.get(id)).getDiem()),
+                hkbus.get((dtbbus.get(id)).getHocKyID()).getTenHocKy(), 
+                
+            }
+        }
     }
     public static void main(String[] args) {
         new QuanLyDiem();
