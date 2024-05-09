@@ -23,10 +23,10 @@ public class DTB_HocKyDAO {
             while(rs.next()){
                 String id= rs.getString(1);
                 String idhk=rs.getString(2);
-                Float dtb= rs.getFloat(3);
+                String idnam = rs.getString(3);
+                Float dtb= rs.getFloat(4);
 
-
-                DTB_HocKyDTO ctd=new DTB_HocKyDTO(id,idhk,dtb);
+                DTB_HocKyDTO ctd=new DTB_HocKyDTO(id,idhk,idnam,dtb);
                 ds.add(ctd);
             }
             rs.close();
@@ -40,10 +40,11 @@ public class DTB_HocKyDAO {
     public void set(DTB_HocKyDTO ctd) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE diemtbhocky SET ";
-            sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";
-            
+            sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";           
             sql += "HocKyid='"+ctd.getHocKyID()+"', ";
-            sql += "MonHocid='"+ctd.getDiemTrungBinh()+"', ";
+            sql += "NamHocid='"+ctd.getNamHocID()+"', ";
+            
+            sql += "DiemTrungBinh='"+ctd.getDiemTrungBinh()+"', ";
 
             sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"'";
             System.out.println(sql);
@@ -56,6 +57,7 @@ public class DTB_HocKyDAO {
          String sql = "INSERT INTO diemtbhocky VALUES (";
                 sql += "'"+ctd.getHocSinhID()+"',";
                 sql += "'"+ctd.getHocKyID()+"',";
+                sql += "'"+ctd.getNamHocID()+"',";
                 sql += "'"+ctd.getDiemTrungBinh()+"')";
 
          System.out.println(sql);

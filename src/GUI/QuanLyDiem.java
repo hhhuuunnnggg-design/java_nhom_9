@@ -240,9 +240,9 @@ public class QuanLyDiem extends JPanel{
                 mhbus.get((ctbus.get(id)).getMonHocID()).getTenMonHoc(),
                 (ctbus.get(id)).getHeSoID(), 
                 String.valueOf((ctbus.get(id)).getDiem()),
-                hkbus.get((dtbbus.get(id)).getHocKyID()).getTenHocKy(), 
+                hkbus.get((dtbbus.get(id)).getHocKyID()).getTenHocKy()
                 
-            }
+            };
         }
     }
     public static void main(String[] args) {

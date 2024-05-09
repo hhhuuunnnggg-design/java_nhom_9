@@ -30,9 +30,10 @@ public class ChiTietDiemDAO {
                 String idmh=rs.getString(2);
                 String idhk= rs.getString(3);
                 String idheso= rs.getString(4);
-                Float diem= rs.getFloat(5);
+                String idnam = rs.getString(5);
+                Float diem= rs.getFloat(6);
 
-                ChiTietDiemDTO ctd=new ChiTietDiemDTO(id,idmh,idhk, idheso,diem);
+                ChiTietDiemDTO ctd=new ChiTietDiemDTO(id,idmh,idhk, idheso,idnam,diem);
                 ds.add(ctd);
             }
             rs.close();
@@ -50,7 +51,8 @@ public class ChiTietDiemDAO {
             
             sql += "MonHocid='"+ctd.getMonHocID()+"', ";
             sql += "HocKyid='"+ctd.getHocKyID()+"', ";
-            sql += "MonHocid='"+ctd.getHeSoID()+"', ";
+            sql += "HeSoid='"+ctd.getHeSoID()+"', ";
+            sql += "NamHocid='"+ctd.getNamHocID()+"', ";
             sql += "MonHocid='"+ctd.getDiem()+"', ";
 
             sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"'";
@@ -66,6 +68,7 @@ public class ChiTietDiemDAO {
                 sql += "'"+ctd.getMonHocID()+"',";
                 sql += "'"+ctd.getHocKyID()+"',";
                 sql += "'"+ctd.getHeSoID()+"',";
+                sql += "'"+ctd.getNamHocID()+"',";
                 sql += "'"+ctd.getDiem()+"')";
 
          System.out.println(sql);
