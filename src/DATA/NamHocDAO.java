@@ -15,7 +15,7 @@ public class NamHocDAO {
     public NamHocDAO(){}
     
     public ArrayList <NamHocDTO> list(){
-        ArrayList <NamHocDTO> ds=new ArrayList();
+        ArrayList <NamHocDTO> ds=new ArrayList<>();
         try{
             String sql="select * from namhoc";
             ResultSet rs=mySQL.executeQuery(sql);

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-// package GUI;
+ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -199,7 +199,7 @@ public class ThongKe {
             String hanhkiem = (String) optionHK.getSelectedItem();
             String hocphi = (String) optionHP.getSelectedItem();
             dsHS = hsbus.search(null,null,null,null,null,null,  hocphi);
-            dsKQ = kq.search(null, null, hocluc, hanhkiem,0.0f,null);
+            dsKQ = kq.search(null, null, hocluc, hanhkiem,null);
             for (HocSinhDTO x : dsHS){
                 for(KQ_HocSinhCaNamDTO y : dsKQ){
                     if(x.getHocSinhID().equals(y.getHocSinhID())){

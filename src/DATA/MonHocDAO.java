@@ -20,7 +20,7 @@ public class MonHocDAO {
     public MonHocDAO(){}
     
     public ArrayList <MonHocDTO> list(){
-        ArrayList <MonHocDTO> ds=new ArrayList();
+        ArrayList <MonHocDTO> ds=new ArrayList<>();
         try{
             String sql="select * from monhoc";
             ResultSet rs=mySQL.executeQuery(sql);

@@ -23,7 +23,7 @@ public class PhanLopDAO {
     public PhanLopDAO(){}
     
     public ArrayList <PhanLopDTO> list(){
-        ArrayList <PhanLopDTO> ds=new ArrayList();
+        ArrayList <PhanLopDTO> ds=new ArrayList<>();
         try{
             String sql="select * from phanlop";
             ResultSet rs=mySQL.executeQuery(sql);

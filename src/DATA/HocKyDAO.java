@@ -15,7 +15,7 @@ public class HocKyDAO {
     public HocKyDAO(){}
     
     public ArrayList <HocKyDTO> list(){
-        ArrayList <HocKyDTO> ds=new ArrayList();
+        ArrayList <HocKyDTO> ds=new ArrayList<>();
         try{
             String sql="select * from hocky";
             ResultSet rs=mySQL.executeQuery(sql);

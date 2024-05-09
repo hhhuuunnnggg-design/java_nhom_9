@@ -21,7 +21,7 @@ public class HocSinhDAO {
     }
     
     public ArrayList <HocSinhDTO> list(){
-        ArrayList <HocSinhDTO> dsHS=new ArrayList();
+        ArrayList <HocSinhDTO> dsHS=new ArrayList<>();
         try{
             String sql="select * from hocsinh where enable = 1";
             ResultSet rs=mySQL.executeQuery(sql);

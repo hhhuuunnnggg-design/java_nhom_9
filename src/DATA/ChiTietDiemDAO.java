@@ -20,7 +20,7 @@ public class ChiTietDiemDAO {
     public ChiTietDiemDAO(){}
     
     public ArrayList <ChiTietDiemDTO> list(){
-        ArrayList <ChiTietDiemDTO> ds=new ArrayList();
+        ArrayList <ChiTietDiemDTO> ds=new ArrayList<>();
         try{
             String sql="select * from chitietdiem";
             ResultSet rs=mySQL.executeQuery(sql);
@@ -61,7 +61,7 @@ public class ChiTietDiemDAO {
     
     public void add(ChiTietDiemDTO ctd) {
         MySQLConnect mySQL = new MySQLConnect();
-         String sql = "INSERT INTO phanlop VALUES (";
+         String sql = "INSERT INTO chitietdiem VALUES (";
                 sql += "'"+ctd.getHocSinhID()+"',";
                 sql += "'"+ctd.getMonHocID()+"',";
                 sql += "'"+ctd.getHocKyID()+"',";
@@ -72,9 +72,9 @@ public class ChiTietDiemDAO {
          mySQL.executeUpdate(sql);
     }
     
-    public void delete(ChiTietDiemDTO ctd){
+    public void delete(String hsID){
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "update phanlop set Diem = NULL where HocSinhid = '"+ctd.getHocSinhID()+"'";
+        String sql = "update chitietdiem set Diem = NULL where HocSinhid = '"+hsID+"'";
         mySQL.executeUpdate(sql);
             
     }

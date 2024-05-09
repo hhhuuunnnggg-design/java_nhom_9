@@ -23,7 +23,7 @@ public class LopDAO {
     public LopDAO(){}
     
     public ArrayList <LopDTO> list(){
-        ArrayList <LopDTO> ds=new ArrayList();
+        ArrayList <LopDTO> ds=new ArrayList<>();
         try{
             String sql="select * from lop";
             ResultSet rs=mySQL.executeQuery(sql);

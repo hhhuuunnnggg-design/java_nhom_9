@@ -15,7 +15,7 @@ public class DTB_HocKyDAO {
     public DTB_HocKyDAO(){}
     
     public ArrayList <DTB_HocKyDTO> list(){
-        ArrayList <DTB_HocKyDTO> ds=new ArrayList();
+        ArrayList <DTB_HocKyDTO> ds=new ArrayList<>();
         try{
             String sql="select * from diemtbhocky";
             ResultSet rs=mySQL.executeQuery(sql);
@@ -62,9 +62,9 @@ public class DTB_HocKyDAO {
          mySQL.executeUpdate(sql);
     }
     
-    public void delete(DTB_HocKyDTO ctd){
+    public void delete(String hsID){
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "update diemtbhocky set Diem = NULL where HocSinhid = '"+ctd.getHocSinhID()+"'";
+        String sql = "update diemtbhocky set Diem = NULL where HocSinhid = '"+hsID+"'";
         mySQL.executeUpdate(sql);
             
     }

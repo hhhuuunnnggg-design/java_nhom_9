@@ -35,5 +35,4 @@ public class DTB_HocKyDTO {
         DiemTrungBinh = diemTrungBinh;
     }
 
-
 }

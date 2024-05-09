@@ -100,15 +100,15 @@ public class KQ_HocSinhCaNamBUS {
         }
         return false;
     }
-    public ArrayList<KQ_HocSinhCaNamDTO> search(String id,String idnamhoc, String hocluc, String hanhkiem, float diemtb, String ketqua)
+
+    //không có thuộc tính điểm trong tìm kiếm 
+    public ArrayList<KQ_HocSinhCaNamDTO> search(String id,String idnamhoc, String hocluc, String hanhkiem, String ketqua)
     {
         ArrayList<KQ_HocSinhCaNamDTO> search = new ArrayList<>();
         id = id==null ?id = "": id;
         idnamhoc = idnamhoc==null?idnamhoc = "": idnamhoc;
         hocluc = (hocluc==null || hocluc.equals("Tất cả"))?hocluc = "": hocluc;
         hanhkiem = (hanhkiem==null || hanhkiem.equals("Tất cả"))?hanhkiem = "": hanhkiem;
-        String diem = String.valueOf(diemtb);
-        diem = diem=="0.0"?diem = "": diem;
         ketqua = ketqua==null?ketqua = "": ketqua;
 
         for(KQ_HocSinhCaNamDTO kq : dskq)
@@ -117,7 +117,6 @@ public class KQ_HocSinhCaNamBUS {
                 kq.getNamHocID().contains(idnamhoc) &&
                 kq.getHocLuc().contains(hocluc) &&
                 kq.getHanhKiem().contains(hanhkiem) &&
-                String.valueOf(kq.getDiemTrungBinhNam()).contains(diem) &&
                 kq.getKetQua().contains(ketqua) )
                 {
                     search.add(kq);
