@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2024 at 10:43 AM
+-- Generation Time: May 09, 2024 at 11:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -22,8 +22,6 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS student_management;
-USE student_management;
 
 --
 -- Table structure for table `chitietdiem`
@@ -819,41 +817,42 @@ INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`) VALUES
 
 CREATE TABLE `phanlop` (
   `HocSinhid` varchar(5) NOT NULL,
-  `Lopid` int(11) NOT NULL
+  `Lopid` int(11) NOT NULL,
+  `NamHocid` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `phanlop`
 --
 
-INSERT INTO `phanlop` (`HocSinhid`, `Lopid`) VALUES
-('HS1', 12),
-('HS10', 11),
-('HS11', 11),
-('HS12', 11),
-('HS13', 11),
-('HS14', 11),
-('HS15', 11),
-('HS16', 11),
-('HS17', 11),
-('HS18', 10),
-('HS19', 10),
-('HS2', 12),
-('HS20', 10),
-('HS21', 10),
-('HS22', 10),
-('HS23', 10),
-('HS24', 10),
-('HS25', 10),
-('HS26', 10),
-('HS27', 10),
-('HS3', 12),
-('HS4', 12),
-('HS5', 12),
-('HS6', 12),
-('HS7', 12),
-('HS8', 12),
-('HS9', 11);
+INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
+('HS1', 12, 'giapthin'),
+('HS10', 11, 'giapthin'),
+('HS11', 11, 'giapthin'),
+('HS12', 11, 'giapthin'),
+('HS13', 11, 'giapthin'),
+('HS14', 11, 'giapthin'),
+('HS15', 11, 'giapthin'),
+('HS16', 11, 'giapthin'),
+('HS17', 11, 'giapthin'),
+('HS18', 10, 'giapthin'),
+('HS19', 10, 'giapthin'),
+('HS2', 12, 'giapthin'),
+('HS20', 10, 'giapthin'),
+('HS21', 10, 'giapthin'),
+('HS22', 10, 'giapthin'),
+('HS23', 10, 'giapthin'),
+('HS24', 10, 'giapthin'),
+('HS25', 10, 'giapthin'),
+('HS26', 10, 'giapthin'),
+('HS27', 10, 'giapthin'),
+('HS3', 12, 'giapthin'),
+('HS4', 12, 'giapthin'),
+('HS5', 12, 'giapthin'),
+('HS6', 12, 'giapthin'),
+('HS7', 12, 'giapthin'),
+('HS8', 12, 'giapthin'),
+('HS9', 11, 'giapthin');
 
 -- --------------------------------------------------------
 

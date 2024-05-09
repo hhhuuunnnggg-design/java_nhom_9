@@ -192,7 +192,7 @@ public class QuanLyDiem extends JPanel{
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setOpaque(true);
         contentPanel.add(initTable(), BorderLayout.NORTH);
-        loaddatatoTable();
+        //loaddatatoTable();
 
         f.add(contentPanel);
         f.setVisible(true);
