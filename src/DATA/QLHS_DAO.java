@@ -13,7 +13,7 @@ public class QLHS_DAO {
 
     public ArrayList<HocSinhDTO> list() {
         ArrayList<HocSinhDTO> dshs = new ArrayList<>();
-        String sql = "SELECT * FROM hocsinh";
+        String sql = "SELECT * FROM hocsinh WHERE enable = 1";
         try (PreparedStatement ps = mySQL.getConnection().prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -64,14 +64,33 @@ public class QLHS_DAO {
         sql += "'" + hs.getDienThoai() + "' ,";
         sql += "'" + hs.getDiaChi() + "' ,";
         sql += "'" + hs.getHocPhi() + "' ,";
-        sql += "'" + hs.getIMG() + "' )";
+        sql += "'" + hs.getIMG() + "' ,";
+        sql += " '1' )";
         mysql.executeUpdate(sql);
     }
 
     public void delete(String mahs) {
-        String sql = "DELETE FROM hocsinh WHERE HocSinhid='" + mahs + "'";
+        String sql = "UPDATE hocsinh SET enable = '0' WHERE HocSinhid='" + mahs + "'";
         mySQL.executeUpdate(sql);
         System.out.println(sql);
+    }
+
+    public ArrayList<HocSinhDTO> checkMaHS() {
+        ArrayList<HocSinhDTO> dshs = new ArrayList<>();
+
+        String sql = "SELECT HocSinhId FROM hocsinh";
+        ResultSet rs = mySQL.executeQuery(sql);
+        try {
+            while (rs.next()) {
+                String mahs = rs.getString("HocSinhId");
+
+                HocSinhDTO hocsinh = new HocSinhDTO(mahs, "", "", "", "", "");
+                dshs.add(hocsinh);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dshs;
     }
 
 }
