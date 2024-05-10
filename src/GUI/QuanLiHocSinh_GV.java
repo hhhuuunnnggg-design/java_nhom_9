@@ -1,16 +1,21 @@
+package GUI;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -156,10 +161,18 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         JPanel Pchucnang = new JPanel();
         Pchucnang.setLayout(new FlowLayout(0, 5, 5));
         Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
+        String imagePath = "/image/btnAdd.png"; // Đường dẫn tương đối từ thư mục nguồn
+        java.net.URL imageURL = getClass().getResource(imagePath);
+        ImageIcon originalIcon = new ImageIcon(imageURL); // Tạo ImageIcon từ đường dẫn
 
-        btnFind = new JButton("Tìm kiếm");
+        // Chỉnh kích thước ảnh
+        Image scaledImage = originalIcon.getImage().getScaledInstance(140, 40, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        btnFind = new JButton();
+        btnFind.setIcon(scaledIcon);
         btnFind.setPreferredSize(new Dimension(140, 40));
         btnFind.setBorder(raisedBevel);
+
         Pchucnang.setBackground(myColor);
         defaultColor = btnFind.getBackground();
         Pchucnang.add(btnFind);
@@ -251,30 +264,6 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         });
 
         return scrollpane;
-    }
-
-    public void addRow() {
-        Object[] rowData = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[5].getText(),
-                tf[4].getText() };
-        tblmodel.addRow(rowData);
-        clearTextFields();
-    }
-
-    public void deleteRow() {
-        int row = t.getSelectedRow();
-        if (row != -1) {
-            tblmodel.removeRow(row);
-        }
-        clearTextFields();
-    }
-
-    public void updateRow() {
-        int row = t.getSelectedRow();
-        Object[] rowData = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[5].getText(),
-                tf[4].getText() };
-        tblmodel.removeRow(row);
-        tblmodel.addRow(rowData);
-        clearTextFields();
     }
 
     public void clearTextFields() {

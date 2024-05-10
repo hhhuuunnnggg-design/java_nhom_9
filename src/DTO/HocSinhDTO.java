@@ -20,7 +20,7 @@ public class HocSinhDTO {
         DiaChi = diaChi;
         DienThoai = dienThoai;
         HocPhi = "Chưa thanh toán";
-        IMG = null;
+        IMG = "";
     }
 
     public String getIMG() {

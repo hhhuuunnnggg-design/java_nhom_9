@@ -27,7 +27,7 @@ public class Thong_tin_tai_khoan extends JFrame {
     public Thong_tin_tai_khoan() {
         init();
     }
-    
+
     public void init() {
         JFrame f = new JFrame();
         f.setTitle("Thông tin tài khoản");
@@ -93,19 +93,19 @@ public class Thong_tin_tai_khoan extends JFrame {
         // RightPanel.add(exitButton);
         jp1.add(jl2, BorderLayout.WEST);
         jp1.add(exitButton, BorderLayout.EAST);
-        
+
         // Tạo JPanel jp2 nằm bên trái và dưới jp1 với độ rộng 1/5 của JFrame
         jp2 = new JPanel();
-        jp2.setBackground(new Color(52,48,128));
+        jp2.setBackground(new Color(52, 48, 128));
         jp2.setLayout(new BorderLayout());
-        jp2.setPreferredSize(new Dimension (150,0));
+        jp2.setPreferredSize(new Dimension(150, 0));
         jp2.setOpaque(true);
-        //Tạo topPanel
+        // Tạo topPanel
         JPanel topPanel = new JPanel(new GridBagLayout());
         topPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
         topPanel.setBackground(new Color(52, 48, 128));
         topPanel.setOpaque(true);
-        
+
         // Thêm hình tròn
         jl3 = new JLabel() {
             @Override
@@ -140,11 +140,11 @@ public class Thong_tin_tai_khoan extends JFrame {
         gbc2.insets = new Insets(10, 0, 0, 0); // Khoảng cách dưới 10 pixels
         gbc2.anchor = GridBagConstraints.CENTER;
         topPanel.add(jl4, gbc2);
-        
-        //Tạo centerPanel chứa các chức năng
+
+        // Tạo centerPanel chứa các chức năng
         JPanel centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        centerPanel.setBackground(new Color(52,48,128));
+        centerPanel.setBackground(new Color(52, 48, 128));
         centerPanel.setOpaque(true);
         // Thêm chức năng 1
         jl5 = new JLabel("Chức năng 1");
@@ -153,7 +153,7 @@ public class Thong_tin_tai_khoan extends JFrame {
         jl5.setHorizontalAlignment(JLabel.CENTER); // Căn giữa theo chiều ngang
         jl5.setVerticalAlignment(JLabel.CENTER); // Căn giữa theo chiều dọc
         jl5.setForeground(Color.WHITE);
-        jl5.setPreferredSize(new Dimension(150,40));
+        jl5.setPreferredSize(new Dimension(150, 40));
         jl5.setOpaque(true);
         GridBagConstraints gbc3 = new GridBagConstraints();
         gbc3.gridx = 0;
@@ -162,7 +162,7 @@ public class Thong_tin_tai_khoan extends JFrame {
         gbc3.weighty = 0;
         gbc3.insets = new Insets(0, 0, 0, 0); // Khoảng cách dưới 10 pixels
         gbc3.anchor = GridBagConstraints.NORTH;
-        centerPanel.add(jl5,gbc3);
+        centerPanel.add(jl5, gbc3);
         // Thêm chức năng 2
         jl6 = new JLabel("Chức năng 2");
         jl6.setFont(jl6.getFont().deriveFont(Font.BOLD, 18));
@@ -170,7 +170,7 @@ public class Thong_tin_tai_khoan extends JFrame {
         jl6.setHorizontalAlignment(JLabel.CENTER); // Căn giữa theo chiều ngang
         jl6.setVerticalAlignment(JLabel.CENTER); // Căn giữa theo chiều dọc
         jl6.setForeground(Color.WHITE);
-        jl6.setPreferredSize(new Dimension(150,40));
+        jl6.setPreferredSize(new Dimension(150, 40));
         jl6.setBackground(new Color(99, 116, 198));
         jl6.setOpaque(true);
         GridBagConstraints gbc4 = new GridBagConstraints();
@@ -180,7 +180,7 @@ public class Thong_tin_tai_khoan extends JFrame {
         gbc4.weighty = 0;
         gbc4.insets = new Insets(10, 0, 0, 0); // Khoảng cách dưới 10 pixels
         gbc4.anchor = GridBagConstraints.NORTH;
-        centerPanel.add(jl6,gbc4);
+        centerPanel.add(jl6, gbc4);
         // Thêm chức năng 3
         jl7 = new JLabel("Chức năng 3");
         jl7.setFont(jl7.getFont().deriveFont(Font.BOLD, 18));
@@ -188,7 +188,7 @@ public class Thong_tin_tai_khoan extends JFrame {
         jl7.setHorizontalAlignment(JLabel.CENTER); // Căn giữa theo chiều ngang
         jl7.setVerticalAlignment(JLabel.CENTER); // Căn giữa theo chiều dọc
         jl7.setForeground(Color.WHITE);
-        jl7.setPreferredSize(new Dimension(150,40));
+        jl7.setPreferredSize(new Dimension(150, 40));
         jl7.setBackground(new Color(99, 116, 198));
         jl7.setOpaque(true);
         GridBagConstraints gbc5 = new GridBagConstraints();
@@ -198,15 +198,15 @@ public class Thong_tin_tai_khoan extends JFrame {
         gbc5.weighty = 0;
         gbc5.insets = new Insets(10, 0, 0, 0); // Khoảng cách dưới 10 pixels
         gbc5.anchor = GridBagConstraints.NORTH;
-        centerPanel.add(jl7,gbc5);
-        //Thêm chức năng 4
+        centerPanel.add(jl7, gbc5);
+        // Thêm chức năng 4
         jl9 = new JLabel("Chức năng 4");
         jl9.setFont(jl7.getFont().deriveFont(Font.BOLD, 18));
         jl9.setBackground(new Color(99, 116, 198));
         jl9.setHorizontalAlignment(JLabel.CENTER); // Căn giữa theo chiều ngang
         jl9.setVerticalAlignment(JLabel.CENTER); // Căn giữa theo chiều dọc
         jl9.setForeground(Color.WHITE);
-        jl9.setPreferredSize(new Dimension(150,40));
+        jl9.setPreferredSize(new Dimension(150, 40));
         jl9.setBackground(new Color(99, 116, 198));
         jl9.setOpaque(true);
         GridBagConstraints gbc7 = new GridBagConstraints();
@@ -216,14 +216,14 @@ public class Thong_tin_tai_khoan extends JFrame {
         gbc7.weighty = 0;
         gbc7.insets = new Insets(10, 0, 0, 0); // Khoảng cách dưới 10 pixels
         gbc5.anchor = GridBagConstraints.NORTH;
-        centerPanel.add(jl9,gbc7);
-        
-        //Tạo bottomPanel chứa nút đăng xuất
+        centerPanel.add(jl9, gbc7);
+
+        // Tạo bottomPanel chứa nút đăng xuất
         JPanel bottomPanel = new JPanel(new GridBagLayout());
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-        bottomPanel.setBackground(new Color(52,48,128));
+        bottomPanel.setBackground(new Color(52, 48, 128));
         bottomPanel.setOpaque(true);
-        //Nút đăng xuất
+        // Nút đăng xuất
         jl8 = new JLabel("ĐĂNG XUẤT");
         jl8.setFont(jl8.getFont().deriveFont(Font.BOLD, 14));
         jl8.setHorizontalAlignment(JLabel.CENTER); // Căn giữa theo chiều ngang
@@ -240,18 +240,18 @@ public class Thong_tin_tai_khoan extends JFrame {
         gbc6.weighty = 0;
         gbc6.insets = new Insets(0, 0, 20, 0); // Khoảng cách dưới 20 pixels
         gbc6.anchor = GridBagConstraints.SOUTH;
-        bottomPanel.add(jl8,gbc6);
-        
+        bottomPanel.add(jl8, gbc6);
+
         jp2.add(topPanel, BorderLayout.NORTH);
         jp2.add(centerPanel, BorderLayout.CENTER);
         jp2.add(bottomPanel, BorderLayout.PAGE_END);
-        
+
         // Tạo JPanel jp3 nằm bên phải của jp2 và dưới jp1
         jp3 = new JPanel();
         jp3.setBackground(Color.LIGHT_GRAY);
-        jp3.setPreferredSize(new Dimension (850,670));
+        jp3.setPreferredSize(new Dimension(850, 670));
         jp3.setOpaque(true);
-        
+
         // Đặt các JPanel vào JFrame sử dụng BorderLayout
         f.add(jp1, BorderLayout.NORTH);
         f.add(jp2, BorderLayout.WEST);
@@ -264,6 +264,6 @@ public class Thong_tin_tai_khoan extends JFrame {
 
     public static void main(String[] args) {
         Thong_tin_tai_khoan tttk = new Thong_tin_tai_khoan();
-    tttk.setVisible(true);
+        tttk.setVisible(true);
     }
 }

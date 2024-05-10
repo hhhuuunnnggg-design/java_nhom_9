@@ -1,5 +1,6 @@
 package BUS;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DATA.*;
@@ -60,7 +61,11 @@ public class QLHS_BUS {
 
     // kiem tra ma
     public boolean checkMaHS(String mahs) {
+        QLHS_DAO hsDao = new QLHS_DAO();
+        dshs = new ArrayList<>();
+        dshs = hsDao.checkMaHS();
         for (HocSinhDTO hs : dshs) {
+            System.out.println(hs.getHocSinhID());
             if (hs.getHocSinhID().equals(mahs)) {
                 return true;
             }
