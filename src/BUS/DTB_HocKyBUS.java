@@ -3,7 +3,6 @@ package BUS;
 import java.util.ArrayList;
 
 import DATA.DTB_HocKyDAO;
-import DTO.ChiTietDiemDTO;
 import DTO.DTB_HocKyDTO;
 
 public class DTB_HocKyBUS {

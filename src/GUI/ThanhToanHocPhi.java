@@ -243,7 +243,7 @@ public class ThanhToanHocPhi {
                   }else{
                       JOptionPane.showMessageDialog(null, "Không tìm thấy Học sinh ");
                     }
-              
+                    
                 }catch(Exception ex) {
                     ex.printStackTrace();
                 }
@@ -258,7 +258,7 @@ public class ThanhToanHocPhi {
                 for (HocSinhDTO x : dsHS.getList()){
                       if(x.getHocSinhID().equals(id)){
 
-                              int choice = JOptionPane.showConfirmDialog(null, "Xác nhận thanh toán cho tài khoản "+x.getHocSinhID()+" ?","bhbhrbsr", JOptionPane.OK_CANCEL_OPTION);
+                              int choice = JOptionPane.showConfirmDialog(null, "Xác nhận thanh toán cho tài khoản "+x.getHocSinhID()+" ?","", JOptionPane.OK_CANCEL_OPTION);
                           
                                 if (choice == JOptionPane.OK_OPTION){
                                   x.setHocPhi("Đã thanh toán");
