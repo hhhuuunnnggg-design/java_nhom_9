@@ -4,15 +4,31 @@
  */
 package GUI;
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import BUS.ChiTietDiemBUS;
+import BUS.DTB_HocKyBUS;
+import BUS.HocKyBUS;
 import BUS.HocSinhBUS;
 import BUS.KQ_HocSinhCaNamBUS;
+import BUS.LopBUS;
+import BUS.MonHocBUS;
+import BUS.NamHocBUS;
+import BUS.PhanLopBUS;
 import DTO.ChiTietDiemDTO;
 import DTO.DTB_HocKyDTO;
 import DTO.HocKyDTO;
+import DTO.HocSinhDTO;
+import DTO.KQ_HocSinhCaNamDTO;
+import DTO.LopDTO;
+import DTO.MonHocDTO;
+import DTO.NamHocDTO;
+import DTO.PhanLopDTO;
+
 
 
 /**
@@ -31,6 +47,18 @@ public class QuanLyDiem extends JPanel{
     private JScrollPane scrollPane;
     private JTable t;
 
+    ArrayList <HocSinhDTO> dshs;
+    ArrayList <KQ_HocSinhCaNamDTO> dskq;
+    ArrayList<MonHocDTO> dsmon;
+    ArrayList<ChiTietDiemDTO> dsct;
+    ArrayList<HocKyDTO> dshk;
+    ArrayList<DTB_HocKyDTO> dsdtb;
+    ArrayList<NamHocDTO> dsnh;
+    ArrayList<PhanLopDTO> dspl;
+    ArrayList<LopDTO> dslop;
+    
+    PhanLopBUS plbus = new PhanLopBUS(1);
+    LopBUS lopbus = new LopBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
     MonHocBUS mhbus = new MonHocBUS(1);
     ChiTietDiemBUS ctbus = new ChiTietDiemBUS(1);
@@ -195,6 +223,50 @@ public class QuanLyDiem extends JPanel{
     public void loaddatatoTable(){
         tblModel.setRowCount(0);
 
+    dshs = hsbus.getList();
+    dskq = kqbus.getList();
+    dsmon = mhbus.getList();
+    dsct = ctbus.getList();
+    dsdtb = dtbbus.getList();
+    dshk = hkbus.getList();
+    dsnh = nhbus.getList();
+    
+    for (HocSinhDTO hs : dshs) {
+        for (NamHocDTO nh : dsnh) {
+            String idnamhoc = nh.getNamHocID();
+            String idhs = hs.getHocSinhID();
+            String idlop = plbus.get(idhs, idnamhoc).getLopID();
+
+            for (HocKyDTO hk : dshk) {
+                String idhk = hk.getHocKyID();
+                for (MonHocDTO mh : dsmon) {
+                    String idmon = mh.getMonHocID();
+                    for (int heso = 1; heso < 4; heso++) {
+                        String idHocKy = hk.getHocKyID();
+                        String idNamHoc = nh.getNamHocID();
+                        String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
+                        String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
+                        String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
+                        String[] rowData = new String[]{
+                            idhs,
+                            hsbus.get(idhs).getTenHocSinh(),
+                            lopbus.get(idlop).getTenLop(),
+                            mhbus.get(idmon).getTenMonHoc(),
+                            String.valueOf(heso),
+                            idDiemHocKy,
+                            hkbus.get(idhk).getTenHocKy(),
+                            idDiemTrungBinhHocKy,
+                            nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
+                            idDiemTrungBinhNam
+                        };
+                        tblModel.addRow(rowData);
+                    }
+                }
+            }
+        }
+    }
+    tblModel.fireTableDataChanged();
+    s.setText(String.valueOf(dshs.size()));
     }
     public static void main(String[] args) {
         new QuanLyDiem();

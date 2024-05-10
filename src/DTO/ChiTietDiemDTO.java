@@ -4,17 +4,19 @@ public class ChiTietDiemDTO {
     private String HocSinhID;
     private String MonHocID;
     private String HocKyID;
-    private String HeSoID;
+    private int HeSoID;
+    private String NamHocID;
     private Float Diem;
 
-    public ChiTietDiemDTO(String hocSinhID, String monHocID, String hocKyID, String HeSoid, Float diem) {
+    public ChiTietDiemDTO(String hocSinhID, String monHocID, String hocKyID, int HeSoid,String namhocid,  Float diem) {
         HocSinhID = hocSinhID;
         HocKyID = hocKyID;
         MonHocID = monHocID;
         HeSoID = HeSoid;
+        NamHocID = namhocid;
         Diem = diem;
     }
-
+ 
     public String getHocSinhID() {
         return HocSinhID;
     }
@@ -47,11 +49,20 @@ public class ChiTietDiemDTO {
         Diem = diem;
     }
 
-    public String getHeSoID() {
+
+    public String getNamHocID() {
+        return NamHocID;
+    }
+
+    public void setNamHocID(String namHocID) {
+        NamHocID = namHocID;
+    }
+
+    public int getHeSoID() {
         return HeSoID;
     }
 
-    public void setHeSoID(String heSoID) {
+    public void setHeSoID(int heSoID) {
         HeSoID = heSoID;
     }
 

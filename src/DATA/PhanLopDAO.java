@@ -31,8 +31,9 @@ public class PhanLopDAO {
             while(rs.next()){
                 String id= rs.getString("HocSinhid");
                 String idlop=rs.getString("Lopid");
-                
-                PhanLopDTO pl=new PhanLopDTO(id,idlop);
+                String idnam=rs.getString("NamHocid");
+
+                PhanLopDTO pl=new PhanLopDTO(id,idlop,idnam);
                 ds.add(pl);
             }
             rs.close();
@@ -42,12 +43,13 @@ public class PhanLopDAO {
         }
         return ds;
     }
-    
+
     public void set(PhanLopDTO pl) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE phanlop SET ";
             sql += "HocSinhid='"+pl.getHocSinhID()+"', ";
             sql += "Lopid='"+pl.getLopID()+"', ";
+            sql += "NamHocid='"+pl.getNamHocID()+"', ";
 
             sql += " WHERE HocSinhid='"+pl.getHocSinhID()+"'";
             System.out.println(sql);
@@ -59,7 +61,8 @@ public class PhanLopDAO {
         MySQLConnect mySQL = new MySQLConnect();
          String sql = "INSERT INTO phanlop VALUES (";
                 sql += "'"+pl.getHocSinhID()+"',";
-                sql += "'"+pl.getLopID()+"')";
+                sql += "'"+pl.getLopID()+"',";
+                sql += "'"+pl.getNamHocID()+"')";
 
          System.out.println(sql);
          mySQL.executeUpdate(sql);
@@ -67,10 +70,8 @@ public class PhanLopDAO {
     
     public void delete(PhanLopDTO pl){
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "update phanlop set Lopid = NULL where HocSinhid = '"+pl.getHocSinhID()+"'";
+        String sql = "delete phanlop where HocSinhid = '"+pl.getHocSinhID()+"'";
         mySQL.executeUpdate(sql);
 
-            
-            
     }
 }

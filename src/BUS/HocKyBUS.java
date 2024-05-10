@@ -70,12 +70,12 @@ public class HocKyBUS {
         return search;
     }
   
-    public HocKyDTO search(String id)
+    public HocKyDTO get(String id)
     {
         HocKyDTO hk = null;
         for(HocKyDTO x : dshk)
         {
-            if( hk.getHocKyID()==id){
+            if( x.getHocKyID().equals(id)){
                 hk = x;
             }
         }

@@ -63,7 +63,6 @@ public class NamHocBUS {
         }
         return search;
     }
-
     
     public ArrayList<NamHocDTO> getList() {
         return dsnh;

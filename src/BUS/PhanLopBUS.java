@@ -28,6 +28,46 @@ public class PhanLopBUS {
         dspl = new ArrayList<>();
         dspl = plDAO.list();
     }
+            
+    public PhanLopDTO get(String id)
+    {
+        PhanLopDTO pl = null;
+        for(PhanLopDTO x : dspl)
+        {
+            if( x.getHocSinhID().equals(id)){
+                pl = x;
+            }
+        }
+        return pl;
+    }
+    public PhanLopDTO getByNamhocid(String id)
+    {
+        PhanLopDTO pl = null;
+        for(PhanLopDTO x : dspl)
+        {
+            if( x.getNamHocID().equals(id)){
+                pl = x;
+            }
+        }
+        return pl;
+    }
+    //overloading
+    public PhanLopDTO get(String idhs, String idnam){
+        if(idhs==null){
+            return this.getByNamhocid(idnam);
+        }
+        if(idnam==null){
+            return this.get(idhs);
+        }
+        //idhs!=null && idnam!=null
+        for(PhanLopDTO x : dspl)
+        {
+            if( (x.getNamHocID().equals(idnam)) && (x.getHocSinhID().equals(idhs))){
+                return x;
+            }
+        }
+        return null;
+    }
     public void add(PhanLopDTO pl)
     {
         dspl.add(pl);
@@ -72,15 +112,17 @@ public class PhanLopBUS {
         }
         return false;
     }
-    public ArrayList<PhanLopDTO> search(String id,String idlop)
+    public ArrayList<PhanLopDTO> search(String id,String idlop, String idnam)
     {
         ArrayList<PhanLopDTO> search = new ArrayList<>();
-        id = id.isEmpty()?id = "": id;
-        idlop = idlop.isEmpty()?idlop = "": idlop;
+        id = id==null?id = "": id;
+        idlop = idlop==null?idlop = "": idlop;
+        idnam = idnam==null?idnam = "":idnam;
         for(PhanLopDTO pl : dspl)
         {
             if( pl.getHocSinhID().contains(id) && 
-                pl.getLopID().contains(idlop))
+            pl.getLopID().contains(idlop)&& 
+            pl.getNamHocID().contains(idnam))
             {
                 search.add(pl);
             }
@@ -101,19 +143,7 @@ public class PhanLopBUS {
         }
         return search;
     }
-        
-    public PhanLopDTO searchById(String id)
-    {
-        PhanLopDTO pl = null;
-        for(PhanLopDTO x : dspl)
-        {
-            if( pl.getHocSinhID()==id){
-                pl = x;
-            }
-        }
-        return pl;
-    }
-    
+
     public ArrayList<PhanLopDTO> getList() {
         return dspl;
     }

@@ -3,11 +3,13 @@ package DTO;
 public class DTB_HocKyDTO {
     private String HocSinhID;
     private String HocKyID;
+    private String NamHocID;
     private Float DiemTrungBinh;
 
-    public DTB_HocKyDTO(String hocSinhID, String hocKyID, Float diemTrungBinh) {
+    public DTB_HocKyDTO(String hocSinhID, String hocKyID,String namhocid, Float diemTrungBinh) {
         HocSinhID = hocSinhID;
         HocKyID = hocKyID;
+        NamHocID = namhocid;
         DiemTrungBinh = diemTrungBinh;
     }
 
@@ -33,6 +35,14 @@ public class DTB_HocKyDTO {
 
     public void setDiemTrungBinh(Float diemTrungBinh) {
         DiemTrungBinh = diemTrungBinh;
+    }
+
+    public String getNamHocID() {
+        return NamHocID;
+    }
+
+    public void setNamHocID(String namHocID) {
+        NamHocID = namHocID;
     }
 
 }
