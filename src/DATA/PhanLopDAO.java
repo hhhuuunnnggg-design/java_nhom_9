@@ -43,7 +43,7 @@ public class PhanLopDAO {
         }
         return ds;
     }
-    
+
     public void set(PhanLopDTO pl) {
             MySQLConnect mySQL = new MySQLConnect();
             String sql = "UPDATE phanlop SET ";

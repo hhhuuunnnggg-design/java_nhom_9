@@ -34,13 +34,40 @@ public class PhanLopBUS {
         PhanLopDTO pl = null;
         for(PhanLopDTO x : dspl)
         {
-            if( pl.getHocSinhID()==id){
+            if( x.getHocSinhID().equals(id)){
                 pl = x;
             }
         }
         return pl;
     }
-    
+    public PhanLopDTO getByNamhocid(String id)
+    {
+        PhanLopDTO pl = null;
+        for(PhanLopDTO x : dspl)
+        {
+            if( x.getNamHocID().equals(id)){
+                pl = x;
+            }
+        }
+        return pl;
+    }
+    //overloading
+    public PhanLopDTO get(String idhs, String idnam){
+        if(idhs==null){
+            return this.getByNamhocid(idnam);
+        }
+        if(idnam==null){
+            return this.get(idhs);
+        }
+        //idhs!=null && idnam!=null
+        for(PhanLopDTO x : dspl)
+        {
+            if( (x.getNamHocID().equals(idnam)) && (x.getHocSinhID().equals(idhs))){
+                return x;
+            }
+        }
+        return null;
+    }
     public void add(PhanLopDTO pl)
     {
         dspl.add(pl);

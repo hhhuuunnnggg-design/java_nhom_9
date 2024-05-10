@@ -3,6 +3,7 @@ package BUS;
 import java.util.ArrayList;
 
 import DATA.DTB_HocKyDAO;
+import DTO.ChiTietDiemDTO;
 import DTO.DTB_HocKyDTO;
 
 public class DTB_HocKyBUS {
@@ -27,6 +28,44 @@ public class DTB_HocKyBUS {
         }
         return null;
     }
+    
+    public DTB_HocKyDTO getByNamhocid(String id)
+    {
+        for(DTB_HocKyDTO dtb : dsdtb )
+        {
+            if(dtb.getNamHocID().equals(id))
+            {
+                return dtb;
+            }
+        }
+        return null;
+    }
+    public DTB_HocKyDTO getByHockyid(String id)
+    {
+        for(DTB_HocKyDTO dtb : dsdtb )
+        {
+            if(dtb.getHocKyID().equals(id))
+            {
+                return dtb;
+            }
+        }
+        return null;
+    }
+    //overloading
+    public DTB_HocKyDTO get(String idhs, String idnam, String idhk){
+        
+        if(idhk!=null && idhs!=null && idnam!=null){
+            for(DTB_HocKyDTO x : dsdtb)
+            {
+                if( (x.getNamHocID().equals(idnam)) && (x.getHocSinhID().equals(idhs)) && (x.getHocKyID().equals(idhk))){
+                    return x;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
     public void list()
     {
         DTB_HocKyDAO dtbDATA = new DTB_HocKyDAO();

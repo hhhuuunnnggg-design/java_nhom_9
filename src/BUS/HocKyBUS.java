@@ -75,7 +75,7 @@ public class HocKyBUS {
         HocKyDTO hk = null;
         for(HocKyDTO x : dshk)
         {
-            if( hk.getHocKyID()==id){
+            if( x.getHocKyID().equals(id)){
                 hk = x;
             }
         }

@@ -29,7 +29,7 @@ public class ChiTietDiemDAO {
                 String id= rs.getString(1);
                 String idmh=rs.getString(2);
                 String idhk= rs.getString(3);
-                String idheso= rs.getString(4);
+                int idheso= rs.getInt(4);
                 String idnam = rs.getString(5);
                 Float diem= rs.getFloat(6);
 

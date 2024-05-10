@@ -30,8 +30,8 @@ public class ThongKe {
     private JFrame f;
     private JPanel topThongKe, selectPanel, radioPanel, dropdownPanel, totalPanel, btnPanel, contentThongKe;
     private JLabel l1, l2;
-    private JLabel b1, b2, b3;
-    private JComboBox<String> optionHL, optionHK, optionHP;
+    private JLabel b1, b2, b3, b4;
+    private JComboBox<String> optionHL, optionHK, optionHP, optionNH;
     private JTextField s;
     private JButton showBtn;
     private DefaultTableModel tblModel;
@@ -67,17 +67,20 @@ public class ThongKe {
         b1 = new JLabel("Học lực");
         b2 = new JLabel("Hạnh kiểm");
         b3 = new JLabel("Học phí");
+        b4 = new JLabel("Năm học");
         
         b1.setFont(new Font("Arial", Font.PLAIN, 16));
         b2.setFont(new Font("Arial", Font.PLAIN, 16));
         b3.setFont(new Font("Arial", Font.PLAIN, 16));
+        b4.setFont(new Font("Arial", Font.PLAIN, 16));
         int topMargin = 10;
-        int leftMargin = 10;
+        int leftMargin = 25;
         int bottomMargin = 0;
-        int rightMargin = 35;
+        int rightMargin = 30;
         b1.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
         b2.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
         b3.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
+        b4.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
 
         dropdownPanel = new JPanel();
         dropdownPanel.setOpaque(false);
@@ -88,9 +91,12 @@ public class ThongKe {
         optionHK = new JComboBox<>(option2);
         String[] option3 = {"Tất cả","Đã thanh toán", "Chưa thanh toán"};
         optionHP = new JComboBox<>(option3);
+        String[] option4 = {"Tất cả","2024-2025", "2023-2024"};
+        optionNH = new JComboBox<>(option4);
         optionHL.setFont(new Font("Arial", Font.PLAIN, 14));
         optionHK.setFont(new Font("Arial", Font.PLAIN, 14));
         optionHP.setFont(new Font("Arial", Font.PLAIN, 14));
+        optionNH.setFont(new Font("Arial", Font.PLAIN, 14));
 
         totalPanel = new JPanel();
         totalPanel.setOpaque(false);
@@ -121,9 +127,11 @@ public class ThongKe {
         radioPanel.add(b1);
         radioPanel.add(b2);
         radioPanel.add(b3);
+        radioPanel.add(b4);
         dropdownPanel.add(optionHL);
         dropdownPanel.add(optionHK);
         dropdownPanel.add(optionHP);
+        dropdownPanel.add(optionNH);
         
         selectPanel.add(l1);
         selectPanel.add(radioPanel);
