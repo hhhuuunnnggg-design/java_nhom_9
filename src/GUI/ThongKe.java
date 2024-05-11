@@ -13,8 +13,10 @@ import javax.swing.table.*;
 
 import BUS.HocSinhBUS;
 import BUS.KQ_HocSinhCaNamBUS;
+import BUS.NamHocBUS;
 import DTO.HocSinhDTO;
 import DTO.KQ_HocSinhCaNamDTO;
+import DTO.NamHocDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,17 +32,21 @@ public class ThongKe {
     private JFrame f;
     private JPanel topThongKe, selectPanel, radioPanel, dropdownPanel, totalPanel, btnPanel, contentThongKe;
     private JLabel l1, l2;
-    private JLabel b1, b2, b3, b4;
-    private JComboBox<String> optionHL, optionHK, optionHP, optionNH;
+    private JLabel b1, b2, b3, b4, b5;
+    private JComboBox<String> optionHL, optionHK, optionHP, optionNH, optionKQ;
     private JTextField s;
     private JButton showBtn;
     private DefaultTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
-    KQ_HocSinhCaNamBUS kq = new KQ_HocSinhCaNamBUS(1);
+    KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
+    NamHocBUS nhbus = new NamHocBUS(1);
+
     ArrayList <HocSinhDTO> dsHS;
     ArrayList <KQ_HocSinhCaNamDTO> dsKQ;
+    ArrayList<NamHocDTO> dsnh;
+
     public ThongKe() throws SQLException {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,11 +74,14 @@ public class ThongKe {
         b2 = new JLabel("Hạnh kiểm");
         b3 = new JLabel("Học phí");
         b4 = new JLabel("Năm học");
-        
+        b5 = new JLabel("Kết qủa");
+
         b1.setFont(new Font("Arial", Font.PLAIN, 16));
         b2.setFont(new Font("Arial", Font.PLAIN, 16));
         b3.setFont(new Font("Arial", Font.PLAIN, 16));
         b4.setFont(new Font("Arial", Font.PLAIN, 16));
+        b5.setFont(new Font("Arial", Font.PLAIN, 16));
+        
         int topMargin = 10;
         int leftMargin = 25;
         int bottomMargin = 0;
@@ -81,6 +90,7 @@ public class ThongKe {
         b2.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
         b3.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
         b4.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
+        b5.setBorder(new EmptyBorder(topMargin, leftMargin, bottomMargin, rightMargin));
 
         dropdownPanel = new JPanel();
         dropdownPanel.setOpaque(false);
@@ -93,10 +103,14 @@ public class ThongKe {
         optionHP = new JComboBox<>(option3);
         String[] option4 = {"Tất cả","2024-2025", "2023-2024"};
         optionNH = new JComboBox<>(option4);
+        String[] option5 = {"Tất cả","Lên Lớp", "Học Lại"};
+        optionKQ = new JComboBox<>(option5);
+
         optionHL.setFont(new Font("Arial", Font.PLAIN, 14));
         optionHK.setFont(new Font("Arial", Font.PLAIN, 14));
         optionHP.setFont(new Font("Arial", Font.PLAIN, 14));
         optionNH.setFont(new Font("Arial", Font.PLAIN, 14));
+        optionKQ.setFont(new Font("Arial", Font.PLAIN, 14));
 
         totalPanel = new JPanel();
         totalPanel.setOpaque(false);
@@ -128,10 +142,13 @@ public class ThongKe {
         radioPanel.add(b2);
         radioPanel.add(b3);
         radioPanel.add(b4);
+        radioPanel.add(b5);
+
         dropdownPanel.add(optionHL);
         dropdownPanel.add(optionHK);
         dropdownPanel.add(optionHP);
         dropdownPanel.add(optionNH);
+        dropdownPanel.add(optionKQ);
         
         selectPanel.add(l1);
         selectPanel.add(radioPanel);
@@ -162,7 +179,7 @@ public class ThongKe {
         scrollPane = new JScrollPane(t);
         scrollPane.setPreferredSize(new Dimension(0,520));
 
-        String[] headers = {"ID", "Tên HS", "Giới tính", "Ngày sinh", "Điện thoại", "Địa chỉ","Hạnh Kiểm", "Học Lực", "Tình trạng học phí"};
+        String[] headers = {"ID", "Tên HS", "Giới tính", "Ngày sinh", "Điện thoại", "Địa chỉ","Hạnh Kiểm", "Học Lực", "Tình trạng học phí","Năm Học", "Kết quả"};
         tblModel = new DefaultTableModel();
         for (String header : headers) {
             tblModel.addColumn(header);
@@ -182,13 +199,29 @@ public class ThongKe {
     public void loaddatatoTable(){
         tblModel.setRowCount(0);
 
+        dsnh = nhbus.getList();
         dsHS = hsbus.getList();
-        dsKQ = kq.getList();
+        dsKQ = kqbus.getList();
+
         for (HocSinhDTO x  : dsHS){
-            String []rowData = new String[]{
-                x.getHocSinhID(), x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(), kq.getHanhKiemById(x.getHocSinhID()), kq.getHocLucById(x.getHocSinhID()), x.getHocPhi()
-            };
-            tblModel.addRow(rowData);
+            String idhs = x.getHocSinhID();
+            for (NamHocDTO nam : dsnh){
+                String idnam = nam.getNamHocID();
+                String hanhkiem = kqbus.get(idhs,idnam) != null? kqbus.get(idhs,idnam).getHanhKiem():"";
+                String hocluc = kqbus.get(idhs,idnam)!= null? kqbus.get(idhs,idnam).getHocLuc():"";
+                String ketqua = kqbus.get(idhs,idnam)!= null? kqbus.get(idhs,idnam).getKetQua():"";
+                String []rowData = new String[]{
+                idhs, x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(),
+                hanhkiem,
+                hocluc,
+                x.getHocPhi(),
+                nhbus.get(idnam).getNamHocBatDau()+"-"+nhbus.get(idnam).getNamHocKetThuc(),
+                ketqua
+                };
+                
+                tblModel.addRow(rowData);
+            }
+
         }
         tblModel.fireTableDataChanged();
         s.setText(String.valueOf(dsHS.size()));
@@ -207,7 +240,7 @@ public class ThongKe {
             String hanhkiem = (String) optionHK.getSelectedItem();
             String hocphi = (String) optionHP.getSelectedItem();
             dsHS = hsbus.search(null,null,null,null,null,null,  hocphi);
-            dsKQ = kq.search(null, null, hocluc, hanhkiem,null);
+            dsKQ = kqbus.search(null, null, hocluc, hanhkiem,null);
             for (HocSinhDTO x : dsHS){
                 for(KQ_HocSinhCaNamDTO y : dsKQ){
                     if(x.getHocSinhID().equals(y.getHocSinhID())){

@@ -3,7 +3,6 @@ package BUS;
 import java.util.ArrayList;
 
 import DATA.KQ_HocSinhCaNamDAO;
-import DTO.DTB_HocKyDTO;
 import DTO.KQ_HocSinhCaNamDTO;
 
 public class KQ_HocSinhCaNamBUS {
@@ -16,43 +15,6 @@ public class KQ_HocSinhCaNamBUS {
         list();
     }
     
-
-    public String getHocLucById(String id){
-        for(KQ_HocSinhCaNamDTO kq : dskq )
-        {
-            if(kq.getHocSinhID().equals(id))
-            {
-                return kq.getHocLuc();
-            }
-        }
-        return null;
-    }
-
-    public String getHanhKiemById(String id){
-        for(KQ_HocSinhCaNamDTO kq : dskq )
-        {
-            if(kq.getHocSinhID().equals(id))
-            {
-                return kq.getHanhKiem();
-            }
-        }
-        return null;
-    }
-
-    
-    public KQ_HocSinhCaNamDTO get(String id)
-    {
-        for(KQ_HocSinhCaNamDTO kq : dskq )
-        {
-            if(kq.getHocSinhID().equals(id))
-            {
-                return kq;
-            }
-        }
-        return null;
-    }
-
-    //overloading
     public KQ_HocSinhCaNamDTO get(String idhs, String idnam){
         
         if( idhs!=null && idnam!=null){
