@@ -52,7 +52,7 @@ import java.util.logging.Logger;
  * @author vhuyn
  */
 public final class QuanLiHocSinh extends JFrame implements MouseListener, ActionListener {
-    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai;
+    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai, img;
     private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi, lblimg;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset;
     private DefaultTableModel tblmodel;
@@ -136,7 +136,7 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Search));
         imgSearch.setBackground(imgSearchlbl);
         imgSearch.setPreferredSize(new Dimension(50, 50));
-        imgSearch.setOpaque(true);
+        // imgSearch.setOpaque(true);
 
         // imgSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
         // 0, 0), 4, true));
@@ -170,35 +170,39 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
     public JPanel JChucnang() {
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
-        Pchucnang.setLayout(new FlowLayout(0, 5, 5));
-        Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
+        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
+        // Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
+        // 0, 0), 4, true));
 
         java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
         ImageIcon orgIcon = new ImageIcon(imageURL_Add);
-        Image scaleImg = orgIcon.getImage().getScaledInstance(140, 40, Image.SCALE_SMOOTH);
+        Image scaleImg = orgIcon.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
 
         btnThem = new JButton(new ImageIcon(scaleImg));
-        btnThem.setPreferredSize(new Dimension(140, 40));
+        btnThem.setPreferredSize(new Dimension(155, 40));
         btnThem.setBorder(raisedBevel);
 
         java.net.URL imageURL_Del = getClass().getResource("/image/btnDelete.png");
         ImageIcon orgIcon_Del = new ImageIcon(imageURL_Del);
-        Image scaleImg_Del = orgIcon_Del.getImage().getScaledInstance(140, 40, Image.SCALE_SMOOTH);
+        Image scaleImg_Del = orgIcon_Del.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
 
         btnXoa = new JButton(new ImageIcon(scaleImg_Del));
-        btnXoa.setPreferredSize(new Dimension(140, 40));
+        btnXoa.setPreferredSize(new Dimension(155, 40));
         btnXoa.setBorder(raisedBevel);
 
         java.net.URL imageURL_Edit = getClass().getResource("/image/btnEdit.png");
         ImageIcon orgIcon_Edit = new ImageIcon(imageURL_Edit);
-        Image scaleImg_Edit = orgIcon_Edit.getImage().getScaledInstance(140, 40, Image.SCALE_SMOOTH);
+        Image scaleImg_Edit = orgIcon_Edit.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
 
         btnSua = new JButton(new ImageIcon(scaleImg_Edit));
-        btnSua.setPreferredSize(new Dimension(140, 40));
+        btnSua.setPreferredSize(new Dimension(155, 40));
         btnSua.setBorder(raisedBevel);
 
-        btnFind = new JButton("Tìm kiếm");
-        btnFind.setPreferredSize(new Dimension(140, 40));
+        java.net.URL imageURL_Find = getClass().getResource("/image/btnsearch_qlhs1.png");
+        ImageIcon orgIcon_Find = new ImageIcon(imageURL_Find);
+        Image scaleImg_Find = orgIcon_Find.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
+        btnFind = new JButton(new ImageIcon(scaleImg_Find));
+        btnFind.setPreferredSize(new Dimension(155, 40));
         btnFind.setBorder(raisedBevel);
 
         Pchucnang.setBackground(myColor);
@@ -276,14 +280,10 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 0, 160, y);
+        Pchucnang.setBounds(660, 3, 170, y);
         Phocsinh.add(Pchucnang);
 
-        java.net.URL imageURL_AnhDD = getClass().getResource(pathAnhdd);
-        ImageIcon orgIcon_AnhDD = new ImageIcon(imageURL_AnhDD);
-        Image scaleImg_AnhDD = orgIcon_AnhDD.getImage().getScaledInstance(180, y, Image.SCALE_SMOOTH);
-
-        lblimg = new JLabel(new ImageIcon(scaleImg_AnhDD));
+        lblimg = new JLabel();
         lblimg.setBounds(0, 0, 180, y);
         lblimg.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
         lblimg.setOpaque(true);
@@ -305,7 +305,7 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         if (hsBUS.getList() == null)
             hsBUS.listHS();
         ArrayList<HocSinhDTO> hs = hsBUS.getList();
-        Object[][] rowData = new Object[hs.size()][7]; // Có 8 cột trong DTO
+        Object[][] rowData = new Object[hs.size()][7];
         for (int i = 0; i < hs.size(); i++) {
             HocSinhDTO student = hs.get(i);
             rowData[i][0] = student.getHocSinhID();
@@ -386,7 +386,7 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
 
         hsBUS.addHS(hocSinh);
 
-        Object[] rowData = { hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai };
+        Object[] rowData = { hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
         tblmodel.addRow(rowData);
         clearTextFields();
     }
@@ -411,16 +411,18 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         String tenHocSinh = tf[1].getText();
         String gioiTinh = (String) genderComboBox.getSelectedItem();
         String ngaySinh = dateString;
-        String diaChi = tf[4].getText();
-        String soDienThoai = tf[5].getText();
+        String soDienThoai = tf[4].getText();
+        String diaChi = tf[5].getText();
+        String IMG = tf[6].getText();
 
         HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi,
                 soDienThoai);
+        hocSinh.setIMG(IMG);
 
         // Gọi phương thức addHS() từ lớp QLHS_BUS để thêm học sinh vào cơ sở dữ liệu
         hsBUS.updateHS(hocSinh);
 
-        Object[] rowData = { hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai };
+        Object[] rowData = { hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
 
         int row = t.getSelectedRow();
         tblmodel.removeRow(row);
@@ -452,22 +454,144 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
         int row = t.getSelectedRow();
-        if (row >= 0) {
-            mahs = (String) t.getValueAt(row, 0);
-            hoten = (String.valueOf(t.getValueAt(row, 1)));
-            gioitinh = (String.valueOf(t.getValueAt(row, 2)));
-            namsinh = (String.valueOf(t.getValueAt(row, 3)));
-            diachi = (String.valueOf(t.getValueAt(row, 4)));
-            sodienthoai = (String.valueOf(t.getValueAt(row, 5)));
+        mahs = (String) t.getValueAt(row, 0);
+        hoten = (String.valueOf(t.getValueAt(row, 1)));
+        gioitinh = (String.valueOf(t.getValueAt(row, 2)));
+        namsinh = (String.valueOf(t.getValueAt(row, 3)));
+        diachi = (String.valueOf(t.getValueAt(row, 4)));
+        sodienthoai = (String.valueOf(t.getValueAt(row, 5)));
+        img = (String.valueOf(t.getValueAt(row, 6)));
 
-            tf[0].setText(mahs);
-            tf[1].setText(hoten);
-            genderComboBox.setSelectedItem(gioitinh);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = sdf.parse(namsinh);
-            dateChooser.setDate(date);
-            tf[4].setText(sodienthoai);
-            tf[5].setText(diachi);
+        tf[0].setText(mahs);
+        tf[1].setText(hoten);
+        genderComboBox.setSelectedItem(gioitinh);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = sdf.parse(namsinh);
+        dateChooser.setDate(date);
+        tf[4].setText(sodienthoai);
+        tf[5].setText(diachi);
+        tf[6].setText(img);
+
+        if (!img.isEmpty()) {
+            String path = "/image/Avatar/" + img;
+            java.net.URL imgHS = getClass().getResource(path);
+            ImageIcon orgIcon_HS = new ImageIcon(imgHS);
+            Image scaleImg_HS = orgIcon_HS.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
+                    Image.SCALE_SMOOTH);
+
+            ImageIcon scaledImage_HS = new ImageIcon(scaleImg_HS);
+
+            // Hiển thị hình ảnh trên JLabel
+            lblimg.setIcon(scaledImage_HS);
+        } else {
+            lblimg.setIcon(null);
+        }
+
+    }
+
+    public void btnAdd_actionPerformed() {
+        if (checkEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy điền đầy đủ các thông tin", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String mahs = tf[0].getText();
+        System.out.println(mahs);
+
+        if (hsBUS.checkMaHS(mahs) == true) {
+            JOptionPane.showMessageDialog(this, "Mã học sinh này đã tồn tại", "CHECK",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int result = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn Thêm học sinh này",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+
+                JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(this,
+                    "Thêm thành công",
+                    "Chức năng thêm",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("Ban chon them");
+            tf[0].requestFocus();
+            addRow();
+        }
+    }
+
+    public void btnDelete_actionPerformed() {
+        String mahs = tf[0].getText();
+        System.out.println(mahs);
+        if (mahs.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập ID học sinh cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (hsBUS.checkMaHS(mahs) == false) {
+            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int result = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn xóa thành viên này",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+
+                JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            System.out.println("Ban chon đồn ý xóa");
+            deleteRow();
+        } else if (result == JOptionPane.NO_OPTION) {
+            System.out.println("Bạn chọn không đồng ý xóa");
+        }
+    }
+
+    public void btnSua_actionPerformed() {
+        String mahs = tf[0].getText();
+
+        if (mahs.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập ID học sinh cần sửa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (hsBUS.checkMaHS(mahs) == false) {
+            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int result = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn sửa học sinh này",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+
+                JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            System.out.println("Ban chọn đồng ý sửa");
+            updateRow();
+        } else if (result == JOptionPane.NO_OPTION) {
+            System.out.println("Bạn chọn không đồng ý sửa");
+        }
+    }
+
+    public void btnFind_actionPerformed() {
+        searchText = JsearchText.getText().trim();
+        String selectedOption = (String) searchselectBox.getSelectedItem();
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Vui lòng nhập thông tin tìm kiếm",
+                    "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        model = (DefaultTableModel) t.getModel();
+        sorter = new TableRowSorter<>(model);
+        t.setRowSorter(sorter);
+        if (selectedOption.equals("Mã học sinh")) {
+            sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
+        } else if (selectedOption.equals("Họ và tên")) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
         }
     }
 
@@ -539,107 +663,17 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnThem) {
-
-            if (checkEmpty()) {
-                JOptionPane.showMessageDialog(this, "Hãy điền đầy đủ các thông tin", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String mahs = tf[0].getText();
-            System.out.println(mahs);
-
-            if (hsBUS.checkMaHS(mahs) == true) {
-                JOptionPane.showMessageDialog(this, "Mã học sinh này đã tồn tại", "CHECK",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            int result = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc muốn Thêm học sinh này",
-                    "Xác nhận",
-                    JOptionPane.YES_NO_OPTION,
-
-                    JOptionPane.QUESTION_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(this,
-                        "Thêm thành công",
-                        "Chức năng thêm",
-                        JOptionPane.INFORMATION_MESSAGE);
-                System.out.println("Ban chon them");
-                tf[0].requestFocus();
-                addRow();
-            }
+            btnAdd_actionPerformed();
 
         } else if (e.getSource() == btnSua) {
-
-            String mahs = tf[0].getText();
-
-            if (mahs.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Hãy nhập ID học sinh cần sửa", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if (hsBUS.checkMaHS(mahs) == false) {
-                JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            int result = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc muốn sửa học sinh này",
-                    "Xác nhận",
-                    JOptionPane.YES_NO_OPTION,
-
-                    JOptionPane.QUESTION_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {
-                System.out.println("Ban chọn đồng ý sửa");
-                updateRow();
-            } else if (result == JOptionPane.NO_OPTION) {
-                System.out.println("Bạn chọn không đồng ý sửa");
-            }
+            btnSua_actionPerformed();
 
         } else if (e.getSource() == btnXoa) {
-            String mahs = tf[0].getText();
-            System.out.println(mahs);
-            if (mahs.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Hãy nhập ID học sinh cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            btnDelete_actionPerformed();
 
-            if (hsBUS.checkMaHS(mahs) == false) {
-                JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            int result = JOptionPane.showConfirmDialog(this,
-                    "Bạn có chắc muốn xóa thành viên này",
-                    "Xác nhận",
-                    JOptionPane.YES_NO_OPTION,
-
-                    JOptionPane.QUESTION_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {
-                System.out.println("Ban chon đồn ý xóa");
-                deleteRow();
-            } else if (result == JOptionPane.NO_OPTION) {
-                System.out.println("Bạn chọn không đồng ý xóa");
-            }
         } else if (e.getSource() == btnFind) {
-            searchText = JsearchText.getText().trim();
-            String selectedOption = (String) searchselectBox.getSelectedItem();
-            if (searchText.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                        "Vui lòng nhập thông tin tìm kiếm",
-                        "Thông báo",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            model = (DefaultTableModel) t.getModel();
-            sorter = new TableRowSorter<>(model);
-            t.setRowSorter(sorter);
-            if (selectedOption.equals("Mã học sinh")) {
-                sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
-            } else if (selectedOption.equals("Họ và tên")) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
-            }
+            btnFind_actionPerformed();
+
         } else if (e.getSource() == btnReset) {
             JsearchText.setText("");
             clearTextFields();

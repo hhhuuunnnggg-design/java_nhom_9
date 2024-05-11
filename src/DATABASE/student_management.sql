@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 10, 2024 at 08:45 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th5 11, 2024 lúc 05:01 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `student_management`
+-- Cơ sở dữ liệu: `student_management`
 --
 CREATE DATABASE IF NOT EXISTS `student_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `student_management`;
@@ -26,21 +26,20 @@ USE `student_management`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chitietdiem`
+-- Cấu trúc bảng cho bảng `chitietdiem`
 --
 
-CREATE TABLE IF NOT EXISTS `chitietdiem` (
+CREATE TABLE `chitietdiem` (
   `HocSinhid` varchar(5) NOT NULL,
   `MonHocid` varchar(11) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `HeSoid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL DEFAULT '',
-  `Diem` int(11) DEFAULT NULL,
-  PRIMARY KEY (`HocSinhid`,`MonHocid`,`HocKyid`,`HeSoid`) USING BTREE
+  `Diem` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `chitietdiem`
+-- Đang đổ dữ liệu cho bảng `chitietdiem`
 --
 
 INSERT INTO `chitietdiem` (`HocSinhid`, `MonHocid`, `HocKyid`, `HeSoid`, `NamHocid`, `Diem`) VALUES
@@ -528,19 +527,18 @@ INSERT INTO `chitietdiem` (`HocSinhid`, `MonHocid`, `HocKyid`, `HeSoid`, `NamHoc
 -- --------------------------------------------------------
 
 --
--- Table structure for table `diemtbhocky`
+-- Cấu trúc bảng cho bảng `diemtbhocky`
 --
 
-CREATE TABLE IF NOT EXISTS `diemtbhocky` (
+CREATE TABLE `diemtbhocky` (
   `HocSinhid` varchar(5) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL,
-  `DiemTrungBinh` float NOT NULL,
-  PRIMARY KEY (`HocSinhid`,`HocKyid`)
+  `DiemTrungBinh` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `diemtbhocky`
+-- Đang đổ dữ liệu cho bảng `diemtbhocky`
 --
 
 INSERT INTO `diemtbhocky` (`HocSinhid`, `HocKyid`, `NamHocid`, `DiemTrungBinh`) VALUES
@@ -588,10 +586,10 @@ INSERT INTO `diemtbhocky` (`HocSinhid`, `HocKyid`, `NamHocid`, `DiemTrungBinh`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `giaovien`
+-- Cấu trúc bảng cho bảng `giaovien`
 --
 
-CREATE TABLE IF NOT EXISTS `giaovien` (
+CREATE TABLE `giaovien` (
   `GiaoVienid` varchar(5) NOT NULL DEFAULT 'GV',
   `TenGiaoVien` varchar(50) NOT NULL,
   `GioiTinh` varchar(5) NOT NULL,
@@ -599,12 +597,11 @@ CREATE TABLE IF NOT EXISTS `giaovien` (
   `DiaChi` varchar(50) NOT NULL,
   `DienThoai` varchar(11) NOT NULL DEFAULT '',
   `IMG` text DEFAULT NULL,
-  `enable` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`GiaoVienid`)
+  `enable` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `giaovien`
+-- Đang đổ dữ liệu cho bảng `giaovien`
 --
 
 INSERT INTO `giaovien` (`GiaoVienid`, `TenGiaoVien`, `GioiTinh`, `NamSinh`, `DiaChi`, `DienThoai`, `IMG`, `enable`) VALUES
@@ -616,17 +613,16 @@ INSERT INTO `giaovien` (`GiaoVienid`, `TenGiaoVien`, `GioiTinh`, `NamSinh`, `Dia
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hocky`
+-- Cấu trúc bảng cho bảng `hocky`
 --
 
-CREATE TABLE IF NOT EXISTS `hocky` (
+CREATE TABLE `hocky` (
   `HocKyid` int(11) NOT NULL,
-  `TenHocKy` varchar(50) NOT NULL,
-  PRIMARY KEY (`HocKyid`)
+  `TenHocKy` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `hocky`
+-- Đang đổ dữ liệu cho bảng `hocky`
 --
 
 INSERT INTO `hocky` (`HocKyid`, `TenHocKy`) VALUES
@@ -636,10 +632,10 @@ INSERT INTO `hocky` (`HocKyid`, `TenHocKy`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hocsinh`
+-- Cấu trúc bảng cho bảng `hocsinh`
 --
 
-CREATE TABLE IF NOT EXISTS `hocsinh` (
+CREATE TABLE `hocsinh` (
   `HocSinhid` varchar(5) NOT NULL DEFAULT 'HS',
   `HoVaTen` varchar(50) NOT NULL,
   `GioiTinh` varchar(50) NOT NULL,
@@ -648,61 +644,59 @@ CREATE TABLE IF NOT EXISTS `hocsinh` (
   `DiaChi` text NOT NULL,
   `HocPhi` varchar(20) NOT NULL DEFAULT 'Chưa thanh toán',
   `IMG` text DEFAULT NULL,
-  `enable` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`HocSinhid`)
+  `enable` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `hocsinh`
+-- Đang đổ dữ liệu cho bảng `hocsinh`
 --
 
 INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoai`, `DiaChi`, `HocPhi`, `IMG`, `enable`) VALUES
-('HS1', 'Trương Anh Đào', 'Nữ', '12/3/2006', '0987654321', '123/4 Lê Lợi, Phường 7, Quận 1, TP.HCM', 'Đã thanh toán', 'null', 1),
-('HS10', 'Nguyễn Thị Ngọc Trinh', 'Nữ', '25/11/2007', '0987654321', '678/90 Nguyễn Tri Phương, Phường 11, Quận 5, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS11', 'Lê Thị Ánh Tuyết', 'Nữ', '7/8/2007', '0965432198', '345/67 Lê Lợi, Phường 12, Quận 10, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS12', 'Trần Văn Minh', 'Nam', '3/4/2007', '0912345678', '890/12 Nguyễn Văn Cừ, Phường 9, Quận Bình Thạnh, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS13', ' Phạm Văn Hưng', 'Nam', '16/9/2007', '0909876543', '456/78 Phan Xích Long, Phường 6, Quận Phú Nhuận, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS14', 'Đỗ Thị Ngọc Lan', 'Nữ', '29/6/2007', '0987654321', '123/45 Đặng Thùy Trâm, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS15', 'Bùi Văn Hùng', 'Nam', '8/11/2007', '0976543210', ' 789/32 Hồng Hà, Phường 15, Quận 10, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS16', 'Nguyễn Thị Thu Hà', 'Nữ', '20/3/2007', '0932109876', '567/89 Lê Văn Sỹ, Phường 14, Quận 3, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS17', 'Trần Văn Đức', 'Nam', '12/12/2007', '0943216789', '345/67 Nguyễn Văn Linh, Phường Tân Thuận Tây, Quận 7, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS18', 'Lê Thị Mai Anh', ' Nữ', '5/6/2008', '0909876543', '234/56 Võ Văn Tần, Phường 1, Quận 10, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS19', 'Nguyễn Văn Nam', 'Nam', '18/9/2008', '0976543210', '567/89 Phan Chu Trinh, Phường 2, Quận Bình Thạnh, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS2', 'Lê Văn Nam', 'Nam', '5/6/2006', '0901234567', '456/78 Điện Biên Phủ, Phường 5, Quận 3, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS20', 'Phạm Thị Hồng', 'Nữ', '20/7/2008', '0943216789', '678/90 Nguyễn Văn Quá, Phường Tân Hưng, Quận 8, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS21', 'Trần Văn Tuấn', 'Nam', '11/4/2008', '0932109876', '890/12 Bình Long, Phường 3, Quận Gò Vấp, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS22', 'Lý Thị Minh Khai', 'Nữ', ' 25/10/2008', '0923456789', '345/67 Lê Hồng Phong, Phường 4, Quận Tân Bình, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS23', ' Nguyễn Văn Thắng', 'Nam', '8/11/2008', '0912345678', '456/78 Điện Biên Phủ, Phường 5, Quận 11, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS24', 'Phan Thị Ngọc Trâm', 'Nữ', '14/2/2008', '0987654321', '789/32 Lê Lợi, Phường 6, Quận 9, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS25', ' Hoàng Văn Hưng', 'Nam', '30/6/2008', '0954321098', '890/12 Phạm Ngọc Thạch, Phường 7, Quận 12, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS26', 'Đặng Văn Hoàng', 'Nam', '27/12/2008', '0965432198', '123/45 Trần Hưng Đạo, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS27', 'Trần Thị Hằng', 'Nữ', '3/5/2008', '0912345678', '456/78 Nguyễn Văn Quá, Phường 10, Quận Tân Bình, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS3', 'Trần Thị Mai', 'Nữ', '20/9/2006', '0978123456', '789/10 Nguyễn Huệ, Phường 2, Quận 10, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS4', 'Hoàng Văn Tuấn', 'Nam', '15/12/2006', '0865432198', '321/54 Trần Hưng Đạo, Phường 9, Quận 5, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS5', 'Nguyễn Thị Lan', 'Nữ', '8/4/2006', '0912345678', '987/65 Đường số 10, Phường 8, Quận 7, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS6', 'Lý Văn Hưng', 'Nam', '23/10/2006', '0854321098', '456/32 Lý Thường Kiệt, Phường 6, Quận 11, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS7', 'Trần Văn Hòa', 'Nam', '17/7/2006', '0932109876', '789/32 Nguyễn Thị Minh Khai, Phường 3, Quận 1, TP.HCM,', 'Chưa thanh toán', NULL, 1),
-('HS8', ' Phan Thị Hằng', 'Nữ', '30/5/2006', '0945671234', '567/89 Trần Não, Phường Bình An, Quận 2, TP.HCM', 'Chưa thanh toán', NULL, 1),
-('HS9', 'Võ Văn Đức', 'Nam', ' 10/2/2007', '0978965432', '234/56 Cách Mạng Tháng 8, Phường 10, Quận 3, TP.HCM', 'Chưa thanh toán', NULL, 1);
+('HS1', 'Trương Anh Đào', 'Nữ', '12/3/2006', '0987654321', '123/4 Lê Lợi, Phường 7, Quận 1, TP.HCM', 'Đã thanh toán', 'anhavt1.jpg', 1),
+('HS10', 'Nguyễn Thị Ngọc Trinh', 'Nữ', '25/11/2007', '0987654321', '678/90 Nguyễn Tri Phương, Phường 11, Quận 5, TP.HCM', 'Chưa thanh toán', 'anhavt2.jpg', 1),
+('HS11', 'Lê Thị Ánh Tuyết', 'Nữ', '7/8/2007', '0965432198', '345/67 Lê Lợi, Phường 12, Quận 10, TP.HCM', 'Chưa thanh toán', 'anhavt3.jpg', 1),
+('HS12', 'Trần Văn Minh', 'Nam', '3/4/2007', '0912345678', '890/12 Nguyễn Văn Cừ, Phường 9, Quận Bình Thạnh, TP.HCM', 'Chưa thanh toán', 'anhavt4.jpg', 1),
+('HS13', ' Phạm Văn Hưng', 'Nam', '16/9/2007', '0909876543', '456/78 Phan Xích Long, Phường 6, Quận Phú Nhuận, TP.HCM', 'Chưa thanh toán', 'anhavt5.jpg', 1),
+('HS14', 'Đỗ Thị Ngọc Lan', 'Nữ', '29/6/2007', '0987654321', '123/45 Đặng Thùy Trâm, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', 'anhavt6.jpg', 1),
+('HS15', 'Bùi Văn Hùng', 'Nam', '8/11/2007', '0976543210', ' 789/32 Hồng Hà, Phường 15, Quận 10, TP.HCM', 'Chưa thanh toán', 'anhavt7.jpg', 1),
+('HS16', 'Nguyễn Thị Thu Hà', 'Nữ', '20/3/2007', '0932109876', '567/89 Lê Văn Sỹ, Phường 14, Quận 3, TP.HCM', 'Chưa thanh toán', 'anhavt9.jpg', 1),
+('HS17', 'Trần Văn Đức', 'Nam', '12/12/2007', '0943216789', '345/67 Nguyễn Văn Linh, Phường Tân Thuận Tây, Quận 7, TP.HCM', 'Chưa thanh toán', 'anhavt8.jpg', 1),
+('HS18', 'Lê Thị Mai Anh', 'Nam', '05/06/2008', '0909876543', '234/56 Võ Văn Tần, Phường 1, Quận 10, TP.HCM', 'Chưa thanh toán', '21613.jpg', 1),
+('HS19', 'Nguyễn Văn Nam', 'Nam', '18/9/2008', '0976543210', '567/89 Phan Chu Trinh, Phường 2, Quận Bình Thạnh, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS2', 'Lê Văn Nam', 'Nam', '5/6/2006', '0901234567', '456/78 Điện Biên Phủ, Phường 5, Quận 3, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS20', 'Phạm Thị Hồng', 'Nữ', '20/7/2008', '0943216789', '678/90 Nguyễn Văn Quá, Phường Tân Hưng, Quận 8, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS21', 'Trần Văn Tuấn', 'Nam', '11/4/2008', '0932109876', '890/12 Bình Long, Phường 3, Quận Gò Vấp, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS22', 'Lý Thị Minh Khai', 'Nữ', ' 25/10/2008', '0923456789', '345/67 Lê Hồng Phong, Phường 4, Quận Tân Bình, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS23', ' Nguyễn Văn Thắng', 'Nam', '8/11/2008', '0912345678', '456/78 Điện Biên Phủ, Phường 5, Quận 11, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS24', 'Phan Thị Ngọc Trâm', 'Nữ', '14/2/2008', '0987654321', '789/32 Lê Lợi, Phường 6, Quận 9, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS25', ' Hoàng Văn Hưng', 'Nam', '30/6/2008', '0954321098', '890/12 Phạm Ngọc Thạch, Phường 7, Quận 12, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS26', 'Đặng Văn Hoàng', 'Nam', '27/12/2008', '0965432198', '123/45 Trần Hưng Đạo, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS27', 'Trần Thị Hằng', 'Nữ', '3/5/2008', '0912345678', '456/78 Nguyễn Văn Quá, Phường 10, Quận Tân Bình, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS3', 'Trần Thị Mai', 'Nữ', '20/9/2006', '0978123456', '789/10 Nguyễn Huệ, Phường 2, Quận 10, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS4', 'Hoàng Văn Tuấn', 'Nam', '15/12/2006', '0865432198', '321/54 Trần Hưng Đạo, Phường 9, Quận 5, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS5', 'Nguyễn Thị Lan', 'Nữ', '8/4/2006', '0912345678', '987/65 Đường số 10, Phường 8, Quận 7, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS6', 'Lý Văn Hưng', 'Nam', '23/10/2006', '0854321098', '456/32 Lý Thường Kiệt, Phường 6, Quận 11, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS7', 'Trần Văn Hòa', 'Nam', '17/7/2006', '0932109876', '789/32 Nguyễn Thị Minh Khai, Phường 3, Quận 1, TP.HCM,', 'Chưa thanh toán', '', 1),
+('HS8', ' Phan Thị Hằng', 'Nữ', '30/5/2006', '0945671234', '567/89 Trần Não, Phường Bình An, Quận 2, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS9', 'Võ Văn Đức', 'Nam', ' 10/2/2007', '0978965432', '234/56 Cách Mạng Tháng 8, Phường 10, Quận 3, TP.HCM', 'Chưa thanh toán', '', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kqhocsinhcanam`
+-- Cấu trúc bảng cho bảng `kqhocsinhcanam`
 --
 
-CREATE TABLE IF NOT EXISTS `kqhocsinhcanam` (
+CREATE TABLE `kqhocsinhcanam` (
   `HocSinhid` varchar(5) NOT NULL,
   `NamHocid` varchar(50) NOT NULL,
   `HocLuc` varchar(50) NOT NULL,
   `HanhKiem` varchar(10) NOT NULL DEFAULT 'Tốt',
   `Diemtb` float NOT NULL,
-  `KetQua` varchar(50) NOT NULL,
-  PRIMARY KEY (`HocSinhid`,`NamHocid`)
+  `KetQua` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `kqhocsinhcanam`
+-- Đang đổ dữ liệu cho bảng `kqhocsinhcanam`
 --
 
 INSERT INTO `kqhocsinhcanam` (`HocSinhid`, `NamHocid`, `HocLuc`, `HanhKiem`, `Diemtb`, `KetQua`) VALUES
@@ -730,17 +724,16 @@ INSERT INTO `kqhocsinhcanam` (`HocSinhid`, `NamHocid`, `HocLuc`, `HanhKiem`, `Di
 -- --------------------------------------------------------
 
 --
--- Table structure for table `lop`
+-- Cấu trúc bảng cho bảng `lop`
 --
 
-CREATE TABLE IF NOT EXISTS `lop` (
+CREATE TABLE `lop` (
   `Lopid` int(11) NOT NULL,
-  `TenLop` varchar(50) NOT NULL,
-  PRIMARY KEY (`Lopid`)
+  `TenLop` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `lop`
+-- Đang đổ dữ liệu cho bảng `lop`
 --
 
 INSERT INTO `lop` (`Lopid`, `TenLop`) VALUES
@@ -751,17 +744,16 @@ INSERT INTO `lop` (`Lopid`, `TenLop`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `monhoc`
+-- Cấu trúc bảng cho bảng `monhoc`
 --
 
-CREATE TABLE IF NOT EXISTS `monhoc` (
+CREATE TABLE `monhoc` (
   `MonHocid` varchar(11) NOT NULL,
-  `TenMonHoc` varchar(50) NOT NULL,
-  PRIMARY KEY (`MonHocid`)
+  `TenMonHoc` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `monhoc`
+-- Đang đổ dữ liệu cho bảng `monhoc`
 --
 
 INSERT INTO `monhoc` (`MonHocid`, `TenMonHoc`) VALUES
@@ -773,18 +765,17 @@ INSERT INTO `monhoc` (`MonHocid`, `TenMonHoc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `namhoc`
+-- Cấu trúc bảng cho bảng `namhoc`
 --
 
-CREATE TABLE IF NOT EXISTS `namhoc` (
+CREATE TABLE `namhoc` (
   `NamHocid` varchar(50) NOT NULL,
   `NamBatDau` int(50) NOT NULL,
-  `NamKetThuc` int(50) NOT NULL,
-  PRIMARY KEY (`NamHocid`)
+  `NamKetThuc` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `namhoc`
+-- Đang đổ dữ liệu cho bảng `namhoc`
 --
 
 INSERT INTO `namhoc` (`NamHocid`, `NamBatDau`, `NamKetThuc`) VALUES
@@ -793,18 +784,17 @@ INSERT INTO `namhoc` (`NamHocid`, `NamBatDau`, `NamKetThuc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `phancong`
+-- Cấu trúc bảng cho bảng `phancong`
 --
 
-CREATE TABLE IF NOT EXISTS `phancong` (
+CREATE TABLE `phancong` (
   `GiaoVienid` varchar(5) NOT NULL DEFAULT 'GV',
   `Lopid` int(11) NOT NULL,
-  `MonHocid` varchar(11) NOT NULL,
-  PRIMARY KEY (`GiaoVienid`,`Lopid`,`MonHocid`)
+  `MonHocid` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `phancong`
+-- Đang đổ dữ liệu cho bảng `phancong`
 --
 
 INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`) VALUES
@@ -824,18 +814,17 @@ INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `phanlop`
+-- Cấu trúc bảng cho bảng `phanlop`
 --
 
-CREATE TABLE IF NOT EXISTS `phanlop` (
+CREATE TABLE `phanlop` (
   `HocSinhid` varchar(5) NOT NULL,
   `Lopid` int(11) NOT NULL,
-  `NamHocid` varchar(20) NOT NULL,
-  PRIMARY KEY (`HocSinhid`,`Lopid`)
+  `NamHocid` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `phanlop`
+-- Đang đổ dữ liệu cho bảng `phanlop`
 --
 
 INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
@@ -870,10 +859,10 @@ INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Cấu trúc bảng cho bảng `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
@@ -881,11 +870,81 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user`
+-- Đang đổ dữ liệu cho bảng `user`
 --
 
 INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('admin', 'admin', 'admin', 1);
+
+--
+-- Chỉ mục cho các bảng đã đổ
+--
+
+--
+-- Chỉ mục cho bảng `chitietdiem`
+--
+ALTER TABLE `chitietdiem`
+  ADD PRIMARY KEY (`HocSinhid`,`MonHocid`,`HocKyid`,`HeSoid`) USING BTREE;
+
+--
+-- Chỉ mục cho bảng `diemtbhocky`
+--
+ALTER TABLE `diemtbhocky`
+  ADD PRIMARY KEY (`HocSinhid`,`HocKyid`);
+
+--
+-- Chỉ mục cho bảng `giaovien`
+--
+ALTER TABLE `giaovien`
+  ADD PRIMARY KEY (`GiaoVienid`);
+
+--
+-- Chỉ mục cho bảng `hocky`
+--
+ALTER TABLE `hocky`
+  ADD PRIMARY KEY (`HocKyid`);
+
+--
+-- Chỉ mục cho bảng `hocsinh`
+--
+ALTER TABLE `hocsinh`
+  ADD PRIMARY KEY (`HocSinhid`);
+
+--
+-- Chỉ mục cho bảng `kqhocsinhcanam`
+--
+ALTER TABLE `kqhocsinhcanam`
+  ADD PRIMARY KEY (`HocSinhid`,`NamHocid`);
+
+--
+-- Chỉ mục cho bảng `lop`
+--
+ALTER TABLE `lop`
+  ADD PRIMARY KEY (`Lopid`);
+
+--
+-- Chỉ mục cho bảng `monhoc`
+--
+ALTER TABLE `monhoc`
+  ADD PRIMARY KEY (`MonHocid`);
+
+--
+-- Chỉ mục cho bảng `namhoc`
+--
+ALTER TABLE `namhoc`
+  ADD PRIMARY KEY (`NamHocid`);
+
+--
+-- Chỉ mục cho bảng `phancong`
+--
+ALTER TABLE `phancong`
+  ADD PRIMARY KEY (`GiaoVienid`,`Lopid`,`MonHocid`);
+
+--
+-- Chỉ mục cho bảng `phanlop`
+--
+ALTER TABLE `phanlop`
+  ADD PRIMARY KEY (`HocSinhid`,`Lopid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
