@@ -106,7 +106,7 @@ public class ChiTietDiemBUS {
     }
 
     //không có thuộc tính điểm trong tìm kiếm (chuyen hesoid sang String)
-    public ArrayList<ChiTietDiemDTO> search(String id,String monhocid,String hockyid, String hesoid)
+    public ArrayList<ChiTietDiemDTO> search(String id,String monhocid,String hockyid, String hesoid, String namhocid)
     {
         ArrayList<ChiTietDiemDTO> search = new ArrayList<>();
         id = id==null?id = "": id;

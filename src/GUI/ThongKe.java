@@ -20,6 +20,7 @@ import DTO.NamHocDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 
@@ -35,7 +36,7 @@ public class ThongKe {
     private JLabel b1, b2, b3, b4, b5;
     private JComboBox<String> optionHL, optionHK, optionHP, optionNH, optionKQ;
     private JTextField s;
-    private JButton showBtn;
+    private JButton showBtn, exportBtn;
     private DefaultTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
@@ -46,7 +47,7 @@ public class ThongKe {
     ArrayList <HocSinhDTO> dsHS;
     ArrayList <KQ_HocSinhCaNamDTO> dsKQ;
     ArrayList<NamHocDTO> dsnh;
-
+    
     public ThongKe() throws SQLException {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +65,7 @@ public class ThongKe {
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.Y_AXIS));
         selectPanel.setOpaque(false);
 
-        l1 = new JLabel("Hiển thị danh sách thống kê theo:                     ");
+        l1 = new JLabel("DANH SÁCH THỐNG KÊ                    ");
         l1.setFont(new Font("Arial", Font.BOLD, 20));
         l1.setBorder(new EmptyBorder(10, 0, 0, 0));
         radioPanel = new JPanel();
@@ -116,25 +117,38 @@ public class ThongKe {
         totalPanel.setOpaque(false);
 
         l2 = new JLabel("Tổng số học sinh trong danh sách:");
-        l2.setFont(new Font("Arial", Font.BOLD, 14));
+        l2.setFont(new Font("Arial", Font.BOLD, 15));
         s = new JTextField(4);
         s.setEditable(false);
         s.setHorizontalAlignment(SwingConstants.CENTER);
         
 
         btnPanel = new JPanel(new GridBagLayout());
-        btnPanel.setPreferredSize(new Dimension(80, 0));
+        btnPanel.setPreferredSize(new Dimension(120, 0));
         btnPanel.setOpaque(false);
+
         showBtn = new JButton("Hiển thị");
         showBtn.setPreferredSize(new Dimension(100, 30));
         showBtn.setBackground(new Color(31, 28, 77));
         showBtn.setForeground(Color.WHITE);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        
-        btnPanel.add(showBtn, gbc);
+        exportBtn = new JButton("Xuất Excel");
+        exportBtn.setPreferredSize(new Dimension(100, 30));
+        exportBtn.setBackground(new Color(0, 83, 22));
+        exportBtn.setForeground(Color.WHITE);
+
+        GridBagConstraints gbcShowBtn = new GridBagConstraints();
+        gbcShowBtn.gridx = 0;
+        gbcShowBtn.gridy = 0;
+        gbcShowBtn.insets = new Insets(5, 0, 5, 10);
+        btnPanel.add(showBtn, gbcShowBtn);
+
+        GridBagConstraints gbcExportBtn = new GridBagConstraints();
+        gbcExportBtn.gridx = 0;
+        gbcExportBtn.gridy = 1;
+        gbcExportBtn.insets = new Insets(5, 0, 5, 10); 
+        btnPanel.add(exportBtn, gbcExportBtn);
+
         
         totalPanel.add(l2);
         totalPanel.add(s);
@@ -233,29 +247,69 @@ public class ThongKe {
 
     private class ShowBtnListener implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             tblModel.setRowCount(0);
-            
+        
             String hocluc = (String) optionHL.getSelectedItem();
             String hanhkiem = (String) optionHK.getSelectedItem();
             String hocphi = (String) optionHP.getSelectedItem();
-            dsHS = hsbus.search(null,null,null,null,null,null,  hocphi);
-            dsKQ = kqbus.search(null, null, hocluc, hanhkiem,null);
-            for (HocSinhDTO x : dsHS){
-                for(KQ_HocSinhCaNamDTO y : dsKQ){
-                    if(x.getHocSinhID().equals(y.getHocSinhID())){
-                        String []rowData = new String[]{
-                            x.getHocSinhID(), x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(), y.getHanhKiem(), y.getHocLuc(), x.getHocPhi()
-                        };
-                        tblModel.addRow(rowData);
+            String tennamhoc = (String) optionNH.getSelectedItem();
+            String ketqua = (String) optionKQ.getSelectedItem();
+    
+            dsHS = hsbus.getList();
+            dsnh = nhbus.getList();
+        
+            for (NamHocDTO nh : dsnh) {
+                String idnh = nh.getNamHocID();
+                dsKQ = kqbus.search(null, idnh, hocluc, hanhkiem, ketqua);
+        
+                for (HocSinhDTO hs : dsHS) {
+                    for (KQ_HocSinhCaNamDTO kq : dsKQ) {
+                        if (hs.getHocSinhID().equals(kq.getHocSinhID())) {
+                            String idhs = hs.getHocSinhID();
+                            hanhkiem = kqbus.get(idhs, idnh) != null ? kqbus.get(idhs, idnh).getHanhKiem() : "";
+                            hocluc = kqbus.get(idhs, idnh) != null ? kqbus.get(idhs, idnh).getHocLuc() : "";
+                            ketqua = kqbus.get(idhs, idnh) != null ? kqbus.get(idhs, idnh).getKetQua() : "";
+        
+                            // Check if hocphi and tennamhoc are "Tất cả" or specific values
+                            boolean filterHocPhi = hocphi.equals("Tất cả") || hs.getHocPhi().equals(hocphi);
+                            boolean filterTenNamHoc = tennamhoc.equals("Tất cả") || (nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc()).equals(tennamhoc);
+        
+                            if (filterHocPhi && filterTenNamHoc) {
+                                String[] rowData = new String[]{
+                                        idhs, hs.getTenHocSinh(), hs.getGioiTinh(), hs.getNgaySinh(), hs.getDienThoai(), hs.getDiaChi(),
+                                        hanhkiem,
+                                        hocluc,
+                                        hs.getHocPhi(),
+                                        nhbus.get(idnh).getNamHocBatDau() + "-" + nhbus.get(idnh).getNamHocKetThuc(),
+                                        ketqua
+                                };
+                                tblModel.addRow(rowData);
+                            }
+                        }
                     }
                 }
             }
-            s.setText(String.valueOf(tblModel.getRowCount()));
+            int count = countUniqueIDs(tblModel);
+            s.setText(String.valueOf(count));
             if (tblModel.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
-            }    
+            }
         }
+        private int countUniqueIDs(DefaultTableModel model) {
+        int rowCount = model.getRowCount();
+        int count = 0;
+        HashSet<String> uniqueIDs = new HashSet<>();
+
+        for (int i = 0; i < rowCount; i++) {
+            String id = (String) model.getValueAt(i, 0); // Assuming ID is in the first column
+            if (!uniqueIDs.contains(id)) {
+                uniqueIDs.add(id);
+                count++;
+            }
+        }
+        return count;
+    }
     }
         
 }
