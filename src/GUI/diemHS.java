@@ -32,7 +32,7 @@ import java.sql.*;
 public class diemHS {
     private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, btnPanel;
-    private JRadioButton b1, b2, b3;
+    private JLabel b1, b2, b3;
     private JComboBox<String> c1, c2, c3;
     private JLabel l1;
     private JButton filterBtn;
@@ -82,9 +82,9 @@ public class diemHS {
         radioPanel.setOpaque(false);
         radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));
 
-        b1 = new JRadioButton("Môn học");
-        b2 = new JRadioButton("Học kỳ");
-        b3 = new JRadioButton("Năm học");
+        b1 = new JLabel("Môn học");
+        b2 = new JLabel("Học kỳ");
+        b3 = new JLabel("Năm học");
         b1.setBackground(new Color(180, 204, 227));
         b2.setBackground(new Color(180, 204, 227));
         b3.setBackground(new Color(180, 204, 227));
@@ -179,52 +179,58 @@ public class diemHS {
         return scrollPane;
     }
 
-    public void loaddatatoTable(){
+    public void loaddatatoTable() {
         tblModel.setRowCount(0);
-
-    dshs = hsbus.getList();
-    dskq = kqbus.getList();
-    dsmon = mhbus.getList();
-    dsct = ctbus.getList();
-    dsdtb = dtbbus.getList();
-    dshk = hkbus.getList();
-    dsnh = nhbus.getList();
     
-    for (HocSinhDTO hs : dshs) {
-        for (NamHocDTO nh : dsnh) {
-            String idnamhoc = nh.getNamHocID();
-            String idhs = hs.getHocSinhID();
-
-            for (HocKyDTO hk : dshk) {
-                String idhk = hk.getHocKyID();
-                for (MonHocDTO mh : dsmon) {
-                    String idmon = mh.getMonHocID();
-                    for (int heso = 1; heso < 4; heso++) {
-                        String idHocKy = hk.getHocKyID();
-                        String idNamHoc = nh.getNamHocID();
-                        String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
-                        String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
-                        String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
-                        String idKQ = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getKetQua()) : "";
-                        String[] rowData = new String[]{
-                            idhs,
-                            hsbus.get(idhs).getTenHocSinh(),
-                            mhbus.get(idmon).getTenMonHoc(),
-                            String.valueOf(heso),
-                            idDiemHocKy,
-                            hkbus.get(idhk).getTenHocKy(),
-                            idDiemTrungBinhHocKy,
-                            nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
-                            idDiemTrungBinhNam,
-                            idKQ
-                        };
-                        tblModel.addRow(rowData);
+        dshs = hsbus.getList();
+        dskq = kqbus.getList();
+        dsmon = mhbus.getList();
+        dsct = ctbus.getList();
+        dsdtb = dtbbus.getList();
+        dshk = hkbus.getList();
+        dsnh = nhbus.getList();
+        
+        String targetId = "HS1"; // HocSinhID cần tìm
+    
+        for (HocSinhDTO hs : dshs) {
+            if (!hs.getHocSinhID().equals(targetId)) {
+                continue; // Bỏ qua nếu không phải học sinh cần tìm
+            }
+    
+            for (NamHocDTO nh : dsnh) {
+                String idnamhoc = nh.getNamHocID();
+                String idhs = hs.getHocSinhID();
+    
+                for (HocKyDTO hk : dshk) {
+                    String idhk = hk.getHocKyID();
+                    for (MonHocDTO mh : dsmon) {
+                        String idmon = mh.getMonHocID();
+                        for (int heso = 1; heso < 4; heso++) {
+                            String idHocKy = hk.getHocKyID();
+                            String idNamHoc = nh.getNamHocID();
+                            String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
+                            String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
+                            String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
+                            String idKQ = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getKetQua()) : "";
+                            String[] rowData = new String[]{
+                                idhs,
+                                hsbus.get(idhs).getTenHocSinh(),
+                                mhbus.get(idmon).getTenMonHoc(),
+                                String.valueOf(heso),
+                                idDiemHocKy,
+                                hkbus.get(idhk).getTenHocKy(),
+                                idDiemTrungBinhHocKy,
+                                nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
+                                idDiemTrungBinhNam,
+                                idKQ
+                            };
+                            tblModel.addRow(rowData);
+                        }
                     }
                 }
             }
         }
-    }
-    tblModel.fireTableDataChanged();
+        tblModel.fireTableDataChanged();
     }
     public static void main(String[] args) throws SQLException {
         new diemHS();
@@ -237,14 +243,17 @@ public class diemHS {
             String hocki = (String) c2.getSelectedItem();
             String namhoc = (String) c3.getSelectedItem();
             // dshs = hsbus.search(null,null);
-            dsnh = nhbus.search(null,namhoc);
-            dshk = hkbus.search(null,hocki);
-            dsmon = mhbus.search(null,monhoc);
+            // dsnh = nhbus.search(null,namhoc);
+            // dshk = hkbus.search(null,hocki);
+            // dsmon = mhbus.search(null,monhoc);
+            String targetId = "HS3";
             for (HocSinhDTO hs : dshs) {
+                if (!hs.getHocSinhID().equals(targetId)) {
+                    continue; // Bỏ qua nếu không phải học sinh cần tìm
+                }
                 for (NamHocDTO nh : dsnh) {
                     String idnamhoc = nh.getNamHocID();
                     String idhs = hs.getHocSinhID();
-        
                     for (HocKyDTO hk : dshk) {
                         String idhk = hk.getHocKyID();
                         for (MonHocDTO mh : dsmon) {

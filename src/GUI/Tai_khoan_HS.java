@@ -11,11 +11,15 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import java.awt.event.ActionEvent;
 /**
  *
  * @author MSI MODERN 14
@@ -63,6 +67,7 @@ public class Tai_khoan_HS extends JPanel {
                 jl2.setIcon(imageIcon1);
                 topPanel.add(jl2, gbc2);
 
+                //Nút reset
                 JLabel jl3 = new JLabel();
                 jl3.setPreferredSize(new Dimension(30, 30));
                 jl3.setBackground(Color.WHITE);
@@ -84,14 +89,15 @@ public class Tai_khoan_HS extends JPanel {
 
                 JPanel botPanel = new JPanel();
                 botPanel.setLayout(new GridBagLayout());
-                JLabel jl4 = new JLabel("Tạo tài khoản");
+                JButton jl4 = new JButton("Tạo tài khoản");
                 jl4.setForeground(Color.WHITE);
-                jl4.setPreferredSize(new Dimension(150, 40));
+                jl4.setPreferredSize(new Dimension(160, 40));
                 jl4.setFont(jl1.getFont().deriveFont(Font.BOLD, 18));
                 jl4.setHorizontalAlignment(JLabel.CENTER);
                 jl4.setVerticalAlignment(JLabel.CENTER);
                 jl4.setBackground(new Color(52, 48, 128));
                 jl4.setOpaque(true);
+                jl4.addActionListener(new ShowPasswordFeild());
                 GridBagConstraints gbc4 = new GridBagConstraints();
                 gbc4.gridx = 0;
                 gbc4.gridy = 3;
@@ -149,7 +155,7 @@ public class Tai_khoan_HS extends JPanel {
                 gbc7.weighty = 0;
                 gbc7.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc7.anchor = GridBagConstraints.WEST;
-                rightPanel.add(jl6, gbc7);
+                // rightPanel.add(jl6, gbc7);
 
                 JTextField tf2 = new JTextField();
                 tf2.setPreferredSize(new Dimension(300, 30));
@@ -164,7 +170,7 @@ public class Tai_khoan_HS extends JPanel {
                 gbc8.weighty = 0;
                 gbc8.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
                 gbc8.anchor = GridBagConstraints.EAST;
-                rightPanel.add(tf2, gbc8);
+                // rightPanel.add(tf2, gbc8);
 
                 JLabel jl7 = new JLabel("Mã học sinh:");
                 // jl7.setForeground(Color.WHITE);
@@ -316,5 +322,20 @@ public class Tai_khoan_HS extends JPanel {
                 gbc18.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf7, gbc18);
                 add(rightPanel, BorderLayout.CENTER);
-        }
+
+                
+                }private class ShowPasswordFeild implements ActionListener {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                        // Yêu cầu người dùng nhập mật khẩu
+                        String password = JOptionPane.showInputDialog(null, "Tạo pass cho tài khoản", "Tạo mật khẩu", JOptionPane.INFORMATION_MESSAGE);
+                        String confirmPassword = JOptionPane.showInputDialog(null, "Xác nhận lại mật khẩu", "Xác nhận mật khẩu", JOptionPane.INFORMATION_MESSAGE);
+                        if (password.equals(confirmPassword)) {
+                                // Gửi dữ liệu đến CSDL
+                                // Code xử lý lưu thông tin tài khoản vào CSDL
+                                JOptionPane.showMessageDialog(null, "Đăng ký tài khoản thành công!");
+                        } else {
+                                JOptionPane.showMessageDialog(null, "Mật khẩu không khớp. Vui lòng thử lại!");
+                        }
+                        }};
 }
