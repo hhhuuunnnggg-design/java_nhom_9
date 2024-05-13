@@ -128,10 +128,10 @@ public class TTTK_HS extends JPanel {
                 // gbc4.insets = new Insets(210, 0, 110, 0); // Khoảng cách dưới 10 pixels
                 // gbc4.anchor = GridBagConstraints.SOUTH;
                 // topPanel.add(jl4,gbc4);
-                add(topPanel, BorderLayout.WEST);
+                // add(topPanel, BorderLayout.WEST);
 
                 JPanel rightPanel = new JPanel(new GridBagLayout());
-                rightPanel.setPreferredSize(new Dimension(600, 670));
+                rightPanel.setPreferredSize(new Dimension(850, 670));
                 rightPanel.setBackground(new Color(180, 204, 227));
 
                 jl5 = new JLabel("Mã tài khoản:");

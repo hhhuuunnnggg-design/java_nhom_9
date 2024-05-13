@@ -114,10 +114,10 @@ public class TTTK_GV extends JPanel {
                 // gbc4.insets = new Insets(210, 0, 110, 0); // Khoảng cách dưới 10 pixels
                 // gbc4.anchor = GridBagConstraints.SOUTH;
                 // topPanel.add(jl4,gbc4);
-                add(topPanel, BorderLayout.WEST);
+                // add(topPanel, BorderLayout.WEST);
 
                 JPanel rightPanel = new JPanel(new GridBagLayout());
-                rightPanel.setPreferredSize(new Dimension(600, 670));
+                rightPanel.setPreferredSize(new Dimension(850, 670));
                 rightPanel.setBackground(new Color(180, 204, 227));
 
                 jl5 = new JLabel("Mã tài khoản:");
@@ -196,7 +196,7 @@ public class TTTK_GV extends JPanel {
                 rightPanel.add(jl7, gbc9);
 
                 tf3 = new JTextField();
-                tf3.setPreferredSize(new Dimension(230, 30));
+                tf3.setPreferredSize(new Dimension(300, 30));
                 tf3.setFont(tf3.getFont().deriveFont(Font.BOLD, 18));
                 tf3.setHorizontalAlignment(JLabel.CENTER);
                 tf3.setBackground(Color.WHITE);
@@ -226,7 +226,7 @@ public class TTTK_GV extends JPanel {
                 gbc25.weighty = 0;
                 gbc25.insets = new Insets(0, 250, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc25.anchor = GridBagConstraints.WEST;
-                rightPanel.add(btn1, gbc25);
+                // rightPanel.add(btn1, gbc25);
 
                 jl8 = new JLabel("Họ tên:");
                 // jl8.setForeground(Color.WHITE);
@@ -349,7 +349,7 @@ public class TTTK_GV extends JPanel {
                 rightPanel.add(tf7, gbc18);
                 
 
-                jl12 = new JLabel("Học lực:");
+                jl12 = new JLabel("Phân lớp:");
                 // jl12.setForeground(Color.WHITE);
                 jl12.setPreferredSize(new Dimension(150, 40));
                 jl12.setFont(jl12.getFont().deriveFont(Font.BOLD, 18));
@@ -362,7 +362,7 @@ public class TTTK_GV extends JPanel {
                 gbc19.weighty = 0;
                 gbc19.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc19.anchor = GridBagConstraints.WEST;
-                // rightPanel.add(jl12, gbc19);
+                rightPanel.add(jl12, gbc19);
 
                 tf8 = new JTextField();
                 tf8.setPreferredSize(new Dimension(300, 30));
@@ -377,7 +377,7 @@ public class TTTK_GV extends JPanel {
                 gbc20.weighty = 0;
                 gbc20.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
                 gbc20.anchor = GridBagConstraints.EAST;
-                // rightPanel.add(tf8, gbc20);
+                rightPanel.add(tf8, gbc20);
                 
 
                 jl13 = new JLabel("Hạnh kiểm:");
