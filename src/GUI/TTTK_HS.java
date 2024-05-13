@@ -40,7 +40,9 @@ public class TTTK_HS extends JPanel {
         private JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10, tf11, tf12;
         private JButton btn1, btn2, btn3;
         private JLabel jl1, jl2, jl3, jl4, jl5, jl6, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14, jl15;
-        String maHS = "HS1";
+
+        String maHS = "HS2";
+
         HocSinhBUS hsbus = new HocSinhBUS(1);
         NamHocBUS nhbus = new NamHocBUS(1);
         KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
@@ -86,12 +88,6 @@ public class TTTK_HS extends JPanel {
                 gbc2.weighty = 0;
                 gbc2.insets = new Insets(20, 0, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc2.anchor = GridBagConstraints.NORTH;
-                // Đường dẫn tới tệp hình ảnh
-                String imagePath1 = "C:\\Users\\MSI MODERN 14\\Documents\\NetBeansProjects\\thong_tin_tai_khoan\\src\\main\\java\\do_an\\noneavatar.jpg";
-                // Tạo một ImageIcon từ tệp hình ảnh
-                ImageIcon imageIcon1 = new ImageIcon(imagePath1);
-                // Đặt ImageIcon làm hình ảnh cho JLabel
-                jl2.setIcon(imageIcon1);
                 topPanel.add(jl2, gbc2);
 
                 // jl3 = new JLabel();
@@ -467,8 +463,11 @@ public class TTTK_HS extends JPanel {
                 dsKQ = kqbus.getList();
                 dsPL = plbus.getList();
                 dsLop = Lopbus.getList();
+                
                        for (HocSinhDTO hs :dshs) {
                         String idhs = hs.getHocSinhID(); 
+                        String imagePath = hs.getIMG();
+                        ImageIcon imageIcon = new ImageIcon(imagePath);
                         for (NamHocDTO nam : dsnh) {
                         for (PhanLopDTO pl : dsPL){
                         for (LopDTO lop : dsLop){
@@ -485,6 +484,7 @@ public class TTTK_HS extends JPanel {
                                                 tf8.setText(hocluc);
                                                 tf9.setText(hanhkiem);
                                                 tf10.setText(hs.getDiaChi());
+                                                jl2.setIcon(imageIcon);
                         }   
                                 }
                         }
