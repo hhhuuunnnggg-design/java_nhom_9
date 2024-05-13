@@ -216,7 +216,7 @@ public class ThanhToanHocPhi {
                   if (hs!=null){
                       PhanLopDTO pl = null;
                       for(PhanLopDTO x: dsPL.getList()){
-                          if(x.getHocSinhID().equals(id)){
+                          if(x.getHocSinhID().equals(id)  && x.getNamHocID().equals("giapthin")){
                               pl = x;
                               break;
                           }

@@ -87,7 +87,7 @@ public class KQ_HocSinhCaNamBUS {
         idnamhoc = idnamhoc==null?idnamhoc = "": idnamhoc;
         hocluc = (hocluc==null || hocluc.equals("Tất cả"))?hocluc = "": hocluc;
         hanhkiem = (hanhkiem==null || hanhkiem.equals("Tất cả"))?hanhkiem = "": hanhkiem;
-        ketqua = ketqua==null?ketqua = "": ketqua;
+        ketqua = (ketqua==null || ketqua.equals("Tất cả"))?ketqua = "": ketqua;
 
         for(KQ_HocSinhCaNamDTO kq : dskq)
         {

@@ -28,6 +28,7 @@ public class NamHocBUS {
         }
         return null;
     }
+
     public void list()
     {
         NamHocDAO nhDATA = new NamHocDAO();
@@ -51,12 +52,12 @@ public class NamHocBUS {
     {
         ArrayList<NamHocDTO> search = new ArrayList<>();
         id = id==null?id = "": id;
-        NamHoc = (NamHoc==null ||NamHoc.equals("Tất cả"))?NamHoc = "":NamHoc.substring(4);
+        NamHoc = (NamHoc==null ||NamHoc.equals("Tất cả"))?NamHoc = "":NamHoc.substring(5);
         
         for(NamHocDTO nh : dsnh)
         {
             if( nh.getNamHocID().contains(id) &&
-                String.valueOf(nh.getNamHocBatDau()).contains(NamHoc))
+                String.valueOf(nh.getNamHocKetThuc()).contains(NamHoc))
             {
                 search.add(nh);
             }
