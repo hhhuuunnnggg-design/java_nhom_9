@@ -76,4 +76,10 @@ public class QLHS_BUS {
     public ArrayList<HocSinhDTO> getList() {
         return dshs;
     }
+
+    public String CountHS() {
+        QLHS_DAO hs = new QLHS_DAO();
+        String count = hs.CountHS();
+        return count;
+    }
 }

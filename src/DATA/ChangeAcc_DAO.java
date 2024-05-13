@@ -38,4 +38,15 @@ public class ChangeAcc_DAO {
         mysql.executeUpdate(sql);
     }
 
+    public void Add(Account_DTO acc) {
+        MySQLConnect mysql = new MySQLConnect();
+        String sql = "INSERT INTO user VALUE (";
+        sql += "'" + acc.getUsername() + "',";
+        sql += "'" + acc.getPassword() + "',";
+        sql += "'" + "user" + "',";
+        sql += "'" + "1" + "')";
+        mysql.executeUpdate(sql);
+        System.out.println(sql);
+    }
+
 }

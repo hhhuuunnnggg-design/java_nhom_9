@@ -1,7 +1,9 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -28,12 +30,18 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.ChangeAcc_BUS;
 import BUS.QLHS_BUS;
 import DTO.HocSinhDTO;
+import DTO.Account_DTO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,11 +49,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+// import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+// import org.apache.poi.common.io.FileOutputStream;
 /*
 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 */
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+// import org.apache.poi.ss.usermodel.Row;
+// import org.apache.commons.io.*;;
 
 /**
  *
@@ -54,7 +78,7 @@ import java.util.logging.Logger;
 public final class QuanLiHocSinh extends JFrame implements MouseListener, ActionListener {
     private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai, img;
     private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi, lblimg;
-    private JButton btnThem, btnXoa, btnSua, btnFind, btnReset;
+    private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
     // private JTable tbl;
     private JScrollPane scrollpane;
@@ -74,6 +98,7 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
     JComboBox<String> genderComboBox;
     QLHS_BUS hsBUS = new QLHS_BUS();
     private static String pathAnhdd = "";
+    ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
 
     public QuanLiHocSinh(int width, int height) throws SQLException {
         this.width = width;
@@ -89,6 +114,8 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         btnFind.addMouseListener(this);
         btnReset.addActionListener(this);
         JsearchText.addMouseListener(this);
+        btnExpExcel.addActionListener(this);
+        btnExpExcel.addMouseListener(this);
     }
 
     public void init() throws SQLException {
@@ -149,13 +176,20 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         String searchOption[] = { "Mã học sinh", "Họ và tên" };
         searchselectBox = new JComboBox<>(searchOption);
 
-        btnReset = new JButton("Reset");
+        java.net.URL imageURL = getClass().getResource("/image/home.png");
+        ImageIcon originalIcon = new ImageIcon(imageURL); // Tạo ImageIcon từ đường dẫn
+
+        // Chỉnh kích thước ảnh
+        Image scaledImage = originalIcon.getImage().getScaledInstance(120, 40, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        btnReset = new JButton(scaledIcon);
+
         btnReset.setBackground(btnResets);
         btnReset.setForeground(Color.WHITE);
         Font font = new Font("Arial", Font.BOLD, 12);
         btnReset.setFont(font);
-        btnReset.setPreferredSize(new Dimension(80, 40));
-        btnReset.setOpaque(true);
+        btnReset.setPreferredSize(new Dimension(120, 40));
+        // btnReset.setOpaque(true);
 
         JSearch.add(imgSearch);
         JSearch.add(JsearchText);
@@ -205,12 +239,21 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         btnFind.setPreferredSize(new Dimension(155, 40));
         btnFind.setBorder(raisedBevel);
 
+        java.net.URL imageURL_ExpExcel = getClass().getResource("/image/export_excel.png");
+        ImageIcon orgIcon_ExpExcel = new ImageIcon(imageURL_ExpExcel);
+        Image scaleImg_ExpExcel = orgIcon_ExpExcel.getImage().getScaledInstance(230, 100, Image.SCALE_SMOOTH);
+        btnExpExcel = new JButton(new ImageIcon(scaleImg_ExpExcel));
+        btnExpExcel.setPreferredSize(new Dimension(155, 40));
+        btnExpExcel.setBorder(raisedBevel);
+        btnExpExcel.setBackground(myColor);
+
         Pchucnang.setBackground(myColor);
         defaultColor = btnThem.getBackground();
         Pchucnang.add(btnThem);
         Pchucnang.add(btnXoa);
         Pchucnang.add(btnSua);
         Pchucnang.add(btnFind);
+        Pchucnang.add(btnExpExcel);
         return Pchucnang;
     }
 
@@ -318,9 +361,34 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         }
 
         Font font = new Font("Arial", Font.BOLD, 12);
-        t.getTableHeader().setBackground(Color.gray);
+        Color title_color = new Color(232, 57, 99);
+        t.getTableHeader().setBackground(title_color);
         t.getTableHeader().setForeground(Color.WHITE);
         t.getTableHeader().setFont(font);
+        Color select = new Color(102, 178, 255);
+        t.setSelectionBackground(select);
+
+        // TableColumnModel columnModel = t.getColumnModel();
+        // for (int i = 0; i < columnModel.getColumnCount(); i++) {
+        // System.out.println(columnModel.getColumnCount());
+        // if ((i + 2) % 2 == 0) {
+        // TableColumn column = columnModel.getColumn(i);
+        // column.setCellRenderer(new DefaultTableCellRenderer() {
+        // @Override
+        // public Component getTableCellRendererComponent(JTable table, Object value,
+        // boolean isSelected,
+        // boolean hasFocus, int row, int column) {
+        // Component cellComponent = super.getTableCellRendererComponent(table, value,
+        // isSelected,
+        // hasFocus, row, column);
+        // cellComponent.setBackground(Color.GRAY);
+        // return cellComponent;
+        // }
+        // });
+        // }
+
+        // }
+
         tblmodel = new DefaultTableModel(rowData, header);
         t.setModel(tblmodel);
         t.addMouseListener(new MouseAdapter() {
@@ -373,13 +441,18 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         String dateString = sdf.format(date); // Convert Date to String
 
         // Lấy các giá trị từ các trường nhập
-        String hocSinhID = tf[0].getText();
+
+        String countHS = hsBUS.CountHS();
+        System.out.println("Số lượng học sinh: " + countHS);
+        String hocSinhID = "HS" + countHS;
+        // String hocSinhID = tf[0].getText();
         String tenHocSinh = tf[1].getText();
         String gioiTinh = (String) genderComboBox.getSelectedItem();
         String ngaySinh = dateString;
         String diaChi = tf[5].getText();
         String soDienThoai = tf[4].getText();
         String IMG = tf[6].getText();
+
         HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi,
                 soDienThoai);
         hocSinh.setIMG(IMG);
@@ -437,6 +510,8 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         dateChooser.setDate(null);
         tf[4].setText("");
         tf[5].setText("");
+        tf[6].setText("");
+        lblimg.setIcon(null);
     }
 
     public boolean checkEmpty() {
@@ -496,14 +571,16 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
             return;
         }
 
-        String mahs = tf[0].getText();
-        System.out.println(mahs);
+        // String mahs = tf[0].getText();
+        // System.out.println(mahs);
 
-        if (hsBUS.checkMaHS(mahs) == true) {
-            JOptionPane.showMessageDialog(this, "Mã học sinh này đã tồn tại", "CHECK",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        // if (hsBUS.checkMaHS(mahs) == true) {
+        // JOptionPane.showMessageDialog(this, "Mã học sinh này đã tồn tại", "CHECK",
+        // JOptionPane.ERROR_MESSAGE);
+        // return;
+        // }
+
+        JOptionPane.showMessageDialog(this, "Mã học sinh tăng tự động", "Lưu ý", JOptionPane.INFORMATION_MESSAGE);
 
         int result = JOptionPane.showConfirmDialog(this,
                 "Bạn có chắc muốn Thêm học sinh này",
@@ -518,6 +595,7 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
                     JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Ban chon them");
             tf[0].requestFocus();
+            autoCreateAccount();
             addRow();
         }
     }
@@ -595,6 +673,59 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         }
     }
 
+    public void exportExcel() {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        Sheet sheet = workbook.createSheet("DanhSachHocSinh");
+        Row headerRow = sheet.createRow(0); // Header row at index 0
+        String[] headers = { "STT", "HocSinhID", "Tên học sinh", "Giới Tính", "Năm Sinh", "Địa chỉ", "SĐT" };
+
+        // Creating header cells
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        ArrayList<HocSinhDTO> dshs = hsBUS.getList();
+        for (int i = 0; i < dshs.size(); i++) {
+            Row row = sheet.createRow(i + 1); // Data rows start from index 1
+
+            HocSinhDTO hocSinh = dshs.get(i);
+
+            row.createCell(0).setCellValue(i + 1);
+            row.createCell(1).setCellValue(hocSinh.getHocSinhID());
+            row.createCell(2).setCellValue(hocSinh.getTenHocSinh());
+            row.createCell(3).setCellValue(hocSinh.getGioiTinh());
+            row.createCell(4).setCellValue(hocSinh.getNgaySinh());
+            row.createCell(5).setCellValue(hocSinh.getDiaChi());
+            row.createCell(6).setCellValue(hocSinh.getDienThoai());
+        }
+        // File path
+        // String fileName = "dshs.xlsx";
+        // String filePath = System.getProperty("user.home") + File.separator +
+        // "Downloads" + File.separator + fileName;
+        String path = "D:/Coding/N2_HK2/DAJAVA/java_nhom_9/Excel/dshs.xlsx";
+        File file = new File(path);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            workbook.write(fos);
+            // workbook.close();
+            fos.close();
+            System.out.println("Excel file exported successfully to: " + path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exception
+        }
+    }
+
+    public void autoCreateAccount() {
+        accBUS = new ChangeAcc_BUS();
+        String username = tf[0].getText();
+        String password = tf[5].getText();
+        Account_DTO acc = new Account_DTO(username, password);
+        accBUS.Add(acc);
+    }
+
     public static void main(String argv[]) throws SQLException {
         QuanLiHocSinh sv = new QuanLiHocSinh(850, 670);
         sv.setVisible(true);
@@ -639,6 +770,9 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         if (e.getSource() == btnFind) {
             btnFind.setBackground(Color.red);
         }
+        if (e.getSource() == btnExpExcel) {
+            btnExpExcel.setBackground(Color.green);
+        }
         // throw new UnsupportedOperationException("Not supported yet."); // Generated
         // from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -654,6 +788,8 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
             btnSua.setBackground(defaultColor);
         } else if (e.getSource() == btnFind) {
             btnFind.setBackground(defaultColor);
+        } else if (e.getSource() == btnExpExcel) {
+            btnExpExcel.setBackground(defaultColor);
         }
         // throw new UnsupportedOperationException("Not supported yet."); // Generated
         // from
@@ -681,6 +817,9 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
             sorter = new TableRowSorter<>(model);
             t.setRowSorter(sorter);
             sorter.setRowFilter(RowFilter.regexFilter("", 0));
+        } else if (e.getSource() == btnExpExcel) {
+            exportExcel();
+            JOptionPane.showMessageDialog(this, "IN THÀNH CÔNG");
         }
 
     }

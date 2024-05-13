@@ -42,4 +42,9 @@ public class ChangeAcc_BUS {
         }
         return false;
     }
+
+    public void Add(Account_DTO acc) {
+        ChangeAcc_DAO addAcc = new ChangeAcc_DAO();
+        addAcc.Add(acc);
+    }
 }
