@@ -26,7 +26,7 @@ public class QLHS_DAO {
                 String hocphi = rs.getString("HocPhi");
                 String IMG = rs.getString("IMG");
 
-                HocSinhDTO hs = new HocSinhDTO(maHS, tenHS, gioiTinh, namSinh, diaChi, dienThoai);
+                HocSinhDTO hs = new HocSinhDTO(maHS, tenHS, gioiTinh, namSinh, dienThoai, diaChi);
                 hs.setHocPhi(hocphi);
                 hs.setIMG(IMG);
                 dshs.add(hs);
