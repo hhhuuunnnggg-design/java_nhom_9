@@ -246,7 +246,7 @@ public class diemHS {
             // dsnh = nhbus.search(null,namhoc);
             // dshk = hkbus.search(null,hocki);
             // dsmon = mhbus.search(null,monhoc);
-            String targetId = "HS3";
+            String targetId = "HS1";
             for (HocSinhDTO hs : dshs) {
                 if (!hs.getHocSinhID().equals(targetId)) {
                     continue; // Bỏ qua nếu không phải học sinh cần tìm
