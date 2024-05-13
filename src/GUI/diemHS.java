@@ -3,39 +3,62 @@ package GUI;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import BUS.ChiTietDiemBUS;
+import BUS.DTB_HocKyBUS;
+import BUS.HocKyBUS;
 import BUS.HocSinhBUS;
 import BUS.KQ_HocSinhCaNamBUS;
-import BUS.DTB_HocKyBUS;
-import BUS.ChiTietDiemBUS;
+import BUS.LopBUS;
+import BUS.MonHocBUS;
+import BUS.NamHocBUS;
+import BUS.PhanLopBUS;
+import DTO.ChiTietDiemDTO;
+import DTO.DTB_HocKyDTO;
+import DTO.HocKyDTO;
 import DTO.HocSinhDTO;
 import DTO.KQ_HocSinhCaNamDTO;
-import DTO.DTB_HocKyDTO;
-import DTO.ChiTietDiemDTO;
+import DTO.LopDTO;
+import DTO.MonHocDTO;
+import DTO.NamHocDTO;
+import DTO.PhanLopDTO;
 
 import java.awt.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.*;
 
 public class diemHS {
     private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, btnPanel;
-    private JRadioButton b1, b2, b3;
+    private JLabel b1, b2, b3;
     private JComboBox<String> c1, c2, c3;
     private JLabel l1;
     private JButton filterBtn;
     private JScrollPane scrollPane;
     private JTable t;
     private DefaultTableModel tblModel;
-    KQ_HocSinhCaNamBUS kq = new KQ_HocSinhCaNamBUS(1);
+    ArrayList <HocSinhDTO> dshs;
+    ArrayList <KQ_HocSinhCaNamDTO> dskq;
+    ArrayList<MonHocDTO> dsmon;
+    ArrayList<ChiTietDiemDTO> dsct;
+    ArrayList<HocKyDTO> dshk;
+    ArrayList<DTB_HocKyDTO> dsdtb;
+    ArrayList<NamHocDTO> dsnh;
+    ArrayList<PhanLopDTO> dspl;
+    ArrayList<LopDTO> dslop;
+
+    PhanLopBUS plbus = new PhanLopBUS(1);
+    LopBUS lopbus = new LopBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
-    ChiTietDiemBUS ctdbus = new ChiTietDiemBUS(1);
-    DTB_HocKyBUS dbthkbus = new DTB_HocKyBUS(1);
-    ArrayList<HocSinhDTO> dsHS;
-    ArrayList<KQ_HocSinhCaNamDTO> dsKQ;
-    ArrayList<ChiTietDiemDTO> dsCTD;
-    ArrayList<DTB_HocKyDTO> dsTBHK;
-    public diemHS() {
+    MonHocBUS mhbus = new MonHocBUS(1);
+    ChiTietDiemBUS ctbus = new ChiTietDiemBUS(1);
+    DTB_HocKyBUS dtbbus = new DTB_HocKyBUS(1);
+    HocKyBUS hkbus = new HocKyBUS(1);
+    KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
+    NamHocBUS nhbus = new NamHocBUS(1);
+    public diemHS() throws SQLException {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setResizable(false);
@@ -59,9 +82,9 @@ public class diemHS {
         radioPanel.setOpaque(false);
         radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));
 
-        b1 = new JRadioButton("Môn học");
-        b2 = new JRadioButton("Học kỳ");
-        b3 = new JRadioButton("Năm học");
+        b1 = new JLabel("Môn học");
+        b2 = new JLabel("Học kỳ");
+        b3 = new JLabel("Năm học");
         b1.setBackground(new Color(180, 204, 227));
         b2.setBackground(new Color(180, 204, 227));
         b3.setBackground(new Color(180, 204, 227));
@@ -71,11 +94,11 @@ public class diemHS {
         dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
         dropdownPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-        String[] optionc1 = {"Toán", "Lý", "Hóa", "Ngoại ngữ", "Ngữ văn", "Sinh", "Sử", "Địa", "GDCD"};
+        String[] optionc1 = {"Tất cả","Toán", "Vật Lý", "Hóa Học", "Anh Văn", "Ngữ văn", "Sinh", "Sử", "Địa", "GDCD"};
         c1 = new JComboBox<>(optionc1);
-        String[] optionc2 = {"HK I", "HK II"};
+        String[] optionc2 = {"Tất cả", "Học Kỳ 1", "Học Kỳ 2"};
         c2 = new JComboBox<>(optionc2);
-        String[] optionc3 = {"2019-2020", "2020-2021", "2021-2022"};
+        String[] optionc3 = {"Tất cả", "2019-2020", "2020-2021", "2021-2022","2022-2023", "2023-2024", "2024-2025"};
         c3 = new JComboBox<>(optionc3);
 
         btnPanel = new JPanel(new GridBagLayout());
@@ -86,6 +109,8 @@ public class diemHS {
         filterBtn.setBackground(new Color(31, 28, 77));
         filterBtn.setForeground(Color.WHITE);
         filterBtn.setPreferredSize(new Dimension(70, 30));
+
+        filterBtn.addActionListener(new ShowFilterListener());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -108,12 +133,8 @@ public class diemHS {
 
         f.add(topPanel, BorderLayout.NORTH);
         f.setVisible(true);
-        try {
-            scrollPane = initTable();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        f.add(scrollPane, BorderLayout.CENTER);
+        
+        f.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
     }
 
@@ -127,7 +148,7 @@ public class diemHS {
         tblModel.addColumn("Họ tên");
         tblModel.addColumn("Môn học");
         tblModel.addColumn("Hệ số điểm");
-        tblModel.addColumn("Điểm môn học");
+        tblModel.addColumn("Điểm MH");
         tblModel.addColumn("Học kì");
         tblModel.addColumn("Điểm TBHK");
         tblModel.addColumn("Năm học");
@@ -145,11 +166,11 @@ public class diemHS {
 
         // Thiết lập kích thước cột
         t.getColumnModel().getColumn(0).setPreferredWidth(80);
-        t.getColumnModel().getColumn(1).setPreferredWidth(150);
+        t.getColumnModel().getColumn(1).setPreferredWidth(200);
         t.getColumnModel().getColumn(2).setPreferredWidth(70);
-        t.getColumnModel().getColumn(3).setPreferredWidth(100);
-        t.getColumnModel().getColumn(4).setPreferredWidth(120);
-        t.getColumnModel().getColumn(5).setPreferredWidth(200);
+        t.getColumnModel().getColumn(3).setPreferredWidth(60);
+        t.getColumnModel().getColumn(4).setPreferredWidth(80);
+        t.getColumnModel().getColumn(5).setPreferredWidth(100);
         t.getColumnModel().getColumn(6).setPreferredWidth(80);
         t.getColumnModel().getColumn(7).setPreferredWidth(80);
         t.getColumnModel().getColumn(8).setPreferredWidth(150);
@@ -159,27 +180,112 @@ public class diemHS {
     }
 
     public void loaddatatoTable() {
-        dsHS = hsbus.getList();
-        tblModel.setRowCount(0); // Xóa dữ liệu cũ
-
-        for (HocSinhDTO hs : dsHS) {
-            Object[] rowData = {
-                    hs.getHocSinhID(),
-                    hs.getTenHocSinh(),
-                    hs.getGioiTinh(),
-                    hs.getNgaySinh(),
-                    hs.getDienThoai(),
-                    hs.getDiaChi(),
-                    kq.getHanhKiemById(hs.getHocSinhID()),
-                    kq.getHocLucById(hs.getHocSinhID())
-            };
-            tblModel.addRow(rowData);
+        tblModel.setRowCount(0);
+    
+        dshs = hsbus.getList();
+        dskq = kqbus.getList();
+        dsmon = mhbus.getList();
+        dsct = ctbus.getList();
+        dsdtb = dtbbus.getList();
+        dshk = hkbus.getList();
+        dsnh = nhbus.getList();
+        
+        String targetId = "HS1"; // HocSinhID cần tìm
+    
+        for (HocSinhDTO hs : dshs) {
+            if (!hs.getHocSinhID().equals(targetId)) {
+                continue; // Bỏ qua nếu không phải học sinh cần tìm
+            }
+    
+            for (NamHocDTO nh : dsnh) {
+                String idnamhoc = nh.getNamHocID();
+                String idhs = hs.getHocSinhID();
+    
+                for (HocKyDTO hk : dshk) {
+                    String idhk = hk.getHocKyID();
+                    for (MonHocDTO mh : dsmon) {
+                        String idmon = mh.getMonHocID();
+                        for (int heso = 1; heso < 4; heso++) {
+                            String idHocKy = hk.getHocKyID();
+                            String idNamHoc = nh.getNamHocID();
+                            String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
+                            String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
+                            String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
+                            String idKQ = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getKetQua()) : "";
+                            String[] rowData = new String[]{
+                                idhs,
+                                hsbus.get(idhs).getTenHocSinh(),
+                                mhbus.get(idmon).getTenMonHoc(),
+                                String.valueOf(heso),
+                                idDiemHocKy,
+                                hkbus.get(idhk).getTenHocKy(),
+                                idDiemTrungBinhHocKy,
+                                nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
+                                idDiemTrungBinhNam,
+                                idKQ
+                            };
+                            tblModel.addRow(rowData);
+                        }
+                    }
+                }
+            }
         }
-
-        tblModel.fireTableDataChanged(); // Cập nhật dữ liệu trên bảng
+        tblModel.fireTableDataChanged();
     }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         new diemHS();
+    }
+    private class ShowFilterListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e){
+            tblModel.setRowCount(0);
+            String monhoc = (String) c1.getSelectedItem();
+            String hocki = (String) c2.getSelectedItem();
+            String namhoc = (String) c3.getSelectedItem();
+            // dshs = hsbus.search(null,null);
+            // dsnh = nhbus.search(null,namhoc);
+            // dshk = hkbus.search(null,hocki);
+            // dsmon = mhbus.search(null,monhoc);
+            String targetId = "HS3";
+            for (HocSinhDTO hs : dshs) {
+                if (!hs.getHocSinhID().equals(targetId)) {
+                    continue; // Bỏ qua nếu không phải học sinh cần tìm
+                }
+                for (NamHocDTO nh : dsnh) {
+                    String idnamhoc = nh.getNamHocID();
+                    String idhs = hs.getHocSinhID();
+                    for (HocKyDTO hk : dshk) {
+                        String idhk = hk.getHocKyID();
+                        for (MonHocDTO mh : dsmon) {
+                            String idmon = mh.getMonHocID();
+                            for (int heso = 1; heso < 4; heso++) {
+                                String idHocKy = hk.getHocKyID();
+                                String idNamHoc = nh.getNamHocID();
+                                String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
+                                String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
+                                String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
+                                String idKQ = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getKetQua()) : "";
+                                String[] rowData = new String[]{
+                                    idhs,
+                                    hsbus.get(idhs).getTenHocSinh(),
+                                    mhbus.get(idmon).getTenMonHoc(),
+                                    String.valueOf(heso),
+                                    idDiemHocKy,
+                                    hkbus.get(idhk).getTenHocKy(),
+                                    idDiemTrungBinhHocKy,
+                                    nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
+                                    idDiemTrungBinhNam,
+                                    idKQ
+                                };
+                                tblModel.addRow(rowData);
+                            }
+                        }
+                    }
+                }
+            }
+                    if (tblModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
+            }    
+        }      
     }
 }

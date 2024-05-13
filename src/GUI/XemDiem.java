@@ -46,11 +46,11 @@ public class XemDiem extends JPanel{
         dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
         dropdownPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-        String[] optionc1 = {"Toán", "Lý", "Hóa", "Ngoại ngữ", "Ngữ văn", "Sinh", "Sử", "Địa", "GDCD"};
+        String[] optionc1 = {"Tất cả","Toán", "Vật Lý", "Hóa Học", "Anh Văn", "Ngữ văn", "Sinh", "Sử", "Địa", "GDCD"};
         c1 = new JComboBox<>(optionc1);
-        String[] optionc2 = {"HK I", "HK II"};
+        String[] optionc2 = {"Tất cả", "Học Kỳ 1", "Học Kỳ 2"};
         c2 = new JComboBox<>(optionc2);
-        String[] optionc3 = {"2019-2020", "2020-2021", "2021-2022"};
+        String[] optionc3 = {"Tất cả", "2019-2020", "2020-2021", "2021-2022","2022-2023", "2023-2024", "2024-2025"};
         c3 = new JComboBox<>(optionc3);
 
         ButtonGroup group = new ButtonGroup();
