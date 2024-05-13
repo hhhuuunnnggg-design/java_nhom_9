@@ -29,6 +29,7 @@ import javax.swing.JSeparator;
 import javax.swing.border.Border;
 import java.awt.Image;
 import java.util.concurrent.atomic.AtomicBoolean;
+import GUI.TTTK_HS_GV;
 
 /**
  *
@@ -190,8 +191,8 @@ public class HS_GV {
 
                 // Hiển thị JPTai_khoan_HS
                 jl5.setBackground(new Color(99, 116, 198));
-                JPanel tttk_hsgv = new TTTK_HS_GV();
-                f.add(tttk_hsgv,BorderLayout.CENTER );
+                JPanel tttk_hs = new TTTK_HS();
+                f.add(tttk_hs,BorderLayout.CENTER );
                 f.revalidate(); // Cập nhật lại giao diện
             }
             });
@@ -361,12 +362,7 @@ public class HS_GV {
     }
 
     public static void main(String[] args) {
-        HS_GV hsgv = new HS_GV();
-        hsgv.setVisible(true);
-    }
-
-    private void setVisible(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        new HS_GV();
     }
 }
 
