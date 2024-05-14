@@ -57,7 +57,7 @@ public class QLGV extends JPanel implements KeyListener {
         Color myColor = new Color(99, 116, 198);
         setLayout(null);
         setBackground(null);
-        setBounds(new Rectangle(50, 0, this.DEFALUT_WIDTH - 220, 1000));
+        setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 220, 700));
         Font font0 = new Font("Segoe UI", Font.PLAIN, 13);
         Font font1 = new Font("Segoe UI", Font.BOLD, 13);
         /******************************
@@ -561,6 +561,7 @@ public class QLGV extends JPanel implements KeyListener {
         for (GiaoVienDTO s : gv) {
             data = new Vector();
             data.add(s.getMaGV());
+        
             data.add(s.getHoGV());
             data.add(s.getTenGV());
             data.add(s.getGioiTinh());
@@ -575,7 +576,7 @@ public class QLGV extends JPanel implements KeyListener {
     public void saveIMG() {
         try {
             if (i != null) {
-                File save = new File("src/image/SanPham/" + imgName);// Tạo file
+                File save = new File("src/image/GiaoVien/" + imgName);// Tạo file
                 ImageIO.write(i, "jpg", save); // Lưu hình i vào đường dẫn file save
                 i = null; // Xóa hình trong bộ nhớ
             }

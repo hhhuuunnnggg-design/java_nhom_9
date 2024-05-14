@@ -55,8 +55,8 @@ public class GiaoVienDAO {
                 String hoGV = rs.getString("HOGV");
                 String tenGV = rs.getString("TENGV");
                 String gioiTinh = rs.getString("GIOITINH");
-                String namSinh = rs.getString("NAMSINH");
-                String dienThoai = rs.getString("DIENTHOAI");
+                int namSinh = rs.getInt("NAMSINH");
+                int dienThoai = rs.getInt("DIENTHOAI");
                 String IMG = rs.getString("IMG");
 
                 GiaoVienDTO gv = new GiaoVienDTO(maGV, hoGV, tenGV, gioiTinh, IMG, namSinh, dienThoai);
