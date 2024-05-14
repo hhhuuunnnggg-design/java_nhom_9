@@ -20,8 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import BUS.HocSinhBUS;
+import BUS.GiaoVienBUS;
+import BUS.QLHS_GV_BUS;
 
 import DTO.HocSinhDTO;
+import DTO.LopDTO;
+import DTO.PhanCongDTO;
+import DTO.GiaoVienDTO;
+import DTO.PhanLopDTO;
 /**
  *
  * @author MSI MODERN 14
@@ -30,9 +36,12 @@ public class TTTK_GV extends JPanel {
         private JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10, tf11, tf12;
         private JButton btn1, btn2, btn3;
         private JLabel jl1, jl2, jl3, jl4, jl5, jl6, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14, jl15;
+        String maGV = "GV1";
+        GiaoVienBUS gvbus = new GiaoVienBUS();
+        QLHS_GV_BUS qlhsgv = new QLHS_GV_BUS();
 
-        HocSinhBUS hsbus = new HocSinhBUS(1);
-        ArrayList <HocSinhDTO> dshs;
+        ArrayList<GiaoVienDTO> dsgv;
+        ArrayList<PhanCongDTO> dspc;
 
         public TTTK_GV() {
                 setPreferredSize(new Dimension(850, 670));
@@ -210,23 +219,6 @@ public class TTTK_GV extends JPanel {
                 gbc10.insets = new Insets(0, 20, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc10.anchor = GridBagConstraints.WEST;
                 rightPanel.add(tf3, gbc10);
-
-                btn1 = new JButton("Hiện");
-                btn1.setPreferredSize(new Dimension(70, 30));
-                btn1.setFont(btn1.getFont().deriveFont(Font.BOLD, 14));
-                btn1.setHorizontalAlignment(JLabel.CENTER);
-                btn1.setBackground(Color.WHITE);
-                btn1.setOpaque(true);
-                btn1.addActionListener(new ShowInfoHS());
-
-                GridBagConstraints gbc25 = new GridBagConstraints();
-                gbc25.gridx = 1;
-                gbc25.gridy = 2;
-                gbc25.weightx = 0;
-                gbc25.weighty = 0;
-                gbc25.insets = new Insets(0, 250, 0, 0); // Khoảng cách dưới 10 pixels
-                gbc25.anchor = GridBagConstraints.WEST;
-                // rightPanel.add(btn1, gbc25);
 
                 jl8 = new JLabel("Họ tên:");
                 // jl8.setForeground(Color.WHITE);
@@ -441,21 +433,21 @@ public class TTTK_GV extends JPanel {
                 gbc24.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf10,gbc24);
                 add(rightPanel, BorderLayout.CENTER);
+                loaddatatoPanel();
         }
-
-        private class ShowInfoHS implements ActionListener {
-                @Override
-                public void actionPerformed(ActionEvent e){
-                        String maHS = tf3.getText();
-                       dshs = hsbus.getList();
-                       for (HocSinhDTO hs :dshs) { 
-                        if (maHS.equals(hs.getHocSinhID())) {
-                                tf4.setText(hs.getTenHocSinh()); 
-                                tf5.setText(hs.getGioiTinh());
-                                tf6.setText(hs.getNgaySinh());
-                                tf10.setText(hs.getDiaChi());
+        public void loaddatatoPanel() {
+                dsgv = gvbus.getList();
+                
+                       for (GiaoVienDTO gv : dsgv) {
+                        if(maGV.equals(gv.getMaGV())){
+                                tf3.setText(gv.getMaGV());
+                                tf4.setText(gv.getTenGV());
+                                tf6.setText(gv.getNamSinh());
+                                tf5.setText(gv.getGioiTinh());	
+                                tf7.setText(gv.getDienThoai());	
+                                //tf8.setText Phân lớp
+                                // tf9.setText(gv.getDiaChi());	
                         }
-                }
-        }
+                       }
         }
 }
