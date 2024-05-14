@@ -3,9 +3,9 @@ package DTO;
 
 public class GiaoVienDTO {
    private String maGV, HoGV, TenGV,GioiTinh,IMG;
-   private int NamSinh,DienThoai;
+   private String NamSinh,DienThoai;
 
-    public GiaoVienDTO(String maGV, String hoGV, String tenGV, String gioiTinh, String iMG, int namSinh, int dienThoai) {
+    public GiaoVienDTO(String maGV, String hoGV, String tenGV, String gioiTinh, String iMG, String namSinh, String dienThoai) {
     this.maGV = maGV;
     HoGV = hoGV;
     TenGV = tenGV;
@@ -46,16 +46,16 @@ public class GiaoVienDTO {
     public void setIMG(String iMG) {
         IMG = iMG;
     }
-    public int getNamSinh() {
+    public String getNamSinh() {
         return NamSinh;
     }
-    public void setNamSinh(int namSinh) {
+    public void setNamSinh(String namSinh) {
         NamSinh = namSinh;
     }
-    public int getDienThoai() {
+    public String getDienThoai() {
         return DienThoai;
     }
-    public void setDienThoai(int dienThoai) {
+    public void setDienThoai(String dienThoai) {
         DienThoai = dienThoai;
     }
 

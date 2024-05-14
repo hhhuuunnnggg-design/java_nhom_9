@@ -33,5 +33,11 @@ public class NamHocDTO {
     public void setNamHocKetThuc(int namHocKetThuc) {
         NamHocKetThuc = namHocKetThuc;
     }
-
+    public String toString() {
+        return "NamHocDTO{" +
+                "NamHocID='" + NamHocID + '\'' +
+                ", NamHocBatDau=" + NamHocBatDau +
+                ", NamHocKetThuc=" + NamHocKetThuc +
+                '}';
+    }
 }

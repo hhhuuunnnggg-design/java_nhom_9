@@ -1,5 +1,12 @@
 package BUS;
+<<<<<<< HEAD
 //--
+=======
+//*------------------------------ */
+// tets
+//ádas
+
+>>>>>>> e503fc2d7244dfe901b69de0ca69c6fcab7fff09
 import java.util.ArrayList;
 
 import DATA.ChangeAcc_DAO;
