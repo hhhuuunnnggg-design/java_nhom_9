@@ -14,8 +14,6 @@ public class GiaoVienDTO {
     NamSinh = namSinh;
     DienThoai = dienThoai;
 }
-    public GiaoVienDTO() {
-    }
     public String getMaGV() {
         return maGV;
     }

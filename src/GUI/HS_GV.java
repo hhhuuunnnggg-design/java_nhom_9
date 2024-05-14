@@ -29,7 +29,8 @@ import javax.swing.JSeparator;
 import javax.swing.border.Border;
 import java.awt.Image;
 import java.util.concurrent.atomic.AtomicBoolean;
-import GUI.TTTK_HS_GV;
+import GUI.TTTK_HS;
+import GUI.TTTK_GV;
 
 /**
  *

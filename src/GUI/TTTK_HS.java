@@ -466,8 +466,8 @@ public class TTTK_HS extends JPanel {
                 
                        for (HocSinhDTO hs :dshs) {
                         String idhs = hs.getHocSinhID(); 
-                        String imagePath = hs.getIMG();
-                        ImageIcon imageIcon = new ImageIcon(imagePath);
+                        // String imagePath = hs.getIMG();
+                        // ImageIcon imageIcon = new ImageIcon(imagePath);
                         for (NamHocDTO nam : dsnh) {
                         for (PhanLopDTO pl : dsPL){
                         for (LopDTO lop : dsLop){
@@ -484,7 +484,7 @@ public class TTTK_HS extends JPanel {
                                                 tf8.setText(hocluc);
                                                 tf9.setText(hanhkiem);
                                                 tf10.setText(hs.getDiaChi());
-                                                jl2.setIcon(imageIcon);
+                                                // jl2.setIcon(imageIcon);
                         }   
                                 }
                         }

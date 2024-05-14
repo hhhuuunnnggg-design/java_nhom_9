@@ -41,6 +41,7 @@ public class TTTK_GV extends JPanel {
         QLHS_GV_BUS qlhsgv = new QLHS_GV_BUS();
 
         ArrayList<GiaoVienDTO> dsgv;
+        // ArrayList<GiaoVienDTO> dsgv = new ArrayList<GiaoVienDTO>();
         ArrayList<PhanCongDTO> dspc;
 
         public TTTK_GV() {
