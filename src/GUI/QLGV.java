@@ -57,14 +57,15 @@ public class QLGV extends JPanel implements KeyListener {
         Color myColor = new Color(99, 116, 198);
         setLayout(null);
         setBackground(null);
-        setBounds(new Rectangle(50, 0, this.DEFALUT_WIDTH - 220, 1000));
+                                                        //bên phải
+        setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 220, 700));
         Font font0 = new Font("Segoe UI", Font.PLAIN, 13);
         Font font1 = new Font("Segoe UI", Font.BOLD, 13);
         /******************************
          * PHẦN HIỂN THỊ THÔNG TIN
          ******************************************/
-        JPanel ItemView = new JPanel(null);
-        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220, 250));
+        JPanel ItemView = new JPanel(null);                              // kéo xuống
+        ItemView.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 220, 250));
         ItemView.setBackground(myColor);
         /******** Tao Cac Label & TextField ************************/
         JLabel lbIdGV = new JLabel("Mã giáo viên");
@@ -391,7 +392,7 @@ public class QLGV extends JPanel implements KeyListener {
 
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 360, this.DEFALUT_WIDTH - 400, 300));
+        scroll.setBounds(new Rectangle(30, 360, this.DEFALUT_WIDTH - 320, 300));
         // này là màu viền (scroll là thanh cuộn)
         scroll.setBackground(null);
         // cái này là độ rộng của nút di chuyển lên xuống
@@ -404,14 +405,14 @@ public class QLGV extends JPanel implements KeyListener {
                 int i = tbl.getSelectedRow();
                 if (tbl.getRowSorter() != null) {
                     i = tbl.getRowSorter().convertRowIndexToModel(i);
-                }
+               }
                 imgName = tbl.getModel().getValueAt(i, 6).toString();
                 Image newImage;
                 try {
-                    newImage = new ImageIcon("./src/image/SanPham/" + imgName).getImage().getScaledInstance(200, 230,
+                    newImage = new ImageIcon("./src/image/GiaoVien/" + imgName).getImage().getScaledInstance(200, 230,
                             Image.SCALE_DEFAULT);
                 } catch (NullPointerException E) {
-                    newImage = new ImageIcon("./src/image/SanPham/NoImage.jpg").getImage().getScaledInstance(200, 230,
+                    newImage = new ImageIcon("./src/image/GiaoVien/NoImage.jpg").getImage().getScaledInstance(200, 230,
                             Image.SCALE_DEFAULT);
                 }
                 txtmaGV.setText(tbl.getModel().getValueAt(i, 0).toString());
@@ -504,10 +505,10 @@ public class QLGV extends JPanel implements KeyListener {
         sort.setBounds(30, 265, this.DEFALUT_WIDTH - 400, 100);
 
         JLabel sortTitle = new JLabel(
-                "--------------------------------------------------------------------------- TÌM KIẾM THÔNG TIN ---------------------------------------------------------------------------",
+                "----------------------------------------------------------- TÌM KIẾM THÔNG TIN ------------------------------------------------------",
                 JLabel.CENTER); // Mỗi bên 74 dấu ( - )
         sortTitle.setFont(font1);
-        sortTitle.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 400, 30));
+        sortTitle.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 300, 30));
         sort.add(sortTitle);
 
         /******** SORT MAGV **************/
@@ -523,7 +524,7 @@ public class QLGV extends JPanel implements KeyListener {
         sort.add(sortMaGV);
 
         JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_45px.png"));
-        btnSearch.setBounds(new Rectangle(840, 26, 63, 63));
+        btnSearch.setBounds(new Rectangle(600, 26, 63, 63));
         btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnSearch.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -561,6 +562,7 @@ public class QLGV extends JPanel implements KeyListener {
         for (GiaoVienDTO s : gv) {
             data = new Vector();
             data.add(s.getMaGV());
+        
             data.add(s.getHoGV());
             data.add(s.getTenGV());
             data.add(s.getGioiTinh());
@@ -575,7 +577,7 @@ public class QLGV extends JPanel implements KeyListener {
     public void saveIMG() {
         try {
             if (i != null) {
-                File save = new File("src/image/SanPham/" + imgName);// Tạo file
+                File save = new File("src/image/GiaoVien/" + imgName);// Tạo file
                 ImageIO.write(i, "jpg", save); // Lưu hình i vào đường dẫn file save
                 i = null; // Xóa hình trong bộ nhớ
             }

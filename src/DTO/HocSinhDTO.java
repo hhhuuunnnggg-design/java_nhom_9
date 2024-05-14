@@ -86,5 +86,17 @@ public class HocSinhDTO {
     public void setHocPhi(String hocPhi) {
         HocPhi = hocPhi;
     }
-
+    @Override
+    public String toString() {
+        return "HocSinhDTO{" +
+                "HocSinhID='" + HocSinhID + '\'' +
+                ", TenHocSinh='" + TenHocSinh + '\'' +
+                ", GioiTinh='" + GioiTinh + '\'' +
+                ", NgaySinh='" + NgaySinh + '\'' +
+                ", DienThoai='" + DienThoai + '\'' +
+                ", DiaChi='" + DiaChi + '\'' +
+                ", HocPhi='" + HocPhi + '\'' +
+                ", IMG='" + IMG + '\'' +
+                '}';
+    }
 }

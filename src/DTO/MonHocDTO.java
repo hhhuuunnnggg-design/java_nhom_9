@@ -23,5 +23,10 @@ public class MonHocDTO {
     public void setTenMonHoc(String tenMonHoc) {
         TenMonHoc = tenMonHoc;
     }
-
+    public String toString() {
+        return "MonHocDTO{" +
+                "MonHocID='" + MonHocID + '\'' +
+                ", TenMonHoc='" + TenMonHoc + '\'' +
+                '}';
+    }
 }

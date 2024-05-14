@@ -286,6 +286,6 @@ public class diemHS {
                     if (tblModel.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
             }    
-        }      
+       }      
     }
 }

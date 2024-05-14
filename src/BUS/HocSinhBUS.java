@@ -95,7 +95,18 @@ public class HocSinhBUS{
         
         for(HocSinhDTO hs : dshs)
         {
-            if( hs.getHocSinhID().contains(id) && 
+            if (hs.getHocSinhID().equals(id)&& 
+                hs.getTenHocSinh().contains(hoten) &&
+                hs.getGioiTinh().contains(gioitinh) &&
+                hs.getNgaySinh().contains(ngaysinh) &&
+                hs.getDiaChi().contains(diachi) &&
+                hs.getDienThoai().contains(dienthoai) &&
+                hs.getHocPhi().contains(hocphi)) {
+                search.add(hs);
+                break; // Once found, break the loop
+            }
+            else if( id.equals("") &&
+                hs.getHocSinhID().contains(id) && 
                 hs.getTenHocSinh().contains(hoten) &&
                 hs.getGioiTinh().contains(gioitinh) &&
                 hs.getNgaySinh().contains(ngaysinh) &&
@@ -124,22 +135,29 @@ public class HocSinhBUS{
     public ArrayList<HocSinhDTO> getList() {
         return dshs;
     }
-    public static void main(String[] args) {
-    HocSinhBUS hocSinhBUS = new HocSinhBUS(1);
-    ArrayList<HocSinhDTO> hocSinhList = hocSinhBUS.getList();
     
-    // Print the data of each HocSinhDTO object in the list
-    for (HocSinhDTO hs : hocSinhList) {
-        System.out.println("HocSinhID: " + hs.getHocSinhID());
-        System.out.println("HoVaTen: " + hs.getTenHocSinh());
-        System.out.println("GioiTinh: " + hs.getGioiTinh());
-        System.out.println("NgaySinh: " + hs.getNgaySinh());
-        System.out.println("DienThoai: " + hs.getDienThoai());
-        System.out.println("DiaChi: " + hs.getDiaChi());
-        System.out.println("HocPhi: " + hs.getHocPhi());
-        System.out.println("IMG: " + hs.getIMG());
-        System.out.println(); // for readability
+    public static void main(String[] args) {
+        // Create an instance of HocSinhBUS
+        HocSinhBUS hocSinhBUS = new HocSinhBUS(1);
+    
+        // Call the search method with the specified parameters
+        String idToSearch = "HS1";
+        ArrayList<HocSinhDTO> searchResult = hocSinhBUS.search(idToSearch, null, null, null, null, null, null);
+    
+        // Print the search result
+        System.out.println("Search result for HocSinhID: " + idToSearch);
+        for (HocSinhDTO hs : searchResult) {
+            System.out.println("HocSinhID: " + hs.getHocSinhID());
+            System.out.println("HoVaTen: " + hs.getTenHocSinh());
+            System.out.println("GioiTinh: " + hs.getGioiTinh());
+            System.out.println("NgaySinh: " + hs.getNgaySinh());
+            System.out.println("DienThoai: " + hs.getDienThoai());
+            System.out.println("DiaChi: " + hs.getDiaChi());
+            System.out.println("HocPhi: " + hs.getHocPhi());
+            System.out.println("IMG: " + hs.getIMG());
+            System.out.println(); // for readability
         }
     }
+    
 
 }

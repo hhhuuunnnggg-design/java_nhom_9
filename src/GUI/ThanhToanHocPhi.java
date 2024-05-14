@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
  *
  * @author PHUONG ANH
  */
-public class ThanhToanHocPhi {
+public class ThanhToanHocPhi extends JPanel{
     JFrame f;
     JPanel feePanel, topPanel, midPanel;
     JTextField txtSearch, txthoten, txtlop, txtngaysinh, txtdienthoai, txtStatus;
@@ -34,7 +34,7 @@ public class ThanhToanHocPhi {
     LopBUS dsLop = new LopBUS(1);
 
     public ThanhToanHocPhi(){
-        f = new JFrame();
+        
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setLayout(new BorderLayout());
         f.setSize(850, 670);
@@ -176,9 +176,7 @@ public class ThanhToanHocPhi {
     }
     
     
-    public static void main(String[] args){
-        new ThanhToanHocPhi();
-    }
+   
 
     private class SearchBtnListener implements ActionListener {
 
