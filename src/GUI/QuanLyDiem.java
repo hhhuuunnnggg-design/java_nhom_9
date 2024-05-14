@@ -39,10 +39,10 @@ import DTO.PhanLopDTO;
  */
 public class QuanLyDiem extends JPanel{
     private JFrame f;
-    private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, contentPanel;
+    private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, btnPanel2, contentPanel, detailPanel, main_detailPanel;
     private JRadioButton b1, b2, b3, b4, b5, b6;
     private JComboBox<String> optionLop, optionMon, optionHe, optionHocky, optionNam;
-    private JTextField s, inputID;
+    private JTextField s, inputID, outputDiem;
     private JLabel l1, l2;
     private JButton filterBtn, editBtn, delBtn;
     private NonEditableTableModel tblModel;
@@ -139,15 +139,21 @@ public class QuanLyDiem extends JPanel{
         s = new JTextField(4);
         s.setEditable(false);
 
-        btnPanel = new JPanel();
-        btnPanel.setPreferredSize(new Dimension(108, 0));
+        btnPanel = new JPanel(new GridBagLayout());
+        btnPanel.setPreferredSize(new Dimension(150, 0));
         btnPanel.setOpaque(false);
-        btnPanel.setLayout(new GridLayout(4, 1, 0,0));
 
-        filterBtn = new JButton("Lọc");
         editBtn = new JButton("Sửa");
-        delBtn = new JButton("Xóa");
+        editBtn.setPreferredSize(new Dimension(110, 30));
+        editBtn.setBackground(new Color(0, 83, 22));
+        editBtn.setForeground(color.WHITE);
 
+        delBtn = new JButton("Xóa");
+        delBtn.setPreferredSize(new Dimension(110, 30));
+        delBtn.setBackground(new Color(255,49,49));
+        delBtn.setForeground(color.WHITE);
+        filterBtn = new JButton("Lọc");
+        filterBtn.setPreferredSize(new Dimension(110, 30));
         filterBtn.setBackground(new Color(31, 28, 77));
         filterBtn.setForeground(Color.WHITE);
 
@@ -155,11 +161,45 @@ public class QuanLyDiem extends JPanel{
         deselectButton.addActionListener(e -> {
             buttonGroup.clearSelection(); // Deselect all buttons
         });
+        deselectButton.setPreferredSize(new Dimension(110, 30));
 
-        btnPanel.add(filterBtn);
-        btnPanel.add(deselectButton);
-        btnPanel.add(editBtn);
-        btnPanel.add(delBtn);
+        detailPanel = new JPanel();
+        detailPanel.setLayout(new BorderLayout());
+        detailPanel.setOpaque(true);
+        detailPanel.setPreferredSize(new Dimension(0,120));
+
+        btnPanel2 = new JPanel(new GridBagLayout());
+        btnPanel2.setPreferredSize(new Dimension(150, 0));
+        btnPanel2.setOpaque(false);
+        GridBagConstraints gbcShowBtn = new GridBagConstraints();
+        gbcShowBtn.gridx = 0;
+        gbcShowBtn.gridy = 0;
+        gbcShowBtn.insets = new Insets(5, 0, 5, 10);
+
+        GridBagConstraints gbcExportBtn = new GridBagConstraints();
+        gbcExportBtn.gridx = 0;
+        gbcExportBtn.gridy = 1;
+        gbcExportBtn.insets = new Insets(5, 0, 5, 10);
+///////////////
+        main_detailPanel = new JPanel();
+        main_detailPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 50));
+
+
+        
+        JLabel a1=new JLabel("Nhập thay đổi điểm:    ");
+        outputDiem = new JTextField(5);
+        a1.setPreferredSize(new Dimension(200, 30));
+        outputDiem.setPreferredSize(new Dimension(200, 30));
+        Font font = a1.getFont();
+        float fontSize = font.getSize() + 5; // Increase the font size by 5 points (adjust as needed)
+        a1.setFont(font.deriveFont(fontSize));
+        main_detailPanel.add(a1);
+        main_detailPanel.add(outputDiem);
+        detailPanel.add(main_detailPanel);
+
+/////////
+        btnPanel.add(deselectButton, gbcShowBtn );
+        btnPanel.add(filterBtn,gbcExportBtn);
 
         totalPanel.add(l2);
         totalPanel.add(s);
@@ -188,12 +228,16 @@ public class QuanLyDiem extends JPanel{
 
         f.add(topPanel, BorderLayout.NORTH);
 
+        btnPanel2.add(delBtn, gbcExportBtn);
+        btnPanel2.add(editBtn, gbcShowBtn);
+        
+        detailPanel.add(btnPanel2, BorderLayout.EAST);
         contentPanel=new JPanel();
         contentPanel.setLayout(new BorderLayout());
         contentPanel.setOpaque(true);
-        contentPanel.add(initTable(), BorderLayout.NORTH);
+        contentPanel.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
-
+        contentPanel.add(detailPanel, BorderLayout.NORTH);
         f.add(contentPanel);
         f.setVisible(true);
 
@@ -205,7 +249,7 @@ public class QuanLyDiem extends JPanel{
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollPane = new JScrollPane(t);
-        scrollPane.setPreferredSize(new Dimension(0, 520));
+        scrollPane.setPreferredSize(new Dimension(0, 320));
     
         String[] headers = {"ID", "Tên HS", "Lớp", "Môn Học", "Hệ Điểm", "Điểm", "Học Kỳ", "ĐiểmTB HK", "Năm Học", "ĐiểmTB NH"};
         int editableColumnIndex = 5; // Điểm column
@@ -305,59 +349,23 @@ public class QuanLyDiem extends JPanel{
             dshk = hkbus.search(null, hocky);
             dsmon = mhbus.search(null, monhoc);
 
-        System.out.println("HocSinhDTO:");
-        for (HocSinhDTO hs : dshs) {
-            System.out.println(hs.toString());
-        }
-            System.out.println("NamHocDTO:");
-        for (NamHocDTO nh : dsnh) {
-            System.out.println(nh.toString());
-        }
-
-        System.out.println("LopDTO:");
-        for (LopDTO lop : dslop) {
-            System.out.println(lop.toString());
-        }
-
-        System.out.println("HocKyDTO:");
-        for (HocKyDTO hk : dshk) {
-            System.out.println(hk.toString());
-        }
-
-        System.out.println("MonHocDTO:");
-        for (MonHocDTO mh : dsmon) {
-            System.out.println(mh.toString());
-        }
-
-        if (dsnh.isEmpty() || dsmon.isEmpty() || dshk.isEmpty() || dslop.isEmpty()) {
-            System.out.println("One or more lists is empty.");
-            return;
-        }
-
-            int a=0;
             for (HocSinhDTO hs : dshs){
                 System.out.println("loc hs");
                 
                 for (NamHocDTO nh : dsnh) {
 
-                    System.out.println("loc nam hoc");
                     for(LopDTO lop : dslop){
-                        System.out.println("loc lop lan");
-                        System.out.print(a++);
+                        
                         String idnamhoc = nh.getNamHocID();
                         String idhs = hs.getHocSinhID();
                         String idlop = lop.getLopID();
                         if(plbus.get(idhs, idnamhoc).getLopID().equals(idlop)){
-                            System.out.println("tim dc lop");
                             for(HocKyDTO hk : dshk){
     
                                 String idhk = hk.getHocKyID();
-                                System.out.println("loc hoc ky");
                                 for (MonHocDTO mh : dsmon) {
                                     String idmon = mh.getMonHocID();
-                                    System.out.println("loc mon hoc");
                                     for (int heso = i ; heso < hediem; heso++) {
-                                        System.out.println("A");
                                         String Diem = ctbus.get(idhs, idnamhoc, idhk, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idnamhoc, idhk, idmon, heso).getDiem()) : "";
                                         String diemTrungBinhHocKy = dtbbus.get(idhs, idnamhoc, idhk) != null ? String.valueOf(dtbbus.get(idhs, idnamhoc, idhk).getDiemTrungBinh()) : "";
                                         String diemTrungBinhNam = kqbus.get(idhs, idnamhoc) != null ? String.valueOf(kqbus.get(idhs, idnamhoc).getDiemTrungBinhNam()) : "";
