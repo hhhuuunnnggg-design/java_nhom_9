@@ -443,9 +443,9 @@ public class TTTK_GV extends JPanel {
                         if(maGV.equals(gv.getMaGV())){
                                 tf3.setText(gv.getMaGV());
                                 tf4.setText(gv.getTenGV());
-                                tf6.setText(gv.getNamSinh());
+                                // tf6.setText(gv.getNamSinh());
                                 tf5.setText(gv.getGioiTinh());	
-                                tf7.setText(gv.getDienThoai());	
+                                // tf7.setText(gv.getDienThoai());	
                                 //tf8.setText Phân lớp
                                 // tf9.setText(gv.getDiaChi());	
                         }
