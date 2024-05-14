@@ -210,18 +210,40 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             // main.repaint();
             // main.revalidate();
             // break;
-            case 0: // QUẢN LÝ KHÁCH HÀNG
+            case 0: // QUẢN LÝ Giao Vien
                 main.removeAll();
                 main.add(new QLGV(DEFALUT_WIDTH));
                 // main.add(new KhachHangGUI(DEFALUT_WIDTH));
                 main.repaint();
                 main.revalidate();
                 break;
+
+            case 1: // QUẢN LÝ Hoc Sinh
+              main.removeAll();
+                try {
+                    main.add(new QuanLiHocSinh(850,670));
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            main.repaint();
+            main.revalidate();
+              break;    
+                
+            case 2: // thanh toan hoc phi
+                main.removeAll();
+                main.add(new ThanhToanHocPhi());
+                // main.add(new KhachHangGUI(DEFALUT_WIDTH));
+                main.repaint();
+                main.revalidate();
+                break;
+
+
             case 4: // NHẬP VẦ XUẤT
-                if (flag) {
+               if (flag) {
                     // Thêm 2 btn vào dưới thống kê
                     navItem.add(5, "Chức năng 4.1:KhachHang_20px.png:KhachHang_20px_active.png");
-                    navItem.add(6, "Chức năng 4.2:KhachHang_20px.png:KhachHang_20px_active.png");
+                   navItem.add(6, "Chức năng 4.2:KhachHang_20px.png:KhachHang_20px_active.png");
 
                     flag = false; // Thông báo là đang Dropdown thống kê
                 } else {

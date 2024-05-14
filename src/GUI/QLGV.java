@@ -404,14 +404,14 @@ public class QLGV extends JPanel implements KeyListener {
                 int i = tbl.getSelectedRow();
                 if (tbl.getRowSorter() != null) {
                     i = tbl.getRowSorter().convertRowIndexToModel(i);
-                }
+               }
                 imgName = tbl.getModel().getValueAt(i, 6).toString();
                 Image newImage;
                 try {
-                    newImage = new ImageIcon("./src/image/SanPham/" + imgName).getImage().getScaledInstance(200, 230,
+                    newImage = new ImageIcon("./src/image/GiaoVien/" + imgName).getImage().getScaledInstance(200, 230,
                             Image.SCALE_DEFAULT);
                 } catch (NullPointerException E) {
-                    newImage = new ImageIcon("./src/image/SanPham/NoImage.jpg").getImage().getScaledInstance(200, 230,
+                    newImage = new ImageIcon("./src/image/GiaoVien/NoImage.jpg").getImage().getScaledInstance(200, 230,
                             Image.SCALE_DEFAULT);
                 }
                 txtmaGV.setText(tbl.getModel().getValueAt(i, 0).toString());
