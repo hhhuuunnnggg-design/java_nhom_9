@@ -8,17 +8,42 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import BUS.HocSinhBUS;
+import BUS.GiaoVienBUS;
+import BUS.QLHS_GV_BUS;
+
+import DTO.HocSinhDTO;
+import DTO.LopDTO;
+import DTO.PhanCongDTO;
+import DTO.GiaoVienDTO;
+import DTO.PhanLopDTO;
 /**
  *
  * @author MSI MODERN 14
  */
-public class TTTK_HS_GV extends JPanel {
-        public TTTK_HS_GV() {
+public class TTTK_GV extends JPanel {
+        private JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10, tf11, tf12;
+        private JButton btn1, btn2, btn3;
+        private JLabel jl1, jl2, jl3, jl4, jl5, jl6, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14, jl15;
+        String maGV = "GV1";
+        GiaoVienBUS gvbus = new GiaoVienBUS();
+        QLHS_GV_BUS qlhsgv = new QLHS_GV_BUS();
+
+        ArrayList<GiaoVienDTO> dsgv;
+        ArrayList<PhanCongDTO> dspc;
+
+        public TTTK_GV() {
                 setPreferredSize(new Dimension(850, 670));
                 setBackground(Color.WHITE);
                 setLayout(new BorderLayout());
@@ -28,7 +53,7 @@ public class TTTK_HS_GV extends JPanel {
                 topPanel.setPreferredSize(new Dimension(250, 670));
                 topPanel.setBackground(Color.WHITE);
 
-                // JLabel jl1 = new JLabel("Tài khoản HS_GV");
+                // jl1 = new JLabel("Tài khoản HS_GV");
                 // jl1.setFont(jl1.getFont().deriveFont(Font.BOLD, 20));
                 // jl1.setHorizontalAlignment(JLabel.CENTER);
                 // jl1.setVerticalAlignment(JLabel.CENTER);
@@ -41,7 +66,7 @@ public class TTTK_HS_GV extends JPanel {
                 // gbc1.anchor = GridBagConstraints.NORTH;
                 // topPanel.add(jl1, gbc1);
 
-                JLabel jl2 = new JLabel();
+                jl2 = new JLabel();
                 jl2.setPreferredSize(new Dimension(120, 120));
                 jl2.setBackground(Color.WHITE);
                 jl2.setOpaque(true);
@@ -60,7 +85,7 @@ public class TTTK_HS_GV extends JPanel {
                 jl2.setIcon(imageIcon1);
                 topPanel.add(jl2, gbc2);
 
-                // JLabel jl3 = new JLabel();
+                // jl3 = new JLabel();
                 // jl3.setPreferredSize(new Dimension (30,30));
                 // jl3.setBackground(Color.WHITE);
                 // jl3.setOpaque(true);
@@ -82,7 +107,7 @@ public class TTTK_HS_GV extends JPanel {
 
                 // JPanel botPanel = new JPanel();
                 // botPanel.setLayout(new GridBagLayout());
-                // JLabel jl4 = new JLabel ("Tạo tài khoản");
+                // jl4 = new JLabel ("Tạo tài khoản");
                 // jl4.setForeground(Color.WHITE);
                 // jl4.setPreferredSize(new Dimension (150,40));
                 // jl4.setFont(jl1.getFont().deriveFont(Font.BOLD, 18));
@@ -98,13 +123,13 @@ public class TTTK_HS_GV extends JPanel {
                 // gbc4.insets = new Insets(210, 0, 110, 0); // Khoảng cách dưới 10 pixels
                 // gbc4.anchor = GridBagConstraints.SOUTH;
                 // topPanel.add(jl4,gbc4);
-                add(topPanel, BorderLayout.WEST);
+                // add(topPanel, BorderLayout.WEST);
 
                 JPanel rightPanel = new JPanel(new GridBagLayout());
-                rightPanel.setPreferredSize(new Dimension(600, 670));
+                rightPanel.setPreferredSize(new Dimension(850, 670));
                 rightPanel.setBackground(new Color(180, 204, 227));
 
-                JLabel jl5 = new JLabel("Mã tài khoản:");
+                jl5 = new JLabel("Mã tài khoản:");
                 // jl5.setForeground(Color.WHITE);
                 jl5.setPreferredSize(new Dimension(150, 40));
                 jl5.setFont(jl5.getFont().deriveFont(Font.BOLD, 18));
@@ -117,9 +142,9 @@ public class TTTK_HS_GV extends JPanel {
                 gbc5.weighty = 0;
                 gbc5.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc5.anchor = GridBagConstraints.WEST;
-                rightPanel.add(jl5, gbc5);
+                // rightPanel.add(jl5, gbc5);
 
-                JTextField tf1 = new JTextField();
+                tf1 = new JTextField();
                 tf1.setPreferredSize(new Dimension(300, 30));
                 tf1.setFont(tf1.getFont().deriveFont(Font.BOLD, 18));
                 tf1.setHorizontalAlignment(JLabel.CENTER);
@@ -132,9 +157,9 @@ public class TTTK_HS_GV extends JPanel {
                 gbc6.weighty = 0;
                 gbc6.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
                 gbc6.anchor = GridBagConstraints.EAST;
-                rightPanel.add(tf1, gbc6);
+                // rightPanel.add(tf1, gbc6);
 
-                JLabel jl6 = new JLabel("Tạo mật khẩu:");
+                jl6 = new JLabel("Tạo mật khẩu:");
                 // jl6.setForeground(Color.WHITE);
                 jl6.setPreferredSize(new Dimension(150, 40));
                 jl6.setFont(jl6.getFont().deriveFont(Font.BOLD, 18));
@@ -147,9 +172,9 @@ public class TTTK_HS_GV extends JPanel {
                 gbc7.weighty = 0;
                 gbc7.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc7.anchor = GridBagConstraints.WEST;
-                rightPanel.add(jl6, gbc7);
+                // rightPanel.add(jl6, gbc7);
 
-                JTextField tf2 = new JTextField();
+                tf2 = new JTextField();
                 tf2.setPreferredSize(new Dimension(300, 30));
                 tf2.setFont(tf2.getFont().deriveFont(Font.BOLD, 18));
                 tf2.setHorizontalAlignment(JLabel.CENTER);
@@ -162,9 +187,9 @@ public class TTTK_HS_GV extends JPanel {
                 gbc8.weighty = 0;
                 gbc8.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
                 gbc8.anchor = GridBagConstraints.EAST;
-                rightPanel.add(tf2, gbc8);
+                // rightPanel.add(tf2, gbc8);
 
-                JLabel jl7 = new JLabel("Mã học sinh:");
+                jl7 = new JLabel("Mã giáo viên:");
                 // jl7.setForeground(Color.WHITE);
                 jl7.setPreferredSize(new Dimension(150, 40));
                 jl7.setFont(jl7.getFont().deriveFont(Font.BOLD, 18));
@@ -179,22 +204,23 @@ public class TTTK_HS_GV extends JPanel {
                 gbc9.anchor = GridBagConstraints.WEST;
                 rightPanel.add(jl7, gbc9);
 
-                JTextField tf3 = new JTextField();
+                tf3 = new JTextField();
                 tf3.setPreferredSize(new Dimension(300, 30));
                 tf3.setFont(tf3.getFont().deriveFont(Font.BOLD, 18));
                 tf3.setHorizontalAlignment(JLabel.CENTER);
                 tf3.setBackground(Color.WHITE);
                 tf3.setOpaque(true);
+
                 GridBagConstraints gbc10 = new GridBagConstraints();
                 gbc10.gridx = 1;
                 gbc10.gridy = 2;
                 gbc10.weightx = 0;
                 gbc10.weighty = 0;
-                gbc10.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
-                gbc10.anchor = GridBagConstraints.EAST;
+                gbc10.insets = new Insets(0, 20, 0, 0); // Khoảng cách dưới 10 pixels
+                gbc10.anchor = GridBagConstraints.WEST;
                 rightPanel.add(tf3, gbc10);
 
-                JLabel jl8 = new JLabel("Họ tên:");
+                jl8 = new JLabel("Họ tên:");
                 // jl8.setForeground(Color.WHITE);
                 jl8.setPreferredSize(new Dimension(150, 40));
                 jl8.setFont(jl8.getFont().deriveFont(Font.BOLD, 18));
@@ -209,7 +235,7 @@ public class TTTK_HS_GV extends JPanel {
                 gbc11.anchor = GridBagConstraints.WEST;
                 rightPanel.add(jl8, gbc11);
 
-                JTextField tf4 = new JTextField();
+                tf4 = new JTextField();
                 tf4.setPreferredSize(new Dimension(300, 30));
                 tf4.setFont(tf4.getFont().deriveFont(Font.BOLD, 18));
                 tf4.setHorizontalAlignment(JLabel.CENTER);
@@ -224,7 +250,7 @@ public class TTTK_HS_GV extends JPanel {
                 gbc12.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf4, gbc12);
 
-                JLabel jl9 = new JLabel("Giới tính:");
+                jl9 = new JLabel("Giới tính:");
                 // jl9.setForeground(Color.WHITE);
                 jl9.setPreferredSize(new Dimension(150, 40));
                 jl9.setFont(jl9.getFont().deriveFont(Font.BOLD, 18));
@@ -239,7 +265,7 @@ public class TTTK_HS_GV extends JPanel {
                 gbc13.anchor = GridBagConstraints.WEST;
                 rightPanel.add(jl9, gbc13);
 
-                JTextField tf5 = new JTextField();
+                tf5 = new JTextField();
                 tf5.setPreferredSize(new Dimension(300, 30));
                 tf5.setFont(tf5.getFont().deriveFont(Font.BOLD, 18));
                 tf5.setHorizontalAlignment(JLabel.CENTER);
@@ -254,7 +280,7 @@ public class TTTK_HS_GV extends JPanel {
                 gbc14.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf5, gbc14);
 
-                JLabel jl10 = new JLabel("Ngày sinh:");
+                jl10 = new JLabel("Ngày sinh:");
                 // jl10.setForeground(Color.WHITE);
                 jl10.setPreferredSize(new Dimension(150, 40));
                 jl10.setFont(jl10.getFont().deriveFont(Font.BOLD, 18));
@@ -269,7 +295,7 @@ public class TTTK_HS_GV extends JPanel {
                 gbc15.anchor = GridBagConstraints.WEST;
                 rightPanel.add(jl10, gbc15);
 
-                JTextField tf6 = new JTextField();
+                tf6 = new JTextField();
                 tf6.setPreferredSize(new Dimension(300, 30));
                 tf6.setFont(tf6.getFont().deriveFont(Font.BOLD, 18));
                 tf6.setHorizontalAlignment(JLabel.CENTER);
@@ -284,7 +310,7 @@ public class TTTK_HS_GV extends JPanel {
                 gbc16.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf6, gbc16);
 
-                JLabel jl11 = new JLabel("Địa chỉ:");
+                jl11 = new JLabel("Điện thoại:");
                 // jl11.setForeground(Color.WHITE);
                 jl11.setPreferredSize(new Dimension(150, 40));
                 jl11.setFont(jl11.getFont().deriveFont(Font.BOLD, 18));
@@ -299,7 +325,7 @@ public class TTTK_HS_GV extends JPanel {
                 gbc15.anchor = GridBagConstraints.WEST;
                 rightPanel.add(jl11, gbc17);
 
-                JTextField tf7 = new JTextField();
+                tf7 = new JTextField();
                 tf7.setPreferredSize(new Dimension(300, 30));
                 tf7.setFont(tf7.getFont().deriveFont(Font.BOLD, 18));
                 tf7.setHorizontalAlignment(JLabel.CENTER);
@@ -313,6 +339,115 @@ public class TTTK_HS_GV extends JPanel {
                 gbc18.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
                 gbc18.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf7, gbc18);
+                
+
+                jl12 = new JLabel("Phân lớp:");
+                // jl12.setForeground(Color.WHITE);
+                jl12.setPreferredSize(new Dimension(150, 40));
+                jl12.setFont(jl12.getFont().deriveFont(Font.BOLD, 18));
+                jl12.setHorizontalAlignment(JLabel.CENTER);
+                jl12.setVerticalAlignment(JLabel.CENTER);
+                GridBagConstraints gbc19 = new GridBagConstraints();
+                gbc19.gridx = 0;
+                gbc19.gridy = 7;
+                gbc19.weightx = 0;
+                gbc19.weighty = 0;
+                gbc19.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
+                gbc19.anchor = GridBagConstraints.WEST;
+                rightPanel.add(jl12, gbc19);
+
+                tf8 = new JTextField();
+                tf8.setPreferredSize(new Dimension(300, 30));
+                tf8.setFont(tf8.getFont().deriveFont(Font.BOLD, 18));
+                tf8.setHorizontalAlignment(JLabel.CENTER);
+                tf8.setBackground(Color.WHITE);
+                tf8.setOpaque(true);
+                GridBagConstraints gbc20 = new GridBagConstraints();
+                gbc20.gridx = 1;
+                gbc20.gridy = 7;
+                gbc20.weightx = 0;
+                gbc20.weighty = 0;
+                gbc20.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
+                gbc20.anchor = GridBagConstraints.EAST;
+                rightPanel.add(tf8, gbc20);
+                
+
+                jl13 = new JLabel("Hạnh kiểm:");
+                // jl13.setForeground(Color.WHITE);
+                jl13.setPreferredSize(new Dimension(150, 40));
+                jl13.setFont(jl13.getFont().deriveFont(Font.BOLD, 18));
+                jl13.setHorizontalAlignment(JLabel.CENTER);
+                jl13.setVerticalAlignment(JLabel.CENTER);
+                GridBagConstraints gbc21 = new GridBagConstraints();
+                gbc21.gridx = 0;
+                gbc21.gridy = 8;
+                gbc21.weightx = 0;
+                gbc21.weighty = 0;
+                gbc21.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
+                gbc21.anchor = GridBagConstraints.WEST;
+                // rightPanel.add(jl13, gbc21);
+
+                tf9 = new JTextField();
+                tf9.setPreferredSize(new Dimension(300, 30));
+                tf9.setFont(tf9.getFont().deriveFont(Font.BOLD, 18));
+                tf9.setHorizontalAlignment(JLabel.CENTER);
+                tf9.setBackground(Color.WHITE);
+                tf9.setOpaque(true);
+                GridBagConstraints gbc22 = new GridBagConstraints();
+                gbc22.gridx = 1;
+                gbc22.gridy = 8;
+                gbc22.weightx = 0;
+                gbc22.weighty = 0;
+                gbc22.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
+                gbc22.anchor = GridBagConstraints.EAST;
+                // rightPanel.add(tf9, gbc22);
+                
+
+                jl14 = new JLabel("Địa chỉ:");
+                // jl14.setForeground(Color.WHITE);
+                jl14.setPreferredSize(new Dimension(150, 40));
+                jl14.setFont(jl14.getFont().deriveFont(Font.BOLD, 18));
+                jl14.setHorizontalAlignment(JLabel.CENTER);
+                jl14.setVerticalAlignment(JLabel.CENTER);
+                GridBagConstraints gbc23 = new GridBagConstraints();
+                gbc23.gridx = 0;
+                gbc23.gridy = 9;
+                gbc23.weightx = 0;
+                gbc23.weighty = 0;
+                gbc23.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
+                gbc23.anchor = GridBagConstraints.WEST;
+                rightPanel.add(jl14, gbc23);
+
+                tf10 = new JTextField();
+                tf10.setPreferredSize(new Dimension(300, 30));
+                tf10.setFont(tf10.getFont().deriveFont(Font.BOLD, 18));
+                tf10.setHorizontalAlignment(JLabel.CENTER);
+                tf10.setBackground(Color.WHITE);
+                tf10.setOpaque(true);
+                GridBagConstraints gbc24 = new GridBagConstraints();
+                gbc24.gridx = 1;
+                gbc24.gridy = 9;
+                gbc24.weightx = 0;
+                gbc24.weighty = 0;
+                gbc24.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
+                gbc24.anchor = GridBagConstraints.EAST;
+                rightPanel.add(tf10,gbc24);
                 add(rightPanel, BorderLayout.CENTER);
+                loaddatatoPanel();
+        }
+        public void loaddatatoPanel() {
+                dsgv = gvbus.getList();
+                
+                       for (GiaoVienDTO gv : dsgv) {
+                        if(maGV.equals(gv.getMaGV())){
+                                tf3.setText(gv.getMaGV());
+                                tf4.setText(gv.getTenGV());
+                                tf6.setText(gv.getNamSinh());
+                                tf5.setText(gv.getGioiTinh());	
+                                tf7.setText(gv.getDienThoai());	
+                                //tf8.setText Phân lớp
+                                // tf9.setText(gv.getDiaChi());	
+                        }
+                       }
         }
 }

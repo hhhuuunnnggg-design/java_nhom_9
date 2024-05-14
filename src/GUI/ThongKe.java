@@ -2,14 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
- package GUI;
+package GUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import BUS.HocSinhBUS;
 import BUS.KQ_HocSinhCaNamBUS;
@@ -21,9 +32,6 @@ import DTO.NamHocDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-
-
 
 /**
  *
@@ -44,18 +52,18 @@ public class ThongKe {
     HocSinhBUS hsbus = new HocSinhBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
 
-    ArrayList <HocSinhDTO> dsHS;
-    ArrayList <KQ_HocSinhCaNamDTO> dsKQ;
+    ArrayList<HocSinhDTO> dsHS;
+    ArrayList<KQ_HocSinhCaNamDTO> dsKQ;
     ArrayList<NamHocDTO> dsnh;
-    
+
     public ThongKe() throws SQLException {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setLayout(new BorderLayout());
         f.setSize(850, 670);
         f.setLocationRelativeTo(null);
-            f.setResizable(false);
-        
+        f.setResizable(false);
+
         topThongKe = new JPanel();
         topThongKe.setLayout(new BorderLayout());
         topThongKe.setPreferredSize(new Dimension(0, 150));
@@ -82,7 +90,7 @@ public class ThongKe {
         b3.setFont(new Font("Arial", Font.PLAIN, 16));
         b4.setFont(new Font("Arial", Font.PLAIN, 16));
         b5.setFont(new Font("Arial", Font.PLAIN, 16));
-        
+
         int topMargin = 10;
         int leftMargin = 25;
         int bottomMargin = 0;
@@ -96,15 +104,15 @@ public class ThongKe {
         dropdownPanel = new JPanel();
         dropdownPanel.setOpaque(false);
 
-        String[] option1 = {"Tất cả","Giỏi", "Khá", "Trung bình", "Yếu"};
+        String[] option1 = { "Tất cả", "Giỏi", "Khá", "Trung bình", "Yếu" };
         optionHL = new JComboBox<>(option1);
-        String[] option2 = {"Tất cả","Tốt", "Khá", "Trung bình", "Yếu"};
+        String[] option2 = { "Tất cả", "Tốt", "Khá", "Trung bình", "Yếu" };
         optionHK = new JComboBox<>(option2);
-        String[] option3 = {"Tất cả","Đã thanh toán", "Chưa thanh toán"};
+        String[] option3 = { "Tất cả", "Đã thanh toán", "Chưa thanh toán" };
         optionHP = new JComboBox<>(option3);
-        String[] option4 = {"Tất cả","2024-2025", "2023-2024"};
+        String[] option4 = { "Tất cả", "2024-2025", "2023-2024" };
         optionNH = new JComboBox<>(option4);
-        String[] option5 = {"Tất cả","Lên Lớp", "Học Lại"};
+        String[] option5 = { "Tất cả", "Lên Lớp", "Học Lại" };
         optionKQ = new JComboBox<>(option5);
 
         optionHL.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -121,7 +129,6 @@ public class ThongKe {
         s = new JTextField(4);
         s.setEditable(false);
         s.setHorizontalAlignment(SwingConstants.CENTER);
-        
 
         btnPanel = new JPanel(new GridBagLayout());
         btnPanel.setPreferredSize(new Dimension(120, 0));
@@ -146,10 +153,9 @@ public class ThongKe {
         GridBagConstraints gbcExportBtn = new GridBagConstraints();
         gbcExportBtn.gridx = 0;
         gbcExportBtn.gridy = 1;
-        gbcExportBtn.insets = new Insets(5, 0, 5, 10); 
+        gbcExportBtn.insets = new Insets(5, 0, 5, 10);
         btnPanel.add(exportBtn, gbcExportBtn);
 
-        
         totalPanel.add(l2);
         totalPanel.add(s);
         radioPanel.add(b1);
@@ -163,76 +169,77 @@ public class ThongKe {
         dropdownPanel.add(optionHP);
         dropdownPanel.add(optionNH);
         dropdownPanel.add(optionKQ);
-        
+
         selectPanel.add(l1);
         selectPanel.add(radioPanel);
         selectPanel.add(dropdownPanel);
         selectPanel.add(totalPanel);
-        
-        topThongKe.add(selectPanel,BorderLayout.CENTER);
-        topThongKe.add(btnPanel,BorderLayout.EAST);
-        
-        f.add(topThongKe,BorderLayout.NORTH);
-        
-        contentThongKe=new JPanel();
+
+        topThongKe.add(selectPanel, BorderLayout.CENTER);
+        topThongKe.add(btnPanel, BorderLayout.EAST);
+
+        f.add(topThongKe, BorderLayout.NORTH);
+
+        contentThongKe = new JPanel();
         contentThongKe.setLayout(new BorderLayout());
         contentThongKe.setOpaque(true);
         contentThongKe.add(initTable(), BorderLayout.NORTH);
         loaddatatoTable();
 
         f.add(contentThongKe, BorderLayout.CENTER);
-        
+
         f.setVisible(true);
 
         showBtn.addActionListener(new ShowBtnListener());
-        }
-        
-    public JScrollPane initTable() throws SQLException{
+        exportBtn.addActionListener(new expBtnListener());
+    }
+
+    public JScrollPane initTable() throws SQLException {
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollPane = new JScrollPane(t);
-        scrollPane.setPreferredSize(new Dimension(0,520));
+        scrollPane.setPreferredSize(new Dimension(0, 520));
 
-        String[] headers = {"ID", "Tên HS", "Giới tính", "Ngày sinh", "Điện thoại", "Địa chỉ","Hạnh Kiểm", "Học Lực", "Tình trạng học phí","Năm Học", "Kết quả"};
+        String[] headers = { "ID", "Tên HS", "Giới tính", "Ngày sinh", "Điện thoại", "Địa chỉ", "Hạnh Kiểm", "Học Lực",
+                "Tình trạng học phí", "Năm Học", "Kết quả" };
         tblModel = new DefaultTableModel();
         for (String header : headers) {
             tblModel.addColumn(header);
         }
         t.setModel(tblModel);
-        
 
-        ((DefaultTableCellRenderer)t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        ((DefaultTableCellRenderer) t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < tblModel.getColumnCount(); i++) {
             t.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
         return scrollPane;
     }
-    
-    public void loaddatatoTable(){
+
+    public void loaddatatoTable() {
         tblModel.setRowCount(0);
 
         dsnh = nhbus.getList();
         dsHS = hsbus.getList();
         dsKQ = kqbus.getList();
 
-        for (HocSinhDTO x  : dsHS){
+        for (HocSinhDTO x : dsHS) {
             String idhs = x.getHocSinhID();
-            for (NamHocDTO nam : dsnh){
+            for (NamHocDTO nam : dsnh) {
                 String idnam = nam.getNamHocID();
-                String hanhkiem = kqbus.get(idhs,idnam) != null? kqbus.get(idhs,idnam).getHanhKiem():"";
-                String hocluc = kqbus.get(idhs,idnam)!= null? kqbus.get(idhs,idnam).getHocLuc():"";
-                String ketqua = kqbus.get(idhs,idnam)!= null? kqbus.get(idhs,idnam).getKetQua():"";
-                String []rowData = new String[]{
-                idhs, x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(),
-                hanhkiem,
-                hocluc,
-                x.getHocPhi(),
-                nhbus.get(idnam).getNamHocBatDau()+"-"+nhbus.get(idnam).getNamHocKetThuc(),
-                ketqua
+                String hanhkiem = kqbus.get(idhs, idnam) != null ? kqbus.get(idhs, idnam).getHanhKiem() : "";
+                String hocluc = kqbus.get(idhs, idnam) != null ? kqbus.get(idhs, idnam).getHocLuc() : "";
+                String ketqua = kqbus.get(idhs, idnam) != null ? kqbus.get(idhs, idnam).getKetQua() : "";
+                String[] rowData = new String[] {
+                        idhs, x.getTenHocSinh(), x.getGioiTinh(), x.getNgaySinh(), x.getDienThoai(), x.getDiaChi(),
+                        hanhkiem,
+                        hocluc,
+                        x.getHocPhi(),
+                        nhbus.get(idnam).getNamHocBatDau() + "-" + nhbus.get(idnam).getNamHocKetThuc(),
+                        ketqua
                 };
-                
+
                 tblModel.addRow(rowData);
             }
 
@@ -245,24 +252,98 @@ public class ThongKe {
         new ThongKe();
     }
 
+    private class expBtnListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Tập tin Excel", "xls");
+            chooser.setFileFilter(filter);
+            chooser.setDialogTitle("Lưu tệp");
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                String path = chooser.getSelectedFile().toString();
+
+                // Thêm phần mở rộng .xls nếu người dùng chưa nhập
+                if (!path.toLowerCase().endsWith(".xls")) {
+                    path += ".xls";
+                }
+
+                Workbook workbook = new HSSFWorkbook();
+                Sheet sheet = workbook.createSheet("DanhSachHocSinh");
+                Row headerRow = sheet.createRow(0); // Header row at index 0
+                String[] headers = { "STT", "HocSinhID", "Tên học sinh", "Giới Tính", "Năm Sinh", "SĐT", "Địa chỉ",
+                        "Hạnh kiểm", "Học lực", "Tình Trạng Học Phí", "Năm học ", "Kết quả" };
+
+                // Creating header cells
+                for (int i = 0; i < headers.length; i++) {
+                    Cell cell = headerRow.createCell(i);
+                    cell.setCellValue(headers[i]);
+                }
+
+                int rowCount = tblModel.getRowCount();
+                for (int i = 0; i < rowCount; i++) {
+                    Row row = sheet.createRow(i + 1); // Bắt đầu từ hàng thứ hai (vì hàng đầu tiên là tiêu đề)
+
+                    // Thêm cột STT
+                    row.createCell(0).setCellValue(i + 1);
+
+                    for (int j = 0; j < tblModel.getColumnCount(); j++) {
+                        Cell cell = row.createCell(j + 1); // Bắt đầu từ cột thứ hai (sau cột STT)
+                        cell.setCellValue(tblModel.getValueAt(i, j).toString());
+                    }
+                }
+
+                File file = new File(path);
+                if (file.exists()) {
+                    file.delete();
+                }
+                try {
+                    file.createNewFile();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+                try (FileOutputStream fos = new FileOutputStream(file)) {
+                    workbook.write(fos);
+                    JOptionPane.showMessageDialog(null, "Xuất Excel thành công!");
+                    System.out.println("Excel file exported successfully to: " + path);
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Có lỗi xảy ra khi xuất tệp Excel!");
+                } finally {
+                    try {
+                        ((FileOutputStream) workbook).close();
+                    } catch (IOException e2) {
+                        e2.printStackTrace();
+                    }
+                }
+            }
+        }
+
+    }
+
     private class ShowBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             tblModel.setRowCount(0);
-        
+
             String hocluc = (String) optionHL.getSelectedItem();
             String hanhkiem = (String) optionHK.getSelectedItem();
             String hocphi = (String) optionHP.getSelectedItem();
             String tennamhoc = (String) optionNH.getSelectedItem();
             String ketqua = (String) optionKQ.getSelectedItem();
-    
+
             dsHS = hsbus.getList();
             dsnh = nhbus.getList();
-        
+
             for (NamHocDTO nh : dsnh) {
                 String idnh = nh.getNamHocID();
                 dsKQ = kqbus.search(null, idnh, hocluc, hanhkiem, ketqua);
-        
+
                 for (HocSinhDTO hs : dsHS) {
                     for (KQ_HocSinhCaNamDTO kq : dsKQ) {
                         if (hs.getHocSinhID().equals(kq.getHocSinhID())) {
@@ -270,14 +351,16 @@ public class ThongKe {
                             hanhkiem = kqbus.get(idhs, idnh) != null ? kqbus.get(idhs, idnh).getHanhKiem() : "";
                             hocluc = kqbus.get(idhs, idnh) != null ? kqbus.get(idhs, idnh).getHocLuc() : "";
                             ketqua = kqbus.get(idhs, idnh) != null ? kqbus.get(idhs, idnh).getKetQua() : "";
-        
+
                             // Check if hocphi and tennamhoc are "Tất cả" or specific values
                             boolean filterHocPhi = hocphi.equals("Tất cả") || hs.getHocPhi().equals(hocphi);
-                            boolean filterTenNamHoc = tennamhoc.equals("Tất cả") || (nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc()).equals(tennamhoc);
-        
+                            boolean filterTenNamHoc = tennamhoc.equals("Tất cả")
+                                    || (nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc()).equals(tennamhoc);
+
                             if (filterHocPhi && filterTenNamHoc) {
-                                String[] rowData = new String[]{
-                                        idhs, hs.getTenHocSinh(), hs.getGioiTinh(), hs.getNgaySinh(), hs.getDienThoai(), hs.getDiaChi(),
+                                String[] rowData = new String[] {
+                                        idhs, hs.getTenHocSinh(), hs.getGioiTinh(), hs.getNgaySinh(), hs.getDienThoai(),
+                                        hs.getDiaChi(),
                                         hanhkiem,
                                         hocluc,
                                         hs.getHocPhi(),
@@ -296,21 +379,21 @@ public class ThongKe {
                 JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
             }
         }
+
         private int countUniqueIDs(DefaultTableModel model) {
-        int rowCount = model.getRowCount();
-        int count = 0;
-        HashSet<String> uniqueIDs = new HashSet<>();
+            int rowCount = model.getRowCount();
+            int count = 0;
+            HashSet<String> uniqueIDs = new HashSet<>();
 
-        for (int i = 0; i < rowCount; i++) {
-            String id = (String) model.getValueAt(i, 0); // Assuming ID is in the first column
-            if (!uniqueIDs.contains(id)) {
-                uniqueIDs.add(id);
-                count++;
+            for (int i = 0; i < rowCount; i++) {
+                String id = (String) model.getValueAt(i, 0); // Assuming ID is in the first column
+                if (!uniqueIDs.contains(id)) {
+                    uniqueIDs.add(id);
+                    count++;
+                }
             }
+            return count;
         }
-        return count;
     }
-    }
-        
-}
 
+}

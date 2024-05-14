@@ -30,6 +30,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.border.Border;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -49,22 +50,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 // import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+// import org.apache.poi.xssf.usermodel.XSSFCell;
+// import org.apache.poi.xssf.usermodel.XSSFRow;
+// import org.apache.poi.xssf.usermodel.XSSFSheet;
+// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 // import org.apache.poi.common.io.FileOutputStream;
 /*
 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 */
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -673,48 +676,62 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         }
     }
 
-    public void exportExcel() {
-        XSSFWorkbook workbook = new XSSFWorkbook();
+    public void exportExcel() throws IOException {
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Tập tin Excel", "xls");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Lưu tệp");
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            String path = chooser.getSelectedFile().toString().concat(".xls");
 
-        Sheet sheet = workbook.createSheet("DanhSachHocSinh");
-        Row headerRow = sheet.createRow(0); // Header row at index 0
-        String[] headers = { "STT", "HocSinhID", "Tên học sinh", "Giới Tính", "Năm Sinh", "Địa chỉ", "SĐT" };
+            Workbook workbook = new HSSFWorkbook();
+            Sheet sheet = workbook.createSheet("DanhSachHocSinh");
+            Row headerRow = sheet.createRow(0); // Header row at index 0
+            String[] headers = { "STT", "HocSinhID", "Tên học sinh", "Giới Tính", "Năm Sinh", "Địa chỉ", "SĐT" };
 
-        // Creating header cells
-        for (int i = 0; i < headers.length; i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(headers[i]);
-        }
+            // Creating header cells
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
 
-        ArrayList<HocSinhDTO> dshs = hsBUS.getList();
-        for (int i = 0; i < dshs.size(); i++) {
-            Row row = sheet.createRow(i + 1); // Data rows start from index 1
+            ArrayList<HocSinhDTO> dshs = hsBUS.getList();
+            for (int i = 0; i < dshs.size(); i++) {
+                Row row = sheet.createRow(i + 1); // Data rows start from index 1
 
-            HocSinhDTO hocSinh = dshs.get(i);
+                HocSinhDTO hocSinh = dshs.get(i);
+                System.out.println(hocSinh.getDiaChi());
 
-            row.createCell(0).setCellValue(i + 1);
-            row.createCell(1).setCellValue(hocSinh.getHocSinhID());
-            row.createCell(2).setCellValue(hocSinh.getTenHocSinh());
-            row.createCell(3).setCellValue(hocSinh.getGioiTinh());
-            row.createCell(4).setCellValue(hocSinh.getNgaySinh());
-            row.createCell(5).setCellValue(hocSinh.getDiaChi());
-            row.createCell(6).setCellValue(hocSinh.getDienThoai());
-        }
-        // File path
-        // String fileName = "dshs.xlsx";
-        // String filePath = System.getProperty("user.home") + File.separator +
-        // "Downloads" + File.separator + fileName;
-        String path = "D:/java_nhom_9/Excel/dshs.xlsx";
-        File file = new File(path);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            workbook.write(fos);
-            // workbook.close();
-            fos.close();
-            System.out.println("Excel file exported successfully to: " + path);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle exception
+                row.createCell(0).setCellValue(i + 1);
+                row.createCell(1).setCellValue(hocSinh.getHocSinhID());
+                row.createCell(2).setCellValue(hocSinh.getTenHocSinh());
+                row.createCell(3).setCellValue(hocSinh.getGioiTinh());
+                row.createCell(4).setCellValue(hocSinh.getNgaySinh());
+                row.createCell(5).setCellValue(hocSinh.getDiaChi());
+                row.createCell(6).setCellValue(hocSinh.getDienThoai());
+            }
+
+            // String path = "D:/Coding/N2_HK2/DAJAVA/java_nhom_9/Excel/hsss.xlsx";
+            File file = new File(path);
+            if (file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                workbook.write(fos);
+                // workbook.close();
+                // fos.close();
+                System.out.println("Excel file exported successfully to: " + path);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle exception
+            }
+            JOptionPane.showMessageDialog(this, "IN THÀNH CÔNG");
+            Desktop.getDesktop().open(file);
+
         }
     }
 
@@ -818,8 +835,12 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
             t.setRowSorter(sorter);
             sorter.setRowFilter(RowFilter.regexFilter("", 0));
         } else if (e.getSource() == btnExpExcel) {
-            exportExcel();
-            JOptionPane.showMessageDialog(this, "IN THÀNH CÔNG");
+            try {
+                exportExcel();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
 
     }
