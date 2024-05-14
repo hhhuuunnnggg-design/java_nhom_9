@@ -40,11 +40,12 @@ public class mainChinhGUI extends JFrame implements MouseListener {
     private String role;
     private boolean flag = true;
     private JPanel header, nav, main;
-    private int DEFAULT_HEIGHT = 730, DEFALUT_WIDTH = 1300;
-    private ArrayList<String> navItem = new ArrayList<>(); // Chứa thông tin có button cho menu gồm
+    //private int DEFAULT_HEIGHT = 730, DEFALUT_WIDTH = 1300;
+    private int DEFAULT_HEIGHT = 700, DEFALUT_WIDTH = 1060;
+   private ArrayList<String> navItem = new ArrayList<>(); // Chứa thông tin có button cho menu gồm
     private ArrayList<navItem> navObj = new ArrayList<>(); // Chứa cái button trên thanh menu
     // public QLSieuThi(String userID, String userName, String role)
-    // {
+   // {
     // this.userID = userID;
     // this.userName = userName;
     // this.role = role;
@@ -140,7 +141,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
         // Thêm item vào thanh menu (Tên item : icon : icon hover)
         navItem = new ArrayList<>(); // Chứa thông tin có button cho menu gồm ( Tên btn : icon : icon hover )
         navItem.add("Quản lý giáo viên :Shop_20px.png:Shop_20px_active.png");
-        navItem.add("chức năng 1:QLSP_20px.png:QLSP_20px_active.png");
+        navItem.add("Quản Lý Học Sinh:QLSP_20px.png:QLSP_20px_active.png");
         navItem.add("chức năng 2:NhanVien_20px.png:NhanVien_20px_active.png");
         navItem.add("chức năng 3:KhachHang_20px.png:KhachHang_20px_active.png");
         navItem.add("chức năng 4:ThongKe_20px.png:ThongKe_20px_active.png");

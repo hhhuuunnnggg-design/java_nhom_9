@@ -57,14 +57,15 @@ public class QLGV extends JPanel implements KeyListener {
         Color myColor = new Color(99, 116, 198);
         setLayout(null);
         setBackground(null);
+                                                        //bên phải
         setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 220, 700));
         Font font0 = new Font("Segoe UI", Font.PLAIN, 13);
         Font font1 = new Font("Segoe UI", Font.BOLD, 13);
         /******************************
          * PHẦN HIỂN THỊ THÔNG TIN
          ******************************************/
-        JPanel ItemView = new JPanel(null);
-        ItemView.setBounds(new Rectangle(30, 20, this.DEFALUT_WIDTH - 220, 250));
+        JPanel ItemView = new JPanel(null);                              // kéo xuống
+        ItemView.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 220, 250));
         ItemView.setBackground(myColor);
         /******** Tao Cac Label & TextField ************************/
         JLabel lbIdGV = new JLabel("Mã giáo viên");
@@ -391,7 +392,7 @@ public class QLGV extends JPanel implements KeyListener {
 
         // Add table vào ScrollPane
         JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 360, this.DEFALUT_WIDTH - 400, 300));
+        scroll.setBounds(new Rectangle(30, 360, this.DEFALUT_WIDTH - 320, 300));
         // này là màu viền (scroll là thanh cuộn)
         scroll.setBackground(null);
         // cái này là độ rộng của nút di chuyển lên xuống
@@ -504,10 +505,10 @@ public class QLGV extends JPanel implements KeyListener {
         sort.setBounds(30, 265, this.DEFALUT_WIDTH - 400, 100);
 
         JLabel sortTitle = new JLabel(
-                "--------------------------------------------------------------------------- TÌM KIẾM THÔNG TIN ---------------------------------------------------------------------------",
+                "----------------------------------------------------------- TÌM KIẾM THÔNG TIN ------------------------------------------------------",
                 JLabel.CENTER); // Mỗi bên 74 dấu ( - )
         sortTitle.setFont(font1);
-        sortTitle.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 400, 30));
+        sortTitle.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 300, 30));
         sort.add(sortTitle);
 
         /******** SORT MAGV **************/
@@ -523,7 +524,7 @@ public class QLGV extends JPanel implements KeyListener {
         sort.add(sortMaGV);
 
         JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_45px.png"));
-        btnSearch.setBounds(new Rectangle(840, 26, 63, 63));
+        btnSearch.setBounds(new Rectangle(600, 26, 63, 63));
         btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnSearch.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
