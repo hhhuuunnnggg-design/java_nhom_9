@@ -54,15 +54,16 @@ public class HocKyBUS {
         }
         return false;
     }
-    public ArrayList<HocKyDTO> search(String id,String tenkh)
+
+    public ArrayList<HocKyDTO> search(String id,String tenhk)
     {
         ArrayList<HocKyDTO> search = new ArrayList<>();
         id = id==null?id = "": id;
-        tenkh = (tenkh==null || tenkh.equals("Tất cả"))?tenkh = "": tenkh;
+        tenhk = (tenhk==null || tenhk.equals("Tất cả"))?tenhk = "": tenhk;
         for(HocKyDTO hk : dshk)
         {
             if( hk.getHocKyID().contains(id) && 
-                hk.getTenHocKy().contains(tenkh))
+                hk.getTenHocKy().contains(tenhk))
             {
                 search.add(hk);
             }
@@ -85,5 +86,21 @@ public class HocKyBUS {
     public ArrayList<HocKyDTO> getList() {
         return dshk;
     }
+    public static void main(String[] args) {
+        HocKyBUS hocKyBUS = new HocKyBUS();
+        
+        // Populate the list
+        hocKyBUS.list();
 
+        // Search for "Học Kỳ 1"
+        String tenHocKyToSearch = "Học Kỳ 1";
+        ArrayList<HocKyDTO> searchResult = hocKyBUS.search(null, tenHocKyToSearch);
+        
+        // Print out search result
+        for (HocKyDTO hocKy : searchResult) {
+            System.out.println("HocKyID: " + hocKy.getHocKyID());
+            System.out.println("TenHocKy: " + hocKy.getTenHocKy());
+            System.out.println("-------------------------");
+        }
+    }
 }

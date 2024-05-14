@@ -4,6 +4,8 @@
  */
 package GUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -42,8 +44,8 @@ public class QuanLyDiem extends JPanel{
     private JComboBox<String> optionLop, optionMon, optionHe, optionHocky, optionNam;
     private JTextField s, inputID;
     private JLabel l1, l2;
-    private JButton filterBtn, addBtn, editBtn, delBtn;
-    private DefaultTableModel tblModel;
+    private JButton filterBtn, editBtn, delBtn;
+    private NonEditableTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
 
@@ -74,7 +76,7 @@ public class QuanLyDiem extends JPanel{
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-        topPanel.setPreferredSize(new Dimension(0, 180));
+        topPanel.setPreferredSize(new Dimension(0, 160));
         topPanel.setBackground(new Color(180, 204, 227));
 
         selectPanel = new JPanel();
@@ -119,16 +121,16 @@ public class QuanLyDiem extends JPanel{
         dropdownPanel.setOpaque(false);
         dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 36, 0));
 
-        String[] c1 = {"10A1" ,"11A1", "12A1"};
-        optionMon = new JComboBox<>(c1);
-        String[] c2 = {"Toán", "Lý", "Hóa", "Ngoại ngữ"};
-        optionLop = new JComboBox<>(c2);
+        String[] c1 = {"Tất cả","10A1" ,"11A1", "12A1"};
+        optionLop = new JComboBox<>(c1);
+        String[] c2 = {"Tất cả","Toán", "Vật Lý", "Hóa Học", "Anh Văn"};
+        optionMon = new JComboBox<>(c2);
         inputID = new JTextField(6);
-        String[] c3 = {"15 phút", "1 tiết"};
+        String[] c3 = {"Tất cả","(1): 15 phút", "(2): 1 tiết", "(3): Thi"};
         optionHe = new JComboBox<>(c3);
-        String[] c4 = {"HKI", "HKII"};
+        String[] c4 = {"Tất cả","Học Kỳ 1", "Học Kỳ 2"};
         optionHocky = new JComboBox<>(c4);
-        String[] c5 = {"2023-2024","2024-2025"};
+        String[] c5 = {"Tất cả","2024-2025","2023-2024"};
         optionNam = new JComboBox<>(c5);
         totalPanel = new JPanel();
         totalPanel.setOpaque(false);
@@ -140,10 +142,9 @@ public class QuanLyDiem extends JPanel{
         btnPanel = new JPanel();
         btnPanel.setPreferredSize(new Dimension(108, 0));
         btnPanel.setOpaque(false);
-        btnPanel.setLayout(new GridLayout(5, 1, 0,0));
+        btnPanel.setLayout(new GridLayout(4, 1, 0,0));
 
         filterBtn = new JButton("Lọc");
-        addBtn = new JButton("Thêm");
         editBtn = new JButton("Sửa");
         delBtn = new JButton("Xóa");
 
@@ -157,7 +158,6 @@ public class QuanLyDiem extends JPanel{
 
         btnPanel.add(filterBtn);
         btnPanel.add(deselectButton);
-        btnPanel.add(addBtn);
         btnPanel.add(editBtn);
         btnPanel.add(delBtn);
 
@@ -165,8 +165,8 @@ public class QuanLyDiem extends JPanel{
         totalPanel.add(s);
 
         radioPanel.add(b3);
-        radioPanel.add(b2);
         radioPanel.add(b1);
+        radioPanel.add(b2);
         radioPanel.add(b4);
         radioPanel.add(b5);
         radioPanel.add(b6);
@@ -196,21 +196,22 @@ public class QuanLyDiem extends JPanel{
 
         f.add(contentPanel);
         f.setVisible(true);
+
+        filterBtn.addActionListener(new FilterBtnListener());
+
     }
         
-    public JScrollPane initTable(){
+    public JScrollPane initTable() {
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollPane = new JScrollPane(t);
-        scrollPane.setPreferredSize(new Dimension(0,520));
-
-        String [] headers = {"ID", "Tên HS", "Lớp", "Môn Học", "Hệ Điểm","Điểm", "Học Kỳ","ĐiểmTB HK", "Năm Học","ĐiểmTB NH"};
-        tblModel = new DefaultTableModel();
-        for (String header : headers) {
-            tblModel.addColumn(header);
-        }
+        scrollPane.setPreferredSize(new Dimension(0, 520));
+    
+        String[] headers = {"ID", "Tên HS", "Lớp", "Môn Học", "Hệ Điểm", "Điểm", "Học Kỳ", "ĐiểmTB HK", "Năm Học", "ĐiểmTB NH"};
+        int editableColumnIndex = 5; // Điểm column
+        tblModel = new NonEditableTableModel(headers, 0, editableColumnIndex);
         t.setModel(tblModel);
-                
+    
         ((DefaultTableCellRenderer)t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
@@ -218,8 +219,8 @@ public class QuanLyDiem extends JPanel{
             t.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
         return scrollPane;
-    }    
-
+    }
+    
     public void loaddatatoTable(){
         tblModel.setRowCount(0);
 
@@ -270,5 +271,120 @@ public class QuanLyDiem extends JPanel{
     }
     public static void main(String[] args) {
         new QuanLyDiem();
+    }
+    
+    private class FilterBtnListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tblModel.setRowCount(0);
+            String id_hs = inputID.getText().trim().toUpperCase();
+            String monhoc = (String) optionMon.getSelectedItem();
+            String tenlop = (String) optionLop.getSelectedItem();
+
+            //không có table hệ số =))))
+            int hediem, i;
+            String selectedItem = (String) optionHe.getSelectedItem();
+            if (selectedItem.equals("Tất cả")) {
+                hediem = 4;
+                i = 1;
+            } else {
+                char secondChar = selectedItem.charAt(1);
+                i = Character.getNumericValue(secondChar);
+                hediem = i+1;
+            } 
+            
+            String hocky = (String) optionHocky.getSelectedItem();
+            String namhoc = (String) optionNam.getSelectedItem();
+            
+            
+            
+            dshs = hsbus.search(id_hs, null, null, null, null, null, null);
+            dsnh = nhbus.search(null, namhoc);
+            dslop = lopbus.search(null, tenlop);
+            dshk = hkbus.search(null, hocky);
+            dsmon = mhbus.search(null, monhoc);
+
+        System.out.println("HocSinhDTO:");
+        for (HocSinhDTO hs : dshs) {
+            System.out.println(hs.toString());
+        }
+            System.out.println("NamHocDTO:");
+        for (NamHocDTO nh : dsnh) {
+            System.out.println(nh.toString());
+        }
+
+        System.out.println("LopDTO:");
+        for (LopDTO lop : dslop) {
+            System.out.println(lop.toString());
+        }
+
+        System.out.println("HocKyDTO:");
+        for (HocKyDTO hk : dshk) {
+            System.out.println(hk.toString());
+        }
+
+        System.out.println("MonHocDTO:");
+        for (MonHocDTO mh : dsmon) {
+            System.out.println(mh.toString());
+        }
+
+        if (dsnh.isEmpty() || dsmon.isEmpty() || dshk.isEmpty() || dslop.isEmpty()) {
+            System.out.println("One or more lists is empty.");
+            return;
+        }
+
+            int a=0;
+            for (HocSinhDTO hs : dshs){
+                System.out.println("loc hs");
+                
+                for (NamHocDTO nh : dsnh) {
+
+                    System.out.println("loc nam hoc");
+                    for(LopDTO lop : dslop){
+                        System.out.println("loc lop lan");
+                        System.out.print(a++);
+                        String idnamhoc = nh.getNamHocID();
+                        String idhs = hs.getHocSinhID();
+                        String idlop = lop.getLopID();
+                        if(plbus.get(idhs, idnamhoc).getLopID().equals(idlop)){
+                            System.out.println("tim dc lop");
+                            for(HocKyDTO hk : dshk){
+    
+                                String idhk = hk.getHocKyID();
+                                System.out.println("loc hoc ky");
+                                for (MonHocDTO mh : dsmon) {
+                                    String idmon = mh.getMonHocID();
+                                    System.out.println("loc mon hoc");
+                                    for (int heso = i ; heso < hediem; heso++) {
+                                        System.out.println("A");
+                                        String Diem = ctbus.get(idhs, idnamhoc, idhk, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idnamhoc, idhk, idmon, heso).getDiem()) : "";
+                                        String diemTrungBinhHocKy = dtbbus.get(idhs, idnamhoc, idhk) != null ? String.valueOf(dtbbus.get(idhs, idnamhoc, idhk).getDiemTrungBinh()) : "";
+                                        String diemTrungBinhNam = kqbus.get(idhs, idnamhoc) != null ? String.valueOf(kqbus.get(idhs, idnamhoc).getDiemTrungBinhNam()) : "";
+                                        System.out.println("IDHS: " + idhs);
+    
+                                        String[] rowData = new String[]{
+                                            idhs,
+                                            hsbus.get(idhs).getTenHocSinh(),
+                                            lopbus.get(idlop).getTenLop(),
+                                            mhbus.get(idmon).getTenMonHoc(),
+                                            String.valueOf(heso),
+                                            Diem,
+                                            hkbus.get(idhk).getTenHocKy(),
+                                            diemTrungBinhHocKy,
+                                            nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
+                                            diemTrungBinhNam
+                                        };
+                                        tblModel.addRow(rowData);
+                                    }
+                                }
+    
+                            }
+                        }
+                    }
+
+                }
+            }
+            tblModel.fireTableDataChanged();
+        }
     }
 }

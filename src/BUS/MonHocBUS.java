@@ -69,4 +69,23 @@ public class MonHocBUS {
     public ArrayList<MonHocDTO> getList() {
         return dsmh;
     }
+    public static void main(String[] args) {
+        // Create an instance of MonHocBUS
+        MonHocBUS monHocBUS = new MonHocBUS(1);
+    
+        // Search for MonHocDTO with TenMonHoc="Toan"
+        String subjectToSearch = "Tất cả";
+        ArrayList<MonHocDTO> searchResult = monHocBUS.search(null, subjectToSearch);
+    
+        // Print the search result
+        if (!searchResult.isEmpty()) {
+            System.out.println("Search Result for Subject " + subjectToSearch + ":");
+            for (MonHocDTO mh : searchResult) {
+                System.out.println(mh);
+            }
+        } else {
+            System.out.println("No result found for Subject " + subjectToSearch);
+        }
+    }
+    
 }

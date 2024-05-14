@@ -20,7 +20,15 @@
       "d:\\Coding\\N2_HK2\\DAJAVA\\poi-bin-3.8-20120326\\poi-3.8\\poi-excelant-3.8-20120326.jar",
       "d:\\Coding\\N2_HK2\\DAJAVA\\poi-bin-3.8-20120326\\poi-3.8\\poi-ooxml-3.8-20120326.jar",
       "d:\\Coding\\N2_HK2\\DAJAVA\\poi-bin-3.8-20120326\\poi-3.8\\poi-ooxml-schemas-3.8-20120326.jar",
-      "d:\\Coding\\N2_HK2\\DAJAVA\\poi-bin-3.8-20120326\\poi-3.8\\poi-scratchpad-3.8-20120326.jar"
+      "d:\\Coding\\N2_HK2\\DAJAVA\\poi-bin-3.8-20120326\\poi-3.8\\poi-scratchpad-3.8-20120326.jar",
+      "Lib/poi-5.2.3.jar",
+      "Lib/poi-examples-5.2.3.jar",
+      "Lib/poi-excelant-5.2.3.jar",
+      "Lib/poi-javadoc-5.2.3.jar",
+      "Lib/poi-ooxml-5.2.3.jar",
+      "Lib/poi-ooxml-full-5.2.3.jar",
+      "Lib/poi-ooxml-lite-5.2.3.jar",
+      "Lib/poi-scratchpad-5.2.3.jar"
     ],
     "exclude": [
       "lib/mysql-connector-j-8.3.0.jar",

@@ -23,5 +23,10 @@ public class LopDTO {
     public void setTenLop(String tenLop) {
         TenLop = tenLop;
     }
-
+    public String toString() {
+        return "LopDTO{" +
+                "LopID='" + LopID + '\'' +
+                ", TenLop='" + TenLop + '\'' +
+                '}';
+    }
 }

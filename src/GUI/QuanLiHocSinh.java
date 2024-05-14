@@ -704,7 +704,7 @@ public final class QuanLiHocSinh extends JFrame implements MouseListener, Action
         // String fileName = "dshs.xlsx";
         // String filePath = System.getProperty("user.home") + File.separator +
         // "Downloads" + File.separator + fileName;
-        String path = "D:/Coding/N2_HK2/DAJAVA/java_nhom_9/Excel/dshs.xlsx";
+        String path = "D:/java_nhom_9/Excel/dshs.xlsx";
         File file = new File(path);
         try {
             FileOutputStream fos = new FileOutputStream(file);

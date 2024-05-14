@@ -82,15 +82,15 @@ public class LopBUS {
         }
         return false;
     }
-    public ArrayList<LopDTO> search(String id,String hoten)
+    public ArrayList<LopDTO> search(String id,String tenlop)
     {
         ArrayList<LopDTO> search = new ArrayList<>();
-        id = id.isEmpty()?id = "": id;
-        hoten = hoten.isEmpty()?hoten = "": hoten;
+        id = id==null ?id = "": id;
+        tenlop = (tenlop==null || tenlop.equals("Tất cả"))?tenlop = "": tenlop;
         for(LopDTO lop : dslop)
         {
             if( lop.getLopID().contains(id) && 
-                lop.getTenLop().contains(hoten))
+                lop.getTenLop().contains(tenlop))
             {
                 search.add(lop);
             }
@@ -127,5 +127,23 @@ public class LopBUS {
     public ArrayList<LopDTO> getList() {
         return dslop;
     }
-
+    public static void main(String[] args) {
+        // Create an instance of LopBUS
+        LopBUS lopBUS = new LopBUS(1);
+    
+        // Search for classes with the name "10A1"
+        String classNameToSearch = "Tất cả";
+        ArrayList<LopDTO> searchResult = lopBUS.search(null, classNameToSearch);
+    
+        // Print the search result
+        if (!searchResult.isEmpty()) {
+            System.out.println("Search Result for Class " + classNameToSearch + ":");
+            for (LopDTO lop : searchResult) {
+                System.out.println(lop);
+            }
+        } else {
+            System.out.println("No result found for Class " + classNameToSearch);
+        }
+    }
+    
 }
