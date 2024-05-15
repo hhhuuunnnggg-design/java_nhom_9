@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import BUS.ChiTietDiemBUS;
 import BUS.DTB_HocKyBUS;
@@ -255,7 +256,24 @@ public class QuanLyDiem extends JPanel{
         int editableColumnIndex = 5; // Điểm column
         tblModel = new NonEditableTableModel(headers, 0, editableColumnIndex);
         t.setModel(tblModel);
-    
+        
+        // Thiết lập kích thước cột
+        t.getColumnModel().getColumn(0).setPreferredWidth(60);
+        t.getColumnModel().getColumn(1).setPreferredWidth(180);
+        t.getColumnModel().getColumn(2).setPreferredWidth(60);
+        t.getColumnModel().getColumn(3).setPreferredWidth(70);
+        t.getColumnModel().getColumn(4).setPreferredWidth(70);
+        t.getColumnModel().getColumn(5).setPreferredWidth(80);
+        t.getColumnModel().getColumn(6).setPreferredWidth(60);
+        t.getColumnModel().getColumn(7).setPreferredWidth(60);
+        t.getColumnModel().getColumn(8).setPreferredWidth(120);
+        t.setRowHeight(40);
+        JTableHeader header = t.getTableHeader();
+        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
+        header.setBackground(new Color(31, 28, 77));
+        header.setForeground(Color.WHITE);
+        header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
+
         ((DefaultTableCellRenderer)t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
