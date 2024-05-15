@@ -249,6 +249,7 @@ public class QuanLyDiem extends JPanel{
 
         filterBtn.addActionListener(new FilterBtnListener());
         editBtn.addActionListener(new EditBtnListener());
+        delBtn.addActionListener(new DelBtnListener());
     }
         
     public JScrollPane initTable() {
@@ -524,17 +525,21 @@ public class QuanLyDiem extends JPanel{
             tblModel.removeRow(row);
             tblModel.addRow(rowData);
             ///check lai update db;
+            System.out.println("check db------------");
             ctbus.set(ctd);
+            System.out.println(ctd);
             dtbbus.set(dtb);
+            System.out.println(dtb);
             kqbus.set(diemnamhoc);
+            System.out.println(diemnamhoc);
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-//thay doi diem khi nhap du 
-//ham tinh diem
-//update diem
-    resetOutput();
+    //thay doi diem khi nhap du 
+    //ham tinh diem
+    //update diem
+        resetOutput();
     }
-    public static void resetOutput() {
+    public void resetOutput() {
         outputID = null;
         outputHeid = null;
         outputMon = null;
@@ -545,8 +550,41 @@ public class QuanLyDiem extends JPanel{
         outputTenHS = null;
         outputLop = null;
     }
+
+    private class DelBtnListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(outputID==null){
+                JOptionPane.showMessageDialog(null, "Chưa chọn thông tin", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+            }
+
+            int i = JOptionPane.showConfirmDialog(null, " Bạn có muốn xóa điểm này của"+outputID+" ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+
+            if (i == JOptionPane.YES_OPTION){
+
+
+
+
+                Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "", outputHK,"", outputNam, ""};
+                int row = t.getSelectedRow();
+                tblModel.removeRow(row);
+                tblModel.addRow(rowData);
+            }
+            else{
+                return;
+            }
+        }
+
+    }
+
     public static void main(String[] args) {
         QuanLyDiem t = new QuanLyDiem();
-        t.updateRow();
+
+
+        
+
+        
     }
 }

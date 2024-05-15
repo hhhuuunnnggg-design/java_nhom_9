@@ -38,18 +38,22 @@ public class DTB_HocKyDAO {
     }
     
     public void set(DTB_HocKyDTO ctd) {
-            MySQLConnect mySQL = new MySQLConnect();
-            String sql = "UPDATE diemtbhocky SET ";
-            sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";           
-            sql += "HocKyid='"+ctd.getHocKyID()+"', ";
-            sql += "NamHocid='"+ctd.getNamHocID()+"', ";
-            
-            sql += "DiemTrungBinh='"+ctd.getDiemTrungBinh()+"', ";
-
-            sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"'";
-            System.out.println(sql);
-            
-            mySQL.executeUpdate(sql);
+        MySQLConnect mySQL = new MySQLConnect();
+        String sql = "UPDATE diemtbhocky SET ";
+        sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";           
+        sql += "HocKyid='"+ctd.getHocKyID()+"', ";
+        sql += "NamHocid='"+ctd.getNamHocID()+"', ";
+        
+        sql += "DiemTrungBinh='"+ctd.getDiemTrungBinh()+"' ";
+    
+        // Concatenating multiple conditions in the WHERE clause
+        sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"' AND ";
+        sql += "HocKyid='"+ctd.getHocKyID()+"' AND ";
+        sql += "NamHocid='"+ctd.getNamHocID()+"'";
+        
+        System.out.println(sql);
+        
+        mySQL.executeUpdate(sql);
     }
     
     public void add(DTB_HocKyDTO ctd) {

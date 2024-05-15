@@ -45,20 +45,24 @@ public class ChiTietDiemDAO {
     }
     
     public void set(ChiTietDiemDTO ctd) {
-            MySQLConnect mySQL = new MySQLConnect();
-            String sql = "UPDATE chitietdiem SET ";
-            sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";
-            
-            sql += "MonHocid='"+ctd.getMonHocID()+"', ";
-            sql += "HocKyid='"+ctd.getHocKyID()+"', ";
-            sql += "HeSoid='"+ctd.getHeSoID()+"', ";
-            sql += "NamHocid='"+ctd.getNamHocID()+"', ";
-            sql += "MonHocid='"+ctd.getDiem()+"', ";
-
-            sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"'";
-            System.out.println(sql);
-            
-            mySQL.executeUpdate(sql);
+        MySQLConnect mySQL = new MySQLConnect();
+        String sql = "UPDATE chitietdiem SET ";
+        sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";
+        sql += "MonHocid='"+ctd.getMonHocID()+"', ";
+        sql += "HocKyid='"+ctd.getHocKyID()+"', ";
+        sql += "HeSoid='"+ctd.getHeSoID()+"', ";
+        sql += "NamHocid='"+ctd.getNamHocID()+"' ";
+    
+        // Concatenating conditions for all attributes except Diem
+        sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"' AND ";
+        sql += "MonHocid='"+ctd.getMonHocID()+"' AND ";
+        sql += "HocKyid='"+ctd.getHocKyID()+"' AND ";
+        sql += "HeSoid='"+ctd.getHeSoID()+"' AND ";
+        sql += "NamHocid='"+ctd.getNamHocID()+"'";
+        
+        System.out.println(sql);
+        
+        mySQL.executeUpdate(sql);
     }
     
     public void add(ChiTietDiemDTO ctd) {

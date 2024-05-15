@@ -58,6 +58,7 @@ public class KQ_HocSinhCaNamBUS {
         {
             if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()) && dskq.get(i).getNamHocID().equals(s.getNamHocID()))
             {
+                System.out.println("set kqcn bus");
                 dskq.set(i, s);
                 KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
                 kq_kqDATA.set(s);

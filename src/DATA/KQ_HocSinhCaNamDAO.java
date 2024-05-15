@@ -51,12 +51,16 @@ public class KQ_HocSinhCaNamDAO {
         sql += "HocLuc='"+kqHS.getHocLuc()+"', ";
         sql += "HanhKiem='"+kqHS.getHanhKiem()+"', ";
         sql += "Diemtb='"+kqHS.getDiemTrungBinhNam()+"', ";
-        sql += "KetQua='"+kqHS.getKetQua()+"', ";
-        sql += " where HocSinhid='"+kqHS.getHocSinhID()+"'";
+        sql += "KetQua='"+kqHS.getKetQua()+"' ";
+        
+        // Concatenating conditions for WHERE clause
+        sql += " WHERE HocSinhid='"+kqHS.getHocSinhID()+"' AND ";
+        sql += "NamHocid='"+kqHS.getNamHocID()+"'";
+        
         System.out.println(sql);
         
         mySQL.executeUpdate(sql);
-}
+    }
 
     public void add(KQ_HocSinhCaNamDTO kqHS) {
         MySQLConnect mySQL = new MySQLConnect();
