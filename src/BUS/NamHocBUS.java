@@ -64,8 +64,43 @@ public class NamHocBUS {
         }
         return search;
     }
+    // public ArrayList<NamHocDTO> search(String id, String NamHoc) {
+    //     ArrayList<NamHocDTO> searchResult = new ArrayList<>();
+        
+    //     id = id == null ? "" : id;
+    //     NamHoc = (NamHoc == null || NamHoc.equals("Tất cả")) ? "" : NamHoc;
+    
+    //     for (NamHocDTO nh : dsnh) {
+    //         String academicYear = nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc();
+    //         if (nh.getNamHocID().contains(id) && academicYear.equals(NamHoc)) {
+    //             searchResult.add(nh);
+    //         }
+    //     }
+        
+    //     return searchResult;
+    // }
+    
     
     public ArrayList<NamHocDTO> getList() {
         return dsnh;
     }
+
+    public static void main(String[] args) {
+        // Create an instance of NamHocBUS
+        NamHocBUS namHocBUS = new NamHocBUS(1);
+    
+        String academicYearToSearch = "Tất cả";
+        ArrayList<NamHocDTO> searchResult = namHocBUS.search(null, academicYearToSearch);
+    
+        // Print the search result
+        if (!searchResult.isEmpty()) {
+            System.out.println("Search Result for Academic Year " + academicYearToSearch + ":");
+            for (NamHocDTO nh : searchResult) {
+                System.out.println(nh);
+            }
+        } else {
+            System.out.println("No result found for Academic Year " + academicYearToSearch);
+        }
+    }
+    
 }

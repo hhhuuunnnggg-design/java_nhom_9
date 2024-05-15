@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,7 +14,6 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.print.DocFlavor.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,7 +43,7 @@ import DTO.HocSinhDTO;
  * @author vhuyn
  */
 public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, ActionListener {
-    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai, img;
+    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai;
     private JLabel lblimg;
     private JButton btnFind, btnReset;
     private DefaultTableModel tblmodel;
@@ -100,7 +98,7 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 315));
+        p2.setPreferredSize(new Dimension(0, 340));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -113,21 +111,19 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
 
     public JPanel SearchHocSinh() {
 
-        Color imgSearchlbl = new Color(180, 204, 227);
         Color btnResets = new Color(52, 48, 128);
 
         JPanel JSearch = new JPanel();
         JSearch.setLayout(new FlowLayout(1, 10, 5));
 
-        java.net.URL imageURL_Searchs = getClass().getResource("/image/search_qlhs.png");
-        ImageIcon orgIcon_Searchs = new ImageIcon(imageURL_Searchs);
-        Image scaleImg_Searchs = orgIcon_Searchs.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-
-        JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Searchs));
-        // imgSearch.setBackground(imgSearchlbl);
+        JLabel imgSearch = new JLabel();
         imgSearch.setPreferredSize(new Dimension(50, 50));
-        // imgSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
-        // 0, 0), 4, true));
+        imgSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
+        String imagePath = "C:\\Users\\vhuyn\\OneDrive\\Documents\\NetBeansProjects\\do_an\\src\\main\\java\\image\\b1_cahoigionvothantre.jpg";
+
+        ImageIcon icon = new ImageIcon(imagePath);
+
+        imgSearch.setIcon(icon);
 
         JsearchText = new JTextField();
         JsearchText.setPreferredSize(new Dimension(300, 40));
@@ -136,6 +132,9 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         lblSearch.setFont(new Font("arial", Font.BOLD, 14));
         String searchOption[] = { "Mã học sinh", "Họ và tên" };
         searchselectBox = new JComboBox<>(searchOption);
+
+        imgSearch.setOpaque(true);
+        imgSearch.setIcon(new ImageIcon(""));
 
         btnReset = new JButton("Reset");
         btnReset.setBackground(btnResets);
@@ -160,18 +159,10 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         JPanel Pchucnang = new JPanel();
         Pchucnang.setLayout(new FlowLayout(0, 5, 5));
         Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
-        String imagePath = "/image/btnsearch_qlhs1_140_40.png"; // Đường dẫn tương đối từ thư mục nguồn
-        java.net.URL imageURL = getClass().getResource(imagePath);
-        ImageIcon originalIcon = new ImageIcon(imageURL); // Tạo ImageIcon từ đường dẫn
 
-        // Chỉnh kích thước ảnh
-        Image scaledImage = originalIcon.getImage().getScaledInstance(140, 40, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        btnFind = new JButton();
-        btnFind.setIcon(scaledIcon);
+        btnFind = new JButton("Tìm kiếm");
         btnFind.setPreferredSize(new Dimension(140, 40));
         btnFind.setBorder(raisedBevel);
-
         Pchucnang.setBackground(myColor);
         defaultColor = btnFind.getBackground();
         Pchucnang.add(btnFind);
@@ -181,8 +172,7 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
         Phocsinh.setLayout(null);
-        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Số điện thoại", "Địa chỉ",
-                "IMG" };
+        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Số điện thoại", "Địa chỉ" };
         int lenght = arrHocsinh.length;
         tf = new JTextField[lenght];
         buttons = new JButton[lenght];
@@ -230,7 +220,7 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(840, 315));
+        scrollpane.setPreferredSize(new Dimension(840, 340));
         String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
                 "Ảnh chân dung" };
 
@@ -246,6 +236,7 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
             rowData[i][3] = student.getNgaySinh(); // Thay vì getNamSinh()
             rowData[i][4] = student.getDiaChi();
             rowData[i][5] = student.getDienThoai(); // Thay vì getSoDienThoai()
+            // rowData[i][6] = student.getHocPhi(); // Thêm cột HocPhi
             rowData[i][6] = student.getIMG(); // Thêm cột IMG
         }
 
@@ -265,6 +256,30 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         return scrollpane;
     }
 
+    public void addRow() {
+        Object[] rowData = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[5].getText(),
+                tf[4].getText() };
+        tblmodel.addRow(rowData);
+        clearTextFields();
+    }
+
+    public void deleteRow() {
+        int row = t.getSelectedRow();
+        if (row != -1) {
+            tblmodel.removeRow(row);
+        }
+        clearTextFields();
+    }
+
+    public void updateRow() {
+        int row = t.getSelectedRow();
+        Object[] rowData = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[5].getText(),
+                tf[4].getText() };
+        tblmodel.removeRow(row);
+        tblmodel.addRow(rowData);
+        clearTextFields();
+    }
+
     public void clearTextFields() {
         for (JTextField textField : tf) {
             textField.setText("");
@@ -282,27 +297,10 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         tf[2].setText(gioitinh);
         namsinh = (String.valueOf(t.getValueAt(Row, 3)));
         tf[3].setText(namsinh);
-        sodienthoai = (String.valueOf(t.getValueAt(Row, 4)));
+        sodienthoai = (String.valueOf(t.getValueAt(Row, 5)));
         tf[4].setText(sodienthoai);
-        diachi = (String.valueOf(t.getValueAt(Row, 5)));
+        diachi = (String.valueOf(t.getValueAt(Row, 4)));
         tf[5].setText(diachi);
-        img = (String.valueOf(t.getValueAt(Row, 6)));
-        tf[6].setText(img);
-
-        if (!img.isEmpty()) {
-            String path = "/image/Avatar/" + img;
-            java.net.URL imgHS = getClass().getResource(path);
-            ImageIcon orgIcon_HS = new ImageIcon(imgHS);
-            Image scaleImg_HS = orgIcon_HS.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
-                    Image.SCALE_SMOOTH);
-
-            ImageIcon scaledImage_HS = new ImageIcon(scaleImg_HS);
-
-            // Hiển thị hình ảnh trên JLabel
-            lblimg.setIcon(scaledImage_HS);
-        } else {
-            lblimg.setIcon(null);
-        }
     }
 
     public static void main(String argv[]) throws SQLException {

@@ -23,5 +23,5 @@ public class HocKyDTO {
     public void setTenHocKy(String tenHocKy) {
         TenHocKy = tenHocKy;
     }
-
+    
 }

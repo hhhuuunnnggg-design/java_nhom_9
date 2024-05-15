@@ -63,5 +63,14 @@ public class KQ_HocSinhCaNamDTO {
     public void setKetQua(String ketQua) {
         KetQua = ketQua;
     }
-
+    public String toString() {
+        return "KQ_HocSinhCaNamDTO{" +
+                "HocSinhID='" + HocSinhID + '\'' +
+                ", NamHocID='" + NamHocID + '\'' +
+                ", HocLuc='" + HocLuc + '\'' +
+                ", HanhKiem='" + HanhKiem + '\'' +
+                ", DiemTrungBinhNam=" + DiemTrungBinhNam +
+                ", KetQua='" + KetQua + '\'' +
+                '}';
+    }
 }

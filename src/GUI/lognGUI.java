@@ -1,7 +1,7 @@
 package GUI;
 
+// import DATABASE.MyConnection;
 import DATABASE.MySQLConnect;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

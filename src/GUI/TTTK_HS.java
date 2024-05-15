@@ -20,8 +20,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import BUS.HocSinhBUS;
+import BUS.KQ_HocSinhCaNamBUS;
+import BUS.LopBUS;
+import BUS.PhanLopBUS;
+import BUS.NamHocBUS;
+import BUS.KQ_HocSinhCaNamBUS;
 
 import DTO.HocSinhDTO;
+import DTO.KQ_HocSinhCaNamDTO;
+import DTO.PhanLopDTO;
+import DTO.LopDTO;
+import DTO.NamHocDTO;
+import DTO.KQ_HocSinhCaNamDTO; 
 /**
  *
  * @author MSI MODERN 14
@@ -31,9 +41,19 @@ public class TTTK_HS extends JPanel {
         private JButton btn1, btn2, btn3;
         private JLabel jl1, jl2, jl3, jl4, jl5, jl6, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14, jl15;
 
-        HocSinhBUS hsbus = new HocSinhBUS(1);
-        ArrayList <HocSinhDTO> dshs;
+        String maHS = "HS2";
 
+        HocSinhBUS hsbus = new HocSinhBUS(1);
+        NamHocBUS nhbus = new NamHocBUS(1);
+        KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
+        LopBUS Lopbus = new LopBUS(1);
+        PhanLopBUS plbus = new PhanLopBUS(1);
+
+        ArrayList <HocSinhDTO> dshs;
+        ArrayList<NamHocDTO> dsnh;
+        ArrayList <KQ_HocSinhCaNamDTO> dsKQ;
+        ArrayList <PhanLopDTO> dsPL;
+        ArrayList <LopDTO> dsLop;
         public TTTK_HS() {
                 setPreferredSize(new Dimension(850, 670));
                 setBackground(Color.WHITE);
@@ -68,12 +88,6 @@ public class TTTK_HS extends JPanel {
                 gbc2.weighty = 0;
                 gbc2.insets = new Insets(20, 0, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc2.anchor = GridBagConstraints.NORTH;
-                // Đường dẫn tới tệp hình ảnh
-                String imagePath1 = "C:\\Users\\MSI MODERN 14\\Documents\\NetBeansProjects\\thong_tin_tai_khoan\\src\\main\\java\\do_an\\noneavatar.jpg";
-                // Tạo một ImageIcon từ tệp hình ảnh
-                ImageIcon imageIcon1 = new ImageIcon(imagePath1);
-                // Đặt ImageIcon làm hình ảnh cho JLabel
-                jl2.setIcon(imageIcon1);
                 topPanel.add(jl2, gbc2);
 
                 // jl3 = new JLabel();
@@ -114,10 +128,10 @@ public class TTTK_HS extends JPanel {
                 // gbc4.insets = new Insets(210, 0, 110, 0); // Khoảng cách dưới 10 pixels
                 // gbc4.anchor = GridBagConstraints.SOUTH;
                 // topPanel.add(jl4,gbc4);
-                add(topPanel, BorderLayout.WEST);
+                // add(topPanel, BorderLayout.WEST);
 
                 JPanel rightPanel = new JPanel(new GridBagLayout());
-                rightPanel.setPreferredSize(new Dimension(600, 670));
+                rightPanel.setPreferredSize(new Dimension(850, 670));
                 rightPanel.setBackground(new Color(180, 204, 227));
 
                 jl5 = new JLabel("Mã tài khoản:");
@@ -196,7 +210,7 @@ public class TTTK_HS extends JPanel {
                 rightPanel.add(jl7, gbc9);
 
                 tf3 = new JTextField();
-                tf3.setPreferredSize(new Dimension(230, 30));
+                tf3.setPreferredSize(new Dimension(300, 30));
                 tf3.setFont(tf3.getFont().deriveFont(Font.BOLD, 18));
                 tf3.setHorizontalAlignment(JLabel.CENTER);
                 tf3.setBackground(Color.WHITE);
@@ -217,7 +231,7 @@ public class TTTK_HS extends JPanel {
                 btn1.setHorizontalAlignment(JLabel.CENTER);
                 btn1.setBackground(Color.WHITE);
                 btn1.setOpaque(true);
-                btn1.addActionListener(new ShowInfoHS());
+                // btn1.addActionListener(new ShowInfoHS());
 
                 GridBagConstraints gbc25 = new GridBagConstraints();
                 gbc25.gridx = 1;
@@ -226,7 +240,7 @@ public class TTTK_HS extends JPanel {
                 gbc25.weighty = 0;
                 gbc25.insets = new Insets(0, 250, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc25.anchor = GridBagConstraints.WEST;
-                rightPanel.add(btn1, gbc25);
+                // rightPanel.add(btn1, gbc25);
 
                 jl8 = new JLabel("Họ tên:");
                 // jl8.setForeground(Color.WHITE);
@@ -441,21 +455,56 @@ public class TTTK_HS extends JPanel {
                 gbc24.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf10,gbc24);
                 add(rightPanel, BorderLayout.CENTER);
+                loaddatatoPanel();
         }
-
-        private class ShowInfoHS implements ActionListener {
-                @Override
-                public void actionPerformed(ActionEvent e){
-                        String maHS = tf3.getText();
-                       dshs = hsbus.getList();
-                       for (HocSinhDTO hs :dshs) { 
-                        if (maHS.equals(hs.getHocSinhID())) {
-                                tf4.setText(hs.getTenHocSinh()); 
-                                tf5.setText(hs.getGioiTinh());
-                                tf6.setText(hs.getNgaySinh());
-                                tf10.setText(hs.getDiaChi());
+        public void loaddatatoPanel() {
+                dshs = hsbus.getList();
+                dsnh = nhbus.getList();
+                dsKQ = kqbus.getList();
+                dsPL = plbus.getList();
+                dsLop = Lopbus.getList();
+                
+                       for (HocSinhDTO hs :dshs) {
+                        String idhs = hs.getHocSinhID(); 
+                        // String imagePath = hs.getIMG();
+                        // ImageIcon imageIcon = new ImageIcon(imagePath);
+                        for (NamHocDTO nam : dsnh) {
+                        for (PhanLopDTO pl : dsPL){
+                        for (LopDTO lop : dsLop){
+                                if (maHS.equals(idhs)  && pl.getNamHocID().equals("giapthin")) {
+                                        String idnam = nam.getNamHocID();
+                                        String hanhkiem = kqbus.get(idhs,idnam) != null? kqbus.get(idhs,idnam).getHanhKiem():"";
+                                        String hocluc = kqbus.get(idhs,idnam)!= null? kqbus.get(idhs,idnam).getHocLuc():"";
+                                        if (maHS.equals(idhs)) {
+                                                tf3.setText(idhs);
+                                                tf4.setText(hs.getTenHocSinh()); 
+                                                tf5.setText(hs.getGioiTinh());
+                                                tf6.setText(hs.getNgaySinh());
+                                                tf7.setText(lop.getTenLop());
+                                                tf8.setText(hocluc);
+                                                tf9.setText(hanhkiem);
+                                                tf10.setText(hs.getDiaChi());
+                                                // jl2.setIcon(imageIcon);
+                        }   
+                                }
                         }
-                }
+                        }
+                        }
+}
         }
-        }
+        // private class ShowInfoHS implements ActionListener {
+        //         @Override
+        //         public void actionPerformed(ActionEvent e){
+        //                 String maHS = tf3.getText();
+        //                dshs = hsbus.getList();
+        //                for (HocSinhDTO hs :dshs) { 
+        //                 if (maHS.equals(hs.getHocSinhID())) {
+        //                         tf4.setText(hs.getTenHocSinh()); 
+        //                         tf5.setText(hs.getGioiTinh());
+        //                         tf6.setText(hs.getNgaySinh());
+        //                         tf10.setText(hs.getDiaChi());
+        //                 }
+        //         }
+        // }
+        // }
 }

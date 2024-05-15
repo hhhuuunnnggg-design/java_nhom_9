@@ -29,7 +29,8 @@ import javax.swing.JSeparator;
 import javax.swing.border.Border;
 import java.awt.Image;
 import java.util.concurrent.atomic.AtomicBoolean;
-import GUI.TTTK_HS_GV;
+import GUI.TTTK_HS;
+import GUI.TTTK_GV;
 
 /**
  *
@@ -191,77 +192,13 @@ public class HS_GV {
 
                 // Hiển thị JPTai_khoan_HS
                 jl5.setBackground(new Color(99, 116, 198));
-                JPanel tttk_hs = new TTTK_HS();
-                f.add(tttk_hs,BorderLayout.CENTER );
+                // JPanel tttk_hs = new TTTK_HS();
+                // f.add(tttk_hs,BorderLayout.CENTER );
+                JPanel tttk_gv = new TTTK_GV();
+                f.add(tttk_gv,BorderLayout.CENTER);
                 f.revalidate(); // Cập nhật lại giao diện
             }
             });
-//                .addMouseListener(new MouseAdapter() {
-//        @Override
-//        public void mouseClicked(MouseEvent e) {
-//            super.mouseClicked(e);
-//        // Khởi tạo biến cờ
-//        if (active.get()) {
-//            // Ẩn jlhs và jlgv
-//            // Đặt màu nền của jl5 về trạng thái ban đầu
-//            jl5.setBackground(new Color(99, 116, 198));
-//            // Cập nhật giao diện
-//            f.revalidate();
-//            f.repaint();
-//            // Đặt lại biến cờ
-//            active.set(false);
-//        } else {
-//          jl5.setBackground(new Color(78,78,234)); // Chuyển màu jl5 thành xám nhạt
-//        
-//        JPanel tttk_hsgv = new TTTK_HS_GV();
-//        f.add(tttk_hsgv,BorderLayout.EAST );
-//            // Đặt lại biến cờ
-//            active.set(true);
-//        }
-//    }
-//});
-       
-//    jl5.addMouseListener(new MouseAdapter() {
-//    @Override
-//    public void mouseClicked(MouseEvent e) {
-//        super.mouseClicked(e);
-//        jl5.setBackground(new Color(78,78,234)); // Chuyển màu jl5 thành xám nhạt
-//        GridBagConstraints gbc4 = new GridBagConstraints();
-//        gbc4.gridx = 0;
-//        gbc4.gridy = 1;
-//        gbc4.weightx = 0;
-//        gbc4.weighty = 0;
-//        gbc4.insets = new Insets(0, 0, 0, 0);
-//        gbc4.anchor = GridBagConstraints.NORTH;
-//        centerPanel.add(jlhs, gbc4);
-//        
-//        JSeparator separator = new JSeparator();
-//        separator.setForeground(Color.BLACK);
-//        GridBagConstraints gbcngang = new GridBagConstraints();
-//        gbcngang.gridx = 0;
-//        gbcngang.gridy = 2;
-//        gbcngang.weightx = 0;
-//        gbcngang.weighty = 0;
-//        gbcngang.insets = new Insets(0, 0, 0, 0);
-//        gbcngang.anchor = GridBagConstraints.NORTH;
-//        centerPanel.add(separator,gbcngang);
-//        
-//        GridBagConstraints gbc5 = new GridBagConstraints();
-//        gbc5.gridx = 0;
-//        gbc5.gridy = 3;
-//        gbc5.weightx = 0;
-//        gbc5.weighty = 0;
-//        gbc5.insets = new Insets(0, 0, 0, 0);
-//        gbc5.anchor = GridBagConstraints.NORTH;
-//
-//        centerPanel.add(jlgv, gbc5); // Thêm jlgv vào centerPanel
-//
-//        centerPanel.revalidate(); // Cập nhật giao diện
-//        centerPanel.repaint();
-//        jlhs.setVisible(true); // Hiển thị jlhs
-//        jlgv.setVisible(true); // Hiển thị jlgv
-//    }
-//});
         // Thêm chức năng 2
         jl6 = new JLabel("Chức năng 2");
         jl6.setFont(jl6.getFont().deriveFont(Font.BOLD, 18));

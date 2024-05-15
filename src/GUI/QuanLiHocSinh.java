@@ -148,6 +148,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         this.add(p2, BorderLayout.SOUTH);
         this.add(p3, BorderLayout.NORTH);
         this.setSize(new Dimension(width, height));
+        this.setVisible(true);
         // this.setLocationRelativeTo(null);
         // this.setResizable(false);
     }
@@ -741,11 +742,6 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         String password = tf[5].getText();
         Account_DTO acc = new Account_DTO(username, password);
         accBUS.Add(acc);
-    }
-
-    public static void main(String argv[]) throws SQLException {
-        QuanLiHocSinh sv = new QuanLiHocSinh(850, 670);
-        sv.setVisible(true);
     }
 
     @Override

@@ -96,18 +96,23 @@ public class GiaoVienBUS {
     //             search.add(gv);
     //         }
     //     }
-    public ArrayList<GiaoVienDTO> searchGV(String maGV, String tenGV) {
+    public ArrayList<GiaoVienDTO> searchGV(String maGV, String tenGV, String namSinh, String gioiTinh, String dienThoai) {
     ArrayList<GiaoVienDTO> search = new ArrayList<>();
         maGV = maGV.isEmpty()?maGV = "": maGV;
         tenGV = tenGV.isEmpty()?tenGV = "": tenGV;
-        //namSinh = namSinh.isEmpty()?namSinh = "": namSinh;
-        for(GiaoVienDTO gv:dsgv){
+        namSinh = namSinh.isEmpty()?namSinh = "": namSinh;
+        gioiTinh = gioiTinh.isEmpty()?gioiTinh = "": gioiTinh;
+        dienThoai = dienThoai.isEmpty()?dienThoai = "": dienThoai;
+        for(GiaoVienDTO gv: dsgv){
             if(gv.getMaGV().contains(maGV) &&
-                gv.getTenGV().contains(tenGV)
+                gv.getTenGV().contains(tenGV) &&
+                gv.getNamSinh().contains(namSinh) &&
+                gv.getGioiTinh().contains(gioiTinh) &&
+                gv.getDienThoai().contains(dienThoai) 
             ){
                 search.add(gv);
             }
-        }
+       }
     return search; // Trả về danh sách kết quả
     }
 
