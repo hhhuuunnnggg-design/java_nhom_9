@@ -3,6 +3,8 @@ package GUI;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.TableRowSorter;
@@ -182,6 +184,13 @@ public class diemHS {
         t.getColumnModel().getColumn(7).setPreferredWidth(80);
         t.getColumnModel().getColumn(8).setPreferredWidth(150);
         t.getColumnModel().getColumn(9).setPreferredWidth(150);
+        t.setRowHeight(40);
+         // Thiết lập chiều cao của header
+        JTableHeader header = t.getTableHeader();
+        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
+        header.setBackground(new Color(31, 28, 77));
+        header.setForeground(Color.WHITE);
+        header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
 
         return scrollPane;
     }

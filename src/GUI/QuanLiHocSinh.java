@@ -33,6 +33,7 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -363,9 +364,25 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
             rowData[i][5] = student.getDienThoai();
             rowData[i][6] = student.getIMG();
         }
+        //  // Thiết lập kích thước cột
+        // t.getColumnModel().getColumn(0).setPreferredWidth(70);
+        // t.getColumnModel().getColumn(1).setPreferredWidth(180);
+        // t.getColumnModel().getColumn(2).setPreferredWidth(70);
+        // t.getColumnModel().getColumn(3).setPreferredWidth(90);
+        // t.getColumnModel().getColumn(4).setPreferredWidth(120);
+        // t.getColumnModel().getColumn(5).setPreferredWidth(120);
+        // t.getColumnModel().getColumn(6).setPreferredWidth(80);
+        
+        // t.setRowHeight(40);
+
+        // JTableHeader header = t.getTableHeader();
+        // header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
+        // header.setBackground(new Color(31, 28, 77));
+        // header.setForeground(Color.WHITE);
+        // header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
 
         Font font = new Font("Arial", Font.BOLD, 12);
-        Color title_color = new Color(232, 57, 99);
+        Color title_color = new Color(31, 28, 77);
         t.getTableHeader().setBackground(title_color);
         t.getTableHeader().setForeground(Color.WHITE);
         t.getTableHeader().setFont(font);

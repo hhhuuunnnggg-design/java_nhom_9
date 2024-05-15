@@ -208,6 +208,26 @@ public class ThongKe {
         }
         t.setModel(tblModel);
 
+        // Thiết lập kích thước cột
+        t.getColumnModel().getColumn(0).setPreferredWidth(70);
+        t.getColumnModel().getColumn(1).setPreferredWidth(180);
+        t.getColumnModel().getColumn(2).setPreferredWidth(70);
+        t.getColumnModel().getColumn(3).setPreferredWidth(90);
+        t.getColumnModel().getColumn(4).setPreferredWidth(120);
+        t.getColumnModel().getColumn(5).setPreferredWidth(120);
+        t.getColumnModel().getColumn(6).setPreferredWidth(80);
+        t.getColumnModel().getColumn(7).setPreferredWidth(80);
+        t.getColumnModel().getColumn(8).setPreferredWidth(150);
+        t.getColumnModel().getColumn(9).setPreferredWidth(100);
+        t.getColumnModel().getColumn(10).setPreferredWidth(100);
+        t.setRowHeight(40);
+
+        JTableHeader header = t.getTableHeader();
+        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
+        header.setBackground(new Color(31, 28, 77));
+        header.setForeground(Color.WHITE);
+        header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
+
         ((DefaultTableCellRenderer) t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
