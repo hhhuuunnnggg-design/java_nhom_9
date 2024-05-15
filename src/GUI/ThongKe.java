@@ -37,7 +37,7 @@ import java.util.HashSet;
  *
  * @author PHUONG ANH
  */
-public class ThongKe {
+public class ThongKe extends JPanel{
     private JFrame f;
     private JPanel topThongKe, selectPanel, radioPanel, dropdownPanel, totalPanel, btnPanel, contentThongKe;
     private JLabel l1, l2;
@@ -48,6 +48,7 @@ public class ThongKe {
     private DefaultTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
+    int width, height;
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
@@ -56,13 +57,13 @@ public class ThongKe {
     ArrayList<KQ_HocSinhCaNamDTO> dsKQ;
     ArrayList<NamHocDTO> dsnh;
 
-    public ThongKe() throws SQLException {
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
-        f.setLocationRelativeTo(null);
-        f.setResizable(false);
+    public ThongKe(int width, int height) throws SQLException {
+        // f = new JFrame();
+        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+        this.setSize(new Dimension(width, height));
+        // this.setLocationRelativeTo(null);
+        // this.setResizable(false);
 
         topThongKe = new JPanel();
         topThongKe.setLayout(new BorderLayout());
@@ -178,7 +179,7 @@ public class ThongKe {
         topThongKe.add(selectPanel, BorderLayout.CENTER);
         topThongKe.add(btnPanel, BorderLayout.EAST);
 
-        f.add(topThongKe, BorderLayout.NORTH);
+        this.add(topThongKe, BorderLayout.NORTH);
 
         contentThongKe = new JPanel();
         contentThongKe.setLayout(new BorderLayout());
@@ -186,9 +187,9 @@ public class ThongKe {
         contentThongKe.add(initTable(), BorderLayout.NORTH);
         loaddatatoTable();
 
-        f.add(contentThongKe, BorderLayout.CENTER);
+        this.add(contentThongKe, BorderLayout.CENTER);
 
-        f.setVisible(true);
+        this.setVisible(true);
 
         showBtn.addActionListener(new ShowBtnListener());
         exportBtn.addActionListener(new expBtnListener());
@@ -269,7 +270,7 @@ public class ThongKe {
     }
 
     public static void main(String[] args) throws SQLException {
-        new ThongKe();
+        new ThongKe(850,670);
     }
 
     private class expBtnListener implements ActionListener {

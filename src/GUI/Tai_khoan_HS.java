@@ -142,7 +142,7 @@ public class Tai_khoan_HS extends JPanel {
                 gbc6.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf1, gbc6);
 
-                JLabel jl6 = new JLabel("Tạo mật khẩu:");
+                JLabel jl6 = new JLabel("Mã học sinh:");
                 // jl6.setForeground(Color.WHITE);
                 jl6.setPreferredSize(new Dimension(150, 40));
                 jl6.setFont(jl1.getFont().deriveFont(Font.BOLD, 18));
@@ -155,7 +155,7 @@ public class Tai_khoan_HS extends JPanel {
                 gbc7.weighty = 0;
                 gbc7.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc7.anchor = GridBagConstraints.WEST;
-                // rightPanel.add(jl6, gbc7);
+                rightPanel.add(jl6, gbc7);
 
                 JTextField tf2 = new JTextField();
                 tf2.setPreferredSize(new Dimension(300, 30));
@@ -170,9 +170,9 @@ public class Tai_khoan_HS extends JPanel {
                 gbc8.weighty = 0;
                 gbc8.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
                 gbc8.anchor = GridBagConstraints.EAST;
-                // rightPanel.add(tf2, gbc8);
+                rightPanel.add(tf2, gbc8);
 
-                JLabel jl7 = new JLabel("Mã học sinh:");
+                JLabel jl7 = new JLabel("Họ tên:");
                 // jl7.setForeground(Color.WHITE);
                 jl7.setPreferredSize(new Dimension(150, 40));
                 jl7.setFont(jl1.getFont().deriveFont(Font.BOLD, 18));
@@ -202,7 +202,7 @@ public class Tai_khoan_HS extends JPanel {
                 gbc10.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf3, gbc10);
 
-                JLabel jl8 = new JLabel("Họ tên:");
+                JLabel jl8 = new JLabel("Giới tính:");
                 // jl8.setForeground(Color.WHITE);
                 jl8.setPreferredSize(new Dimension(150, 40));
                 jl8.setFont(jl1.getFont().deriveFont(Font.BOLD, 18));
@@ -232,7 +232,7 @@ public class Tai_khoan_HS extends JPanel {
                 gbc12.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf4, gbc12);
 
-                JLabel jl9 = new JLabel("Giới tính:");
+                JLabel jl9 = new JLabel("Ngày sinh:");
                 // jl9.setForeground(Color.WHITE);
                 jl9.setPreferredSize(new Dimension(150, 40));
                 jl9.setFont(jl1.getFont().deriveFont(Font.BOLD, 18));
@@ -262,7 +262,7 @@ public class Tai_khoan_HS extends JPanel {
                 gbc14.anchor = GridBagConstraints.EAST;
                 rightPanel.add(tf5, gbc14);
 
-                JLabel jl10 = new JLabel("Ngày sinh:");
+                JLabel jl10 = new JLabel("Điện thoại:");
                 // jl10.setForeground(Color.WHITE);
                 jl10.setPreferredSize(new Dimension(150, 40));
                 jl10.setFont(jl1.getFont().deriveFont(Font.BOLD, 18));
