@@ -52,13 +52,13 @@ public class mainChinhGUI extends JFrame implements MouseListener {
     // init();
 
     // }
-    public mainChinhGUI() {
+    public mainChinhGUI() throws SQLException {
         Toolkit screen = Toolkit.getDefaultToolkit();
         init();
         setTitle("Quản lý học sinh ");
     }
 
-    public void init() {
+    public void init() throws SQLException {
         Font font = new Font("Segoe UI", Font.BOLD, 14);
         // setTitle("Quản lý học sinh ");
         // ImageIcon logo = new ImageIcon("./src/image/SieuThi_25px.png");
@@ -176,7 +176,12 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             navItem item = navObj.get(i); // lấy vị trí item trong menu
             if (e.getSource() == item) {
                 item.doActive(); // Active NavItem đc chọn
-                changeMainInfo(i); // Hiển thị ra phần main
+                try {
+                    changeMainInfo(i);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } // Hiển thị ra phần main
             } else {
                 item.noActive();
             }
@@ -184,7 +189,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
     }
 
     //
-    public void changeMainInfo(int i) // Đổi Phần hiển thị khi bấm btn trên menu
+    public void changeMainInfo(int i) throws SQLException // Đổi Phần hiển thị khi bấm btn trên menu
     {
         if (flag && i > 4 && i < 8) // Thay đổi nếu Thông kế đang dropdown
         {
@@ -193,7 +198,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
         switch (i) {
             // case 0: // BÁN HÀNG
             // main.removeAll();
-            // main.add(new BanHangGUI(DEFALUT_WIDTH,userID));
+            // main.add(new BanHangGUI(DEFALUT_WIDTH, userID));
             // main.repaint();
             // main.revalidate();
             // break;
@@ -217,6 +222,11 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 main.repaint();
                 main.revalidate();
                 break;
+            case 1:
+                main.removeAll();
+                main.add(new QuanLiHocSinh(850, 670));
+                main.repaint();
+                main.revalidate();
             case 4: // NHẬP VẦ XUẤT
                 if (flag) {
                     // Thêm 2 btn vào dưới thống kê
@@ -317,7 +327,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {

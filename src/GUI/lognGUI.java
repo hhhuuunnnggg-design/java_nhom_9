@@ -1,6 +1,6 @@
 package GUI;
 
-// import DATABASE.MyConnection;
+import DATABASE.MySQLConnect;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,6 +42,8 @@ public class lognGUI extends JFrame {
 	private JTextField jtf1;
 	private JButton jbxacnhan;
 	private JPasswordField jtf2;
+
+	private MySQLConnect mysql = new MySQLConnect();
 
 	public lognGUI() {
 		init();
@@ -160,11 +162,11 @@ public class lognGUI extends JFrame {
 				if (String.valueOf(jtf2.getPassword()).equals("")) {
 					JOptionPane.showMessageDialog(jpright, "Bạn chưa nhập mật khẩu");
 				} else {
-					Connection con = MyConnection.getConnection();
+					Connection con = mysql.getConnection();
 					PreparedStatement ps;
 
 					try {
-						ps = con.prepareStatement("SELECT * FROM user WHERE usename = ? AND password = ?");
+						ps = con.prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?");
 						ps.setString(1, jtf1.getText());
 						ps.setString(2, String.valueOf(jtf2.getPassword()));
 
