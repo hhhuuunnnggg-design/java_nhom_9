@@ -28,6 +28,17 @@ public class NamHocBUS {
         }
         return null;
     }
+    public NamHocDTO getByName(String tennamhoc)
+    {
+        for(NamHocDTO nh : dsnh )
+        {
+            if(nh.getNamHocKetThuc()==(Integer.parseInt(tennamhoc.substring(5))))
+            {
+                return nh;
+            }
+        }
+        return null;
+    }
 
     public void list()
     {
@@ -64,6 +75,7 @@ public class NamHocBUS {
         }
         return search;
     }
+    
     // public ArrayList<NamHocDTO> search(String id, String NamHoc) {
     //     ArrayList<NamHocDTO> searchResult = new ArrayList<>();
         
@@ -101,6 +113,8 @@ public class NamHocBUS {
         } else {
             System.out.println("No result found for Academic Year " + academicYearToSearch);
         }
+
+        System.out.println(namHocBUS.getByName("2024-2025").getNamHocID());;
     }
     
 }

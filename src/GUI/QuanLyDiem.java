@@ -6,7 +6,11 @@ package GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -48,6 +52,7 @@ public class QuanLyDiem extends JPanel{
     private NonEditableTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
+    private static String outputID, outputHeid, outputMon, outputHK, outputNam, outputDiemhk, outputDiemcanam, outputTenHS, outputLop;
 
     ArrayList <HocSinhDTO> dshs;
     ArrayList <KQ_HocSinhCaNamDTO> dskq;
@@ -146,12 +151,12 @@ public class QuanLyDiem extends JPanel{
         editBtn = new JButton("Sửa");
         editBtn.setPreferredSize(new Dimension(110, 30));
         editBtn.setBackground(new Color(0, 83, 22));
-        editBtn.setForeground(color.WHITE);
-
+        editBtn.setForeground(Color.WHITE);
+        
         delBtn = new JButton("Xóa");
         delBtn.setPreferredSize(new Dimension(110, 30));
         delBtn.setBackground(new Color(255,49,49));
-        delBtn.setForeground(color.WHITE);
+        delBtn.setForeground(Color.WHITE);
         filterBtn = new JButton("Lọc");
         filterBtn.setPreferredSize(new Dimension(110, 30));
         filterBtn.setBackground(new Color(31, 28, 77));
@@ -242,7 +247,7 @@ public class QuanLyDiem extends JPanel{
         f.setVisible(true);
 
         filterBtn.addActionListener(new FilterBtnListener());
-
+        editBtn.addActionListener(new EditBtnListener());
     }
         
     public JScrollPane initTable() {
@@ -262,6 +267,18 @@ public class QuanLyDiem extends JPanel{
         for (int i = 0; i < tblModel.getColumnCount(); i++) {
             t.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+
+        t.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    tableMouseClicked(evt);
+                } catch (ParseException ex) {
+                    Logger.getLogger(QuanLiHocSinh.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
         return scrollPane;
     }
     
@@ -313,10 +330,6 @@ public class QuanLyDiem extends JPanel{
     tblModel.fireTableDataChanged();
     s.setText(String.valueOf(dshs.size()));
     }
-    public static void main(String[] args) {
-        new QuanLyDiem();
-        
-    }
     
     private class FilterBtnListener implements ActionListener{
         @Override
@@ -340,7 +353,6 @@ public class QuanLyDiem extends JPanel{
             
             String hocky = (String) optionHocky.getSelectedItem();
             String namhoc = (String) optionNam.getSelectedItem();
-            
             
             
             dshs = hsbus.search(id_hs, null, null, null, null, null, null);
@@ -395,5 +407,119 @@ public class QuanLyDiem extends JPanel{
             }
             tblModel.fireTableDataChanged();
         }
+    }
+
+    private void tableMouseClicked (java.awt.event.MouseEvent e) throws ParseException{
+        int row = t.getSelectedRow();
+        outputID = (String) t.getValueAt(row, 0);
+        outputTenHS = (String )  t.getValueAt(row, 1);
+        outputLop = (String) t.getValueAt(row, 2);
+        outputMon = (String) t.getValueAt(row, 3);
+        outputHeid = (String) t.getValueAt(row, 4);
+        String diem = (String) t.getValueAt(row, 5);
+        outputHK = (String) t.getValueAt(row,6);
+        outputDiemhk = (String) t.getValueAt(row, 7);
+        outputNam = (String) t.getValueAt(row,8);
+        outputDiem.setText(diem);
+        outputDiemcanam = (String) t.getValueAt(row, 9);
+    }
+
+    private class EditBtnListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(outputID==null){
+                JOptionPane.showMessageDialog(null, "Chưa chọn thông tin", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+            }
+            String diem = outputDiem.getText();
+            if (diem.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập điểm", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+            }
+            
+            if (!(diem.matches("^-?\\d+(\\.\\d+)?$"))) {
+                JOptionPane.showMessageDialog(null, "Sai format điểm, vui lòng nhập lại", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } 
+            
+            if (Float.parseFloat(diem) > 10.0 || Float.parseFloat(diem) < 0.0) {
+                JOptionPane.showMessageDialog(null, "Quá số điểm tối đa hoặc số điểm âm, vui lòng nhập lại", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int result = JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc muốn sửa điểm của "+outputID,
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (result == JOptionPane.YES_OPTION){
+                updateRow();
+            }
+            else{
+                return;
+            }
+        }
+
+
+    }
+
+    public void updateRow(){
+        System.out.println("update ................");
+        String idhk= hkbus.getByName(outputHK).getHocKyID();
+        System.out.println(idhk);
+
+
+        String idmon = mhbus.getByName(outputMon).getMonHocID();
+        System.out.println(idmon);
+
+        String idnamhoc = nhbus.getByName(outputNam).getNamHocID();
+        System.out.println(idnamhoc);
+
+        String idhs = outputID;
+        System.out.println(idhs);
+        int idhe = Integer.parseInt(outputHeid);
+        System.out.println(idhe);
+        Float diemHK = (outputDiemhk==null ||outputDiemhk.equals(""))?-1:Float.parseFloat(outputDiemhk);//sử lý hàm set với -1
+        System.out.println(diemHK);
+        Float diemCanam = (outputDiemcanam==null ||outputDiemcanam.equals(""))?-1:Float.parseFloat(outputDiemcanam);
+        System.out.println(diemCanam);
+        Float diem = (outputDiem.getText()==null ||outputDiem.getText().equals(""))?-1:Float.parseFloat(outputDiem.getText());
+        System.out.println(diem);
+        String tenhs = outputTenHS;
+        String lop = outputLop;
+
+        
+        ChiTietDiemDTO ctd = new ChiTietDiemDTO(idhs, idmon, idhk, idhe, idnamhoc, diem);
+        DTB_HocKyDTO dtb = new DTB_HocKyDTO(idhs, idhk, idnamhoc, diemHK);
+
+        String hocluc = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHocLuc():"";//checknull
+        String hanhkiem = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHanhKiem():"";//
+        String ketqua = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getKetQua():"";//
+        KQ_HocSinhCaNamDTO diemnamhoc = new KQ_HocSinhCaNamDTO(idhs, idnamhoc, hocluc, hanhkiem, diemCanam, ketqua);
+
+        System.out.println(idhs+ tenhs+ lop+ mhbus.get(idmon).getTenMonHoc()+ idhe+ String.valueOf(diem)+ hkbus.get(idhk).getTenHocKy()+
+        String.valueOf(diemHK)+ outputNam+ String.valueOf(diemCanam));
+        Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, String.valueOf(diem), hkbus.get(idhk).getTenHocKy(),
+            String.valueOf(diemHK), outputNam, String.valueOf(diemCanam)};
+            
+            int row = t.getSelectedRow();
+            tblModel.removeRow(row);
+            tblModel.addRow(rowData);
+            ///check lai update db;
+            ctbus.set(ctd);
+            dtbbus.set(dtb);
+            kqbus.set(diemnamhoc);
+        outputDiem.setText("");
+        JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+//thay doi diem khi nhap du 
+//ham tinh diem
+//update diem
+        //reset() every output==null
+    }
+    public static void main(String[] args) {
+        QuanLyDiem t = new QuanLyDiem();
+        t.updateRow();
     }
 }

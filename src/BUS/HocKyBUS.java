@@ -43,6 +43,16 @@ public class HocKyBUS {
             }
         }
     }
+
+    public HocKyDTO getByName(String tenhs){
+        for(HocKyDTO x : dshk)
+        {
+            if( x.getTenHocKy().equals(tenhs)){
+                return x;
+            }
+        }
+        return null;
+    }
     public boolean check(String id)
     {
         for(HocKyDTO hk : dshk)
@@ -87,7 +97,7 @@ public class HocKyBUS {
         return dshk;
     }
     public static void main(String[] args) {
-        HocKyBUS hocKyBUS = new HocKyBUS();
+        HocKyBUS hocKyBUS = new HocKyBUS(1);
         
         // Populate the list
         hocKyBUS.list();
@@ -102,5 +112,7 @@ public class HocKyBUS {
             System.out.println("TenHocKy: " + hocKy.getTenHocKy());
             System.out.println("-------------------------");
         }
+
+        System.out.println(hocKyBUS.getByName("Học Kỳ 1").getHocKyID());
     }
 }
