@@ -44,6 +44,9 @@ public class diemHS {
     private JScrollPane scrollPane;
     private JTable t;
     private DefaultTableModel tblModel;
+
+    private String mahocsinh;
+
     ArrayList<HocSinhDTO> dshs;
     ArrayList<KQ_HocSinhCaNamDTO> dskq;
     ArrayList<MonHocDTO> dsmon;
@@ -66,7 +69,8 @@ public class diemHS {
     DefaultTableModel model;
     TableRowSorter<DefaultTableModel> sorter;
 
-    public diemHS() throws SQLException {
+    public diemHS(String mahocsinh) throws SQLException {
+        this.mahocsinh = mahocsinh;
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setResizable(false);
@@ -141,7 +145,7 @@ public class diemHS {
 
         f.add(topPanel, BorderLayout.NORTH);
         f.setVisible(true);
-
+        initTable();
         f.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
     }
@@ -150,8 +154,7 @@ public class diemHS {
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollPane = new JScrollPane(t);
-        // hs id, môn học, hệ số điểm ,điểm môn học,học kì, điểm tb học kỳ, năm học,điểm
-        // tb cả năm, kết quả
+
         tblModel = new DefaultTableModel();
         tblModel.addColumn("Mã HS");
         tblModel.addColumn("Họ tên");
@@ -166,7 +169,6 @@ public class diemHS {
 
         t.setModel(tblModel);
 
-        // Căn giữa nội dung trong các ô của bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < t.getColumnCount(); i++) {
@@ -185,18 +187,17 @@ public class diemHS {
         t.getColumnModel().getColumn(8).setPreferredWidth(150);
         t.getColumnModel().getColumn(9).setPreferredWidth(150);
         t.setRowHeight(40);
-         // Thiết lập chiều cao của header
+        // Thiết lập chiều cao của header
         JTableHeader header = t.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
         header.setBackground(new Color(31, 28, 77));
         header.setForeground(Color.WHITE);
         header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
-
         return scrollPane;
     }
 
     public void loaddatatoTable() {
-        // tblModel.setRowCount(0);
+        tblModel.setRowCount(0);
 
         dshs = hsbus.getList();
         dskq = kqbus.getList();
@@ -207,7 +208,7 @@ public class diemHS {
         dsnh = nhbus.getList();
         dspl = plbus.getList();
 
-        String targetId = "HS1"; // HocSinhID cần tìm
+        String targetId = mahocsinh; // HocSinhID cần tìm
 
         for (HocSinhDTO hs : dshs) {
             if (!hs.getHocSinhID().equals(targetId)) {
@@ -255,17 +256,16 @@ public class diemHS {
                 }
             }
         }
-        tblModel.fireTableDataChanged();
     }
 
     public static void main(String[] args) throws SQLException {
-        new diemHS();
+        new diemHS("HS2");
     }
 
     private class ShowFilterListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            tblModel.setRowCount(0);
+            // tblModel.setRowCount(0);
             String monhoc = (String) c1.getSelectedItem();
             String hocki = (String) c2.getSelectedItem();
             String namhoc = (String) c3.getSelectedItem();
@@ -280,16 +280,19 @@ public class diemHS {
             if (!monhoc.equals("Tất cả")) {
                 RowFilter<Object, Object> filterMonHoc = RowFilter.regexFilter(monhoc, 2);
                 filters.add(filterMonHoc);
+                System.out.println("đã vào môn học");
             }
 
             if (!hocki.equals("Tất cả")) {
                 RowFilter<Object, Object> filterHocKy = RowFilter.regexFilter(hocki, 5);
                 filters.add(filterHocKy);
+                System.out.println("đã vào học kì");
             }
 
             if (!namhoc.equals("Tất cả")) {
                 RowFilter<Object, Object> filterNamHoc = RowFilter.regexFilter(namhoc, 7);
                 filters.add(filterNamHoc);
+                System.out.println("đã vào năm học");
             }
 
             RowFilter<Object, Object> combinedFilter = RowFilter.andFilter(filters);
