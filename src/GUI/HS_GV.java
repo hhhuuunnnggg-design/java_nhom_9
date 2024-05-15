@@ -29,7 +29,8 @@ import javax.swing.JSeparator;
 import javax.swing.border.Border;
 import java.awt.Image;
 import java.util.concurrent.atomic.AtomicBoolean;
-//import GUI.TTTK_HS_GV;
+import GUI.TTTK_HS;
+import GUI.TTTK_GV;
 
 /**
  *
@@ -191,9 +192,9 @@ public class HS_GV {
 
                 // Hiển thị JPTai_khoan_HS
                 jl5.setBackground(new Color(99, 116, 198));
-                // JPanel tttk_hs = new TTTK_HS();
+                // JPanel tttk_hs = new TTTK_HS(850,670);
                 // f.add(tttk_hs,BorderLayout.CENTER );
-                JPanel tttk_gv = new TTTK_GV();
+                JPanel tttk_gv = new TTTK_GV(850,670);
                 f.add(tttk_gv,BorderLayout.CENTER);
                 f.revalidate(); // Cập nhật lại giao diện
             }

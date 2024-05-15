@@ -1,37 +1,53 @@
 package DTO;
-public class PhanCongDTO {
-    private String GiaoVienID;
-    private String MonHocID;
-    private String LopID;
 
-    public PhanCongDTO(String giaoVienID, String monHocID, String lopID) {
-        GiaoVienID = giaoVienID;
-        MonHocID = monHocID;
-        LopID = lopID;
+public class PhanCongDTO {
+    private String giaoVienID;
+    private String lopID;
+    private String monHocID;
+    // Add other attributes as needed
+
+    // Constructor
+    public PhanCongDTO(String giaoVienID, String lopID, String monHocID) {
+        this.giaoVienID = giaoVienID;
+        this.lopID = lopID;
+        this.monHocID = monHocID;
+        // Initialize other attributes
     }
 
+    // Getters and Setters
+
     public String getGiaoVienID() {
-        return GiaoVienID;
+        return giaoVienID;
     }
 
     public void setGiaoVienID(String giaoVienID) {
-        GiaoVienID = giaoVienID;
-    }
-
-    public String getMonHocID() {
-        return MonHocID;
-    }
-
-    public void setMonHocID(String monHocID) {
-        MonHocID = monHocID;
+        this.giaoVienID = giaoVienID;
     }
 
     public String getLopID() {
-        return LopID;
+        return lopID;
     }
 
     public void setLopID(String lopID) {
-        LopID = lopID;
+        this.lopID = lopID;
     }
 
+    public String getMonHocID() {
+        return monHocID;
+    }
+
+    public void setMonHocID(String monHocID) {
+        this.monHocID = monHocID;
+    }
+
+    // Override toString method to display all attributes
+    @Override
+    public String toString() {
+        return "PhanCongDTO{" +
+                "giaoVienID='" + giaoVienID + '\'' +
+                ", lopID='" + lopID + '\'' +
+                ", monHocID='" + monHocID + '\'' +
+                // Include other attributes here
+                '}';
+    }
 }

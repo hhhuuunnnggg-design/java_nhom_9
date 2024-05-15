@@ -1,119 +1,125 @@
 package BUS;
 
-
-import java.io.File;
-import java.util.ArrayList;
-
 import DATA.GiaoVienDAO;
-import DTO.*;
 import DTO.GiaoVienDTO;
 
 import java.util.ArrayList;
 
-
 public class GiaoVienBUS {
     private ArrayList<GiaoVienDTO> dsgv;
-    public GiaoVienBUS(){}
 
-    public void listGV(){
-        GiaoVienDAO gvDAO=new GiaoVienDAO();
-    
-        dsgv = new ArrayList<>();
-        dsgv=gvDAO.list();
+    public GiaoVienBUS() {
+        listGV();
     }
-    //theem
-    public void addGV(GiaoVienDTO gv){
+
+    public void listGV() {
+        GiaoVienDAO gvDAO = new GiaoVienDAO();
+        dsgv = gvDAO.list();
+    }
+
+    public void addGV(GiaoVienDTO gv) {
         dsgv.add(gv);
-        GiaoVienDAO gvDAO=new GiaoVienDAO();
+        GiaoVienDAO gvDAO = new GiaoVienDAO();
         gvDAO.add(gv);
     }
-    //xoa
-    public void deleteGV(String magv){
-        for(GiaoVienDTO gv:dsgv){
-            if(gv.getMaGV().equals(magv)){
-                dsgv.remove(magv);
-                GiaoVienDAO gvDAO=new GiaoVienDAO();
+
+    public void deleteGV(String magv) {
+        for (GiaoVienDTO gv : dsgv) {
+            if (gv.getMaGV().equals(magv)) {
+                dsgv.remove(gv);
+                GiaoVienDAO gvDAO = new GiaoVienDAO();
                 gvDAO.delete(magv);
                 return;
             }
         }
     }
-    // get/set
-    public void setGV(GiaoVienDTO s){
-        for(int i=0 ; i<dsgv.size() ; i++){
-            if(dsgv.get(i).getMaGV().equals(s.getMaGV())){
+
+    public void setGV(GiaoVienDTO s) {
+        for (int i = 0; i < dsgv.size(); i++) {
+            if (dsgv.get(i).getMaGV().equals(s.getMaGV())) {
                 dsgv.set(i, s);
-                GiaoVienDAO gvDAO=new GiaoVienDAO();
+                GiaoVienDAO gvDAO = new GiaoVienDAO();
                 gvDAO.set(s);
                 return;
             }
         }
     }
-    public GiaoVienDTO getGV(String magv){
-        for(GiaoVienDTO gv:dsgv){
-            if(gv.getMaGV().equals(magv)){
+
+    public GiaoVienDTO getGV(String magv) {
+        for (GiaoVienDTO gv : dsgv) {
+            if (gv.getMaGV().equals(magv)) {
                 return gv;
             }
         }
         return null;
     }
 
-
-    //kiem tra ma
-    public boolean checkMagv(String magv){
-        for(GiaoVienDTO gv:dsgv){
-            if(gv.getMaGV().equals(magv)){
+    public boolean checkMagv(String magv) {
+        for (GiaoVienDTO gv : dsgv) {
+            if (gv.getMaGV().equals(magv)) {
                 return true;
             }
         }
         return false;
     }
-    // public ArrayList<GiaoVienDTO> searchGV(String maGV, String tenGV, int namSinh) {
-    // ArrayList<GiaoVienDTO> searchGV = new ArrayList<>();
 
-    // // Lặp qua danh sách giáo viên để tìm kiếm
-    // for (GiaoVienDTO gv : dsgv) {
-    //     // Kiểm tra xem thông tin mã giáo viên, tên giáo viên và năm sinh có trùng khớp với thông tin tìm kiếm không
-    //     if (gv.getMaGV().contains(maGV) &&
-    //         gv.getTenGV().contains(tenGV) &&
-    //         (namSinh == 0 || gv.getNamSinh() == namSinh)) {
-    //         searchGV.add(gv); // Nếu trùng khớp, thêm giáo viên vào danh sách kết quả
-    //     }
-    // }
-    // return searchGV; // Trả về danh sách kết quả
-    // }
-
-    // public ArrayList<GiaoVienDTO> searchGV(String maGV, String tenGV, int namSinh) {
-    // ArrayList<GiaoVienDTO> search = new ArrayList<>();
-    //     maGV = maGV.isEmpty()?maGV = "": maGV;
-    //     tenGV = tenGV.isEmpty()?tenGV = "": tenGV;
-    //     //namSinh = namSinh.isEmpty()?namSinh = "": namSinh;
-    //     for(GiaoVienDTO gv:dsgv){
-    //         if(gv.getMaGV().contains(maGV) &&
-    //             gv.getTenGV().contains(tenGV)&&
-    //             gv.getNamSinh()==namSinh
-    //         ){
-    //             search.add(gv);
-    //         }
-    //     }
-    public ArrayList<GiaoVienDTO> searchGV(String maGV, String tenGV) {
-    ArrayList<GiaoVienDTO> search = new ArrayList<>();
-        maGV = maGV.isEmpty()?maGV = "": maGV;
-        tenGV = tenGV.isEmpty()?tenGV = "": tenGV;
-        //namSinh = namSinh.isEmpty()?namSinh = "": namSinh;
-        for(GiaoVienDTO gv:dsgv){
-            if(gv.getMaGV().contains(maGV) &&
-                gv.getTenGV().contains(tenGV)
-            ){
+    public ArrayList<GiaoVienDTO> searchGV(String maGV, String tenGV, String namSinh, String gioiTinh, String dienThoai) {
+        ArrayList<GiaoVienDTO> search = new ArrayList<>();
+        maGV = maGV.isEmpty() ? maGV = "" : maGV;
+        tenGV = tenGV.isEmpty() ? tenGV = "" : tenGV;
+        namSinh = namSinh.isEmpty() ? namSinh = "" : namSinh;
+        gioiTinh = gioiTinh.isEmpty() ? gioiTinh = "" : gioiTinh;
+        dienThoai = dienThoai.isEmpty() ? dienThoai = "" : dienThoai;
+        for (GiaoVienDTO gv : dsgv) {
+            if (gv.getMaGV().contains(maGV) &&
+                gv.getTenGV().contains(tenGV) &&
+                gv.getNamSinh().contains(namSinh) &&
+                gv.getGioiTinh().contains(gioiTinh) &&
+                gv.getDienThoai().contains(dienThoai)) {
                 search.add(gv);
             }
-       }
-    return search; // Trả về danh sách kết quả
+        }
+        return search; // Trả về danh sách kết quả
     }
 
-    public ArrayList<GiaoVienDTO>getList(){
+    public ArrayList<GiaoVienDTO> getList() {
         return dsgv;
     }
+
+
    
-  
+    public static void main(String[] args) {
+        GiaoVienBUS giaoVienBUS = new GiaoVienBUS();
+    
+        // Display all teachers to debug and see what is being loaded
+        ArrayList<GiaoVienDTO> dsgv = giaoVienBUS.getList();
+    
+        System.out.println("All Teachers:");
+        for (GiaoVienDTO gv : dsgv) {
+            System.out.println("MAGV: " + gv.getMaGV());
+            System.out.println("HOGV: " + gv.getHoGV());
+            System.out.println("TENGV: " + gv.getTenGV());
+            System.out.println("GIOITINH: " + gv.getGioiTinh());
+            System.out.println("NAMSINH: " + gv.getNamSinh());
+            System.out.println("DIENTHOAI: " + gv.getDienThoai());
+            System.out.println("IMG: " + gv.getIMG());
+            System.out.println("-------------------------------");
+        }
+    
+        // Attempt to get and print details of a specific teacher
+        GiaoVienDTO gv = giaoVienBUS.getGV("GV1");
+        if (gv != null) {
+            System.out.println("Details of GV1:");
+            System.out.println("MAGV: " + gv.getMaGV());
+            System.out.println("HOGV: " + gv.getHoGV());
+            System.out.println("TENGV: " + gv.getTenGV());
+            System.out.println("GIOITINH: " + gv.getGioiTinh());
+            System.out.println("NAMSINH: " + gv.getNamSinh());
+            System.out.println("DIENTHOAI: " + gv.getDienThoai());
+            System.out.println("IMG: " + gv.getIMG());
+        } else {
+            System.out.println("No teacher found with MAGV = GV1");
+        }
+    }
+    
 }

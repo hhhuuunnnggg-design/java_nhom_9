@@ -3,8 +3,13 @@ package GUI;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.TableRowSorter;
+import java.util.List;
+import java.util.ArrayList;
 
 import BUS.ChiTietDiemBUS;
 import BUS.DTB_HocKyBUS;
@@ -39,8 +44,11 @@ public class diemHS {
     private JScrollPane scrollPane;
     private JTable t;
     private DefaultTableModel tblModel;
-    ArrayList <HocSinhDTO> dshs;
-    ArrayList <KQ_HocSinhCaNamDTO> dskq;
+
+    private String mahocsinh;
+
+    ArrayList<HocSinhDTO> dshs;
+    ArrayList<KQ_HocSinhCaNamDTO> dskq;
     ArrayList<MonHocDTO> dsmon;
     ArrayList<ChiTietDiemDTO> dsct;
     ArrayList<HocKyDTO> dshk;
@@ -58,7 +66,11 @@ public class diemHS {
     HocKyBUS hkbus = new HocKyBUS(1);
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
-    public diemHS() throws SQLException {
+    DefaultTableModel model;
+    TableRowSorter<DefaultTableModel> sorter;
+
+    public diemHS(String mahocsinh) throws SQLException {
+        this.mahocsinh = mahocsinh;
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setResizable(false);
@@ -94,11 +106,11 @@ public class diemHS {
         dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
         dropdownPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-        String[] optionc1 = {"Tất cả","Toán", "Vật Lý", "Hóa Học", "Anh Văn", "Ngữ văn", "Sinh", "Sử", "Địa", "GDCD"};
+        String[] optionc1 = { "Tất cả", "Toán", "Vật Lý", "Hóa Học", "Anh Văn" };
         c1 = new JComboBox<>(optionc1);
-        String[] optionc2 = {"Tất cả", "Học Kỳ 1", "Học Kỳ 2"};
+        String[] optionc2 = { "Tất cả", "Học Kỳ 1", "Học Kỳ 2" };
         c2 = new JComboBox<>(optionc2);
-        String[] optionc3 = {"Tất cả", "2019-2020", "2020-2021", "2021-2022","2022-2023", "2023-2024", "2024-2025"};
+        String[] optionc3 = { "Tất cả", "2024-2025", "2023-2024" };
         c3 = new JComboBox<>(optionc3);
 
         btnPanel = new JPanel(new GridBagLayout());
@@ -133,7 +145,7 @@ public class diemHS {
 
         f.add(topPanel, BorderLayout.NORTH);
         f.setVisible(true);
-        
+        initTable();
         f.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
     }
@@ -142,7 +154,7 @@ public class diemHS {
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollPane = new JScrollPane(t);
-        //hs id, môn học, hệ số điểm ,điểm môn học,học kì, điểm tb học kỳ, năm học,điểm tb cả năm, kết quả
+
         tblModel = new DefaultTableModel();
         tblModel.addColumn("Mã HS");
         tblModel.addColumn("Họ tên");
@@ -157,7 +169,6 @@ public class diemHS {
 
         t.setModel(tblModel);
 
-        // Căn giữa nội dung trong các ô của bảng
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < t.getColumnCount(); i++) {
@@ -175,13 +186,19 @@ public class diemHS {
         t.getColumnModel().getColumn(7).setPreferredWidth(80);
         t.getColumnModel().getColumn(8).setPreferredWidth(150);
         t.getColumnModel().getColumn(9).setPreferredWidth(150);
-
+        t.setRowHeight(40);
+        // Thiết lập chiều cao của header
+        JTableHeader header = t.getTableHeader();
+        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
+        header.setBackground(new Color(31, 28, 77));
+        header.setForeground(Color.WHITE);
+        header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
         return scrollPane;
     }
 
     public void loaddatatoTable() {
         tblModel.setRowCount(0);
-    
+
         dshs = hsbus.getList();
         dskq = kqbus.getList();
         dsmon = mhbus.getList();
@@ -189,18 +206,18 @@ public class diemHS {
         dsdtb = dtbbus.getList();
         dshk = hkbus.getList();
         dsnh = nhbus.getList();
-        
-        String targetId = "HS1"; // HocSinhID cần tìm
-    
+        dspl = plbus.getList();
+
+        String targetId = mahocsinh; // HocSinhID cần tìm
+
         for (HocSinhDTO hs : dshs) {
             if (!hs.getHocSinhID().equals(targetId)) {
                 continue; // Bỏ qua nếu không phải học sinh cần tìm
             }
-    
             for (NamHocDTO nh : dsnh) {
                 String idnamhoc = nh.getNamHocID();
                 String idhs = hs.getHocSinhID();
-    
+
                 for (HocKyDTO hk : dshk) {
                     String idhk = hk.getHocKyID();
                     for (MonHocDTO mh : dsmon) {
@@ -208,64 +225,19 @@ public class diemHS {
                         for (int heso = 1; heso < 4; heso++) {
                             String idHocKy = hk.getHocKyID();
                             String idNamHoc = nh.getNamHocID();
-                            String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
-                            String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
-                            String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
-                            String idKQ = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getKetQua()) : "";
-                            String[] rowData = new String[]{
-                                idhs,
-                                hsbus.get(idhs).getTenHocSinh(),
-                                mhbus.get(idmon).getTenMonHoc(),
-                                String.valueOf(heso),
-                                idDiemHocKy,
-                                hkbus.get(idhk).getTenHocKy(),
-                                idDiemTrungBinhHocKy,
-                                nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
-                                idDiemTrungBinhNam,
-                                idKQ
-                            };
-                            tblModel.addRow(rowData);
-                        }
-                    }
-                }
-            }
-        }
-        tblModel.fireTableDataChanged();
-    }
-    public static void main(String[] args) throws SQLException {
-        new diemHS();
-    }
-    private class ShowFilterListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e){
-            tblModel.setRowCount(0);
-            String monhoc = (String) c1.getSelectedItem();
-            String hocki = (String) c2.getSelectedItem();
-            String namhoc = (String) c3.getSelectedItem();
-            // dshs = hsbus.search(null,null);
-            // dsnh = nhbus.search(null,namhoc);
-            // dshk = hkbus.search(null,hocki);
-            // dsmon = mhbus.search(null,monhoc);
-            String targetId = "HS1";
-            for (HocSinhDTO hs : dshs) {
-                if (!hs.getHocSinhID().equals(targetId)) {
-                    continue; // Bỏ qua nếu không phải học sinh cần tìm
-                }
-                for (NamHocDTO nh : dsnh) {
-                    String idnamhoc = nh.getNamHocID();
-                    String idhs = hs.getHocSinhID();
-                    for (HocKyDTO hk : dshk) {
-                        String idhk = hk.getHocKyID();
-                        for (MonHocDTO mh : dsmon) {
-                            String idmon = mh.getMonHocID();
-                            for (int heso = 1; heso < 4; heso++) {
-                                String idHocKy = hk.getHocKyID();
-                                String idNamHoc = nh.getNamHocID();
-                                String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
-                                String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
-                                String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
-                                String idKQ = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getKetQua()) : "";
-                                String[] rowData = new String[]{
+                            String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null
+                                    ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem())
+                                    : "";
+                            String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null
+                                    ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh())
+                                    : "";
+                            String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null
+                                    ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam())
+                                    : "";
+                            String idKQ = kqbus.get(idhs, idNamHoc) != null
+                                    ? String.valueOf(kqbus.get(idhs, idNamHoc).getKetQua())
+                                    : "";
+                            String[] rowData = new String[] {
                                     idhs,
                                     hsbus.get(idhs).getTenHocSinh(),
                                     mhbus.get(idmon).getTenMonHoc(),
@@ -273,19 +245,59 @@ public class diemHS {
                                     idDiemHocKy,
                                     hkbus.get(idhk).getTenHocKy(),
                                     idDiemTrungBinhHocKy,
-                                    nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
+                                    nhbus.get(idnamhoc).getNamHocBatDau() + "-"
+                                            + nhbus.get(idnamhoc).getNamHocKetThuc(),
                                     idDiemTrungBinhNam,
                                     idKQ
-                                };
-                                tblModel.addRow(rowData);
-                            }
+                            };
+                            tblModel.addRow(rowData);
                         }
                     }
                 }
             }
-                    if (tblModel.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
-            }    
-       }      
+        }
     }
+
+    public static void main(String[] args) throws SQLException {
+        new diemHS("HS2");
+    }
+
+    private class ShowFilterListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // tblModel.setRowCount(0);
+            String monhoc = (String) c1.getSelectedItem();
+            String hocki = (String) c2.getSelectedItem();
+            String namhoc = (String) c3.getSelectedItem();
+
+            if (sorter == null) {
+                sorter = new TableRowSorter<>(tblModel);
+                t.setRowSorter(sorter);
+            }
+
+            List<RowFilter<Object, Object>> filters = new ArrayList<>();
+
+            if (!monhoc.equals("Tất cả")) {
+                RowFilter<Object, Object> filterMonHoc = RowFilter.regexFilter(monhoc, 2);
+                filters.add(filterMonHoc);
+                System.out.println("đã vào môn học");
+            }
+
+            if (!hocki.equals("Tất cả")) {
+                RowFilter<Object, Object> filterHocKy = RowFilter.regexFilter(hocki, 5);
+                filters.add(filterHocKy);
+                System.out.println("đã vào học kì");
+            }
+
+            if (!namhoc.equals("Tất cả")) {
+                RowFilter<Object, Object> filterNamHoc = RowFilter.regexFilter(namhoc, 7);
+                filters.add(filterNamHoc);
+                System.out.println("đã vào năm học");
+            }
+
+            RowFilter<Object, Object> combinedFilter = RowFilter.andFilter(filters);
+            sorter.setRowFilter(combinedFilter);
+        }
+    }
+
 }
