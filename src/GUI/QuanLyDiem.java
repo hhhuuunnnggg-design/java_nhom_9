@@ -488,7 +488,6 @@ public class QuanLyDiem extends JPanel{
         String idhk= hkbus.getByName(outputHK).getHocKyID();
         System.out.println(idhk);
 
-
         String idmon = mhbus.getByName(outputMon).getMonHocID();
         System.out.println(idmon);
 
@@ -507,7 +506,6 @@ public class QuanLyDiem extends JPanel{
         System.out.println(diem);
         String tenhs = outputTenHS;
         String lop = outputLop;
-
         
         ChiTietDiemDTO ctd = new ChiTietDiemDTO(idhs, idmon, idhk, idhe, idnamhoc, diem);
         DTB_HocKyDTO dtb = new DTB_HocKyDTO(idhs, idhk, idnamhoc, diemHK);
@@ -534,7 +532,18 @@ public class QuanLyDiem extends JPanel{
 //thay doi diem khi nhap du 
 //ham tinh diem
 //update diem
-        //reset() every output==null
+    resetOutput();
+    }
+    public static void resetOutput() {
+        outputID = null;
+        outputHeid = null;
+        outputMon = null;
+        outputHK = null;
+        outputNam = null;
+        outputDiemhk = null;
+        outputDiemcanam = null;
+        outputTenHS = null;
+        outputLop = null;
     }
     public static void main(String[] args) {
         QuanLyDiem t = new QuanLyDiem();

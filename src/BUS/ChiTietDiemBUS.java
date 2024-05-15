@@ -84,11 +84,15 @@ public class ChiTietDiemBUS {
     {
         for(int i = 0 ; i < dsctd.size() ; i++)
         {
-            if(dsctd.get(i).getHocSinhID().equals(s.getHocSinhID()))
+            if(dsctd.get(i).getHocSinhID().equals(s.getHocSinhID()) &&
+            dsctd.get(i).getNamHocID().equals(s.getNamHocID()) &&
+            dsctd.get(i).getMonHocID().equals(s.getMonHocID()) &&
+            dsctd.get(i).getHeSoID()==(s.getHeSoID()))
             {
                 dsctd.set(i, s);
                 ChiTietDiemDAO ctdDATA = new ChiTietDiemDAO();
                 ctdDATA.set(s);
+                System.out.println("set chitietdiem-------");
                 return;
             }
         }

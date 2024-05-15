@@ -56,7 +56,7 @@ public class KQ_HocSinhCaNamBUS {
     {
         for(int i = 0 ; i < dskq.size() ; i++)
         {
-            if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()))
+            if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()) && dskq.get(i).getNamHocID().equals(s.getNamHocID()))
             {
                 dskq.set(i, s);
                 KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
