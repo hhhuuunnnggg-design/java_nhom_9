@@ -1,44 +1,15 @@
 package DATA;
 
-
-import DTO.*;
-import BUS.*;
-import DATABASE.*;
-import GUI.*;
-import java.sql.*;
-
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import DTO.GiaoVienDTO;
+import DATABASE.MySQLConnect;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.ArrayList;
-
-
-//-------------
-import DTO.GiaoVienDTO;
-
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-//--------------------------
-// import org.apache.poi.ss.usermodel.Row;
-// import org.apache.poi.xssf.usermodel.XSSFCell;
-// import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-// import org.apache.poi.xssf.usermodel.XSSFFont;
-// import org.apache.poi.xssf.usermodel.XSSFRow;
-// import org.apache.poi.xssf.usermodel.XSSFSheet;
-// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 public class GiaoVienDAO {
-    private  MySQLConnect mySQL = new MySQLConnect(); 
+    private MySQLConnect mySQL = new MySQLConnect();
+
     public GiaoVienDAO() {
     }
 
@@ -46,83 +17,93 @@ public class GiaoVienDAO {
         ArrayList<GiaoVienDTO> dsgv = new ArrayList<>();
         try {
             String sql = "SELECT * FROM giaovien WHERE enable = 1";
-            // System.out.println("1");
             ResultSet rs = mySQL.executeQuery(sql);
-            
+
             while (rs.next()) {
+                String maGV = rs.getString(1);
+                String tenGV = rs.getString(2);
+                String gioiTinh = rs.getString(3);
+                String namSinh = rs.getString(4);
+                String dienThoai = rs.getString(6);
+                String IMG = rs.getString(7);
 
-                String maGV = rs.getString("MAGV");
-                String hoGV = rs.getString("HOGV");
-                String tenGV = rs.getString("TENGV");
-                String gioiTinh = rs.getString("GIOITINH");
-                String namSinh = rs.getString("NAMSINH");
-                String dienThoai = rs.getString("DIENTHOAI");
-                String IMG = rs.getString("IMG");
-
-                GiaoVienDTO gv = new GiaoVienDTO(maGV, hoGV, tenGV, gioiTinh, IMG, namSinh, dienThoai);
+                GiaoVienDTO gv = new GiaoVienDTO(maGV, tenGV, gioiTinh, IMG, namSinh, dienThoai);
                 dsgv.add(gv);
             }
             rs.close();
-            mySQL.disConnect();
-            //  System.out.println("1.5");
         } catch (SQLException ex) {
             Logger.getLogger(GiaoVienDAO.class.getName()).log(Level.SEVERE, null, ex);
-            //System.out.println("lõi");
+        } finally {
+            mySQL.disConnect();
         }
         return dsgv;
     }
 
-
-
-    public void set(GiaoVienDTO gv){
-    MySQLConnect mySQL = new MySQLConnect();
-
-    String sql = "UPDATE giaovien SET ";
-    sql += "HOGV='"+gv.getHoGV()+"', ";
-    sql += "TENGV='"+gv.getTenGV()+"', ";
-    sql += "GIOITINH='"+gv.getGioiTinh()+"', ";
-    sql += "NAMSINH='"+gv.getNamSinh()+"', ";
-    sql += "DIENTHOAI='"+gv.getDienThoai()+"', ";
-    sql += "IMG='"+gv.getIMG()+"' ";
-    sql += "WHERE MAGV='"+gv.getMaGV()+"'";
-    System.out.println(sql);
-
-    mySQL.executeUpdate(sql);
-    System.out.println("2");
-    System.out.println(sql);
-    
-}
-
-    
-
-    // Lấy giá trị thêm
-    public void add(GiaoVienDTO gv){
-        MySQLConnect mySQL = new MySQLConnect();
-        String sql="INSERT INTO giaovien VALUES (";
-                 
-                sql+="'"+gv.getMaGV()+"',";
-                sql+="'"+gv.getHoGV()+"',";
-                sql+="'"+gv.getTenGV()+"',";
-                sql+="'"+gv.getGioiTinh()+"',";
-                sql+="'"+gv.getNamSinh()+"',";
-                sql+="'"+gv.getDienThoai()+"',";
-                sql+="'"+gv.getIMG()+"',";
-                sql += "'1')";
-        System.out.println(sql);
-        System.out.println("3");
-        mySQL.executeUpdate(sql);
-
+    public void set(GiaoVienDTO gv) {
+        try {
+            String sql = "UPDATE giaovien SET " +
+                         "GiaoVienid='" + gv.getMaGV() + "', " +
+                         "TenGiaoVien='" + gv.getTenGV() + "', " +
+                         "GioiTinh='" + gv.getGioiTinh() + "', " +
+                         "NamSinh='" + gv.getNamSinh() + "', " +
+                         "DienThoai='" + gv.getDienThoai() + "', " +
+                         "IMG='" + gv.getIMG() + "' " +
+                         "WHERE GiaoVienid='" + gv.getMaGV() + "'";
+            mySQL.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(GiaoVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            mySQL.disConnect();
+        }
     }
 
-    
-    //xóa
-    public void delete(String MAGV){
-        String sql = "UPDATE FROM giaovien SET enable =0 WHERE maGV='"+MAGV+"'";
-        
-        System.out.println("4");
-        mySQL.executeUpdate(sql);
-        System.out.println(sql);
-    }   
+    public void add(GiaoVienDTO gv) {
+        try {
+            String sql = "INSERT INTO giaovien (GiaoVienid, TenGiaoVien, GioiTinh, NamSinh, DienThoai, IMG, enable) VALUES (" +
+                         "'" + gv.getMaGV() + "'," +
+                         "'" + gv.getTenGV() + "'," +
+                         "'" + gv.getGioiTinh() + "'," +
+                         "'" + gv.getNamSinh() + "'," +
+                         "'" + gv.getDienThoai() + "'," +
+                         "'" + gv.getIMG() + "'," +
+                         "'1')";
+            mySQL.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(GiaoVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            mySQL.disConnect();
+        }
+    }
+
+    public void delete(String MAGV) {
+        try {
+            String sql = "UPDATE giaovien SET enable = 0 WHERE MAGV='" + MAGV + "'";
+            mySQL.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(GiaoVienDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            mySQL.disConnect();
+        }
+    }
+
+
+
+    public static void main(String[] args) {
+        GiaoVienDAO giaoVienDAO = new GiaoVienDAO();
+        ArrayList<GiaoVienDTO> dsgv = giaoVienDAO.list();
+
+        for (GiaoVienDTO gv : dsgv) {
+            System.out.println("MAGV: " + gv.getMaGV());
+            System.out.println("TENGV: " + gv.getTenGV());
+            System.out.println("GIOITINH: " + gv.getGioiTinh());
+            System.out.println("NAMSINH: " + gv.getNamSinh());
+            System.out.println("DIENTHOAI: " + gv.getDienThoai());
+            System.out.println("IMG: " + gv.getIMG());
+            System.out.println("-------------------------------");
+        }
+    }
+}
+
 
     // public void ExportExcelDatabase(){
     //     try {
@@ -258,4 +239,3 @@ public class GiaoVienDAO {
     //     }
     // }
 
-}

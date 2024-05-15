@@ -22,7 +22,10 @@ import javax.swing.JTextField;
 import BUS.HocSinhBUS;
 import BUS.GiaoVienBUS;
 import BUS.QLHS_GV_BUS;
+import BUS.PhanCongBUS;
+import BUS.MonHocBUS;
 
+import DTO.MonHocDTO;
 import DTO.HocSinhDTO;
 import DTO.LopDTO;
 import DTO.PhanCongDTO;
@@ -39,11 +42,11 @@ public class TTTK_GV extends JPanel {
         String maGV = "GV1";
         GiaoVienBUS gvbus = new GiaoVienBUS();
         QLHS_GV_BUS qlhsgv = new QLHS_GV_BUS();
-
+        PhanCongBUS pcbus = new PhanCongBUS(1);
+        MonHocBUS mhbus = new MonHocBUS(1);
         ArrayList<GiaoVienDTO> dsgv;
-        // ArrayList<GiaoVienDTO> dsgv = new ArrayList<GiaoVienDTO>();
         ArrayList<PhanCongDTO> dspc;
-
+        ArrayList<MonHocDTO> dsmh;
         public TTTK_GV() {
                 setPreferredSize(new Dimension(850, 670));
                 setBackground(Color.WHITE);
@@ -342,7 +345,7 @@ public class TTTK_GV extends JPanel {
                 rightPanel.add(tf7, gbc18);
                 
 
-                jl12 = new JLabel("Phân lớp:");
+                jl12 = new JLabel("Phân môn:");
                 // jl12.setForeground(Color.WHITE);
                 jl12.setPreferredSize(new Dimension(150, 40));
                 jl12.setFont(jl12.getFont().deriveFont(Font.BOLD, 18));
@@ -417,7 +420,7 @@ public class TTTK_GV extends JPanel {
                 gbc23.weighty = 0;
                 gbc23.insets = new Insets(0, 30, 0, 0); // Khoảng cách dưới 10 pixels
                 gbc23.anchor = GridBagConstraints.WEST;
-                rightPanel.add(jl14, gbc23);
+                // rightPanel.add(jl14, gbc23);
 
                 tf10 = new JTextField();
                 tf10.setPreferredSize(new Dimension(300, 30));
@@ -432,23 +435,33 @@ public class TTTK_GV extends JPanel {
                 gbc24.weighty = 0;
                 gbc24.insets = new Insets(0, 20, 0, 30); // Khoảng cách dưới 10 pixels
                 gbc24.anchor = GridBagConstraints.EAST;
-                rightPanel.add(tf10,gbc24);
+                // rightPanel.add(tf10,gbc24);
                 add(rightPanel, BorderLayout.CENTER);
                 loaddatatoPanel();
         }
         public void loaddatatoPanel() {
                 dsgv = gvbus.getList();
-                
+                dspc = pcbus.getList();
+                dsmh = mhbus.getList();
                        for (GiaoVienDTO gv : dsgv) {
-                        if(maGV.equals(gv.getMaGV())){
-                                tf3.setText(gv.getMaGV());
-                                tf4.setText(gv.getTenGV());
-                                // tf6.setText(gv.getNamSinh());
-                                tf5.setText(gv.getGioiTinh());	
-                                // tf7.setText(gv.getDienThoai());	
-                                //tf8.setText Phân lớp
-                                // tf9.setText(gv.getDiaChi());	
+                        String idgv = gv.getMaGV(); 
+                        // for (MonHocDTO mh :dsmh) {
+                        // for (PhanCongDTO pc : dspc){
+                                // if (maGV.equals(idgv) && pc.getMonHocID().equals(mh.getMonHocID())) {
+                                        if(maGV.equals(idgv)){
+                                                tf3.setText(idgv);
+                                                tf4.setText(gv.getTenGV());
+                                                tf6.setText(gv.getNamSinh());
+                                                tf5.setText(gv.getGioiTinh());	
+                                                tf7.setText(gv.getDienThoai());	
+                                                // tf8.setText(mh.getTenMonHoc());
+                                                tf8.setText(mhbus.get(pcbus.get(maGV).getMonHocID()).getTenMonHoc());
+                                                // tf9.setText(gv.getDiaChi());	
+                                        }
+                                // }
                         }
+                        // }}
+                       
                        }
         }
-}
+
