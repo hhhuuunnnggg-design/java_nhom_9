@@ -102,6 +102,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     JComboBox<String> genderComboBox;
     QLHS_BUS hsBUS = new QLHS_BUS();
     private static String pathAnhdd = "";
+
     ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
 
     public QuanLiHocSinh(int width, int height) throws SQLException {
@@ -168,10 +169,6 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Search));
         imgSearch.setBackground(imgSearchlbl);
         imgSearch.setPreferredSize(new Dimension(50, 50));
-        // imgSearch.setOpaque(true);
-
-        // imgSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
-        // 0, 0), 4, true));
 
         JsearchText = new JTextField();
         JsearchText.setPreferredSize(new Dimension(300, 40));
@@ -210,8 +207,6 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
         Pchucnang.setLayout(new FlowLayout(0, 5, 10));
-        // Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
-        // 0, 0), 4, true));
 
         java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
         ImageIcon orgIcon = new ImageIcon(imageURL_Add);
@@ -364,22 +359,6 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
             rowData[i][5] = student.getDienThoai();
             rowData[i][6] = student.getIMG();
         }
-        //  // Thiết lập kích thước cột
-        // t.getColumnModel().getColumn(0).setPreferredWidth(70);
-        // t.getColumnModel().getColumn(1).setPreferredWidth(180);
-        // t.getColumnModel().getColumn(2).setPreferredWidth(70);
-        // t.getColumnModel().getColumn(3).setPreferredWidth(90);
-        // t.getColumnModel().getColumn(4).setPreferredWidth(120);
-        // t.getColumnModel().getColumn(5).setPreferredWidth(120);
-        // t.getColumnModel().getColumn(6).setPreferredWidth(80);
-        
-        // t.setRowHeight(40);
-
-        // JTableHeader header = t.getTableHeader();
-        // header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
-        // header.setBackground(new Color(31, 28, 77));
-        // header.setForeground(Color.WHITE);
-        // header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
 
         Font font = new Font("Arial", Font.BOLD, 12);
         Color title_color = new Color(31, 28, 77);
@@ -388,27 +367,6 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         t.getTableHeader().setFont(font);
         Color select = new Color(102, 178, 255);
         t.setSelectionBackground(select);
-
-        // TableColumnModel columnModel = t.getColumnModel();
-        // for (int i = 0; i < columnModel.getColumnCount(); i++) {
-        // System.out.println(columnModel.getColumnCount());
-        // if ((i + 2) % 2 == 0) {
-        // TableColumn column = columnModel.getColumn(i);
-        // column.setCellRenderer(new DefaultTableCellRenderer() {
-        // @Override
-        // public Component getTableCellRendererComponent(JTable table, Object value,
-        // boolean isSelected,
-        // boolean hasFocus, int row, int column) {
-        // Component cellComponent = super.getTableCellRendererComponent(table, value,
-        // isSelected,
-        // hasFocus, row, column);
-        // cellComponent.setBackground(Color.GRAY);
-        // return cellComponent;
-        // }
-        // });
-        // }
-
-        // }
 
         tblmodel = new DefaultTableModel(rowData, header);
         t.setModel(tblmodel);
@@ -463,7 +421,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
 
         // Lấy các giá trị từ các trường nhập
 
-        String countHS = hsBUS.CountHS();
+        Integer countHS =+ hsBUS.CountHS() + 1;
         System.out.println("Số lượng học sinh: " + countHS);
         String hocSinhID = "HS" + countHS;
         // String hocSinhID = tf[0].getText();

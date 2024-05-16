@@ -629,7 +629,10 @@ public class QuanLyDiem extends JPanel{
             System.out.println(diemnamhoc);
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+<<<<<<< HEAD
         
+=======
+>>>>>>> 954a48e399db44f8c476578879e7beb7df36d24a
     }
     private int countUniqueIDs(DefaultTableModel model) {
             int rowCount = model.getRowCount();

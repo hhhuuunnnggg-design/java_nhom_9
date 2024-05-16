@@ -14,8 +14,12 @@ public class DoiMK extends JPanel {
     private JLabel jlUsername, jlOldPassword, jlNewPassword, jlConfirmPassword;
     private JButton okButton;
     private DoiMK_BUS doiMK_BUS;
-
-    public DoiMK(int width, int height) {
+    private String username;
+    private int width, height;
+    public DoiMK(int width, int height, String username) {
+        this.width = width;
+        this.height = height;
+        this.username = username;
         doiMK_BUS = new DoiMK_BUS();
 
         this.setSize(new Dimension(width, height));
@@ -33,9 +37,9 @@ public class DoiMK extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 30, 10, 30); // Khoảng cách giữa các thành phần
     
-        jlUsername = createLabel("Nhập Username:", gbc, 0, 2);
+        jlUsername = createLabel("Username:", gbc, 0, 2);
         tfUsername = createTextField(gbc, 1, 2);
-    
+        tfUsername.setText(username);
         jlOldPassword = createLabel("Nhập mật khẩu cũ:", gbc, 0, 3);
         tfOldPassword = createTextField(gbc, 1, 3);
     
@@ -116,24 +120,9 @@ public class DoiMK extends JPanel {
         }
     
         // Clear input fields after attempting to change the password
-        tfUsername.setText("");
+        tfUsername.setText(username);
         tfOldPassword.setText("");
         tfNewPassword.setText("");
         tfConfirmPassword.setText("");
-    }
-
-    public static void main(String[] args) {
-        // Tạo cửa sổ JFrame và thiết lập các thuộc tính cơ bản
-        JFrame frame = new JFrame("Đổi Mật Khẩu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 700);
-        frame.setLocationRelativeTo(null); // Đặt vị trí ở giữa màn hình
-
-        // Tạo một đối tượng của DoiMK và thêm nó vào JFrame
-        DoiMK doiMKPanel = new DoiMK(850, 670);
-        frame.add(doiMKPanel);
-
-        // Hiển thị JFrame
-        frame.setVisible(true);
     }
 }

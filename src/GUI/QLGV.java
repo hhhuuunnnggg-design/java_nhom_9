@@ -1,627 +1,819 @@
 package GUI;
 
-import BUS.*;
-import DATA.*;
-import DTO.*;
-import image.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.HeadlessException;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableRowSorter;
+import com.toedter.calendar.JDateChooser;
 
-import static javax.swing.BorderFactory.createLineBorder;
+import BUS.ChangeAcc_BUS;
+import BUS.GiaoVienBUS;
+import BUS.QLHS_BUS;
+import DTO.Account_DTO;
+import DTO.GiaoVienDTO;
 
-// nguyen dinh hung
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Vector;
-
-//--------------------------------------------------
-
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javax.swing.BorderFactory.createLineBorder;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.RowFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
-public class QLGV extends JPanel implements KeyListener {
-    private GiaoVienBUS gvBUS = new GiaoVienBUS();
-    private JTable tbl;
-    private BufferedImage i = null;// Hình ảnh chọn từ file
-    private JLabel img;
-    private String imgName = "null";
-    private JTextField txtGT, txtmaGV, txtHoGV, txtTenGV, txtNamSinh, txtDienThoai, txtSearch, sortMaGV, sortTenGV;
+// import org.apache.poi.ss.usermodel.*;
+// import org.apache.poi.xssf.usermodel.XSSFCell;
+// import org.apache.poi.xssf.usermodel.XSSFRow;
+// import org.apache.poi.xssf.usermodel.XSSFSheet;
+// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+// import org.apache.poi.common.io.FileOutputStream;
+/*
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+*/
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+// import org.apache.poi.ss.usermodel.Row;
+// import org.apache.commons.io.*;;
 
-    private DefaultTableModel model;
-    private int DEFALUT_WIDTH;
-    private boolean EditOrAdd = true;// Cờ cho button Cofirm True:ADD || False:Edit
-    private JComboBox cmbGT;
+/**
+ *
+ * @author vhuyn
+ */
+public final class QLGV extends JPanel implements MouseListener, ActionListener {
+    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai, img;
+    private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi, lblimg;
+    private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
+    private DefaultTableModel tblmodel;
+    // private JTable tbl;
+    private JScrollPane scrollpane;
+    JTextField[] tf;
+    JButton[] buttons;
+    JTable t;
+    int width, height;
+    private JComboBox<String> searchselectBox;
+    private final Border raisedBevel = BorderFactory.createRaisedBevelBorder();
+    Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
+    private Color defaultColor;
+    private String searchText;
+    private JTextField JsearchText;
+    DefaultTableModel model;
+    TableRowSorter<DefaultTableModel> sorter;
+    JDateChooser dateChooser;
+    JComboBox<String> genderComboBox;
+    GiaoVienBUS gvBUS = new GiaoVienBUS();
+    private static String pathAnhdd = "";
+    ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
 
-    public QLGV(int width) {
-        DEFALUT_WIDTH = width;
+    public QLGV(int width, int height) throws SQLException {
+        this.width = width;
+        this.height = height;
         init();
-
+        btnThem.addMouseListener(this);
+        btnXoa.addMouseListener(this);
+        btnSua.addMouseListener(this);
+        btnThem.addActionListener(this);
+        btnSua.addActionListener(this);
+        btnXoa.addActionListener(this);
+        btnFind.addActionListener(this);
+        btnFind.addMouseListener(this);
+        btnReset.addActionListener(this);
+        JsearchText.addMouseListener(this);
+        btnExpExcel.addActionListener(this);
+        btnExpExcel.addMouseListener(this);
     }
 
-    public void init() {
+    public void init() throws SQLException {
+
+        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Color myColor = new Color(99, 116, 198);
-        setLayout(null);
-        setBackground(null);
-                                                        //bên phải
-        setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 220, 700));
-        Font font0 = new Font("Segoe UI", Font.PLAIN, 13);
-        Font font1 = new Font("Segoe UI", Font.BOLD, 13);
-        /******************************
-         * PHẦN HIỂN THỊ THÔNG TIN
-         ******************************************/
-        JPanel ItemView = new JPanel(null);                              // kéo xuống
-        ItemView.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 220, 250));
-        ItemView.setBackground(myColor);
-        /******** Tao Cac Label & TextField ************************/
-        JLabel lbIdGV = new JLabel("Mã giáo viên");
-        lbIdGV.setBounds(new Rectangle(250, 0, 200, 30));
-        lbIdGV.setFont(font0);
-        txtmaGV = new JTextField("");
-        txtmaGV.setBounds(new Rectangle(350, 0, 220, 30));
-        txtmaGV.setFont(font0);
-
-        JLabel lbHoGV = new JLabel("Họ Giáo viên");
-        lbHoGV.setBounds(new Rectangle(250, 40, 200, 30));
-        lbHoGV.setFont(font0);
-        txtHoGV = new JTextField("");
-        txtHoGV.setBounds(new Rectangle(350, 40, 220, 30));
-        txtHoGV.setFont(font0);
-
-        JLabel lbTenGV = new JLabel("Tên Giáo viên");
-        lbTenGV.setBounds(new Rectangle(250, 80, 200, 30));
-        lbTenGV.setFont(font0);
-        txtTenGV = new JTextField("");
-        txtTenGV.setBounds(new Rectangle(350, 80, 220, 30));
-        txtTenGV.setFont(font0);
-
-        JLabel lbGioiTinh = new JLabel("Giới Tính");
-        lbGioiTinh.setBounds(new Rectangle(250, 120, 200, 30));
-        lbGioiTinh.setFont(font0);
-        String Phai[] = { "Nam", "Nữ" };
-        cmbGT = new JComboBox(Phai);
-        cmbGT.setBounds(new Rectangle(350, 120, 220, 30));
-        cmbGT.setFont(font0);
-
-        txtGT = new JTextField("");
-
-        JLabel lbNamSinh = new JLabel("Năm Sinh ");
-        lbNamSinh.setBounds(new Rectangle(250, 160, 200, 30));
-        lbNamSinh.setFont(font0);
-        txtNamSinh = new JTextField("");
-        txtNamSinh.setBounds(new Rectangle(350, 160, 220, 30));
-        txtNamSinh.setFont(font0);
-
-        JLabel lbDienThoai = new JLabel("Số Điện Thoại ");
-        lbDienThoai.setBounds(new Rectangle(250, 200, 200, 30));
-        lbDienThoai.setFont(font0);
-        txtDienThoai = new JTextField("");
-        txtDienThoai.setBounds(new Rectangle(350, 200, 220, 30));
-        txtDienThoai.setFont(font0);
-
-        img = new JLabel("Image");
-        img.setBorder(createLineBorder(Color.BLACK));
-        img.setBounds(new Rectangle(0, 0, 200, 230));
-
-        // THÊM VÀO PHẦN HIỂN THỊ
-        ItemView.add(img);
-        ItemView.add(txtmaGV);
-        ItemView.add(lbIdGV);
-        ItemView.add(lbHoGV);
-        ItemView.add(txtHoGV);
-        ItemView.add(lbTenGV);
-        ItemView.add(txtTenGV);
-        ItemView.add(lbGioiTinh);
-        ItemView.add(cmbGT);
-        ItemView.add(lbNamSinh);
-        ItemView.add(txtNamSinh);
-        ItemView.add(lbDienThoai);
-        ItemView.add(txtDienThoai);
-        /**************** TẠO CÁC BTN THÊM ,XÓA, SỬA ********************/
-        JLabel btnAdd = new JLabel(new ImageIcon("./src/image/btnAdd.png"));
-        btnAdd.setBounds(new Rectangle(620, 0, 200, 50));
-        btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        JLabel btnEdit = new JLabel(new ImageIcon("./src/image/btnEdit.png"));
-        btnEdit.setBounds(new Rectangle(620, 70, 200, 50));
-        btnEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        JLabel btnDelete = new JLabel(new ImageIcon("./src/image/btnDelete.png"));
-        btnDelete.setBounds(new Rectangle(620, 140, 200, 50));
-        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        ItemView.add(btnAdd);
-        ItemView.add(btnEdit);
-        ItemView.add(btnDelete);
-
-        JLabel btnConfirm = new JLabel(new ImageIcon("./src/image/btnConfirm.png"));
-        btnConfirm.setVisible(false);
-        btnConfirm.setBounds(new Rectangle(620, 0, 200, 50));
-        btnConfirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        JLabel btnBack = new JLabel(new ImageIcon("./src/image/btnBack.png"));
-        btnBack.setVisible(false);
-        btnBack.setBounds(new Rectangle(620, 70, 200, 50));
-        btnBack.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        JLabel btnFile = new JLabel(new ImageIcon("./src/image/btnFile.png"));
-        btnFile.setVisible(false);
-        btnFile.setBounds(new Rectangle(620, 140, 200, 50));
-        btnFile.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        ItemView.add(btnConfirm);
-        ItemView.add(btnBack);
-        ItemView.add(btnFile);
-
-        // MouseClick btnADD
-        // thêm (màu xanh lá , bậc 1)
-        btnAdd.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                EditOrAdd = true;
-
-                cleanView();
-
-                btnAdd.setVisible(false);
-                btnEdit.setVisible(false);
-                btnDelete.setVisible(false);
-
-                btnConfirm.setVisible(true);
-                btnBack.setVisible(true);
-                btnFile.setVisible(true);
-
-                tbl.clearSelection();
-                tbl.setEnabled(false);
-            }
-        });
-
-        // MouseClick btnDelete
-        // xóa (màu xanh bậc 1)
-        btnDelete.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int i = JOptionPane.showConfirmDialog(null, "Xác nhận xóa", "Alert", JOptionPane.YES_NO_OPTION);
-                if (i == 0) {
-                    gvBUS.deleteGV(txtmaGV.getText());
-                    cleanView();
-                    tbl.clearSelection();
-                    outModel(model, gvBUS.getList());
-                }
-            }
-        });
-        // MouseClick btnEdit
-        // chỉnh sửa (bậc 1)
-        btnEdit.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (txtmaGV.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng giáo viên cần sửa !!!");
-                    return;
-                }
-
-                EditOrAdd = false;
-                txtmaGV.setEditable(false);
-
-                btnAdd.setVisible(false);
-                btnEdit.setVisible(false);
-                btnDelete.setVisible(false);
-
-                btnConfirm.setVisible(true);
-                btnBack.setVisible(true);
-                btnFile.setVisible(true);
-
-                tbl.setEnabled(false);
-            }
-        });
-
-        btnFile.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                JFileChooser fc = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "JPG & PNG images", "jpg", "png");
-                fc.setFileFilter(filter);
-                int result = fc.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        File file = fc.getSelectedFile(); // Lấy URL hình
-                        i = ImageIO.read(file); // Lấy hình
-                        imgName = txtmaGV.getText().concat(".jpg"); // Tên hình
-
-                        // Thay đổi hình hiển thị
-                        img.setText("");
-                        img.setIcon(new ImageIcon(i.getScaledInstance(200, 230, Image.SCALE_DEFAULT)));
-
-                        revalidate();
-                        repaint();
-                    } catch (IOException ex) {
-                        // Logger.getLogger(SQGV.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
-
-        // MouseClick btnBack
-        // btnBack bậc 2
-        btnBack.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                cleanView();
-
-                btnAdd.setVisible(true);
-                btnEdit.setVisible(true);
-                btnDelete.setVisible(true);
-
-                btnConfirm.setVisible(false);
-                btnBack.setVisible(false);
-                btnFile.setVisible(false);
-
-                tbl.setEnabled(true);
-            }
-        });
-        // MouseClick btnConfirm
-        // xác nhận thêm (bậc 2) và xac nhận sửa
-        btnConfirm.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int i;
-                if (EditOrAdd) // Thêm Sản Phẩm
-                {
-                    i = JOptionPane.showConfirmDialog(null, "Xác nhận thêm giáo viên", "", JOptionPane.YES_NO_OPTION);
-                    if (i == 0) {
-                        // Lấy dữ liệu từ TextField
-                        String magv = txtmaGV.getText();
-                        String hoGV = txtHoGV.getText();
-                        String tenGV = txtTenGV.getText();
-                        String gioiTinh = cmbGT.getSelectedItem().toString();
-                        int namsinh = Integer.parseInt(txtNamSinh.getText());
-                        int dienThoai = Integer.parseInt(txtDienThoai.getText());
-                        String IMG = imgName;
-
-                        if (gvBUS.checkMagv(magv)) {
-                            JOptionPane.showMessageDialog(null, "Mã giao vien đă tồn tại !!!");
-                            return;
-                        }
-                        // Upload sản phẩm lên DAO và BUS
-                        GiaoVienDTO gv = new GiaoVienDTO(magv, hoGV, tenGV, gioiTinh, IMG, namsinh, dienThoai);
-                        gvBUS.addGV(gv);
-
-                        outModel(model, gvBUS.getList());// Load lại table
-
-                        saveIMG();// Lưu hình ảnh
-
-                        cleanView();
-                    }
-                } else // Edit Sản phẩm
-                {
-                    i = JOptionPane.showConfirmDialog(null, "Xác nhận sửa thông tin giáo viên", "",
-                            JOptionPane.YES_NO_OPTION);
-                    if (i == 0) {
-                        // Lấy dữ liệu từ TextField
-                        String magv = txtmaGV.getText();
-                        String hoGV = txtHoGV.getText();
-                        String tenGV = txtTenGV.getText();
-                        String gioiTinh = cmbGT.getSelectedItem().toString();
-                        int namsinh = Integer.parseInt(txtNamSinh.getText());
-                        int dienThoai = Integer.parseInt(txtDienThoai.getText());
-                        // String maNsx = txtNSX.getText();
-                        String IMG = imgName;
-
-                        // Upload sản phẩm lên DAO và BUS
-                        GiaoVienDTO gv = new GiaoVienDTO(magv, hoGV, tenGV, gioiTinh, IMG, namsinh, dienThoai);
-
-                        gvBUS.setGV(gv);
-
-                        outModel(model, gvBUS.getList());// Load lại table
-
-                        saveIMG();// Lưu hình ảnh
-
-                        JOptionPane.showMessageDialog(null, "Sửa thành công", "Thành công",
-                                JOptionPane.INFORMATION_MESSAGE);
-
-                    }
-                }
-
-            }
-        });
-        /************************* PHẦN TABLE *************************************/
-        /************** TẠO MODEL VÀ HEADER *********************/
-        Vector header = new Vector();
-        header.add("Mã giáo viên");
-        header.add("Họ giáo viên");
-        header.add("Tên giáo viên");
-        header.add("giới Tính");
-        header.add("Năm Sinh");
-        header.add("Điện Thoại");
-        header.add("IMG");
-        model = new DefaultTableModel(header, 0) {
-            public Class getColumnClass(int column) {
-                switch (column) {
-                    case 4:
-                        return Integer.class;
-                    case 5:
-                        return Integer.class;
-                    default:
-                        return String.class;
-                }
-            }
-
-        };
-        tbl = new JTable(model);
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(model);
-        tbl.setRowSorter(rowSorter);
-        listGV(); // Đọc từ database lên table
-        /*********************************************************/
-
-        /****************
-         * TẠO TABLE
-         ************************************************************/
-        // Chỉnh width các cột
-        tbl.getColumnModel().getColumn(0).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(1).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(2).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(3).setPreferredWidth(50);
-        tbl.getColumnModel().getColumn(4).setPreferredWidth(40);
-        tbl.getColumnModel().getColumn(5).setPreferredWidth(40);
-
-        DefaultTableCellRenderer leftAlign = new DefaultTableCellRenderer();
-        leftAlign.setHorizontalAlignment(JLabel.LEFT);
-        tbl.getColumnModel().getColumn(4).setCellRenderer(leftAlign);
-        tbl.getColumnModel().getColumn(5).setCellRenderer(leftAlign);
-
-        tbl.setFocusable(false);
-        // thể hiện sự ngăn cách ở table
-        tbl.setIntercellSpacing(new Dimension(0, 0));
-        tbl.getTableHeader().setFont(font1);
-        tbl.setRowHeight(30);
-        tbl.setShowVerticalLines(false);
-        tbl.getTableHeader().setOpaque(false);
-        tbl.setFillsViewportHeight(true);
-        tbl.getTableHeader().setBackground(new Color(232, 57, 99));
-        tbl.getTableHeader().setForeground(Color.WHITE);
-        tbl.setSelectionBackground(Color.green);
-
-        // Add table vào ScrollPane
-        JScrollPane scroll = new JScrollPane(tbl);
-        scroll.setBounds(new Rectangle(30, 360, this.DEFALUT_WIDTH - 320, 300));
-        // này là màu viền (scroll là thanh cuộn)
-        scroll.setBackground(null);
-        // cái này là độ rộng của nút di chuyển lên xuống
-        scroll.getVerticalScrollBar().setPreferredSize(new Dimension(5, 100));
-        add(scroll);
-        add(ItemView);
-        /*****************************************************************************************/
-        tbl.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int i = tbl.getSelectedRow();
-                if (tbl.getRowSorter() != null) {
-                    i = tbl.getRowSorter().convertRowIndexToModel(i);
-               }
-                imgName = tbl.getModel().getValueAt(i, 6).toString();
-                Image newImage;
-                try {
-                    newImage = new ImageIcon("./src/image/GiaoVien/" + imgName).getImage().getScaledInstance(200, 230,
-                            Image.SCALE_DEFAULT);
-                } catch (NullPointerException E) {
-                    newImage = new ImageIcon("./src/image/GiaoVien/NoImage.jpg").getImage().getScaledInstance(200, 230,
-                            Image.SCALE_DEFAULT);
-                }
-                txtmaGV.setText(tbl.getModel().getValueAt(i, 0).toString());
-                txtHoGV.setText(tbl.getModel().getValueAt(i, 1).toString());
-                txtTenGV.setText(tbl.getModel().getValueAt(i, 2).toString());
-
-                cmbGT.setSelectedItem(tbl.getModel().getValueAt(i, 3).toString());
-
-                txtNamSinh.setText(tbl.getModel().getValueAt(i, 4).toString());
-                txtDienThoai.setText(tbl.getModel().getValueAt(i, 5).toString());
-
-                img.setText("");
-                img.setIcon(new ImageIcon(newImage));
-
-            }
-        });
-
-        /*********************
-         * THANH SEARCH
-         ***********************************************/
-        JPanel searchBox = new JPanel(null);
-        searchBox.setBackground(null);
-        searchBox.setBounds(new Rectangle(620, 200, 250, 30));
-        searchBox.setBorder(createLineBorder(Color.red)); // Chỉnh viền
-
-        txtSearch = new JTextField();
-        txtSearch.setBounds(new Rectangle(5, 0, 200, 30));
-        txtSearch.setBorder(null);
-        txtSearch.setOpaque(false);
-        txtSearch.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-
-        JLabel searchIcon = new JLabel(new ImageIcon("./src/image/search_25px.png"));
-        searchIcon.setBounds(new Rectangle(200, -9, 50, 50));
-        searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        // Add tất cả vào search box
-        searchBox.add(searchIcon);
-        searchBox.add(txtSearch);
-
-        txtSearch.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                searchIcon.setIcon(new ImageIcon("./src/image/search_25px_focus.png")); // Đổi màu icon
-                searchBox.setBorder(createLineBorder(new Color(52, 152, 219))); // Đổi màu viền
-            }
-
-            public void focusLost(FocusEvent e) // Trờ về như cũ
-            {
-                searchIcon.setIcon(new ImageIcon("./src/image/search_25px.png"));
-                searchBox.setBorder(createLineBorder(Color.BLACK));
-            }
-        });
-
-        // chưa hiểu
-        txtSearch.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = txtSearch.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^" + text + ".*", 1));
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = txtSearch.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)^" + text + ".*", 1));
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods,
-                                                                               // choose Tools | Templates.
-            }
-
-        });
-        ItemView.add(searchBox);
-        /*********************************************************************************/
-        /*********************** PHẦN SEARCH TABLE *****************************/
-        JPanel sort = new JPanel(null);
-        sort.setBackground(null);
-        sort.setBounds(30, 265, this.DEFALUT_WIDTH - 400, 100);
-
-        JLabel sortTitle = new JLabel(
-                "----------------------------------------------------------- TÌM KIẾM THÔNG TIN ------------------------------------------------------",
-                JLabel.CENTER); // Mỗi bên 74 dấu ( - )
-        sortTitle.setFont(font1);
-        sortTitle.setBounds(new Rectangle(0, 0, this.DEFALUT_WIDTH - 300, 30));
-        sort.add(sortTitle);
-
-        /******** SORT MAGV **************/
-        JLabel lbSortMaGV = new JLabel("Mă giáo viên :");
-        lbSortMaGV.setFont(font0);
-        lbSortMaGV.setBounds(0, 40, 80, 30);
-        sort.add(lbSortMaGV);
-
-        sortMaGV = new JTextField();
-        sortMaGV.setFont(font0);
-        sortMaGV.setBounds(new Rectangle(90, 42, 100, 30));
-        sortMaGV.addKeyListener(this);
-        sort.add(sortMaGV);
-
-        JLabel btnSearch = new JLabel(new ImageIcon("./src/image/btnSearch_45px.png"));
-        btnSearch.setBounds(new Rectangle(600, 26, 63, 63));
-        btnSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnSearch.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                search();
-            }
-        });
-        sort.add(btnSearch);
-        add(sort);
-
-        /* tới đây là kết thúc */
+        Color searchPanel = new Color(180, 204, 227);
+        this.setLayout(new BorderLayout());
+        JPanel p3 = searchGV();
+        // p3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,0,0) , 4
+        // , true));
+        p3.setPreferredSize(new Dimension(0, 60));
+        p3.setBackground(searchPanel);
+
+        JPanel p1 = JHocsinh();
+        p1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
+        p1.setBackground(myColor);
+        p1.setPreferredSize(new Dimension(0, 200));
+
+        JPanel p2 = new JPanel();
+        p2.setLayout(new FlowLayout(1, 0, 0));
+        p2.add(initTable());
+        p2.setPreferredSize(new Dimension(0, 305));
+        p2.setBackground(Color.gray);
+
+        this.add(p1, BorderLayout.CENTER);
+        this.add(p2, BorderLayout.SOUTH);
+        this.add(p3, BorderLayout.NORTH);
+        this.setSize(new Dimension(width, height));
+        this.setVisible(true);
+        // this.setLocationRelativeTo(null);
+        // this.setResizable(false);
     }
 
-    // ---------------------------SANG PHAN
-    // MOI------------------------------------------
-    public void cleanView() // Xóa trắng các TextField
-    {
-        txtmaGV.setEditable(true);
+    public JPanel searchGV() {
+        Color imgSearchlbl = new Color(180, 204, 227);
+        Color btnResets = new Color(52, 48, 128);
 
-        txtmaGV.setText("");
-        txtHoGV.setText("");
-        txtTenGV.setText("");
-        txtNamSinh.setText("");
-        txtDienThoai.setText("");
+        JPanel JSearch = new JPanel();
+        JSearch.setLayout(new FlowLayout(1, 10, 5));
 
-        img.setIcon(null);
-        img.setText("Image");
+        java.net.URL imageURL_Search = getClass().getResource("/image/search_qlhs.png");
+        ImageIcon orgIcon_Search = new ImageIcon(imageURL_Search);
+        Image scaleImg_Search = orgIcon_Search.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 
-        imgName = "null";
+        JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Search));
+        imgSearch.setBackground(imgSearchlbl);
+        imgSearch.setPreferredSize(new Dimension(50, 50));
+        // imgSearch.setOpaque(true);
+
+        // imgSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
+        // 0, 0), 4, true));
+
+        JsearchText = new JTextField();
+        JsearchText.setPreferredSize(new Dimension(300, 40));
+
+        JLabel lblSearch = new JLabel("Tìm kiếm theo: ");
+        lblSearch.setFont(new Font("arial", Font.BOLD, 14));
+        String searchOption[] = { "Mã giáo viên", "Họ và tên" };
+        searchselectBox = new JComboBox<>(searchOption);
+
+        java.net.URL imageURL = getClass().getResource("/image/home.png");
+        ImageIcon originalIcon = new ImageIcon(imageURL); // Tạo ImageIcon từ đường dẫn
+
+        // Chỉnh kích thước ảnh
+        Image scaledImage = originalIcon.getImage().getScaledInstance(120, 40, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        btnReset = new JButton(scaledIcon);
+
+        btnReset.setBackground(btnResets);
+        btnReset.setForeground(Color.WHITE);
+        Font font = new Font("Arial", Font.BOLD, 12);
+        btnReset.setFont(font);
+        btnReset.setPreferredSize(new Dimension(120, 40));
+        // btnReset.setOpaque(true);
+
+        JSearch.add(imgSearch);
+        JSearch.add(JsearchText);
+        JSearch.add(lblSearch);
+        JSearch.add(searchselectBox);
+        JSearch.add(btnReset);
+
+        return JSearch;
+
     }
 
-    public void outModel(DefaultTableModel model, ArrayList<GiaoVienDTO> gv) // Xuất ra Table từ ArrayList
-    {
-        Vector data;
-        model.setRowCount(0);
-        for (GiaoVienDTO s : gv) {
-            data = new Vector();
-            data.add(s.getMaGV());
-        
-            data.add(s.getHoGV());
-            data.add(s.getTenGV());
-            data.add(s.getGioiTinh());
-            data.add(s.getNamSinh());
-            data.add(s.getDienThoai());
-            data.add(s.getIMG());
-            model.addRow(data);
+    public JPanel JChucnang() {
+        Color myColor = new Color(99, 116, 198);
+        JPanel Pchucnang = new JPanel();
+        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
+        // Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
+        // 0, 0), 4, true));
+
+        java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
+        ImageIcon orgIcon = new ImageIcon(imageURL_Add);
+        Image scaleImg = orgIcon.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
+
+        btnThem = new JButton(new ImageIcon(scaleImg));
+        btnThem.setPreferredSize(new Dimension(155, 40));
+        btnThem.setBorder(raisedBevel);
+
+        java.net.URL imageURL_Del = getClass().getResource("/image/btnDelete.png");
+        ImageIcon orgIcon_Del = new ImageIcon(imageURL_Del);
+        Image scaleImg_Del = orgIcon_Del.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
+
+        btnXoa = new JButton(new ImageIcon(scaleImg_Del));
+        btnXoa.setPreferredSize(new Dimension(155, 40));
+        btnXoa.setBorder(raisedBevel);
+
+        java.net.URL imageURL_Edit = getClass().getResource("/image/btnEdit.png");
+        ImageIcon orgIcon_Edit = new ImageIcon(imageURL_Edit);
+        Image scaleImg_Edit = orgIcon_Edit.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
+
+        btnSua = new JButton(new ImageIcon(scaleImg_Edit));
+        btnSua.setPreferredSize(new Dimension(155, 40));
+        btnSua.setBorder(raisedBevel);
+
+        java.net.URL imageURL_Find = getClass().getResource("/image/btnsearch_qlhs1.png");
+        ImageIcon orgIcon_Find = new ImageIcon(imageURL_Find);
+        Image scaleImg_Find = orgIcon_Find.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
+        btnFind = new JButton(new ImageIcon(scaleImg_Find));
+        btnFind.setPreferredSize(new Dimension(155, 40));
+        btnFind.setBorder(raisedBevel);
+
+        java.net.URL imageURL_ExpExcel = getClass().getResource("/image/export_excel.png");
+        ImageIcon orgIcon_ExpExcel = new ImageIcon(imageURL_ExpExcel);
+        Image scaleImg_ExpExcel = orgIcon_ExpExcel.getImage().getScaledInstance(230, 100, Image.SCALE_SMOOTH);
+        btnExpExcel = new JButton(new ImageIcon(scaleImg_ExpExcel));
+        btnExpExcel.setPreferredSize(new Dimension(155, 40));
+        btnExpExcel.setBorder(raisedBevel);
+        btnExpExcel.setBackground(myColor);
+
+        Pchucnang.setBackground(myColor);
+        defaultColor = btnThem.getBackground();
+        Pchucnang.add(btnThem);
+        Pchucnang.add(btnXoa);
+        Pchucnang.add(btnSua);
+        Pchucnang.add(btnFind);
+        Pchucnang.add(btnExpExcel);
+        return Pchucnang;
+    }
+
+    public JPanel JHocsinh() {
+        JPanel Phocsinh = new JPanel();
+        Phocsinh.setLayout(null);
+        String[] arrHocsinh = { "Mã giáo viên ", "Tên giáo viên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
+                "Chọn ảnh" };
+        int length = arrHocsinh.length;
+        tf = new JTextField[length];
+        buttons = new JButton[length];
+        Phocsinh.setLayout(null);
+        int toadoXbutton = 190;
+        int toadoYbutton = 10;
+        int toadoXTextfield = 330;
+        int toadoYTextfield = 10;
+        int x = 230;
+        int y = 15;
+        for (int i = 0; i < arrHocsinh.length; i++) {
+
+            if (i == 6) {
+                buttons[i] = new JButton(arrHocsinh[i]);
+                buttons[i].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        chooseImage();
+                    }
+                });
+                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+                buttons[i].setForeground(Color.RED);
+                buttons[i].setHorizontalAlignment(JButton.CENTER);
+                buttons[i].setName("btn" + i);
+                Phocsinh.add(buttons[i]);
+            } else {
+                buttons[i] = new JButton(arrHocsinh[i]);
+                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+                buttons[i].setHorizontalAlignment(JButton.CENTER);
+                buttons[i].setName("btn" + i);
+            }
+
+            toadoYbutton = toadoYbutton + 35;
+            Phocsinh.add(buttons[i]);
+            if (i == 3) {
+                dateChooser = new JDateChooser();
+                dateChooser.setDateFormatString("dd/MM/yyyy");
+                dateChooser.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                Phocsinh.add(dateChooser);
+                toadoYTextfield = toadoYTextfield + 35;
+
+            } else if (i == 2) { // Thay thế TextField của giới tính bằng JComboBox
+                String[] genders = { "Nam", "Nữ", "Khác" };
+                genderComboBox = new JComboBox<>(genders);
+                genderComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                Phocsinh.add(genderComboBox);
+                toadoYTextfield = toadoYTextfield + 35;
+
+            } else {
+                tf[i] = new JTextField();
+                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                tf[i].setFont(new Font("Arial", Font.BOLD, 12));
+                tf[i].setBorder(border);
+                tf[i].setName("text" + i);
+                toadoYTextfield = toadoYTextfield + 35;
+                Phocsinh.add(tf[i]);
+            }
+            y = y + 35;
         }
-        tbl.setModel(model);
+        x = x + 180;
+        JPanel Pchucnang = JChucnang();
+        Pchucnang.setBounds(660, 3, 170, y);
+        Phocsinh.add(Pchucnang);
+
+        lblimg = new JLabel();
+        lblimg.setBounds(0, 0, 180, y);
+        lblimg.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
+        lblimg.setOpaque(true);
+        Phocsinh.add(lblimg);
+        Phocsinh.setPreferredSize(new Dimension(x, y));
+
+        return Phocsinh;
     }
 
-    public void saveIMG() {
-        try {
-            if (i != null) {
-                File save = new File("src/image/GiaoVien/" + imgName);// Tạo file
-                ImageIO.write(i, "jpg", save); // Lưu hình i vào đường dẫn file save
-                i = null; // Xóa hình trong bộ nhớ
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(QLGV.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    public JScrollPane initTable() throws SQLException {
 
-    public void listGV() // Chép ArrayList lên table
-    {
+        t = new JTable();
+        t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        scrollpane = new JScrollPane(t);
+        scrollpane.setPreferredSize(new Dimension(840, 305));
+        String[] header = { "Mã giáo viên", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
+                "Ảnh chân dung" };
+
         if (gvBUS.getList() == null)
-            gvBUS.listGV();
-        ArrayList<GiaoVienDTO> gv = gvBUS.getList();
-        model.setRowCount(0);
-        outModel(model, gv);
+           gvBUS.listGV();
+        ArrayList<GiaoVienDTO> hs = gvBUS.getList();
+        Object[][] rowData = new Object[hs.size()][7];
+        for (int i = 0; i < hs.size(); i++) {
+            GiaoVienDTO student = hs.get(i);
+            rowData[i][0] = student.getMaGV();
+            rowData[i][1] = student.getTenGV();
+            rowData[i][2] = student.getGioiTinh();
+            rowData[i][3] = student.getNamSinh();
+            rowData[i][4] = student.getDiachi();
+            rowData[i][5] = student.getDienThoai();
+            rowData[i][6] = student.getIMG();
+        }
+     
+
+        Font font = new Font("Arial", Font.BOLD, 12);
+        Color title_color = new Color(31, 28, 77);
+        t.getTableHeader().setBackground(title_color);
+        t.getTableHeader().setForeground(Color.WHITE);
+        t.getTableHeader().setFont(font);
+        Color select = new Color(102, 178, 255);
+        t.setSelectionBackground(select);
+
+       
+
+        tblmodel = new DefaultTableModel(rowData, header);
+        t.setModel(tblmodel);
+        t.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    tableMouseClicked(evt);
+                } catch (ParseException ex) {
+                    Logger.getLogger(QuanLiHocSinh.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        return scrollpane;
     }
 
-    public void search() {
-        String magv = sortMaGV.getText();
-        String tengv = sortTenGV.getText();
-        outModel(model, gvBUS.searchGV(magv, tengv));
-    }
+    public void chooseImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        // Thiết lập chế độ chỉ cho phép chọn file
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        // Hiển thị hộp thoại chọn file
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            // Lấy đường dẫn của tập tin hình ảnh được chọn
+            String imagePath = fileChooser.getSelectedFile().getAbsolutePath();
+            // Hiển thị đường dẫn trong JTextField
+            String fileName = fileChooser.getSelectedFile().getName();
+            pathAnhdd = fileName;
+            tf[6].setText(fileName);
 
-    public void addCombo(JComboBox cmb, ArrayList list) {
-        for (Object a : list) {
-            cmb.addItem(a);
+            // Tạo một ImageIcon từ đường dẫn hình ảnh
+            ImageIcon imageIcon = new ImageIcon(imagePath);
+
+            // Chỉnh kích thước của hình ảnh để phù hợp với JLabel
+            Image image = imageIcon.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
+                    Image.SCALE_SMOOTH);
+
+            // Tạo một ImageIcon mới từ hình ảnh đã được điều chỉnh kích thước
+            ImageIcon scaledImageIcon = new ImageIcon(image);
+
+            // Hiển thị hình ảnh trên JLabel
+            lblimg.setIcon(scaledImageIcon);
+
         }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+    public void addRow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = dateChooser.getDate();
+        String dateString = sdf.format(date); // Convert Date to String
+
+        // Lấy các giá trị từ các trường nhập
+
+        Integer countGV =+ gvBUS.CountGV() +1;
+        System.out.println("Số Giáo viên: " + countGV);
+        String giaovienID = "GV" + countGV;
+        // String hocSinhID = tf[0].getText();
+        String tenHocSinh = tf[1].getText();
+        String gioiTinh = (String) genderComboBox.getSelectedItem();
+        String ngaySinh = dateString;
+        String diaChi = tf[5].getText();
+        String soDienThoai = tf[4].getText();
+        String IMG = tf[6].getText();
+
+        GiaoVienDTO hocSinh = new GiaoVienDTO(giaovienID,ngaySinh, tenHocSinh, gioiTinh, IMG, soDienThoai, diaChi);
+        hocSinh.setIMG(IMG);
+
+        gvBUS.addGV(hocSinh);
+
+        Object[] rowData = { giaovienID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
+        tblmodel.addRow(rowData);
+        clearTextFields();
+    }
+
+    public void deleteRow() {
+        int row = t.getSelectedRow();
+        if (row != -1) {
+            tblmodel.removeRow(row);
+        }
+        String hocSinhID = tf[0].getText();
+        gvBUS.deleteGV(hocSinhID);
+        clearTextFields();
+    }
+
+    public void updateRow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = dateChooser.getDate();
+        String dateString = sdf.format(date);
+
+        // Lấy các giá trị từ các trường nhập
+        String giaovienID = tf[0].getText();
+        String tenHocSinh = tf[1].getText();
+        String gioiTinh = (String) genderComboBox.getSelectedItem();
+        String ngaySinh = dateString;
+        String soDienThoai = tf[4].getText();
+        String diaChi = tf[5].getText();
+        String IMG = tf[6].getText();
+
+
+        GiaoVienDTO giaovien = new GiaoVienDTO(giaovienID,ngaySinh, tenHocSinh, gioiTinh, IMG, soDienThoai, diaChi);
+       giaovien.setIMG(IMG);
+
+
+        gvBUS.updateGV(giaovien);
+
+        Object[] rowData = { giaovienID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
+
+        int row = t.getSelectedRow();
+        tblmodel.removeRow(row);
+        tblmodel.addRow(rowData);
+        clearTextFields();
+    }
+
+    public void clearTextFields() {
+        tf[0].setText("");
+        tf[1].setText("");
+        genderComboBox.setSelectedItem(2);
+        dateChooser.setDate(null);
+        tf[4].setText("");
+        tf[5].setText("");
+        tf[6].setText("");
+        lblimg.setIcon(null);
+    }
+
+    public boolean checkEmpty() {
+        boolean isEmpty = tf[0].getText().isEmpty() ||
+                tf[1].getText().isEmpty() ||
+                tf[4].getText().isEmpty() ||
+                tf[5].getText().isEmpty();
+
+        boolean isGenderEmpty = genderComboBox.getSelectedIndex() == -1;
+
+        boolean isDateEmpty = dateChooser.getDate() == null;
+
+        return isEmpty || isGenderEmpty || isDateEmpty;
+    }
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
+        int row = t.getSelectedRow();
+        mahs = (String) t.getValueAt(row, 0);
+        hoten = (String.valueOf(t.getValueAt(row, 1)));
+        gioitinh = (String.valueOf(t.getValueAt(row, 2)));
+        namsinh = (String.valueOf(t.getValueAt(row, 3)));
+        diachi = (String.valueOf(t.getValueAt(row, 4)));
+        sodienthoai = (String.valueOf(t.getValueAt(row, 5)));
+        img = (String.valueOf(t.getValueAt(row, 6)));
+
+        tf[0].setText(mahs);
+        tf[1].setText(hoten);
+        genderComboBox.setSelectedItem(gioitinh);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = sdf.parse(namsinh);
+        dateChooser.setDate(date);
+        tf[4].setText(sodienthoai);
+        tf[5].setText(diachi);
+        tf[6].setText(img);
+
+        if (!img.isEmpty()) {
+            String path = "/image/Avatar/" + img;
+            java.net.URL imgHS = getClass().getResource(path);
+            ImageIcon orgIcon_HS = new ImageIcon(imgHS);
+            Image scaleImg_HS = orgIcon_HS.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
+                    Image.SCALE_SMOOTH);
+
+            ImageIcon scaledImage_HS = new ImageIcon(scaleImg_HS);
+
+            // Hiển thị hình ảnh trên JLabel
+            lblimg.setIcon(scaledImage_HS);
+        } else {
+            lblimg.setIcon(null);
+        }
+
+    }
+
+    public void btnAdd_actionPerformed() {
+        if (checkEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy điền đầy đủ các thông tin", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        
+
+        JOptionPane.showMessageDialog(this, "Mã giáo viên tăng tự động", "Lưu ý", JOptionPane.INFORMATION_MESSAGE);
+
+        int result = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn Thêm giáo viên này",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+
+                JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(this,
+                    "Thêm thành công",
+                    "Chức năng thêm",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("Ban chon them");
+            tf[0].requestFocus();
+            autoCreateAccount();
+            addRow();
+        }
+    }
+
+    public void btnDelete_actionPerformed() {
+        String magv = tf[0].getText();
+        System.out.println(magv);
+        if (magv.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập ID Giáo viên cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (gvBUS. checkMagv(magv) == false) {
+            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int result = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn xóa thành viên này",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+
+                JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            System.out.println("Ban chon đồn ý xóa");
+            deleteRow();
+        } else if (result == JOptionPane.NO_OPTION) {
+            System.out.println("Bạn chọn không đồng ý xóa");
+        }
+    }
+
+    public void btnSua_actionPerformed() {
+        String magv = tf[0].getText();
+
+        if (magv.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập ID giáo vien cần sửa", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (gvBUS.checkMagv(magv) == false) {
+            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int result = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn sửa giáo viên này",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION,
+
+                JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            System.out.println("Ban chọn đồng ý sửa");
+            updateRow();
+        } else if (result == JOptionPane.NO_OPTION) {
+            System.out.println("Bạn chọn không đồng ý sửa");
+        }
+    }
+
+    public void btnFind_actionPerformed() {
+        searchText = JsearchText.getText().trim();
+        String selectedOption = (String) searchselectBox.getSelectedItem();
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Vui lòng nhập thông tin tìm kiếm",
+                    "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+       }
+        model = (DefaultTableModel) t.getModel();
+        sorter = new TableRowSorter<>(model);
+        t.setRowSorter(sorter);
+        if (selectedOption.equals("Mã giáo viên")) {
+            sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
+        } else if (selectedOption.equals("Họ và tên")) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
+        }
+    }
+
+    public void exportExcel() throws IOException {
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Tập tin Excel", "xls");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Lưu tệp");
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            String path = chooser.getSelectedFile().toString().concat(".xls");
+
+            Workbook workbook = new HSSFWorkbook();
+            Sheet sheet = workbook.createSheet("DanhSachHocSinh");
+            Row headerRow = sheet.createRow(0); // Header row at index 0
+            String[] headers = { "STT", "GiaovienID", "Tên Giao viên", "Giới Tính", "Năm Sinh", "Địa chỉ", "SĐT" };
+
+            // Creating header cells
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            ArrayList<GiaoVienDTO> dsgv = gvBUS.getList();
+            for (int i = 0; i < dsgv.size(); i++) {
+                Row row = sheet.createRow(i + 1); // Data rows start from index 1
+
+                GiaoVienDTO gv = dsgv.get(i);
+                System.out.println(gv.getDiachi());
+
+                row.createCell(0).setCellValue(i + 1);
+                row.createCell(1).setCellValue(gv.getMaGV());
+                row.createCell(2).setCellValue(gv.getTenGV());
+                row.createCell(3).setCellValue(gv.getGioiTinh());
+                row.createCell(4).setCellValue(gv.getNamSinh());
+                row.createCell(5).setCellValue(gv.getDiachi());
+                row.createCell(6).setCellValue(gv.getDienThoai());
+            }
+
+            // String path = "D:/Coding/N2_HK2/DAJAVA/java_nhom_9/Excel/hsss.xlsx";
+            File file = new File(path);
+            if (file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                workbook.write(fos);
+                // workbook.close();
+                // fos.close();
+                System.out.println("Excel file exported successfully to: " + path);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle exception
+            }
+            JOptionPane.showMessageDialog(this, "IN THÀNH CÔNG");
+            Desktop.getDesktop().open(file);
+
+        }
+    }
+
+    public void autoCreateAccount() {
+        accBUS = new ChangeAcc_BUS();
+        String username = tf[0].getText();
+        String password = tf[5].getText();
+        Account_DTO acc = new Account_DTO(username, password);
+        accBUS.Add(acc);
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        Object a = e.getSource();
-        if (a.equals(sortMaGV) || a.equals(sortTenGV)) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                search();
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == JsearchText) {
+            clearTextFields();
+        }
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated
+        // from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated
+        // from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated
+        // from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+        if (e.getSource() == btnThem) {
+            btnThem.setBackground(Color.red);
+        }
+        if (e.getSource() == btnXoa) {
+            btnXoa.setBackground(Color.red);
+        }
+        if (e.getSource() == btnSua) {
+            btnSua.setBackground(Color.red);
+        }
+        if (e.getSource() == btnFind) {
+            btnFind.setBackground(Color.red);
+        }
+        if (e.getSource() == btnExpExcel) {
+            btnExpExcel.setBackground(Color.green);
+        }
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated
+        // from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if (e.getSource() == btnThem) {
+            btnThem.setBackground(defaultColor);
+        } else if (e.getSource() == btnXoa) {
+            btnXoa.setBackground(defaultColor);
+        } else if (e.getSource() == btnSua) {
+            btnSua.setBackground(defaultColor);
+        } else if (e.getSource() == btnFind) {
+            btnFind.setBackground(defaultColor);
+        } else if (e.getSource() == btnExpExcel) {
+            btnExpExcel.setBackground(defaultColor);
+        }
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated
+        // from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnThem) {
+            btnAdd_actionPerformed();
+
+        } else if (e.getSource() == btnSua) {
+            btnSua_actionPerformed();
+
+        } else if (e.getSource() == btnXoa) {
+            btnDelete_actionPerformed();
+
+        } else if (e.getSource() == btnFind) {
+            btnFind_actionPerformed();
+
+        } else if (e.getSource() == btnReset) {
+            JsearchText.setText("");
+            clearTextFields();
+            model = (DefaultTableModel) t.getModel();
+            sorter = new TableRowSorter<>(model);
+            t.setRowSorter(sorter);
+            sorter.setRowFilter(RowFilter.regexFilter("", 0));
+        } else if (e.getSource() == btnExpExcel) {
+            try {
+                exportExcel();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
             }
         }
-    }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
     }
 }

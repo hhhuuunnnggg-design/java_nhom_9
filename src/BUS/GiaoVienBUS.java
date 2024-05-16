@@ -3,123 +3,140 @@ package BUS;
 import DATA.GiaoVienDAO;
 import DTO.GiaoVienDTO;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class GiaoVienBUS {
-    private ArrayList<GiaoVienDTO> dsgv;
-
-    public GiaoVienBUS() {
-        listGV();
+   private ArrayList<GiaoVienDTO> dsgv ;
+    public GiaoVienBUS()
+    {
+       
     }
-
-    public void listGV() {
+    public void listGV()
+    {
         GiaoVienDAO gvDAO = new GiaoVienDAO();
+        dsgv = new ArrayList<>();
         dsgv = gvDAO.list();
     }
 
-    public void addGV(GiaoVienDTO gv) {
+    public void addGV(GiaoVienDTO gv)
+    {
         dsgv.add(gv);
         GiaoVienDAO gvDAO = new GiaoVienDAO();
-        gvDAO.add(gv);
+       gvDAO.add(gv);
     }
 
-    public void deleteGV(String magv) {
-        for (GiaoVienDTO gv : dsgv) {
-            if (gv.getMaGV().equals(magv)) {
+    public void deleteGV(String idGV)
+    {
+        for(GiaoVienDTO gv : dsgv )
+        {
+            if(gv.getMaGV().equals(idGV))
+            {
                 dsgv.remove(gv);
                 GiaoVienDAO gvDAO = new GiaoVienDAO();
-                gvDAO.delete(magv);
+                gvDAO.delete(idGV);
                 return;
             }
         }
     }
-
-    public void setGV(GiaoVienDTO s) {
-        for (int i = 0; i < dsgv.size(); i++) {
-            if (dsgv.get(i).getMaGV().equals(s.getMaGV())) {
-                dsgv.set(i, s);
-                GiaoVienDAO gvDAO = new GiaoVienDAO();
-                gvDAO.set(s);
-                return;
-            }
-        }
-    }
-
-    public GiaoVienDTO getGV(String magv) {
+    // public void setGV(GiaoVienDTO s)
+    // {
+    //     for(int i = 0 ; i < dsgv.size() ; i++)
+    //     {
+    //         if(dsgv.get(i).getMaGV().equals(s.getMaGV()))
+    //         {
+    //             dsgv.set(i, s);
+    //             GiaoVienDAO gvDAO = new GiaoVienDAO();
+    //             gvDAO.set(s);
+    //             return;
+    //         }
+    //     }
+    // }
+    public boolean checkMagv(String magv)
+    {
+        GiaoVienDAO gvDao = new GiaoVienDAO();
+        dsgv = new ArrayList<>();
+        dsgv = gvDao.checkMagv();
         for (GiaoVienDTO gv : dsgv) {
-            if (gv.getMaGV().equals(magv)) {
-                return gv;
-            }
-        }
-        return null;
-    }
-
-    public boolean checkMagv(String magv) {
-        for (GiaoVienDTO gv : dsgv) {
+            System.out.println(gv.getMaGV());
             if (gv.getMaGV().equals(magv)) {
                 return true;
             }
         }
         return false;
     }
-
-    public ArrayList<GiaoVienDTO> searchGV(String maGV, String tenGV, String namSinh, String gioiTinh, String dienThoai) {
-        ArrayList<GiaoVienDTO> search = new ArrayList<>();
-        maGV = maGV.isEmpty() ? maGV = "" : maGV;
-        tenGV = tenGV.isEmpty() ? tenGV = "" : tenGV;
-        namSinh = namSinh.isEmpty() ? namSinh = "" : namSinh;
-        gioiTinh = gioiTinh.isEmpty() ? gioiTinh = "" : gioiTinh;
-        dienThoai = dienThoai.isEmpty() ? dienThoai = "" : dienThoai;
-        for (GiaoVienDTO gv : dsgv) {
-            if (gv.getMaGV().contains(maGV) &&
-                gv.getTenGV().contains(tenGV) &&
-                gv.getNamSinh().contains(namSinh) &&
-                gv.getGioiTinh().contains(gioiTinh) &&
-                gv.getDienThoai().contains(dienThoai)) {
-                search.add(gv);
+    public GiaoVienDTO getGV(String magv)
+    {
+        for(GiaoVienDTO gv : dsgv)
+        {
+            if(gv.getMaGV().equals(magv))
+            {
+                return gv;
             }
         }
-        return search; // Trả về danh sách kết quả
+        return null;
     }
+    //----chu y-----
+    
+    public ArrayList<GiaoVienDTO> searchGV(String magv,String tengv)
+    {
+        ArrayList<GiaoVienDTO> search = new ArrayList<>();
+        magv = magv.isEmpty()?magv = "": magv;
+        tengv = tengv.isEmpty()?tengv = "": tengv;
+        for(GiaoVienDTO gv : dsgv)
+        {
+            if( gv.getMaGV().contains(magv) && 
+                gv.getTenGV().contains(tengv) )
+               
+            {
+                search.add(gv);
+           }
+        }
+        return search;
+    }
+   
 
     public ArrayList<GiaoVienDTO> getList() {
         return dsgv;
     }
-
-
-   
-    public static void main(String[] args) {
-        GiaoVienBUS giaoVienBUS = new GiaoVienBUS();
     
-        // Display all teachers to debug and see what is being loaded
-        ArrayList<GiaoVienDTO> dsgv = giaoVienBUS.getList();
-    
-        System.out.println("All Teachers:");
-        for (GiaoVienDTO gv : dsgv) {
-            System.out.println("MAGV: " + gv.getMaGV());
-            System.out.println("HOGV: " + gv.getHoGV());
-            System.out.println("TENGV: " + gv.getTenGV());
-            System.out.println("GIOITINH: " + gv.getGioiTinh());
-            System.out.println("NAMSINH: " + gv.getNamSinh());
-            System.out.println("DIENTHOAI: " + gv.getDienThoai());
-            System.out.println("IMG: " + gv.getIMG());
-            System.out.println("-------------------------------");
-        }
-    
-        // Attempt to get and print details of a specific teacher
-        GiaoVienDTO gv = giaoVienBUS.getGV("GV1");
-        if (gv != null) {
-            System.out.println("Details of GV1:");
-            System.out.println("MAGV: " + gv.getMaGV());
-            System.out.println("HOGV: " + gv.getHoGV());
-            System.out.println("TENGV: " + gv.getTenGV());
-            System.out.println("GIOITINH: " + gv.getGioiTinh());
-            System.out.println("NAMSINH: " + gv.getNamSinh());
-            System.out.println("DIENTHOAI: " + gv.getDienThoai());
-            System.out.println("IMG: " + gv.getIMG());
-        } else {
-            System.out.println("No teacher found with MAGV = GV1");
+    public void ImportExcelDatabase(File file){
+        GiaoVienDAO gvDAO = new GiaoVienDAO();
+        gvDAO.ImportExcelDatabase(file);
+    }
+    public Integer CountGV() {
+        GiaoVienDAO gv = new GiaoVienDAO();
+        Integer count = gv.CountGV();
+        return count;
+    }
+    public void updateGV(GiaoVienDTO s) {
+        for (int i = 0; i < dsgv.size(); i++) {
+            if (dsgv.get(i).getMaGV().equals(s.getMaGV())) {
+                dsgv.set(i, s);
+                GiaoVienDAO gvDAO = new GiaoVienDAO();
+                gvDAO.Update(s);
+                return;
+            }
         }
     }
-    
 }
