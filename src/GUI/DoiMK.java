@@ -40,6 +40,7 @@ public class DoiMK extends JPanel {
         jlUsername = createLabel("Username:", gbc, 0, 2);
         tfUsername = createTextField(gbc, 1, 2);
         tfUsername.setText(username);
+        tfUsername.setEditable(false);
         jlOldPassword = createLabel("Nhập mật khẩu cũ:", gbc, 0, 3);
         tfOldPassword = createTextField(gbc, 1, 3);
     
@@ -124,5 +125,19 @@ public class DoiMK extends JPanel {
         tfOldPassword.setText("");
         tfNewPassword.setText("");
         tfConfirmPassword.setText("");
+    }
+    public static void main(String[] args) {
+        // Tạo cửa sổ JFrame và thiết lập các thuộc tính cơ bản
+        JFrame frame = new JFrame("Đổi Mật Khẩu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(900, 700);
+        frame.setLocationRelativeTo(null); // Đặt vị trí ở giữa màn hình
+
+        // Tạo một đối tượng của DoiMK và thêm nó vào JFrame
+        DoiMK doiMKPanel = new DoiMK(850, 670, "HS3");
+        frame.add(doiMKPanel);
+
+        // Hiển thị JFrame
+        frame.setVisible(true);
     }
 }
