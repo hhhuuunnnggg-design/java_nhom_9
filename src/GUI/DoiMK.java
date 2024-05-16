@@ -1,19 +1,23 @@
 package GUI;
 
 import java.awt.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import BUS.*;
-import DTO.*;
+import BUS.DoiMK_BUS;
+import DTO.DoiMK_DTO;
 
 public class DoiMK extends JPanel {
-    private JTextField tf1, tf2, tf3;
+    private JTextField tfUsername, tfOldPassword, tfNewPassword, tfConfirmPassword;
     private JPanel mainP;
-    private JLabel jl1, jl2, jl3;
+    private JLabel jlUsername, jlOldPassword, jlNewPassword, jlConfirmPassword;
     private JButton okButton;
+    private DoiMK_BUS doiMK_BUS;
+
     public DoiMK(int width, int height) {
+        doiMK_BUS = new DoiMK_BUS();
+
         this.setSize(new Dimension(width, height));
         this.setLayout(new BorderLayout());
 
@@ -24,34 +28,47 @@ public class DoiMK extends JPanel {
         this.add(mainP, BorderLayout.CENTER);
         this.setVisible(true);
     }
+
     private void addComponentsToPanel() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 30, 10, 30); // Khoảng cách giữa các thành phần
-
-        jl1 = createLabel("Nhập Username:", gbc, 0, 2);
-        tf1 = createTextField(gbc, 1, 2);
-
-        jl2 = createLabel("Nhập mật khẩu cũ:", gbc, 0, 3);
-        tf2 = createTextField(gbc, 1, 3);
-
-        jl3 = createLabel("Nhập mật khẩu mới:", gbc, 0, 4);
-        tf3 = createTextField(gbc, 1, 4);
-
+    
+        jlUsername = createLabel("Nhập Username:", gbc, 0, 2);
+        tfUsername = createTextField(gbc, 1, 2);
+    
+        jlOldPassword = createLabel("Nhập mật khẩu cũ:", gbc, 0, 3);
+        tfOldPassword = createTextField(gbc, 1, 3);
+    
+        jlNewPassword = createLabel("Nhập mật khẩu mới:", gbc, 0, 4);
+        tfNewPassword = createTextField(gbc, 1, 4);
+    
+        jlConfirmPassword = createLabel("Nhập lại mật khẩu mới:", gbc, 0, 5);
+        tfConfirmPassword = createTextField(gbc, 1, 5);
+    
         okButton = new JButton("OK");
         okButton.setPreferredSize(new Dimension(80, 40));
         okButton.setFont(okButton.getFont().deriveFont(Font.BOLD, 18));
         okButton.setBackground(new Color(52, 48, 128));
         okButton.setForeground(Color.WHITE);
-
+    
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         mainP.add(okButton, gbc);
+    
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String confirmPassword = tfConfirmPassword.getText();
+                handleChangePassword(confirmPassword);
+            }
+        });
     }
+
     private JLabel createLabel(String text, GridBagConstraints gbc, int x, int y) {
         JLabel label = new JLabel(text);
-        label.setPreferredSize(new Dimension(200, 40));
+        label.setPreferredSize(new Dimension(250, 40));
         label.setFont(label.getFont().deriveFont(Font.BOLD, 18));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
@@ -61,6 +78,7 @@ public class DoiMK extends JPanel {
         mainP.add(label, gbc);
         return label;
     }
+
     private JTextField createTextField(GridBagConstraints gbc, int x, int y) {
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(300, 30));
@@ -73,6 +91,37 @@ public class DoiMK extends JPanel {
         mainP.add(textField, gbc);
         return textField;
     }
+
+    private void handleChangePassword(String confirmPassword) {
+        String username = tfUsername.getText();
+        String oldPassword = tfOldPassword.getText();
+        String newPassword = tfNewPassword.getText();
+    
+        // Kiểm tra xem mật khẩu mới và mật khẩu nhập lại có khớp nhau không
+        if (!newPassword.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu mới và mật khẩu nhập lại không khớp.");
+            return;
+        }
+    
+        System.out.println("Đổi mật khẩu change cho user: " + username);
+    
+        DoiMK_DTO doiMK_DTO = new DoiMK_DTO(username, oldPassword, newPassword);
+        boolean isPasswordChanged = doiMK_BUS.changePassword(doiMK_DTO);
+    
+        if (isPasswordChanged) {
+            JOptionPane.showMessageDialog(this, "Đổi mật khẩu thành công!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Đổi mật khẩu thất bại. Vui lòng kiểm tra lại thông tin.");
+            return;
+        }
+    
+        // Clear input fields after attempting to change the password
+        tfUsername.setText("");
+        tfOldPassword.setText("");
+        tfNewPassword.setText("");
+        tfConfirmPassword.setText("");
+    }
+
     public static void main(String[] args) {
         // Tạo cửa sổ JFrame và thiết lập các thuộc tính cơ bản
         JFrame frame = new JFrame("Đổi Mật Khẩu");
