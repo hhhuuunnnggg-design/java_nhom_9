@@ -65,6 +65,9 @@ public class TTTK_GV extends JPanel {
 
         // jl14 = createLabel("Địa chỉ:", gbc, 0, 9);
         // tf10 = createTextField(gbc, 1, 9);
+
+        // Khóa tất cả các trường văn bản để không cho chỉnh sửa
+        lockTextFields();
     }
 
     private JLabel createLabel(String text, GridBagConstraints gbc, int x, int y) {
@@ -91,25 +94,41 @@ public class TTTK_GV extends JPanel {
         rightPanel.add(textField, gbc);
         return textField;
     }
-        public void loaddatatoPanel() {
-                ArrayList<GiaoVienDTO> dsgv = gvbus.getList();
-                ArrayList<MonHocDTO> dsmh = mhbus.getList();
-                ArrayList<PhanCongDTO> dspc = dspc = pcbus.getList();
-                ArrayList<LopDTO> dsLop = Lopbus.getList();
-                
-                       for (GiaoVienDTO gv : dsgv) {
-                        String idgv = gv.getMaGV(); 
-                                        if(username.equals(idgv)){
-                                                tf3.setText(idgv);
-                                                tf4.setText(gv.getTenGV());
-                                                tf6.setText(gv.getNamSinh());
-                                                tf5.setText(gv.getGioiTinh());	
-                                                tf7.setText(gv.getDienThoai());	
-                                                tf8.setText(mhbus.get(pcbus.get(username).getMonHocID()).getTenMonHoc());
-                                        }
-                        }
-                       
-                       }
-                       
-        }
 
+    private void lockTextFields() {
+        tf3.setEditable(false);
+        tf4.setEditable(false);
+        tf5.setEditable(false);
+        tf6.setEditable(false);
+        tf7.setEditable(false);
+        tf8.setEditable(false);
+    }
+
+    public void loaddatatoPanel() {
+        ArrayList<GiaoVienDTO> dsgv = gvbus.getList();
+        ArrayList<MonHocDTO> dsmh = mhbus.getList();
+        ArrayList<PhanCongDTO> dspc = pcbus.getList();
+        ArrayList<LopDTO> dsLop = Lopbus.getList();
+
+        for (GiaoVienDTO gv : dsgv) {
+            String idgv = gv.getMaGV();
+            if (username.equals(idgv)) {
+                tf3.setText(idgv);
+                tf4.setText(gv.getTenGV());
+                tf6.setText(gv.getNamSinh());
+                tf5.setText(gv.getGioiTinh());
+                tf7.setText(gv.getDienThoai());
+                tf8.setText(mhbus.get(pcbus.get(username).getMonHocID()).getTenMonHoc());
+            }
+        }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 800);
+        TTTK_GV panel = new TTTK_GV(1000, 800, "GV2");
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
