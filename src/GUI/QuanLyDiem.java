@@ -514,7 +514,23 @@ public class QuanLyDiem extends JPanel{
 
         if(tinhDiemCN(idhs, idnamhoc)>0){
             diemnamhoc.setDiemTrungBinhNam(tinhDiemCN(idhs, idnamhoc));
+
+            //update hocluc
+
+            if(tinhDiemCN(idhs, idnamhoc)<5){
+                diemnamhoc.setHocLuc("Yếu");
+            }
+            else if (tinhDiemCN(idhs, idnamhoc)<8.5 && tinhDiemCN(idhs, idnamhoc)>=7.0){
+                diemnamhoc.setHocLuc("Khá");
+            }
+            else if (tinhDiemCN(idhs, idnamhoc)>=8.5){
+                diemnamhoc.setHocLuc("Giỏi");
+            }
+            else{
+                diemnamhoc.setHocLuc("Trung Bình");
+            }
         }
+
         
         Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, String.valueOf(diem), hkbus.get(idhk).getTenHocKy(),
             String.valueOf(diemHK), outputNam, String.valueOf(diemCanam)};
@@ -565,17 +581,13 @@ public class QuanLyDiem extends JPanel{
 
                 deleteData();
 
-                Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "", outputHK,"", outputNam, ""};
-                int row = t.getSelectedRow();
-                tblModel.removeRow(row);
-                tblModel.addRow(rowData);
+                
                 resetOutput();
             }
             else{
                 return;
             }
         }
-
     }
     public void deleteData(){
         outputDiemhk=null;
@@ -616,9 +628,15 @@ public class QuanLyDiem extends JPanel{
             System.out.println(dtb);
             kqbus.delete(diemnamhoc);
             System.out.println(diemnamhoc);
+            
+        Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "", outputHK,"", outputNam, ""};
+        int row = t.getSelectedRow();
+        tblModel.removeRow(row);
+        tblModel.addRow(rowData);
+
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-        
+        resetOutput();
     }
     private int countUniqueIDs(DefaultTableModel model) {
             int rowCount = model.getRowCount();
