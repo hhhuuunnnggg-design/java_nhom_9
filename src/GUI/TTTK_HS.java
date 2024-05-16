@@ -66,6 +66,8 @@ public class TTTK_HS extends JPanel {
 
         jl14 = createLabel("Địa chỉ:", gbc, 0, 9);
         tf10 = createTextField(gbc, 1, 9);
+        lockTextFields();
+
     }
 
     private JLabel createLabel(String text, GridBagConstraints gbc, int x, int y) {
@@ -92,7 +94,14 @@ public class TTTK_HS extends JPanel {
         rightPanel.add(textField, gbc);
         return textField;
     }
-
+    private void lockTextFields() {
+        tf3.setEditable(false);
+        tf4.setEditable(false);
+        tf5.setEditable(false);
+        tf6.setEditable(false);
+        tf7.setEditable(false);
+        tf8.setEditable(false);
+    }
     public void loaddatatoPanel() {
         ArrayList<HocSinhDTO> dshs = hsbus.getList();
         ArrayList<NamHocDTO> dsnh = nhbus.getList();

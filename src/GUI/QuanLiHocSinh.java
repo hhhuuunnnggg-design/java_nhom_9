@@ -138,7 +138,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         JPanel p1 = JHocsinh();
         p1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
         p1.setBackground(myColor);
-        p1.setPreferredSize(new Dimension(0, 200));
+        p1.setPreferredSize(new Dimension(0, 0));
 
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
