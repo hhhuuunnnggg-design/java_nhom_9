@@ -181,12 +181,6 @@ public class lognGUI extends JFrame {
 							mf.setVisible(true);
 							// mf.pack();
 							mf.setLocationRelativeTo(null);
-<<<<<<< HEAD
-=======
-							// mf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-							mf.setSize(1000, 700);
-							// mainChinhGUI.title_tentk.setText("WelCome: "+jtf1.getText());
->>>>>>> cb0d316350b21b74bfc64f9485199c911bb0b772
 							lognGUI.this.dispose();
 
 						} else {
