@@ -7,6 +7,7 @@ public class KQ_HocSinhCaNamDTO {
     private String HanhKiem;
     private Float DiemTrungBinhNam;
     private String KetQua;
+    
     public KQ_HocSinhCaNamDTO(String hocSinhID, String namHocID, String hocLuc, String HKiem, Float diemTrungBinhNam, String ketQua) {
         HocSinhID = hocSinhID;
         NamHocID = namHocID;

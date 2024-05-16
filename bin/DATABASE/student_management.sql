@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 11, 2024 lúc 05:01 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: May 16, 2024 at 06:13 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `student_management`
+-- Database: `student_management`
 --
 CREATE DATABASE IF NOT EXISTS `student_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `student_management`;
@@ -26,7 +26,7 @@ USE `student_management`;
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chitietdiem`
+-- Table structure for table `chitietdiem`
 --
 
 CREATE TABLE `chitietdiem` (
@@ -35,11 +35,11 @@ CREATE TABLE `chitietdiem` (
   `HocKyid` int(11) NOT NULL,
   `HeSoid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL DEFAULT '',
-  `Diem` int(11) DEFAULT NULL
+  `Diem` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chitietdiem`
+-- Dumping data for table `chitietdiem`
 --
 
 INSERT INTO `chitietdiem` (`HocSinhid`, `MonHocid`, `HocKyid`, `HeSoid`, `NamHocid`, `Diem`) VALUES
@@ -527,18 +527,18 @@ INSERT INTO `chitietdiem` (`HocSinhid`, `MonHocid`, `HocKyid`, `HeSoid`, `NamHoc
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `diemtbhocky`
+-- Table structure for table `diemtbhocky`
 --
 
 CREATE TABLE `diemtbhocky` (
   `HocSinhid` varchar(5) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL,
-  `DiemTrungBinh` float NOT NULL
+  `DiemTrungBinh` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `diemtbhocky`
+-- Dumping data for table `diemtbhocky`
 --
 
 INSERT INTO `diemtbhocky` (`HocSinhid`, `HocKyid`, `NamHocid`, `DiemTrungBinh`) VALUES
@@ -586,7 +586,7 @@ INSERT INTO `diemtbhocky` (`HocSinhid`, `HocKyid`, `NamHocid`, `DiemTrungBinh`) 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `giaovien`
+-- Table structure for table `giaovien`
 --
 
 CREATE TABLE `giaovien` (
@@ -601,7 +601,7 @@ CREATE TABLE `giaovien` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `giaovien`
+-- Dumping data for table `giaovien`
 --
 
 INSERT INTO `giaovien` (`GiaoVienid`, `TenGiaoVien`, `GioiTinh`, `NamSinh`, `DiaChi`, `DienThoai`, `IMG`, `enable`) VALUES
@@ -613,7 +613,7 @@ INSERT INTO `giaovien` (`GiaoVienid`, `TenGiaoVien`, `GioiTinh`, `NamSinh`, `Dia
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `hocky`
+-- Table structure for table `hocky`
 --
 
 CREATE TABLE `hocky` (
@@ -622,7 +622,7 @@ CREATE TABLE `hocky` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `hocky`
+-- Dumping data for table `hocky`
 --
 
 INSERT INTO `hocky` (`HocKyid`, `TenHocKy`) VALUES
@@ -632,7 +632,7 @@ INSERT INTO `hocky` (`HocKyid`, `TenHocKy`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `hocsinh`
+-- Table structure for table `hocsinh`
 --
 
 CREATE TABLE `hocsinh` (
@@ -648,7 +648,7 @@ CREATE TABLE `hocsinh` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `hocsinh`
+-- Dumping data for table `hocsinh`
 --
 
 INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoai`, `DiaChi`, `HocPhi`, `IMG`, `enable`) VALUES
@@ -683,20 +683,20 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `kqhocsinhcanam`
+-- Table structure for table `kqhocsinhcanam`
 --
 
 CREATE TABLE `kqhocsinhcanam` (
   `HocSinhid` varchar(5) NOT NULL,
   `NamHocid` varchar(50) NOT NULL,
-  `HocLuc` varchar(50) NOT NULL,
-  `HanhKiem` varchar(10) NOT NULL DEFAULT 'Tốt',
-  `Diemtb` float NOT NULL,
-  `KetQua` varchar(50) NOT NULL
+  `HocLuc` varchar(50) DEFAULT NULL,
+  `HanhKiem` varchar(10) DEFAULT 'Tốt',
+  `Diemtb` float DEFAULT NULL,
+  `KetQua` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `kqhocsinhcanam`
+-- Dumping data for table `kqhocsinhcanam`
 --
 
 INSERT INTO `kqhocsinhcanam` (`HocSinhid`, `NamHocid`, `HocLuc`, `HanhKiem`, `Diemtb`, `KetQua`) VALUES
@@ -724,7 +724,7 @@ INSERT INTO `kqhocsinhcanam` (`HocSinhid`, `NamHocid`, `HocLuc`, `HanhKiem`, `Di
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `lop`
+-- Table structure for table `lop`
 --
 
 CREATE TABLE `lop` (
@@ -733,7 +733,7 @@ CREATE TABLE `lop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `lop`
+-- Dumping data for table `lop`
 --
 
 INSERT INTO `lop` (`Lopid`, `TenLop`) VALUES
@@ -744,7 +744,7 @@ INSERT INTO `lop` (`Lopid`, `TenLop`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `monhoc`
+-- Table structure for table `monhoc`
 --
 
 CREATE TABLE `monhoc` (
@@ -753,7 +753,7 @@ CREATE TABLE `monhoc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `monhoc`
+-- Dumping data for table `monhoc`
 --
 
 INSERT INTO `monhoc` (`MonHocid`, `TenMonHoc`) VALUES
@@ -765,7 +765,7 @@ INSERT INTO `monhoc` (`MonHocid`, `TenMonHoc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `namhoc`
+-- Table structure for table `namhoc`
 --
 
 CREATE TABLE `namhoc` (
@@ -775,7 +775,7 @@ CREATE TABLE `namhoc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `namhoc`
+-- Dumping data for table `namhoc`
 --
 
 INSERT INTO `namhoc` (`NamHocid`, `NamBatDau`, `NamKetThuc`) VALUES
@@ -784,7 +784,7 @@ INSERT INTO `namhoc` (`NamHocid`, `NamBatDau`, `NamKetThuc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phancong`
+-- Table structure for table `phancong`
 --
 
 CREATE TABLE `phancong` (
@@ -794,7 +794,7 @@ CREATE TABLE `phancong` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `phancong`
+-- Dumping data for table `phancong`
 --
 
 INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`) VALUES
@@ -814,7 +814,7 @@ INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phanlop`
+-- Table structure for table `phanlop`
 --
 
 CREATE TABLE `phanlop` (
@@ -824,7 +824,7 @@ CREATE TABLE `phanlop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `phanlop`
+-- Dumping data for table `phanlop`
 --
 
 INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
@@ -859,7 +859,7 @@ INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -870,78 +870,78 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('admin', 'admin', 'admin', 1);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `chitietdiem`
+-- Indexes for table `chitietdiem`
 --
 ALTER TABLE `chitietdiem`
   ADD PRIMARY KEY (`HocSinhid`,`MonHocid`,`HocKyid`,`HeSoid`) USING BTREE;
 
 --
--- Chỉ mục cho bảng `diemtbhocky`
+-- Indexes for table `diemtbhocky`
 --
 ALTER TABLE `diemtbhocky`
   ADD PRIMARY KEY (`HocSinhid`,`HocKyid`);
 
 --
--- Chỉ mục cho bảng `giaovien`
+-- Indexes for table `giaovien`
 --
 ALTER TABLE `giaovien`
   ADD PRIMARY KEY (`GiaoVienid`);
 
 --
--- Chỉ mục cho bảng `hocky`
+-- Indexes for table `hocky`
 --
 ALTER TABLE `hocky`
   ADD PRIMARY KEY (`HocKyid`);
 
 --
--- Chỉ mục cho bảng `hocsinh`
+-- Indexes for table `hocsinh`
 --
 ALTER TABLE `hocsinh`
   ADD PRIMARY KEY (`HocSinhid`);
 
 --
--- Chỉ mục cho bảng `kqhocsinhcanam`
+-- Indexes for table `kqhocsinhcanam`
 --
 ALTER TABLE `kqhocsinhcanam`
   ADD PRIMARY KEY (`HocSinhid`,`NamHocid`);
 
 --
--- Chỉ mục cho bảng `lop`
+-- Indexes for table `lop`
 --
 ALTER TABLE `lop`
   ADD PRIMARY KEY (`Lopid`);
 
 --
--- Chỉ mục cho bảng `monhoc`
+-- Indexes for table `monhoc`
 --
 ALTER TABLE `monhoc`
   ADD PRIMARY KEY (`MonHocid`);
 
 --
--- Chỉ mục cho bảng `namhoc`
+-- Indexes for table `namhoc`
 --
 ALTER TABLE `namhoc`
   ADD PRIMARY KEY (`NamHocid`);
 
 --
--- Chỉ mục cho bảng `phancong`
+-- Indexes for table `phancong`
 --
 ALTER TABLE `phancong`
   ADD PRIMARY KEY (`GiaoVienid`,`Lopid`,`MonHocid`);
 
 --
--- Chỉ mục cho bảng `phanlop`
+-- Indexes for table `phanlop`
 --
 ALTER TABLE `phanlop`
   ADD PRIMARY KEY (`HocSinhid`,`Lopid`);

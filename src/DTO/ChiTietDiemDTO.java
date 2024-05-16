@@ -65,5 +65,14 @@ public class ChiTietDiemDTO {
     public void setHeSoID(int heSoID) {
         HeSoID = heSoID;
     }
-
+    public String toString() {
+        return "ChiTietDiemDTO{" +
+                "HocSinhID='" + HocSinhID + '\'' +
+                ", MonHocID='" + MonHocID + '\'' +
+                ", HocKyID='" + HocKyID + '\'' +
+                ", HeSoID=" + HeSoID +
+                ", NamHocID='" + NamHocID + '\'' +
+                ", Diem=" + Diem +
+                '}';
+    }
 }

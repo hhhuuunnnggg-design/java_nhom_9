@@ -94,7 +94,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
 
         header.add(hmain);
         
-        if(userName == "admin"){
+        if(userName.equals("admin")){
 
             nav = new JPanel(null);
             Color my_color_jleft = new Color(50, 48, 128);
