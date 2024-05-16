@@ -122,7 +122,7 @@ public class lognGUI extends JFrame {
 		JPanel tdn = new JPanel();
 		tdn.setLayout(new BorderLayout());
 		tdn.setBackground(my_color_west);
-		jltendangnhap = new JLabel("Đăng nhập");
+		jltendangnhap = new JLabel("TÊN Đăng nhập");
 		jltendangnhap.setForeground(Color.white);
 		jltendangnhap.setFont(font2);
 		tdn.add(jltendangnhap, BorderLayout.SOUTH);

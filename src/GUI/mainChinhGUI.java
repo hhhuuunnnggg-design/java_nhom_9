@@ -153,16 +153,20 @@ public class mainChinhGUI extends JFrame implements MouseListener {
         switch (i) {
             case 0: // QUẢN LÝ Giao Vien
                 main.removeAll();
-                main.add(new QLGV(DEFALUT_WIDTH));
+                try {
+                    main.add(new QLGV(850, 670));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 main.repaint();
                 main.revalidate();
                 break;
 
+                
             case 1: // QUẢN LÝ Hoc Sinh
                 main.removeAll();
                 main.removeAll();
                 try {
-                    main.add(new QuanLiHocSinh(850, 670));
                     main.add(new QuanLiHocSinh(850, 670));
                 } catch (SQLException e) {
                     e.printStackTrace();

@@ -463,7 +463,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
 
         // Lấy các giá trị từ các trường nhập
 
-        String countHS = hsBUS.CountHS();
+        Integer countHS =+ hsBUS.CountHS() + 1;
         System.out.println("Số lượng học sinh: " + countHS);
         String hocSinhID = "HS" + countHS;
         // String hocSinhID = tf[0].getText();
