@@ -633,30 +633,30 @@ public class QuanLyDiem extends JPanel{
             return count;
         }
 
-    public Float tinhdiemHK(String idhs, String idhk, String idnamhoc){
-        Float d= (float) 0.0;
-        hkbus.get(idhk);
-        nhbus.get(idnamhoc);
-        hsbus.get(idhs);
-        for(HocKyDTO hk:dshk);
-        {
-            dshs = hsbus.getList();
-            dskq = kqbus.getList();
-            dsmon = mhbus.getList();
-            dsct = ctbus.getList();
-            dsdtb = dtbbus.getList();
-            dshk = hkbus.getList();
-            dsnh = nhbus.getList();
-        }
-        
-        for (MonHocDTO mon : dsmon){
+    // public Float tinhdiemHK(String idhs, String idhk, String idnamhoc){
+    //     Float d= (float) 0.0;
+    //     hkbus.get(idhk);
+    //     nhbus.get(idnamhoc);
+    //     hsbus.get(idhs);
+    //     for(HocKyDTO hk:dshk);
+    //     {
+    //         dshs = hsbus.getList();
+    //         dskq = kqbus.getList();
+    //         dsmon = mhbus.getList();
+    //         dsct = ctbus.getList();
+    //         dsdtb = dtbbus.getList();
+    //         dshk = hkbus.getList();
+    //         dsnh = nhbus.getList();
+    //     }
 
-            for( int heso =1;heso <4;heso++){
+    //     for (MonHocDTO mon : dsmon){
 
-            }
-        }
+    //         for( int heso =1;heso <4;heso++){
+
+    //         }
+    //     }
         
-    } 
+    // } 
     // public Float tinhdiemCN(){
 
     // }
