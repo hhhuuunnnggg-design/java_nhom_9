@@ -579,6 +579,7 @@ public class QuanLyDiem extends JPanel{
                 int row = t.getSelectedRow();
                 tblModel.removeRow(row);
                 tblModel.addRow(rowData);
+                resetOutput();
             }
             else{
                 return;
@@ -628,7 +629,7 @@ public class QuanLyDiem extends JPanel{
             System.out.println(diemnamhoc);
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-        resetOutput();
+        
     }
     private int countUniqueIDs(DefaultTableModel model) {
             int rowCount = model.getRowCount();
@@ -644,6 +645,14 @@ public class QuanLyDiem extends JPanel{
             }
             return count;
         }
+
+    // public Float tinhdiemHK(String idhs, String idmon, String idhk, String idhe, String idnamhoc){
+    //     Float d= (float) 0.0;
+    //     for(NamHocDTO nh : dsnh)
+    // } 
+    // public Float tinhdiemCN(){
+
+    // }
     public static void main(String[] args) {
         new QuanLyDiem();
 
