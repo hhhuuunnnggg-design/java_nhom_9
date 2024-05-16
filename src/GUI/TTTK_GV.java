@@ -12,15 +12,16 @@ public class TTTK_GV extends JPanel {
     private JTextField tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10;
     private JLabel jl2, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14;
     private JPanel rightPanel;
-    String maGV = "GV1";
+    String maGV;
 
     GiaoVienBUS gvbus = new GiaoVienBUS();
     MonHocBUS mhbus = new MonHocBUS(1);
     LopBUS Lopbus = new LopBUS(1);
     PhanCongBUS pcbus = new PhanCongBUS(1);
 
-    public TTTK_GV(int width, int height) throws SQLException {
+    public TTTK_GV(int width, int height, String magv) throws SQLException {
         this.setSize(new Dimension(width, height));
+        this.maGV = magv;
         this.setBackground(Color.red);
         this.setLayout(new BorderLayout());
 

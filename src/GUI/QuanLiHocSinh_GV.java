@@ -42,7 +42,7 @@ import DTO.HocSinhDTO;
  *
  * @author vhuyn
  */
-public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, ActionListener {
+public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, ActionListener {
     private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai;
     private JLabel lblimg;
     private JButton btnFind, btnReset;
@@ -80,7 +80,7 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
 
     public void init() throws SQLException {
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Color myColor = new Color(99, 116, 198);
         Color searchPanel = new Color(180, 204, 227);
         this.setLayout(new BorderLayout());
@@ -105,8 +105,8 @@ public final class QuanLiHocSinh_GV extends JFrame implements MouseListener, Act
         this.add(p2, BorderLayout.SOUTH);
         this.add(p3, BorderLayout.NORTH);
         this.setSize(new Dimension(width, height));
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
+        // this.setLocationRelativeTo(null);
+        // this.setResizable(false);
     }
 
     public JPanel SearchHocSinh() {

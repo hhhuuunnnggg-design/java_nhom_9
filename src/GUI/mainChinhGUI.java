@@ -111,12 +111,10 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             navItem.add("Thống kê:NhanVien_20px.png:NhanVien_20px_active.png");
             navItem.add("Thông tin tài khoản:KhachHang_20px.png:KhachHang_20px_active.png");
             navItem.add("chức năng 4:ThongKe_20px.png:ThongKe_20px_active.png");
-            navItem.add("chức năng 5:CongCu_20px.png:CongCu_20px_active.png");
-            if (role == null || role.equals("Admin")) {
-                navItem.add("chức năng 6:CaiDat_20px.png:CaiDat_20px_active.png");
-                navItem.add("chức năng 7:ThongKe_20px.png:ThongKe_20px_active.png");
-            }
-    
+            navItem.add("Quản lý điểm 5:CongCu_20px.png:CongCu_20px_active.png");
+            navItem.add("Quản lý  hoc sinh:CaiDat_20px.png:CaiDat_20px_active.png");
+            navItem.add("chức năng 7:ThongKe_20px.png:ThongKe_20px_active.png");
+   
             outNav();
     
             /************ PHẦN MAIN ( HIỂN THỊ ) **************************/
@@ -142,6 +140,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             System.out.println(quyen);
 
             if(quyen.equals("HS")){
+                System.out.println("da vao hoc sinh");
                 nav = new JPanel(null);
                 Color my_color_jleft = new Color(50, 48, 128);
                 nav.setBackground(my_color_jleft);
@@ -152,16 +151,11 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
         
                 navItem = new ArrayList<>();
-                navItem.add("Quản lý giáo viên :Shop_20px.png:Shop_20px_active.png");
-                navItem.add("Quản Lý Học Sinh:QLSP_20px.png:QLSP_20px_active.png");
-                navItem.add("Thống kê:NhanVien_20px.png:NhanVien_20px_active.png");
-                navItem.add("Thông tin tài khoản:KhachHang_20px.png:KhachHang_20px_active.png");
-                navItem.add("chức năng 4:ThongKe_20px.png:ThongKe_20px_active.png");
-                navItem.add("chức năng 5:CongCu_20px.png:CongCu_20px_active.png");
-                if (role == null || role.equals("Admin")) {
-                    navItem.add("chức năng 6:CaiDat_20px.png:CaiDat_20px_active.png");
-                    navItem.add("chức năng 7:ThongKe_20px.png:ThongKe_20px_active.png");
-                }
+                navItem.add("Xem điểm :Shop_20px.png:Shop_20px_active.png");
+                navItem.add("Thông tin tài khoản học sinh:QLSP_20px.png:QLSP_20px_active.png");
+                navItem.add("Đổi mật khẩu:NhanVien_20px.png:NhanVien_20px_active.png");
+                
+                
         
                 outNav();
         
@@ -187,16 +181,12 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 JScrollPane scroll = new JScrollPane(nav);
                 scroll.getVerticalScrollBar().setPreferredSize(new Dimension(1, 100));
                 scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
-        
+       
                 navItem = new ArrayList<>();
-                navItem.add("Quản lý giáo viên :Shop_20px.png:Shop_20px_active.png");
-                navItem.add("Quản Lý Học Sinh:QLSP_20px.png:QLSP_20px_active.png");
-                navItem.add("Thống kê:NhanVien_20px.png:NhanVien_20px_active.png");
-                navItem.add("Thông tin tài khoản:KhachHang_20px.png:KhachHang_20px_active.png");
-                navItem.add("chức năng 4:ThongKe_20px.png:ThongKe_20px_active.png");
-                navItem.add("chức năng 5:CongCu_20px.png:CongCu_20px_active.png");
-                navItem.add("chức năng 6:CaiDat_20px.png:CaiDat_20px_active.png");
-                navItem.add("chức năng 7:ThongKe_20px.png:ThongKe_20px_active.png");
+                navItem.add("Quản lí điểm :Shop_20px.png:Shop_20px_active.png");
+                navItem.add("Quản lí học sinh:QLSP_20px.png:QLSP_20px_active.png");
+                navItem.add("Thông tin tài khoản giáo viên:NhanVien_20px.png:NhanVien_20px_active.png");
+                navItem.add("Đổi mật khẩu:KhachHang_20px.png:KhachHang_20px_active.png");
                 outNav();
         
                 
@@ -225,7 +215,23 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             navItem item = navObj.get(i); // lấy vị trí item trong menu
             if (e.getSource() == item) {
                 item.doActive(); // Active NavItem đc chọn
-                changeMainInfo(i); // Hiển thị ra phần main
+                if(userName.equals("admin")){
+                    changeMainInfo(i);
+                }else{
+                    String quyen;
+                    if (userName.length() >= 2) {
+                        quyen = userName.substring(0, 2);
+                    } else {
+                        quyen = userName;
+                    }
+                    if(quyen.equals("HS")){
+                        changeMainForHS(i);
+                    }
+                    if(quyen.equals("GV")){
+                        changeMainForGV(i);
+                    }
+                }
+                
             } else {
                 item.noActive();
             }
@@ -234,27 +240,54 @@ public class mainChinhGUI extends JFrame implements MouseListener {
 
 
     public void changeMainForHS(int i){
-        
+        switch (i) {
+            case 0:
+                main.removeAll();
+                try {
+                    main.add(new diemHS(userName));
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break;  
+            case 1:
+                main.removeAll();
+                try {
+                    main.add(new TTTK_HS(850,670,userName));
+                } catch (SQLException e) {
+                    System.out.println("khong vao duoc");
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break;  
+            case 2:
+                main.removeAll();
+                main.add(new DoiMK(850,670));
+                main.repaint();
+                main.revalidate();
+                break;  
+            default:
+                break;
+        }
     }
 
     public void changeMainForGV(int i){
         
         switch (i) {
-            case 0: // QUẢN LÝ Giao Vien
+            case 0: 
                 main.removeAll();
-                try {
-                    main.add(new QLGV(850, 670));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                main.add(new QuanLyDiem());
                 main.repaint();
                 main.revalidate();
                 break;                            
-            case 1: // QUẢN LÝ Hoc Sinh
+            case 1: 
                 main.removeAll();
                 main.removeAll();
                 try {
-                    main.add(new QuanLiHocSinh(850, 670));
+                    main.add(new QuanLiHocSinh_GV(850, 670));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -262,70 +295,23 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case 2: //THỐNG KÊ
+            case 2:
             main.removeAll();
-            try {
-                main.add(new ThongKe(850,670));                
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
+                try {
+                    main.add(new TTTK_GV(850, 670,userName));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             main.repaint();
             main.revalidate();
             break;
 
             case 3: // THÔNG TIN TÀI KHOẢN HS VÀ GV
-                if (flag) {
-                    // Thêm 2 btn vào dưới "chức năng 3"
-                    navItem.add(4, "Học sinh:KhachHang_20px.png:KhachHang_20px_active.png");
-                    navItem.add(5, "Giáo viên:KhachHang_20px.png:KhachHang_20px_active.png");
-                    flag = false; // Thông báo là đang Dropdown
-                } else {
-                    // Xóa 2 btn của "chức năng 3"
-                    navItem.remove(4);
-                    navItem.remove(5);
-                    flag = true; // Thông báo là Dropdown đã ẩn
-                }
-                outNav(); // Load lại phần Navigation
-                break;
-
-            case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
-            main.removeAll();
-            try {
-                main.add(new TTTK_HS(850, 670));
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
+                main.removeAll();
+                main.repaint();
+                main.add(new DoiMK(850, 670));
+                main.revalidate();
             break;
-
-            case 5: // Chức năng 3.2: Thông tin tài khoản giáo viên
-            main.removeAll();
-            try {
-                main.add(new TTTK_GV(850, 670));
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
-
-            case 6: // NHẬP VÀ XUẤT
-                if (flag) {
-                    navItem.add(7, "Chức năng 4.1:KhachHang_20px.png:KhachHang_20px_active.png");
-                    navItem.add(8, "Chức năng 4.2:KhachHang_20px.png:KhachHang_20px_active.png");
-                    flag = false;
-                } else {
-                    navItem.remove(7);
-                    navItem.remove(8);
-                    flag = true;
-                }
-                outNav();
-                break;
-
         }
     }
 
@@ -389,22 +375,22 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 outNav(); // Load lại phần Navigation
                 break;
 
-            case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
-            main.removeAll();
-            try {
-                main.add(new TTTK_HS(850, 670));
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
+            // case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
+            // main.removeAll();
+            // try {
+            //     main.add(new TTTK_HS(850, 670));
+            // }
+            //      catch (SQLException e) {
+            //     e.printStackTrace();
+            // }
+            // main.repaint();
+            // main.revalidate();
+        // break;
 
             case 5: // Chức năng 3.2: Thông tin tài khoản giáo viên
             main.removeAll();
             try {
-                main.add(new TTTK_GV(850, 670));
+                main.add(new TTTK_GV(850, 670, userName));
             }
                  catch (SQLException e) {
                 e.printStackTrace();
@@ -413,19 +399,16 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             main.revalidate();
             break;
 
-            case 6: // NHẬP VÀ XUẤT
-                if (flag) {
-                    navItem.add(7, "Chức năng 4.1:KhachHang_20px.png:KhachHang_20px_active.png");
-                    navItem.add(8, "Chức năng 4.2:KhachHang_20px.png:KhachHang_20px_active.png");
-                    flag = false;
-                } else {
-                    navItem.remove(7);
-                    navItem.remove(8);
-                    flag = true;
-                }
-                outNav();
+            
+            
+            case 6: // QUẢN LÝ Hoc Sinh
+                main.removeAll();
+                main.removeAll();
+                main.add(new QuanLyDiem());
+                main.repaint();
+                main.revalidate();
                 break;
-
+        
             // Other cases as needed
         }
     }
@@ -438,13 +421,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             String iconActive = navItem.get(i).split(":")[2];
             navObj.add(new navItem(s, new Rectangle(0, 200 + 50 * i, 220, 50), icon, iconActive));
             navObj.get(i).addMouseListener(this);
-        }
-        if (!flag && navObj.size() > 8) // Đổi màu phần DropDown của thống kê
-        {
-            navObj.get(4).setColorNormal(new Color(86, 94, 127));
-            navObj.get(5).setColorNormal(new Color(86, 94, 127));
-            navObj.get(6).setColorNormal(new Color(86, 94, 127));
-        }
+    }
 
         nav.removeAll();
         JLabel profile = new JLabel(new ImageIcon("./src/image/profile_150px.png"));

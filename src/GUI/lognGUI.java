@@ -47,7 +47,7 @@ public class lognGUI extends JFrame {
 
 	public lognGUI() {
 		init();
-		this.setSize(850, 600);
+		this.setSize(1000, 600);
 		this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -98,7 +98,6 @@ public class lognGUI extends JFrame {
 		H1.setForeground(Color.gray);
 		k1.setBackground(my_color_west);
 		JLabel H2 = new JLabel("Vui lòng đăng nhập để sử dụng hệ thống", JLabel.CENTER);
-		H2.setForeground(Color.WHITE);
 		k1.add(H1, BorderLayout.CENTER);
 		k1.add(H2, BorderLayout.SOUTH);
 

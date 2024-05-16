@@ -44,7 +44,7 @@ import DTO.PhanLopDTO;
  * @author PHUONG ANH
  */
 public class QuanLyDiem extends JPanel{
-    private JFrame f;
+   // private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, btnPanel2, contentPanel, detailPanel, main_detailPanel;
     private JRadioButton b1, b2, b3, b4, b5, b6;
     private JComboBox<String> optionLop, optionMon, optionHe, optionHocky, optionNam;
@@ -76,10 +76,10 @@ public class QuanLyDiem extends JPanel{
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
     public QuanLyDiem() {
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
+      //  f = new JFrame();
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        setSize(850, 670);
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -233,7 +233,7 @@ public class QuanLyDiem extends JPanel{
         topPanel.add(selectPanel, BorderLayout.CENTER);
         topPanel.add(btnPanel, BorderLayout.EAST);
 
-        f.add(topPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
 
         btnPanel2.add(delBtn, gbcExportBtn);
         btnPanel2.add(editBtn, gbcShowBtn);
@@ -245,8 +245,8 @@ public class QuanLyDiem extends JPanel{
         contentPanel.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
         contentPanel.add(detailPanel, BorderLayout.NORTH);
-        f.add(contentPanel);
-        f.setVisible(true);
+        add(contentPanel);
+        setVisible(true);
 
         filterBtn.addActionListener(new FilterBtnListener());
         editBtn.addActionListener(new EditBtnListener());
@@ -644,9 +644,9 @@ public class QuanLyDiem extends JPanel{
             }
             return count;
         }
-    public static void main(String[] args) {
-        new QuanLyDiem();
+    // public static void main(String[] args) {
+    //     new QuanLyDiem();
 
         
-    }
+    // }
 }

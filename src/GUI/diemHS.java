@@ -34,8 +34,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.sql.*;
 
-public class diemHS {
-    private JFrame f;
+public class diemHS extends JPanel{
+   //private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, btnPanel;
     private JLabel b1, b2, b3;
     private JComboBox<String> c1, c2, c3;
@@ -71,11 +71,11 @@ public class diemHS {
 
     public diemHS(String mahocsinh) throws SQLException {
         this.mahocsinh = mahocsinh;
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setResizable(false);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
+        //f = new JFrame();
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setResizable(false);
+        setLayout(new BorderLayout());
+        setSize(850, 670);
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -143,10 +143,10 @@ public class diemHS {
         topPanel.add(selectPanel, BorderLayout.CENTER);
         topPanel.add(btnPanel, BorderLayout.EAST);
 
-        f.add(topPanel, BorderLayout.NORTH);
-        f.setVisible(true);
+        add(topPanel, BorderLayout.NORTH);
+        setVisible(true);
         initTable();
-        f.add(initTable(), BorderLayout.CENTER);
+        add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
     }
 
@@ -258,10 +258,7 @@ public class diemHS {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        new diemHS("HS2");
-    }
-
+   
     private class ShowFilterListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
