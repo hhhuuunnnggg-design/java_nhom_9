@@ -47,7 +47,7 @@ public class lognGUI extends JFrame {
 
 	public lognGUI() {
 		init();
-		this.setSize(1000, 600);
+		this.setSize(850, 600);
 		this.setUndecorated(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -98,6 +98,7 @@ public class lognGUI extends JFrame {
 		H1.setForeground(Color.gray);
 		k1.setBackground(my_color_west);
 		JLabel H2 = new JLabel("Vui lòng đăng nhập để sử dụng hệ thống", JLabel.CENTER);
+		H2.setForeground(Color.WHITE);
 		k1.add(H1, BorderLayout.CENTER);
 		k1.add(H2, BorderLayout.SOUTH);
 
@@ -122,7 +123,7 @@ public class lognGUI extends JFrame {
 		JPanel tdn = new JPanel();
 		tdn.setLayout(new BorderLayout());
 		tdn.setBackground(my_color_west);
-		jltendangnhap = new JLabel("Đăng nhập");
+		jltendangnhap = new JLabel("TÊN Đăng nhập");
 		jltendangnhap.setForeground(Color.white);
 		jltendangnhap.setFont(font2);
 		tdn.add(jltendangnhap, BorderLayout.SOUTH);
@@ -173,15 +174,13 @@ public class lognGUI extends JFrame {
 						ResultSet rs = ps.executeQuery();
 						if (rs.next()) {
 							System.out.println("Yes");
-
-							mainChinhGUI mf = new mainChinhGUI();
+							String username = jtf1.getText();
+						// System.out.println(username);
+							mainChinhGUI mf = new mainChinhGUI(username);
 							// Calculator mf=new Calculator();
 							mf.setVisible(true);
 							// mf.pack();
 							mf.setLocationRelativeTo(null);
-							// mf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-							mf.setSize(1300, 730);
-							// mainChinhGUI.title_tentk.setText("WelCome: "+jtf1.getText());
 							lognGUI.this.dispose();
 
 						} else {

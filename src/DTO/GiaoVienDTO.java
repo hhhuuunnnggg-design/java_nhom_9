@@ -1,31 +1,32 @@
 package DTO;
 
 public class GiaoVienDTO {
-   private String maGV, HoGV, TenGV,GioiTinh,IMG;
-   private String NamSinh,DienThoai;
+   private String maGV, TenGV,GioiTinh,IMG;
+   private String NamSinh,DienThoai,Diachi;
 
-    public GiaoVienDTO(String maGV, String tenGV, String gioiTinh, String iMG, String namSinh, String dienThoai) {
+   
+    public GiaoVienDTO(String maGV, String tenGV, String gioiTinh, String iMG, String namSinh, String dienThoai,
+        String diachi) {
     this.maGV = maGV;
     TenGV = tenGV;
     GioiTinh = gioiTinh;
     IMG = iMG;
     NamSinh = namSinh;
     DienThoai = dienThoai;
+    Diachi = diachi;
 }
+    public String getDiachi() {
+        return Diachi;
+    }
+    public void setDiachi(String diachi) {
+        Diachi = diachi;
+    }
     public String getMaGV() {
         return maGV;
     }
 
     public void setMaGV(String maGV) {
         this.maGV = maGV;
-    }
-
-    public String getHoGV() {
-        return HoGV;
-    }
-
-    public void setHoGV(String hoGV) {
-        HoGV = hoGV;
     }
 
     public String getTenGV() {

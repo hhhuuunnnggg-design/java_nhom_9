@@ -44,5 +44,12 @@ public class DTB_HocKyDTO {
     public void setNamHocID(String namHocID) {
         NamHocID = namHocID;
     }
-
+    public String toString() {
+        return "DTB_HocKyDTO{" +
+                "HocSinhID='" + HocSinhID + '\'' +
+                ", HocKyID='" + HocKyID + '\'' +
+                ", NamHocID='" + NamHocID + '\'' +
+                ", DiemTrungBinh=" + DiemTrungBinh +
+                '}';
+    }
 }

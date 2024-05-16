@@ -45,20 +45,31 @@ public class ChiTietDiemDAO {
     }
     
     public void set(ChiTietDiemDTO ctd) {
-            MySQLConnect mySQL = new MySQLConnect();
-            String sql = "UPDATE chitietdiem SET ";
-            sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";
-            
-            sql += "MonHocid='"+ctd.getMonHocID()+"', ";
-            sql += "HocKyid='"+ctd.getHocKyID()+"', ";
-            sql += "HeSoid='"+ctd.getHeSoID()+"', ";
-            sql += "NamHocid='"+ctd.getNamHocID()+"', ";
-            sql += "MonHocid='"+ctd.getDiem()+"', ";
-
-            sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"'";
-            System.out.println(sql);
-            
-            mySQL.executeUpdate(sql);
+        MySQLConnect mySQL = new MySQLConnect();
+        String diem = String.valueOf(ctd.getDiem());
+        // Check if Diem is less than 0, if so, set it to empty string
+        if (Float.parseFloat(diem) < 0 || String.valueOf(ctd.getDiem())==null) {
+            diem = "NULL";
+        }
+        
+        String sql = "UPDATE chitietdiem SET ";
+        sql += "HocSinhid='" + ctd.getHocSinhID() + "', ";
+        sql += "MonHocid='" + ctd.getMonHocID() + "', ";
+        sql += "HocKyid='" + ctd.getHocKyID() + "', ";
+        sql += "HeSoid='" + ctd.getHeSoID() + "', ";
+        sql += "Diem='" + diem + "', ";
+        sql += "NamHocid='" + ctd.getNamHocID() + "' ";
+        
+        // Concatenating conditions for WHERE clause
+        sql += " WHERE HocSinhid='" + ctd.getHocSinhID() + "' AND ";
+        sql += "MonHocid='" + ctd.getMonHocID() + "' AND ";
+        sql += "HocKyid='" + ctd.getHocKyID() + "' AND ";
+        sql += "HeSoid='" + ctd.getHeSoID() + "' AND ";
+        sql += "NamHocid='" + ctd.getNamHocID() + "'";
+        
+        System.out.println(sql);
+        
+        mySQL.executeUpdate(sql);
     }
     
     public void add(ChiTietDiemDTO ctd) {
@@ -75,10 +86,20 @@ public class ChiTietDiemDAO {
          mySQL.executeUpdate(sql);
     }
     
-    public void delete(String hsID){
+    public void delete(ChiTietDiemDTO ctd) {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "update chitietdiem set Diem = NULL where HocSinhid = '"+hsID+"'";
+        String sql = "UPDATE chitietdiem SET ";
+        sql += "Diem=NULL "; // Set Diem to empty string
+        
+        // Concatenating conditions for all attributes except Diem
+        sql += "WHERE HocSinhid='" + ctd.getHocSinhID() + "' AND ";
+        sql += "MonHocid='" + ctd.getMonHocID() + "' AND ";
+        sql += "HocKyid='" + ctd.getHocKyID() + "' AND ";
+        sql += "HeSoid='" + ctd.getHeSoID() + "' AND ";
+        sql += "NamHocid='" + ctd.getNamHocID() + "'";
+        
+        System.out.println(sql);
+        
         mySQL.executeUpdate(sql);
-            
     }
 }

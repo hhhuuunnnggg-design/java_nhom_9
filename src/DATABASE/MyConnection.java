@@ -9,11 +9,11 @@ public class MyConnection {
         Connection con=null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost/hung","root","");
+            con=DriverManager.getConnection("jdbc:mysql://localhost/student_management?zeroDateTimeBehavior=CONVERT_TO_NULL","root","");
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            System.out.println(e.getMessage());
+          System.out.println(e.getMessage());
         }
-       return con;
+      return con;
     } 
 }

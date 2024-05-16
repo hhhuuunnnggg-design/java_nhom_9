@@ -77,9 +77,9 @@ public class QLHS_BUS {
         return dshs;
     }
 
-    public String CountHS() {
+    public Integer CountHS() {
         QLHS_DAO hs = new QLHS_DAO();
-        String count = hs.CountHS();
+        Integer count = hs.CountHS();
         return count;
     }
 }

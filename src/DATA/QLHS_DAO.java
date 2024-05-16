@@ -93,23 +93,20 @@ public class QLHS_DAO {
         return dshs;
     }
 
-    public String CountHS() {
+    public Integer CountHS() {
         String sql = "SELECT COUNT(*) AS count FROM hocsinh";
-        String count = "";
+        Integer count = 0;
 
         try {
             ResultSet rs = mySQL.executeQuery(sql);
 
             if (rs.next()) {
-                int numberOfStudents = rs.getInt("count");
-                count = String.valueOf(numberOfStudents);
+                count = rs.getInt("count");
             }
-
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace(); // Xử lý ngoại lệ
         }
-
         return count;
     }
 

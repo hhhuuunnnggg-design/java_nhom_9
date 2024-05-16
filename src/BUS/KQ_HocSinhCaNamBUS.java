@@ -17,15 +17,13 @@ public class KQ_HocSinhCaNamBUS {
     
     public KQ_HocSinhCaNamDTO get(String idhs, String idnam){
         
-        if( idhs!=null && idnam!=null){
             for(KQ_HocSinhCaNamDTO x : dskq)
             {
                 if( (x.getNamHocID().equals(idnam)) && (x.getHocSinhID().equals(idhs))){
                     return x;
                 }
             }
-        }
-        
+
         return null;
     }
     public void list()
@@ -41,25 +39,28 @@ public class KQ_HocSinhCaNamBUS {
         kq_kqDATA.add(kq);
     }
 
-    public void delete(String id)
+    public void delete(KQ_HocSinhCaNamDTO s)
     {
-        for(KQ_HocSinhCaNamDTO kq : dskq )
+        for(int i = 0 ; i < dskq.size() ; i++)
         {
-            if(kq.getHocSinhID().equals(id))
+            if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()) && dskq.get(i).getNamHocID().equals(s.getNamHocID()))
             {
-                dskq.remove(kq);
+                System.out.println("delete kqcn bus");
+                dskq.remove(s);
                 KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
-                kq_kqDATA.delete(id);
+                kq_kqDATA.set(s);
                 return;
             }
         }
     }
+
     public void set(KQ_HocSinhCaNamDTO s)
     {
         for(int i = 0 ; i < dskq.size() ; i++)
         {
-            if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()))
+            if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()) && dskq.get(i).getNamHocID().equals(s.getNamHocID()))
             {
+                System.out.println("set kqcn bus");
                 dskq.set(i, s);
                 KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
                 kq_kqDATA.set(s);
@@ -111,15 +112,16 @@ public class KQ_HocSinhCaNamBUS {
         public static void main(String[] args) {
             KQ_HocSinhCaNamBUS hsbus = new KQ_HocSinhCaNamBUS(1);
    
-            hsbus.list(); 
+            // hsbus.list(); 
 
-            for (KQ_HocSinhCaNamDTO kq : hsbus.getList()) {
-                System.out.println("HocSinhID: " + kq.getHocSinhID());
-                System.out.println("HocLuc: " + kq.getHocLuc());
-                System.out.println("HanhKiem: " + kq.getHanhKiem());
-                // Add more fields if needed
-                System.out.println("----------------------");
-            }
+            // for (KQ_HocSinhCaNamDTO kq : hsbus.getList()) {
+            //     System.out.println("HocSinhID: " + kq.getHocSinhID());
+            //     System.out.println("HocLuc: " + kq.getHocLuc());
+            //     System.out.println("HanhKiem: " + kq.getHanhKiem());
+            //     // Add more fields if needed
+            //     System.out.println("----------------------");
+            // }
+            System.out.println(hsbus.get("HS1", "giapthin").getHocLuc());
         }
     
 }

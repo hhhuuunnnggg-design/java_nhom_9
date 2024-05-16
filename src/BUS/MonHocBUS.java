@@ -29,6 +29,17 @@ public class MonHocBUS {
         }
         return null;
     }
+    public MonHocDTO getByName(String tenmh)
+    {
+        for(MonHocDTO mh : dsmh )
+        {
+            if(mh.getTenMonHoc().equals(tenmh))
+            {
+                return mh;
+            }
+        }
+        return null;
+    }
     public void list()
     {
         MonHocDAO mhDATA = new MonHocDAO();
@@ -73,19 +84,20 @@ public class MonHocBUS {
         // Create an instance of MonHocBUS
         MonHocBUS monHocBUS = new MonHocBUS(1);
     
-        // Search for MonHocDTO with TenMonHoc="Toan"
-        String subjectToSearch = "Tất cả";
-        ArrayList<MonHocDTO> searchResult = monHocBUS.search(null, subjectToSearch);
+        // // Search for MonHocDTO with TenMonHoc="Toan"
+        // String subjectToSearch = "Tất cả";
+        // ArrayList<MonHocDTO> searchResult = monHocBUS.search(null, subjectToSearch);
     
-        // Print the search result
-        if (!searchResult.isEmpty()) {
-            System.out.println("Search Result for Subject " + subjectToSearch + ":");
-            for (MonHocDTO mh : searchResult) {
-                System.out.println(mh);
-            }
-        } else {
-            System.out.println("No result found for Subject " + subjectToSearch);
-        }
+        // // Print the search result
+        // if (!searchResult.isEmpty()) {
+        //     System.out.println("Search Result for Subject " + subjectToSearch + ":");
+        //     for (MonHocDTO mh : searchResult) {
+        //         System.out.println(mh);
+        //     }
+        // } else {
+        //     System.out.println("No result found for Subject " + subjectToSearch);
+        // }
+        System.out.println(monHocBUS.getByName("Vật Lý").getMonHocID());
     }
     
 }
