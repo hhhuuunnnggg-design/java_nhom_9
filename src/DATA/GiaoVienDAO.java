@@ -44,11 +44,13 @@ public class GiaoVienDAO {
     public void add(GiaoVienDTO gv)
     {
         String sql = "INSERT INTO giaovien VALUES (";
-        sql += "N'"+gv.getMaGV()+"',";
-        sql += "N'"+gv.getTenGV()+"',";
-        sql += "N'"+gv.getGioiTinh()+"',";
-        sql += "N'"+gv.getNamSinh()+"',";
-        sql += "N'"+gv.getDienThoai()+"',";
+        sql += "'"+gv.getMaGV()+"',";
+        sql += "'"+gv.getTenGV()+"',";
+        sql += "'"+gv.getGioiTinh()+"',";
+
+        sql += "'"+gv.getNamSinh()+"',";
+        sql += "'"+gv.getDiachi()+"',";
+        sql += "'"+gv.getDienThoai()+"',";
         sql += "'"+gv.getIMG()+"',";
         sql += "'1')";
         System.out.println(sql);
@@ -57,7 +59,7 @@ public class GiaoVienDAO {
 
     public void delete(String idGV)
     {
-        String sql = "UPDATE giaovien SET enable = 0 WHERE MaGV='"+idGV+"'";
+        String sql = "UPDATE giaovien SET enable = 0 WHERE GiaoVienid ='"+idGV+"'";
        
         System.out.println(sql);
         mySQL.executeUpdate(sql);

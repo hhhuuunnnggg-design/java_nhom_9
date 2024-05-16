@@ -172,7 +172,7 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
         Phocsinh.setLayout(null);
-        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Số điện thoại", "Địa chỉ",
+        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
                 "IMG" };
         int lenght = arrHocsinh.length;
         tf = new JTextField[lenght];
@@ -237,7 +237,6 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
             rowData[i][3] = student.getNgaySinh(); // Thay vì getNamSinh()
             rowData[i][4] = student.getDiaChi();
             rowData[i][5] = student.getDienThoai(); // Thay vì getSoDienThoai()
-            // rowData[i][6] = student.getHocPhi(); // Thêm cột HocPhi
             rowData[i][6] = student.getIMG(); // Thêm cột IMG
         }
 
@@ -258,8 +257,8 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
     }
 
     public void addRow() {
-        Object[] rowData = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[5].getText(),
-                tf[4].getText() };
+        Object[] rowData = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[4].getText(),
+                tf[5].getText(),tf[6].getText()};
         tblmodel.addRow(rowData);
         clearTextFields();
     }
@@ -298,10 +297,10 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         tf[2].setText(gioitinh);
         namsinh = (String.valueOf(t.getValueAt(Row, 3)));
         tf[3].setText(namsinh);
-        sodienthoai = (String.valueOf(t.getValueAt(Row, 5)));
-        tf[4].setText(sodienthoai);
         diachi = (String.valueOf(t.getValueAt(Row, 4)));
-        tf[5].setText(diachi);
+        tf[4].setText(diachi);
+        sodienthoai = (String.valueOf(t.getValueAt(Row, 5)));
+        tf[5].setText(sodienthoai);
         img = (String.valueOf(t.getValueAt(Row, 6)));
         tf[6].setText(img);
 

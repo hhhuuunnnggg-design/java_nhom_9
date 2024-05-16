@@ -428,12 +428,12 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         String tenHocSinh = tf[1].getText();
         String gioiTinh = (String) genderComboBox.getSelectedItem();
         String ngaySinh = dateString;
-        String diaChi = tf[5].getText();
-        String soDienThoai = tf[4].getText();
+        String diaChi = tf[4].getText();
+        String soDienThoai = tf[5].getText();
         String IMG = tf[6].getText();
-
-        HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi,
-                soDienThoai);
+        System.out.println(diaChi);
+        HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh,
+                soDienThoai, diaChi);
         hocSinh.setIMG(IMG);
 
         hsBUS.addHS(hocSinh);
@@ -522,8 +522,8 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date date = sdf.parse(namsinh);
         dateChooser.setDate(date);
-        tf[4].setText(sodienthoai);
-        tf[5].setText(diachi);
+        tf[4].setText(diachi);
+        tf[5].setText(sodienthoai);
         tf[6].setText(img);
 
         if (!img.isEmpty()) {
