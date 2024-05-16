@@ -28,12 +28,15 @@ public class DoiMK_DAO {
                 String currentPassword = rs.getString("password");
                 if (!currentPassword.equals(oldPassword)) {
                     LOGGER.log(Level.WARNING, "Mật khẩu cũ không đúng cho username: {0}", username);
+                    rs.close();  // Đóng ResultSet sau khi sử dụng
                     return false;
                 }
             } else {
                 LOGGER.log(Level.WARNING, "Không tìm thấy username: {0}", username);
+                rs.close();  // Đóng ResultSet sau khi sử dụng
                 return false;
             }
+            rs.close();  // Đóng ResultSet sau khi sử dụng
 
             // Cập nhật mật khẩu mới
             updatePs.setString(1, newPassword);
