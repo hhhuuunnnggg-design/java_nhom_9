@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -425,6 +426,11 @@ public class QuanLyDiem extends JPanel{
                 }
             }
             tblModel.fireTableDataChanged();
+            int count = countUniqueIDs(tblModel);
+            s.setText(String.valueOf(count));
+            if (tblModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
+            }
         }
     }
 
@@ -541,6 +547,7 @@ public class QuanLyDiem extends JPanel{
     //update diem
         resetOutput();
     }
+
     public void resetOutput() {
         outputID = null;
         outputHeid = null;
@@ -568,7 +575,7 @@ public class QuanLyDiem extends JPanel{
 
                 deleteData();
 
-                Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "0.0", outputHK,"0.0", outputNam, "0.0"};
+                Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "", outputHK,"", outputNam, ""};
                 int row = t.getSelectedRow();
                 tblModel.removeRow(row);
                 tblModel.addRow(rowData);
@@ -621,13 +628,24 @@ public class QuanLyDiem extends JPanel{
             System.out.println(diemnamhoc);
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-
+        resetOutput();
     }
+    private int countUniqueIDs(DefaultTableModel model) {
+            int rowCount = model.getRowCount();
+            int count = 0;
+            HashSet<String> uniqueIDs = new HashSet<>();
+
+            for (int i = 0; i < rowCount; i++) {
+                String id = (String) model.getValueAt(i, 0); // Assuming ID is in the first column
+                if (!uniqueIDs.contains(id)) {
+                    uniqueIDs.add(id);
+                    count++;
+                }
+            }
+            return count;
+        }
     public static void main(String[] args) {
         new QuanLyDiem();
-
-
-        
 
         
     }
