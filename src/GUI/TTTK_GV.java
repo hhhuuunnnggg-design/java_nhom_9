@@ -12,14 +12,17 @@ public class TTTK_GV extends JPanel {
     private JTextField tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10;
     private JLabel jl2, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14;
     private JPanel rightPanel;
-    String maGV = "GV1";
-
+    private String username;
+    private int width, height;
     GiaoVienBUS gvbus = new GiaoVienBUS();
     MonHocBUS mhbus = new MonHocBUS(1);
     LopBUS Lopbus = new LopBUS(1);
     PhanCongBUS pcbus = new PhanCongBUS(1);
 
-    public TTTK_GV(int width, int height) throws SQLException {
+    public TTTK_GV(int width, int height, String username) throws SQLException {
+        this.width = width;
+        this.height = height;
+        this.username = username;  // Lưu trữ username
         this.setSize(new Dimension(width, height));
         this.setBackground(Color.red);
         this.setLayout(new BorderLayout());
@@ -96,13 +99,13 @@ public class TTTK_GV extends JPanel {
                 
                        for (GiaoVienDTO gv : dsgv) {
                         String idgv = gv.getMaGV(); 
-                                        if(maGV.equals(idgv)){
+                                        if(username.equals(idgv)){
                                                 tf3.setText(idgv);
                                                 tf4.setText(gv.getTenGV());
                                                 tf6.setText(gv.getNamSinh());
                                                 tf5.setText(gv.getGioiTinh());	
                                                 tf7.setText(gv.getDienThoai());	
-                                                tf8.setText(mhbus.get(pcbus.get(maGV).getMonHocID()).getTenMonHoc());
+                                                tf8.setText(mhbus.get(pcbus.get(username).getMonHocID()).getTenMonHoc());
                                         }
                         }
                        

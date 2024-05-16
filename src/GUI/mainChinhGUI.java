@@ -275,43 +275,37 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             break;
 
             case 3: // THÔNG TIN TÀI KHOẢN HS VÀ GV
-                if (flag) {
-                    // Thêm 2 btn vào dưới "chức năng 3"
-                    navItem.add(4, "Học sinh:KhachHang_20px.png:KhachHang_20px_active.png");
-                    navItem.add(5, "Giáo viên:KhachHang_20px.png:KhachHang_20px_active.png");
-                    flag = false; // Thông báo là đang Dropdown
-                } else {
-                    // Xóa 2 btn của "chức năng 3"
-                    navItem.remove(4);
-                    navItem.remove(5);
-                    flag = true; // Thông báo là Dropdown đã ẩn
+              main.removeAll();
+                try {
+                    main.add(new TTTK_HS(850, 670, this.userName));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                outNav(); // Load lại phần Navigation
+                main.repaint();
+                main.revalidate();
                 break;
 
-            case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
-            main.removeAll();
-            try {
-                main.add(new TTTK_HS(850, 670));
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
-
-            case 5: // Chức năng 3.2: Thông tin tài khoản giáo viên
-            main.removeAll();
-            try {
-                main.add(new TTTK_GV(850, 670));
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
+                // case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
+                // main.removeAll();
+                // try {
+                //     main.add(new TTTK_HS(850, 670, this.userName));
+                // } catch (SQLException e) {
+                //     e.printStackTrace();
+                // }
+                // main.repaint();
+                // main.revalidate();
+                // break;
+            // case 5: // Chức năng 3.2: Thông tin tài khoản giáo viên
+            // main.removeAll();
+            // try {
+            //     main.add(new TTTK_GV(850, 670));
+            // }
+            //      catch (SQLException e) {
+            //     e.printStackTrace();
+            // }
+            // main.repaint();
+            // main.revalidate();
+            // break;
 
             case 6: // NHẬP VÀ XUẤT
                 if (flag) {
@@ -392,7 +386,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
             main.removeAll();
             try {
-                main.add(new TTTK_HS(850, 670));
+                main.add(new TTTK_HS(850, 670, this.userName));
             }
                  catch (SQLException e) {
                 e.printStackTrace();
@@ -404,7 +398,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             case 5: // Chức năng 3.2: Thông tin tài khoản giáo viên
             main.removeAll();
             try {
-                main.add(new TTTK_GV(850, 670));
+                main.add(new TTTK_GV(850, 670, this.userName));
             }
                  catch (SQLException e) {
                 e.printStackTrace();
