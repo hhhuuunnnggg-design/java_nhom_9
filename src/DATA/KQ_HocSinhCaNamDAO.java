@@ -44,23 +44,37 @@ public class KQ_HocSinhCaNamDAO {
     }
 
     public void set(KQ_HocSinhCaNamDTO kqHS) {
+        System.out.println("error here");
         MySQLConnect mySQL = new MySQLConnect();
+        Float diemTrungBinhNam = kqHS.getDiemTrungBinhNam();
+        
+        // Check if Diemtb is null or less than 0, if so, set it to NULL
+        if (diemTrungBinhNam == null || diemTrungBinhNam < 0) {
+            diemTrungBinhNam = null;
+        }
+        
         String sql = "UPDATE kqhocsinhcanam SET ";
-        sql += "HocSinhid='"+kqHS.getHocSinhID()+"', ";
-        sql += "NamHocid='"+kqHS.getNamHocID()+"', ";
-        sql += "HocLuc='"+kqHS.getHocLuc()+"', ";
-        sql += "HanhKiem='"+kqHS.getHanhKiem()+"', ";
-        sql += "Diemtb='"+kqHS.getDiemTrungBinhNam()+"', ";
-        sql += "KetQua='"+kqHS.getKetQua()+"' ";
+        sql += "HocSinhid='" + kqHS.getHocSinhID() + "', ";
+        sql += "NamHocid='" + kqHS.getNamHocID() + "', ";
+        sql += "HocLuc='" + kqHS.getHocLuc() + "', ";
+        sql += "HanhKiem='" + kqHS.getHanhKiem() + "', ";
+        // Handling NULL value for Diemtb
+        if (diemTrungBinhNam != null) {
+            sql += "Diemtb=" + diemTrungBinhNam + ", ";
+        } else {
+            sql += "Diemtb=NULL, ";
+        }
+        sql += "KetQua='" + kqHS.getKetQua() + "' ";
         
         // Concatenating conditions for WHERE clause
-        sql += " WHERE HocSinhid='"+kqHS.getHocSinhID()+"' AND ";
-        sql += "NamHocid='"+kqHS.getNamHocID()+"'";
+        sql += " WHERE HocSinhid='" + kqHS.getHocSinhID() + "' AND ";
+        sql += "NamHocid='" + kqHS.getNamHocID() + "'";
         
         System.out.println(sql);
         
         mySQL.executeUpdate(sql);
     }
+    
 
     public void add(KQ_HocSinhCaNamDTO kqHS) {
         MySQLConnect mySQL = new MySQLConnect();
@@ -76,13 +90,22 @@ public class KQ_HocSinhCaNamDAO {
         mySQL.executeUpdate(sql);
     }
 
-    public void delete(String id)
-    {
+    public void delete(KQ_HocSinhCaNamDTO kqHS) {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "UPDATE kqhocsinhcanam SET enable = 0 WHERE HocSinhid='"+id+"'";
-        mySQL.executeUpdate(sql);
+        String sql = "UPDATE kqhocsinhcanam SET ";
+        sql += "HocLuc = NULL, ";
+        sql += "Diemtb = NULL, ";
+        sql += "KetQua = NULL ";
+        
+        // Concatenating conditions for WHERE clause
+        sql += "WHERE HocSinhid='" + kqHS.getHocSinhID() + "' AND ";
+        sql += "NamHocid='" + kqHS.getNamHocID() + "'";
+        
         System.out.println(sql);
+        
+        mySQL.executeUpdate(sql);
     }
+    
 
 }
 

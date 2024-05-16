@@ -78,15 +78,17 @@ public class DTB_HocKyBUS {
         dtbDATA.add(dtb);
     }
 
-    public void delete(String id)
+    public void delete(DTB_HocKyDTO s)
     {
-        for(DTB_HocKyDTO dtb : dsdtb )
+        for(int i = 0 ; i < dsdtb.size() ; i++)
         {
-            if(dtb.getHocSinhID().equals(id))
+            if(dsdtb.get(i).getHocSinhID().equals(s.getHocSinhID())&&
+            dsdtb.get(i).getNamHocID().equals(s.getNamHocID())&&
+            dsdtb.get(i).getHocKyID().equals(s.getHocKyID()))
             {
-                dsdtb.remove(dtb);
+                dsdtb.remove(s);
                 DTB_HocKyDAO dtbDATA = new DTB_HocKyDAO();
-                dtbDATA.delete(id);
+                dtbDATA.delete(s);
                 return;
             }
         }

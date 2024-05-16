@@ -474,7 +474,7 @@ public class QuanLyDiem extends JPanel{
                 JOptionPane.QUESTION_MESSAGE);
 
             if (result == JOptionPane.YES_OPTION){
-                updateRow();
+                updateData();
             }
             else{
                 return;
@@ -484,7 +484,7 @@ public class QuanLyDiem extends JPanel{
 
     }
 
-    public void updateRow(){
+    public void updateData(){
         System.out.println("update ................");
         String idhk= hkbus.getByName(outputHK).getHocKyID();
         System.out.println(idhk);
@@ -507,14 +507,16 @@ public class QuanLyDiem extends JPanel{
         System.out.println(diem);
         String tenhs = outputTenHS;
         String lop = outputLop;
+
+        String hocluc = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHocLuc():"";//checknull
+        String hanhkiem = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHanhKiem():"Tốt";//
+        String ketqua = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getKetQua():"";//
         
+        KQ_HocSinhCaNamDTO diemnamhoc = new KQ_HocSinhCaNamDTO(idhs, idnamhoc, hocluc, hanhkiem, diemCanam, ketqua);
+
         ChiTietDiemDTO ctd = new ChiTietDiemDTO(idhs, idmon, idhk, idhe, idnamhoc, diem);
         DTB_HocKyDTO dtb = new DTB_HocKyDTO(idhs, idhk, idnamhoc, diemHK);
 
-        String hocluc = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHocLuc():"";//checknull
-        String hanhkiem = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHanhKiem():"";//
-        String ketqua = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getKetQua():"";//
-        KQ_HocSinhCaNamDTO diemnamhoc = new KQ_HocSinhCaNamDTO(idhs, idnamhoc, hocluc, hanhkiem, diemCanam, ketqua);
 
         System.out.println(idhs+ tenhs+ lop+ mhbus.get(idmon).getTenMonHoc()+ idhe+ String.valueOf(diem)+ hkbus.get(idhk).getTenHocKy()+
         String.valueOf(diemHK)+ outputNam+ String.valueOf(diemCanam));
@@ -556,7 +558,7 @@ public class QuanLyDiem extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             if(outputID==null){
-                JOptionPane.showMessageDialog(null, "Chưa chọn thông tin", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Chọn thông tin trước khi nhập điểm", "Error", JOptionPane.ERROR_MESSAGE);
             return;
             }
 
@@ -564,10 +566,9 @@ public class QuanLyDiem extends JPanel{
 
             if (i == JOptionPane.YES_OPTION){
 
+                deleteData();
 
-
-
-                Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "", outputHK,"", outputNam, ""};
+                Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "0.0", outputHK,"0.0", outputNam, "0.0"};
                 int row = t.getSelectedRow();
                 tblModel.removeRow(row);
                 tblModel.addRow(rowData);
@@ -578,9 +579,52 @@ public class QuanLyDiem extends JPanel{
         }
 
     }
+    public void deleteData(){
+        outputDiemhk=null;
+        outputDiemcanam=null;
+        System.out.println("delete()");
+        String idhk= hkbus.getByName(outputHK).getHocKyID();
+        System.out.println(idhk);
 
+        String idmon = mhbus.getByName(outputMon).getMonHocID();
+        System.out.println(idmon);
+
+        String idnamhoc = nhbus.getByName(outputNam).getNamHocID();
+        System.out.println(idnamhoc);
+
+        String idhs = outputID;
+        System.out.println(idhs);
+        int idhe = Integer.parseInt(outputHeid);
+        System.out.println(idhe);
+        Float diemHK = (outputDiemhk==null ||outputDiemhk.equals(""))?-1:Float.parseFloat(outputDiemhk);//sử lý hàm set với -1
+        System.out.println(diemHK);
+        Float diemCanam = (outputDiemcanam==null ||outputDiemcanam.equals(""))?-1:Float.parseFloat(outputDiemcanam);
+        System.out.println(diemCanam);
+        Float diem = (outputDiem.getText()==null ||outputDiem.getText().equals(""))?-1:Float.parseFloat(outputDiem.getText());
+        System.out.println(diem);
+
+        String hocluc = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHocLuc():"";//check null
+        String hanhkiem = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHanhKiem():"Tốt";//
+        String ketqua = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getKetQua():"";//
+
+        KQ_HocSinhCaNamDTO diemnamhoc = new KQ_HocSinhCaNamDTO(idhs, idnamhoc, hocluc, hanhkiem, diemCanam, ketqua);
+        
+        ChiTietDiemDTO ctd = new ChiTietDiemDTO(idhs, idmon, idhk, idhe, idnamhoc, diem);
+        DTB_HocKyDTO dtb = new DTB_HocKyDTO(idhs, idhk, idnamhoc, diemHK);
+
+        System.out.println("check db delete------------");
+            ctbus.delete(ctd);
+            System.out.println(ctd);
+            dtbbus.delete(dtb);
+            System.out.println(dtb);
+            kqbus.delete(diemnamhoc);
+            System.out.println(diemnamhoc);
+        outputDiem.setText("");
+        JOptionPane.showMessageDialog(null, "Cập nhật thành công");
+
+    }
     public static void main(String[] args) {
-        QuanLyDiem t = new QuanLyDiem();
+        new QuanLyDiem();
 
 
         

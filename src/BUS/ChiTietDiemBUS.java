@@ -67,15 +67,19 @@ public class ChiTietDiemBUS {
         ctdDATA.add(ctd);
     }
 
-    public void delete(String id)
+    public void delete(ChiTietDiemDTO s)
     {
-        for(ChiTietDiemDTO ctd : dsctd )
+        for(int i = 0 ; i < dsctd.size() ; i++)
         {
-            if(ctd.getHocSinhID().equals(id))
+            if(dsctd.get(i).getHocSinhID().equals(s.getHocSinhID()) &&
+            dsctd.get(i).getNamHocID().equals(s.getNamHocID()) &&
+            dsctd.get(i).getMonHocID().equals(s.getMonHocID()) &&
+            dsctd.get(i).getHeSoID()==(s.getHeSoID()))
             {
-                dsctd.remove(ctd);
+                dsctd.remove( s);
                 ChiTietDiemDAO ctdDATA = new ChiTietDiemDAO();
-                ctdDATA.delete(id);
+                ctdDATA.delete(s);
+                System.out.println("set chitietdiem-------");
                 return;
             }
         }
@@ -97,6 +101,7 @@ public class ChiTietDiemBUS {
             }
         }
     }
+    
     public boolean check(String id)
     {
         for(ChiTietDiemDTO ctd : dsctd)

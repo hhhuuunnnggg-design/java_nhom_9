@@ -39,19 +39,21 @@ public class KQ_HocSinhCaNamBUS {
         kq_kqDATA.add(kq);
     }
 
-    public void delete(String id)
+    public void delete(KQ_HocSinhCaNamDTO s)
     {
-        for(KQ_HocSinhCaNamDTO kq : dskq )
+        for(int i = 0 ; i < dskq.size() ; i++)
         {
-            if(kq.getHocSinhID().equals(id))
+            if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()) && dskq.get(i).getNamHocID().equals(s.getNamHocID()))
             {
-                dskq.remove(kq);
+                System.out.println("delete kqcn bus");
+                dskq.remove(s);
                 KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
-                kq_kqDATA.delete(id);
+                kq_kqDATA.set(s);
                 return;
             }
         }
     }
+
     public void set(KQ_HocSinhCaNamDTO s)
     {
         for(int i = 0 ; i < dskq.size() ; i++)

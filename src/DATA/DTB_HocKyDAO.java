@@ -39,22 +39,34 @@ public class DTB_HocKyDAO {
     
     public void set(DTB_HocKyDTO ctd) {
         MySQLConnect mySQL = new MySQLConnect();
+        String diemTrungBinh =String.valueOf(ctd.getDiemTrungBinh());
+        System.out.println("String.valueOf(ctd.getDiemTrungBinh())");
+        System.out.println(diemTrungBinh);
+        // Check if DiemTrungBinh is less than 0, if so, set it to empty string
+        if (Float.parseFloat(diemTrungBinh) < 0 || String.valueOf(ctd.getDiemTrungBinh())==null) {
+            diemTrungBinh ="NULL";
+        }
         String sql = "UPDATE diemtbhocky SET ";
-        sql += "HocSinhid='"+ctd.getHocSinhID()+"', ";           
-        sql += "HocKyid='"+ctd.getHocKyID()+"', ";
-        sql += "NamHocid='"+ctd.getNamHocID()+"', ";
+        sql += "HocSinhid='" + ctd.getHocSinhID() + "', ";
+        sql += "HocKyid='" + ctd.getHocKyID() + "', ";
+        sql += "NamHocid='" + ctd.getNamHocID() + "', ";
+        sql += "DiemTrungBinh='" + diemTrungBinh + "' ";
         
-        sql += "DiemTrungBinh='"+ctd.getDiemTrungBinh()+"' ";
-    
-        // Concatenating multiple conditions in the WHERE clause
-        sql += " WHERE HocSinhid='"+ctd.getHocSinhID()+"' AND ";
-        sql += "HocKyid='"+ctd.getHocKyID()+"' AND ";
-        sql += "NamHocid='"+ctd.getNamHocID()+"'";
+        // Concatenating conditions for WHERE clause
+        sql += " WHERE HocSinhid='" + ctd.getHocSinhID() + "' AND ";
+        sql += "HocKyid='" + ctd.getHocKyID() + "' AND ";
+        sql += "NamHocid='" + ctd.getNamHocID() + "'";
         
         System.out.println(sql);
         
         mySQL.executeUpdate(sql);
     }
+
+    
+    
+    
+    
+    
     
     public void add(DTB_HocKyDTO ctd) {
         MySQLConnect mySQL = new MySQLConnect();
@@ -68,10 +80,17 @@ public class DTB_HocKyDAO {
          mySQL.executeUpdate(sql);
     }
     
-    public void delete(String hsID){
+    public void delete(DTB_HocKyDTO ctd) {
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "update diemtbhocky set Diem = NULL where HocSinhid = '"+hsID+"'";
+        String sql = "UPDATE diemtbhocky SET DiemTrungBinh = NULL "; // Or DiemTrungBinh = ''
+        
+        // Concatenating conditions for the WHERE clause
+        sql += "WHERE HocSinhid='" + ctd.getHocSinhID() + "' AND ";
+        sql += "HocKyid='" + ctd.getHocKyID() + "' AND ";
+        sql += "NamHocid='" + ctd.getNamHocID() + "'";
+        
+        System.out.println(sql);
+        
         mySQL.executeUpdate(sql);
-            
     }
 }
