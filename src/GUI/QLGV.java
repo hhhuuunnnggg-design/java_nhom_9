@@ -433,19 +433,19 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         System.out.println("Số Giáo viên: " + countGV);
         String giaovienID = "GV" + countGV;
         // String hocSinhID = tf[0].getText();
-        String tenHocSinh = tf[1].getText();
+        String tenGV = tf[1].getText();
         String gioiTinh = (String) genderComboBox.getSelectedItem();
         String ngaySinh = dateString;
-        String diaChi = tf[5].getText();
-        String soDienThoai = tf[4].getText();
+        String diaChi = tf[4].getText();
+        String soDienThoai = tf[5].getText();
         String IMG = tf[6].getText();
 
-        GiaoVienDTO hocSinh = new GiaoVienDTO(giaovienID,ngaySinh, tenHocSinh, gioiTinh, IMG, soDienThoai, diaChi);
-        hocSinh.setIMG(IMG);
+        GiaoVienDTO giaovien = new GiaoVienDTO(giaovienID,tenGV,gioiTinh,IMG,ngaySinh,soDienThoai,diaChi);
+        
 
-        gvBUS.addGV(hocSinh);
+        gvBUS.addGV(giaovien);
 
-        Object[] rowData = { giaovienID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
+        Object[] rowData = { giaovienID, tenGV, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
         tblmodel.addRow(rowData);
         clearTextFields();
     }
@@ -530,8 +530,8 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date date = sdf.parse(namsinh);
         dateChooser.setDate(date);
-        tf[4].setText(sodienthoai);
-        tf[5].setText(diachi);
+        tf[4].setText(diachi);
+        tf[5].setText(sodienthoai);
         tf[6].setText(img);
 
         if (!img.isEmpty()) {
