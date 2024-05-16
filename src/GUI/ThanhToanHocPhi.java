@@ -35,11 +35,9 @@ public class ThanhToanHocPhi extends JPanel{
 
     public ThanhToanHocPhi(){
         
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
-        f.setLocationRelativeTo(null);
-                f.setResizable(false);
+        // f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+        this.setSize(850, 670);
                 
         topPanel=new JPanel();
         topPanel.setPreferredSize(new Dimension(0,80));
@@ -166,9 +164,9 @@ public class ThanhToanHocPhi extends JPanel{
         feePanel.add(midFee, BorderLayout.CENTER);
         feePanel.add(b_Fee, BorderLayout.SOUTH);
         
-        f.add(topPanel,BorderLayout.NORTH);
-        f.add(midPanel,BorderLayout.CENTER);
-        f.setVisible(true);
+        this.add(topPanel,BorderLayout.NORTH);
+        this.add(midPanel,BorderLayout.CENTER);
+        this.setVisible(true);
 
         
         btnSearch.addActionListener(new SearchBtnListener());

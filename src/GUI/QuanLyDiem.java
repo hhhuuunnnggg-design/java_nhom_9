@@ -54,6 +54,8 @@ public class QuanLyDiem extends JPanel{
     private NonEditableTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
+    int width;
+    int height;
     private static String outputID, outputHeid, outputMon, outputHK, outputNam, outputDiemhk, outputDiemcanam, outputTenHS, outputLop;
 
     ArrayList <HocSinhDTO> dshs;
@@ -75,11 +77,11 @@ public class QuanLyDiem extends JPanel{
     HocKyBUS hkbus = new HocKyBUS(1);
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
-    public QuanLyDiem() {
-      //  f = new JFrame();
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-        setSize(850, 670);
+    public QuanLyDiem(int width, int height) {
+    this.width = width;
+    this.height = height;
+    this.setLayout(new BorderLayout());
+    this.setSize(new Dimension(width, height));
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -218,7 +220,7 @@ public class QuanLyDiem extends JPanel{
         topPanel.add(selectPanel, BorderLayout.CENTER);
         topPanel.add(btnPanel, BorderLayout.EAST);
 
-        add(topPanel, BorderLayout.NORTH);
+        this.add(topPanel, BorderLayout.NORTH);
 
         btnPanel2.add(delBtn, gbcExportBtn);
         btnPanel2.add(editBtn, gbcShowBtn);
@@ -230,8 +232,8 @@ public class QuanLyDiem extends JPanel{
         contentPanel.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
         contentPanel.add(detailPanel, BorderLayout.NORTH);
-        add(contentPanel);
-        setVisible(true);
+        this.add(contentPanel);
+        this.setVisible(true);
 
         filterBtn.addActionListener(new FilterBtnListener());
         editBtn.addActionListener(new EditBtnListener());
@@ -639,8 +641,6 @@ public class QuanLyDiem extends JPanel{
 
     // }
     public static void main(String[] args) {
-        new QuanLyDiem();
-
-        
+        new QuanLyDiem(850,670);
     }
 }

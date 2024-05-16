@@ -30,7 +30,7 @@ import DTO.Account_DTO;
  *
  * @author vhuyn
  */
-public final class ChangeAccount extends JFrame implements MouseListener, ActionListener {
+public final class ChangeAccount extends JPanel implements MouseListener, ActionListener {
     JLabel lbl1, lblTK, lblMK, lblRMK;
     JButton btnFinish;
     JTextField textTK, textMK, textRMK;
@@ -54,8 +54,7 @@ public final class ChangeAccount extends JFrame implements MouseListener, Action
     public void init() {
         Color color = new Color(180, 204, 227);
         this.setLayout(new BorderLayout());
-        this.setSize(width, height);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(new Dimension(width, height));
         group = new ButtonGroup();
 
         lbl1 = new JLabel("Chọn loại tài khoản muốn thay đổi: ");
@@ -132,7 +131,6 @@ public final class ChangeAccount extends JFrame implements MouseListener, Action
         this.add(pHead, BorderLayout.NORTH);
         this.add(pContent, BorderLayout.CENTER);
         this.add(pFooter, BorderLayout.SOUTH);
-        this.setLocationRelativeTo(null);
     }
 
     public boolean areFieldsEmpty() {
@@ -163,10 +161,10 @@ public final class ChangeAccount extends JFrame implements MouseListener, Action
         textRMK.setText("");
     }
 
-    public static void main(String[] args) {
-        ChangeAccount change = new ChangeAccount(850, 670);
-        change.setVisible(true);
-    }
+    // public static void main(String[] args) {
+    //     ChangeAccount change = new ChangeAccount(850, 670);
+    //     change.setVisible(true);
+    // }
 
     @Override
     public void mouseClicked(MouseEvent e) {

@@ -109,11 +109,9 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             navItem.add("Quản lý giáo viên :Shop_20px.png:Shop_20px_active.png");
             navItem.add("Quản Lý Học Sinh:QLSP_20px.png:QLSP_20px_active.png");
             navItem.add("Thống kê:NhanVien_20px.png:NhanVien_20px_active.png");
-            navItem.add("Thông tin tài khoản:KhachHang_20px.png:KhachHang_20px_active.png");
-            navItem.add("chức năng 4:ThongKe_20px.png:ThongKe_20px_active.png");
-            navItem.add("Quản lý điểm 5:CongCu_20px.png:CongCu_20px_active.png");
-            navItem.add("Quản lý  hoc sinh:CaiDat_20px.png:CaiDat_20px_active.png");
-            navItem.add("chức năng 7:ThongKe_20px.png:ThongKe_20px_active.png");
+            navItem.add("Đổi Password:KhachHang_20px.png:KhachHang_20px_active.png");
+            navItem.add("Thanh toán học phí:ThongKe_20px.png:ThongKe_20px_active.png");
+            navItem.add("Quản lý điểm:CongCu_20px.png:CongCu_20px_active.png");
    
             outNav();
     
@@ -279,7 +277,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
         switch (i) {
             case 0: 
                 main.removeAll();
-                main.add(new QuanLyDiem());
+                main.add(new QuanLyDiem(850,670));
                 main.repaint();
                 main.revalidate();
                 break;                            
@@ -317,10 +315,6 @@ public class mainChinhGUI extends JFrame implements MouseListener {
 
 
     public void changeMainInfo(int i) {
-        if (flag && i > 4 && i < 8) // Thay đổi nếu Thống kê đang dropdown
-        {
-            i = i + 2;
-        }
         switch (i) {
             case 0: // QUẢN LÝ Giao Vien
                 main.removeAll();
@@ -349,65 +343,37 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 break;
 
             case 2: //THỐNG KÊ
-            main.removeAll();
-            try {
-                main.add(new ThongKe(850,670));                
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
-
-            case 3: // THÔNG TIN TÀI KHOẢN HS VÀ GV
-                if (flag) {
-                    // Thêm 2 btn vào dưới "chức năng 3"
-                    navItem.add(4, "Học sinh:KhachHang_20px.png:KhachHang_20px_active.png");
-                    navItem.add(5, "Giáo viên:KhachHang_20px.png:KhachHang_20px_active.png");
-                    flag = false; // Thông báo là đang Dropdown
-                } else {
-                    // Xóa 2 btn của "chức năng 3"
-                    navItem.remove(4);
-                    navItem.remove(5);
-                    flag = true; // Thông báo là Dropdown đã ẩn
+                main.removeAll();
+                try {
+                    main.add(new ThongKe(850,670));                
                 }
-                outNav(); // Load lại phần Navigation
-                break;
-
-            case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
-            main.removeAll();
-            try {
-                main.add(new TTTK_HS(850, 670, this.userName));
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
-
-            case 5: // Chức năng 3.2: Thông tin tài khoản giáo viên
-            main.removeAll();
-            try {
-                main.add(new TTTK_GV(850, 670, this.userName));
-            }
-                 catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
-
-            
-            
-            case 6: // QUẢN LÝ Hoc Sinh
-                main.removeAll();
-                main.removeAll();
-                main.add(new QuanLyDiem());
+                    catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 main.repaint();
                 main.revalidate();
-                break;
+            break;
+
+            case 3: 
+                main.removeAll();
+                main.add(new ChangeAccount(850, 670));
+                main.repaint();
+                main.revalidate();
+            break;
+
+            case 4: 
+                main.removeAll();
+                main.add(new ThanhToanHocPhi());
+                main.repaint();
+                main.revalidate();
+            break;
+
+            case 5: 
+                main.removeAll();
+                main.add(new QuanLyDiem(850,670));
+                main.repaint();
+                main.revalidate();
+            break;
         
             // Other cases as needed
         }
