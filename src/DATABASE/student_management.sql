@@ -875,7 +875,37 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('admin', 'admin', 'admin', 1);
-
+('GV1', 'GV1@', 'GV', 1),
+('GV2', 'GV2@', 'GV', 1),
+('GV3', 'GV3@', 'GV', 1),
+('GV4', 'GV4@', 'GV', 1),
+('GV5', 'GV5@', 'GV', 1),
+('GV6', 'GV6@', 'GV', 1),
+('HS1', 'HS1@', 'HS', 1),
+('HS2', 'HS2@', 'HS', 1),
+('HS3', 'HS3@', 'HS', 1),
+('HS4', 'HS4@', 'HS', 1),
+('HS5', 'HS5@', 'HS', 1),
+('HS6', 'HS6@', 'HS', 1),
+('HS7', 'HS7@', 'HS', 1),
+('HS8', 'HS8@', 'HS', 1),
+('HS9', 'HS9@', 'HS', 1),
+('HS10', 'HS10@', 'HS', 1),
+('HS11', 'HS11@', 'HS', 1),
+('HS12', 'HS12@', 'HS', 1),
+('HS13', 'HS13@', 'HS', 1),
+('HS14', 'HS14@', 'HS', 1),
+('HS15', 'HS15@', 'HS', 1),
+('HS16', 'HS16@', 'HS', 1),
+('HS17', 'HS17@', 'HS', 1),
+('HS18', 'HS18@', 'HS', 1),
+('HS19', 'HS19@', 'HS', 1),
+('HS20', 'HS20@', 'HS', 1),
+('HS21', 'HS21@', 'HS', 1),
+('HS22', 'HS22@', 'HS', 1),
+('HS23', 'HS23@', 'HS', 1),
+('HS24', 'HS24@', 'HS', 1),
+('HS25', 'HS25@', 'HS', 1);
 --
 -- Indexes for dumped tables
 --
