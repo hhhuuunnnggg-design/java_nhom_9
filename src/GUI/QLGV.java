@@ -346,8 +346,8 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(840, 320));
-        String[] header = { "Mã giáo viên", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
+        scrollpane.setPreferredSize(new Dimension(830, 310));
+                String[] header = { "Mã giáo viên", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
                 "Ảnh chân dung" };
 
         if (gvBUS.getList() == null)

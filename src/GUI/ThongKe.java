@@ -74,7 +74,7 @@ public class ThongKe extends JPanel{
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.Y_AXIS));
         selectPanel.setOpaque(false);
 
-        l1 = new JLabel("DANH SÁCH THỐNG KÊ                    ");
+        l1 = new JLabel("DANH SÁCH THỐNG KÊ                                ");
         l1.setFont(new Font("Arial", Font.BOLD, 20));
         l1.setBorder(new EmptyBorder(10, 0, 0, 0));
         radioPanel = new JPanel();
