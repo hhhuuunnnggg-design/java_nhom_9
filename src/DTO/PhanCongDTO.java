@@ -11,7 +11,7 @@ public class PhanCongDTO {
         this.giaoVienID = giaoVienID;
         this.lopID = lopID;
         this.monHocID = monHocID;
-        // Initialize other attributes
+       // Initialize other attributes
     }
 
     // Getters and Setters

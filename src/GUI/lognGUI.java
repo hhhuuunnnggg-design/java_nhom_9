@@ -173,15 +173,13 @@ public class lognGUI extends JFrame {
 						ResultSet rs = ps.executeQuery();
 						if (rs.next()) {
 							System.out.println("Yes");
-
-							mainChinhGUI mf = new mainChinhGUI();
+							String username = jtf1.getText();
+						// System.out.println(username);
+							mainChinhGUI mf = new mainChinhGUI(username);
 							// Calculator mf=new Calculator();
 							mf.setVisible(true);
 							// mf.pack();
 							mf.setLocationRelativeTo(null);
-							// mf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-							mf.setSize(1300, 730);
-							// mainChinhGUI.title_tentk.setText("WelCome: "+jtf1.getText());
 							lognGUI.this.dispose();
 
 						} else {
