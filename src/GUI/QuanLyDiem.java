@@ -98,7 +98,7 @@ public class QuanLyDiem extends JPanel{
 
         radioPanel = new JPanel();
         radioPanel.setOpaque(false);
-        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 0));
+        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 0));
 
         b1 = new JLabel("Lớp");
         b2 = new JLabel("Môn học");
@@ -155,8 +155,6 @@ public class QuanLyDiem extends JPanel{
         filterBtn.setPreferredSize(new Dimension(110, 30));
         filterBtn.setBackground(new Color(31, 28, 77));
         filterBtn.setForeground(Color.WHITE);
-
-        
 
         detailPanel = new JPanel();
         detailPanel.setLayout(new BorderLayout());
@@ -510,9 +508,14 @@ public class QuanLyDiem extends JPanel{
         ChiTietDiemDTO ctd = new ChiTietDiemDTO(idhs, idmon, idhk, idhe, idnamhoc, diem);
         DTB_HocKyDTO dtb = new DTB_HocKyDTO(idhs, idhk, idnamhoc, diemHK);
 
+        if(tinhdiemHK(idhs, idhk, idnamhoc)>0) {
+            dtb.setDiemTrungBinh(tinhdiemHK(idhs, idhk, idnamhoc));
+        }
 
-        System.out.println(idhs+ tenhs+ lop+ mhbus.get(idmon).getTenMonHoc()+ idhe+ String.valueOf(diem)+ hkbus.get(idhk).getTenHocKy()+
-        String.valueOf(diemHK)+ outputNam+ String.valueOf(diemCanam));
+        if(tinhDiemCN(idhs, idnamhoc)>0){
+            diemnamhoc.setDiemTrungBinhNam(tinhDiemCN(idhs, idnamhoc));
+        }
+        
         Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, String.valueOf(diem), hkbus.get(idhk).getTenHocKy(),
             String.valueOf(diemHK), outputNam, String.valueOf(diemCanam)};
             
@@ -601,12 +604,11 @@ public class QuanLyDiem extends JPanel{
         String hocluc = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHocLuc():"";//check null
         String hanhkiem = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getHanhKiem():"Tốt";//
         String ketqua = kqbus.get(idhs, idnamhoc)!=null?kqbus.get(idhs, idnamhoc).getKetQua():"";//
-
         KQ_HocSinhCaNamDTO diemnamhoc = new KQ_HocSinhCaNamDTO(idhs, idnamhoc, hocluc, hanhkiem, diemCanam, ketqua);
         
         ChiTietDiemDTO ctd = new ChiTietDiemDTO(idhs, idmon, idhk, idhe, idnamhoc, diem);
         DTB_HocKyDTO dtb = new DTB_HocKyDTO(idhs, idhk, idnamhoc, diemHK);
-
+        
         System.out.println("check db delete------------");
             ctbus.delete(ctd);
             System.out.println(ctd);
@@ -633,33 +635,60 @@ public class QuanLyDiem extends JPanel{
             return count;
         }
 
-    // public Float tinhdiemHK(String idhs, String idhk, String idnamhoc){
-    //     Float d= (float) 0.0;
-    //     hkbus.get(idhk);
-    //     nhbus.get(idnamhoc);
-    //     hsbus.get(idhs);
-    //     for(HocKyDTO hk:dshk);
-    //     {
-    //         dshs = hsbus.getList();
-    //         dskq = kqbus.getList();
-    //         dsmon = mhbus.getList();
-    //         dsct = ctbus.getList();
-    //         dsdtb = dtbbus.getList();
-    //         dshk = hkbus.getList();
-    //         dsnh = nhbus.getList();
-    //     }
+        public Float tinhdiemHK(String idhs, String idhk, String idnamhoc){
+            Float dhk= (float) 0.0;
+            
+            hkbus.get(idhk);
 
-    //     for (MonHocDTO mon : dsmon){
+            nhbus.get(idnamhoc);
+            hsbus.get(idhs);
+            
+            dshs = hsbus.getList();
+            dskq = kqbus.getList();
+            dsmon = mhbus.getList();
+            dsct = ctbus.getList();
+            dsdtb = dtbbus.getList();
+            dshk = hkbus.getList();
+            dsnh = nhbus.getList();
+            
+            Float dtbmon= (float) 0.0;
+            Float tongmon= (float) 0.0;
+            for (MonHocDTO mon : dsmon){
+                dtbmon= (float) 0.0;
+                for( int heso =1;heso <4;heso++){
+                    String idmon = mon.getMonHocID();
+                    if(ctbus.get(idhs, idnamhoc, idhk, idmon, heso)==null) return (float) -1;
+                    Float diem = (ctbus.get(idhs, idnamhoc, idhk, idmon, heso)!=null) || 
+                    (ctbus.get(idhs, idnamhoc, idhk, idmon, heso).getDiem()<0.0)?ctbus.get(idhs, idnamhoc, idhk, idmon, heso).getDiem():(float)-1;
+                    if(String.valueOf(diem)!=null &&
+                    diem>=(float)0.0){
+                        System.out.println(mhbus.get(idmon));
 
-    //         for( int heso =1;heso <4;heso++){
+                        System.out.println(" he so---"+heso);
 
-    //         }
-    //     }
-        
-    // } 
-    // public Float tinhdiemCN(){
+                        tongmon += diem*heso;
+                        System.out.println(tongmon);
+                        
+                    }
+                }
+                dtbmon += tongmon/6;
+                tongmon= (float) 0.0;
+                dhk += dtbmon;
 
-    // }
+            }
+            dhk /=(dsmon.size());
+            
+            if (dhk==0.0) return (float) -1;
+
+            return dhk;
+        }
+    public Float tinhDiemCN(String idhs, String idnh){
+
+            if(tinhdiemHK(idhs, "1", idnh) > 0 && tinhdiemHK(idhs, "2", idnh)>0){
+                return (float) (tinhdiemHK(idhs, "1", idnh) + tinhdiemHK(idhs, "2", idnh))/2;
+            }
+            return (float) -1;
+    }
     public static void main(String[] args) {
         new QuanLyDiem(850,670);
     }
