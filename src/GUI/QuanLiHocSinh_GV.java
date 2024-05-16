@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -43,7 +44,7 @@ import DTO.HocSinhDTO;
  * @author vhuyn
  */
 public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, ActionListener {
-    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai;
+    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai, img;
     private JLabel lblimg;
     private JButton btnFind, btnReset;
     private DefaultTableModel tblmodel;
@@ -93,12 +94,12 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         JPanel p1 = JHocsinh();
         p1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
         p1.setBackground(myColor);
-        p1.setPreferredSize(new Dimension(0, 200));
+        p1.setPreferredSize(new Dimension(0, 0));
 
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 340));
+        p2.setPreferredSize(new Dimension(0, 320));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -116,14 +117,12 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         JPanel JSearch = new JPanel();
         JSearch.setLayout(new FlowLayout(1, 10, 5));
 
-        JLabel imgSearch = new JLabel();
+        java.net.URL imageURL_Search = getClass().getResource("/image/search_qlhs.png");
+        ImageIcon orgIcon_Search = new ImageIcon(imageURL_Search);
+        Image scaleImg_Search = orgIcon_Search.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+
+        JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Search));
         imgSearch.setPreferredSize(new Dimension(50, 50));
-        imgSearch.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
-        String imagePath = "C:\\Users\\vhuyn\\OneDrive\\Documents\\NetBeansProjects\\do_an\\src\\main\\java\\image\\b1_cahoigionvothantre.jpg";
-
-        ImageIcon icon = new ImageIcon(imagePath);
-
-        imgSearch.setIcon(icon);
 
         JsearchText = new JTextField();
         JsearchText.setPreferredSize(new Dimension(300, 40));
@@ -132,9 +131,6 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         lblSearch.setFont(new Font("arial", Font.BOLD, 14));
         String searchOption[] = { "Mã học sinh", "Họ và tên" };
         searchselectBox = new JComboBox<>(searchOption);
-
-        imgSearch.setOpaque(true);
-        imgSearch.setIcon(new ImageIcon(""));
 
         btnReset = new JButton("Reset");
         btnReset.setBackground(btnResets);
@@ -160,9 +156,13 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         Pchucnang.setLayout(new FlowLayout(0, 5, 5));
         Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
 
-        btnFind = new JButton("Tìm kiếm");
+        java.net.URL imageURL_Find = getClass().getResource("/image/btnsearch_qlhs1.png");
+        ImageIcon orgIcon_Find = new ImageIcon(imageURL_Find);
+        Image scaleImg_Find = orgIcon_Find.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
+        btnFind = new JButton(new ImageIcon(scaleImg_Find));
         btnFind.setPreferredSize(new Dimension(140, 40));
         btnFind.setBorder(raisedBevel);
+
         Pchucnang.setBackground(myColor);
         defaultColor = btnFind.getBackground();
         Pchucnang.add(btnFind);
@@ -172,7 +172,8 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
         Phocsinh.setLayout(null);
-        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Số điện thoại", "Địa chỉ" };
+        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Số điện thoại", "Địa chỉ",
+                "IMG" };
         int lenght = arrHocsinh.length;
         tf = new JTextField[lenght];
         buttons = new JButton[lenght];
@@ -191,7 +192,7 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
             toadoYbutton = toadoYbutton + 35;
             Phocsinh.add(buttons[i]);
             tf[i] = new JTextField();
-            tf[i].setBounds(toadoXTextfield, toadoYTextfield, 285, 30);
+            tf[i].setBounds(toadoXTextfield, toadoYTextfield, 315, 30);
             tf[i].setFont(new Font("Arial", Font.BOLD, 12));
             tf[i].setBorder(border);
             tf[i].setName("text" + i);
@@ -220,7 +221,7 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(840, 340));
+        scrollpane.setPreferredSize(new Dimension(840, 320));
         String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
                 "Ảnh chân dung" };
 
@@ -301,6 +302,24 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         tf[4].setText(sodienthoai);
         diachi = (String.valueOf(t.getValueAt(Row, 4)));
         tf[5].setText(diachi);
+        img = (String.valueOf(t.getValueAt(Row, 6)));
+        tf[6].setText(img);
+
+        if (!img.isEmpty()) {
+            String path = "/image/Avatar/" + img;
+            java.net.URL imgHS = getClass().getResource(path);
+            ImageIcon orgIcon_HS = new ImageIcon(imgHS);
+            Image scaleImg_HS = orgIcon_HS.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
+                    Image.SCALE_SMOOTH);
+
+            ImageIcon scaledImage_HS = new ImageIcon(scaleImg_HS);
+
+            // Hiển thị hình ảnh trên JLabel
+            lblimg.setIcon(scaledImage_HS);
+        } else {
+            lblimg.setIcon(null);
+        }
+
     }
 
     public static void main(String argv[]) throws SQLException {

@@ -46,7 +46,7 @@ import DTO.PhanLopDTO;
 public class QuanLyDiem extends JPanel{
    // private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, btnPanel2, contentPanel, detailPanel, main_detailPanel;
-    private JRadioButton b1, b2, b3, b4, b5, b6;
+    private JLabel b1, b2, b3, b4, b5, b6;
     private JComboBox<String> optionLop, optionMon, optionHe, optionHocky, optionNam;
     private JTextField s, inputID, outputDiem;
     private JLabel l1, l2;
@@ -96,37 +96,27 @@ public class QuanLyDiem extends JPanel{
 
         radioPanel = new JPanel();
         radioPanel.setOpaque(false);
-        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 0));
+        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 0));
 
-        b1 = new JRadioButton("Lớp");
-        b2 = new JRadioButton("Môn học");
-        b3 = new JRadioButton("Mã HS");
-        b4 = new JRadioButton("Hệ điểm");
-        b5 = new JRadioButton("Học kỳ");
-        b6 = new JRadioButton("Năm học");
+        b1 = new JLabel("Lớp");
+        b2 = new JLabel("Môn học");
+        b3 = new JLabel("Mã HS");
+        b4 = new JLabel("Hệ điểm");
+        b5 = new JLabel("Học kỳ");
+        b6 = new JLabel("Năm học");
 
         JRadioButton dummyButton = new JRadioButton();
         dummyButton.setVisible(false);
 
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(b1);
-        buttonGroup.add(b2);
-        buttonGroup.add(b3);
-        buttonGroup.add(b4);
-        buttonGroup.add(b5);
-        buttonGroup.add(b6);
-        buttonGroup.add(dummyButton);
-        
-        JRadioButton[] buttons = {b1, b2, b3, b4, b5, b6};
-
+        JLabel[] buttons = {b1, b2, b3, b4, b5, b6};        
         Color color = new Color(180, 204, 227);
-        for (JRadioButton button : buttons) {
+        for (JLabel button : buttons) {
             button.setBackground(color);
         }
 
         dropdownPanel = new JPanel();
         dropdownPanel.setOpaque(false);
-        dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 36, 0));
+        dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
 
         String[] c1 = {"Tất cả","10A1" ,"11A1", "12A1"};
         optionLop = new JComboBox<>(c1);
@@ -164,11 +154,7 @@ public class QuanLyDiem extends JPanel{
         filterBtn.setBackground(new Color(31, 28, 77));
         filterBtn.setForeground(Color.WHITE);
 
-        JButton deselectButton = new JButton("Xóa lựa chọn");
-        deselectButton.addActionListener(e -> {
-            buttonGroup.clearSelection(); // Deselect all buttons
-        });
-        deselectButton.setPreferredSize(new Dimension(110, 30));
+        
 
         detailPanel = new JPanel();
         detailPanel.setLayout(new BorderLayout());
@@ -205,7 +191,6 @@ public class QuanLyDiem extends JPanel{
         detailPanel.add(main_detailPanel);
 
 /////////
-        btnPanel.add(deselectButton, gbcShowBtn );
         btnPanel.add(filterBtn,gbcExportBtn);
 
         totalPanel.add(l2);
@@ -579,6 +564,7 @@ public class QuanLyDiem extends JPanel{
                 int row = t.getSelectedRow();
                 tblModel.removeRow(row);
                 tblModel.addRow(rowData);
+                resetOutput();
             }
             else{
                 return;
@@ -628,7 +614,7 @@ public class QuanLyDiem extends JPanel{
             System.out.println(diemnamhoc);
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-        resetOutput();
+        
     }
     private int countUniqueIDs(DefaultTableModel model) {
             int rowCount = model.getRowCount();
@@ -644,9 +630,17 @@ public class QuanLyDiem extends JPanel{
             }
             return count;
         }
-    // public static void main(String[] args) {
-    //     new QuanLyDiem();
+
+    // public Float tinhdiemHK(String idhs, String idmon, String idhk, String idhe, String idnamhoc){
+    //     Float d= (float) 0.0;
+    //     hkbus.
+    // } 
+    // public Float tinhdiemCN(){
+
+    // }
+    public static void main(String[] args) {
+        new QuanLyDiem();
 
         
-    // }
+    }
 }

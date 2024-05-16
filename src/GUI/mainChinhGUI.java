@@ -185,7 +185,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 navItem = new ArrayList<>();
                 navItem.add("Quản lí điểm :Shop_20px.png:Shop_20px_active.png");
                 navItem.add("Quản lí học sinh:QLSP_20px.png:QLSP_20px_active.png");
-                navItem.add("Thông tin tài khoản giáo viên:NhanVien_20px.png:NhanVien_20px_active.png");
+                navItem.add("Thông tin tài khoản:NhanVien_20px.png:NhanVien_20px_active.png");
                 navItem.add("Đổi mật khẩu:KhachHang_20px.png:KhachHang_20px_active.png");
                 outNav();
         
@@ -265,7 +265,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 break;  
             case 2:
                 main.removeAll();
-                main.add(new DoiMK(850,670));
+                main.add(new DoiMK(850,670,userName));
                 main.repaint();
                 main.revalidate();
                 break;  
@@ -309,7 +309,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             case 3: // THÔNG TIN TÀI KHOẢN HS VÀ GV
                 main.removeAll();
                 main.repaint();
-                main.add(new DoiMK(850, 670));
+                main.add(new DoiMK(850, 670,userName));
                 main.revalidate();
             break;
         }
@@ -375,22 +375,22 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 outNav(); // Load lại phần Navigation
                 break;
 
-            // case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
-            // main.removeAll();
-            // try {
-            //     main.add(new TTTK_HS(850, 670));
-            // }
-            //      catch (SQLException e) {
-            //     e.printStackTrace();
-            // }
-            // main.repaint();
-            // main.revalidate();
-        // break;
+            case 4: // Chức năng 3.1: Thông tin tài khoản học sinh
+            main.removeAll();
+            try {
+                main.add(new TTTK_HS(850, 670, this.userName));
+            }
+                 catch (SQLException e) {
+                e.printStackTrace();
+            }
+            main.repaint();
+            main.revalidate();
+            break;
 
             case 5: // Chức năng 3.2: Thông tin tài khoản giáo viên
             main.removeAll();
             try {
-                main.add(new TTTK_GV(850, 670, userName));
+                main.add(new TTTK_GV(850, 670, this.userName));
             }
                  catch (SQLException e) {
                 e.printStackTrace();

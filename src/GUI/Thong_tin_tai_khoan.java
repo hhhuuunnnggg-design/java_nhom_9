@@ -263,7 +263,6 @@ public class Thong_tin_tai_khoan extends JFrame {
     }
 
     public static void main(String[] args) {
-        Thong_tin_tai_khoan tttk = new Thong_tin_tai_khoan();
-        tttk.setVisible(true);
+         new Thong_tin_tai_khoan();
     }
 }

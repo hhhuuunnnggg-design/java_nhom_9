@@ -130,8 +130,7 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         Color searchPanel = new Color(180, 204, 227);
         this.setLayout(new BorderLayout());
         JPanel p3 = searchGV();
-        // p3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,0,0) , 4
-        // , true));
+        
         p3.setPreferredSize(new Dimension(0, 60));
         p3.setBackground(searchPanel);
 
@@ -143,7 +142,7 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 305));
+        p2.setPreferredSize(new Dimension(0, 320));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -347,7 +346,7 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(840, 305));
+        scrollpane.setPreferredSize(new Dimension(840, 320));
         String[] header = { "Mã giáo viên", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
                 "Ảnh chân dung" };
 
@@ -474,6 +473,7 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         String soDienThoai = tf[4].getText();
         String diaChi = tf[5].getText();
         String IMG = tf[6].getText();
+
 
 
         GiaoVienDTO giaovien = new GiaoVienDTO(giaovienID,ngaySinh, tenHocSinh, gioiTinh, IMG, soDienThoai, diaChi);

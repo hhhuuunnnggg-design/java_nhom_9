@@ -12,15 +12,18 @@ public class TTTK_HS extends JPanel {
     private JTextField tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10;
     private JLabel jl2, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14;
     private JPanel rightPanel;
-    String mahs;
-    HocSinhBUS hsbus = new HocSinhBUS(1);
-    NamHocBUS nhbus = new NamHocBUS(1);
-    KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
-    LopBUS Lopbus = new LopBUS(1);
-    PhanLopBUS plbus = new PhanLopBUS(1);
+    private String username;
+    private int width, height;
+    private HocSinhBUS hsbus = new HocSinhBUS(1);
+    private NamHocBUS nhbus = new NamHocBUS(1);
+    private KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
+    private LopBUS Lopbus = new LopBUS(1);
+    private PhanLopBUS plbus = new PhanLopBUS(1);
 
-    public TTTK_HS(int width, int height,String mahs) throws SQLException {
-        this.mahs = mahs;
+    public TTTK_HS(int width, int height, String username) throws SQLException {
+        this.width = width;
+        this.height = height;
+        this.username = username;  // Lưu trữ username
         this.setSize(new Dimension(width, height));
         this.setBackground(Color.red);
         this.setLayout(new BorderLayout());
@@ -34,7 +37,6 @@ public class TTTK_HS extends JPanel {
 
         loaddatatoPanel();
         this.setVisible(true);
-
     }
 
     private void addComponentsToPanel() {
@@ -99,7 +101,7 @@ public class TTTK_HS extends JPanel {
         ArrayList<LopDTO> dsLop = Lopbus.getList();
 
         for (HocSinhDTO hs : dshs) {
-            if (mahs.equals(hs.getHocSinhID())) {
+            if (username.equals(hs.getHocSinhID())) {  // Sử dụng username để lấy thông tin học sinh
                 String idhs = hs.getHocSinhID();
                 for (NamHocDTO nam : dsnh) {
                     for (PhanLopDTO pl : dsPL) {
