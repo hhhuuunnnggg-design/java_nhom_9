@@ -99,7 +99,7 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 320));
+        p2.setPreferredSize(new Dimension(0, 330));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -172,7 +172,7 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
         Phocsinh.setLayout(null);
-        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
+        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Số điện thoại", "Địa chỉ",
                 "IMG" };
         int lenght = arrHocsinh.length;
         tf = new JTextField[lenght];
@@ -221,8 +221,8 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 310));
-                String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
+        scrollpane.setPreferredSize(new Dimension(835, 320));
+                String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Số điện thoại", "Địa chỉ",
                 "Ảnh chân dung" };
 
         if (hsgvBUS.getList() == null)
