@@ -21,15 +21,6 @@ import javax.swing.SwingConstants;
 import BUS.ChangeAcc_BUS;
 import DTO.Account_DTO;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author vhuyn
- */
 public final class ChangeAccount extends JPanel implements MouseListener, ActionListener {
     JLabel lbl1, lblTK, lblMK, lblRMK;
     JButton btnFinish;
@@ -58,15 +49,17 @@ public final class ChangeAccount extends JPanel implements MouseListener, Action
         group = new ButtonGroup();
 
         lbl1 = new JLabel("Chọn loại tài khoản muốn thay đổi: ");
-        lbl1.setFont(new Font("arial", Font.BOLD, 16));
+        lbl1.setFont(new Font("Arial", Font.BOLD, 20)); // Tăng kích thước phông chữ
         lbl1.setBackground(color);
         lbl1.setOpaque(true);
 
         checkHS = new JCheckBox("Học sinh");
         checkHS.setBackground(color);
+        checkHS.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
 
         checkGV = new JCheckBox("Giáo viên");
         checkGV.setBackground(color);
+        checkGV.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
 
         group.add(checkHS);
         group.add(checkGV);
@@ -74,45 +67,46 @@ public final class ChangeAccount extends JPanel implements MouseListener, Action
         lblTK = new JLabel("Nhập mã tài khoản: ");
         lblTK.setHorizontalAlignment(SwingConstants.RIGHT);
         textTK = new JTextField();
-        textTK.setFont(new Font("Arial", Font.BOLD, 12));
+        textTK.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
 
         lblMK = new JLabel("Nhập mật khẩu mới: ");
         lblMK.setHorizontalAlignment(SwingConstants.RIGHT);
         textMK = new JTextField();
-        textMK.setFont(new Font("Arial", Font.BOLD, 12));
+        textMK.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
 
         lblRMK = new JLabel("Xác nhận lại mật khẩu mới: ");
         lblRMK.setHorizontalAlignment(SwingConstants.RIGHT);
         textRMK = new JTextField();
-        textRMK.setFont(new Font("Arial", Font.BOLD, 12));
+        textRMK.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
 
-        lblTK.setFont(new Font("arial", Font.BOLD, 14));
-        lblMK.setFont(new Font("arial", Font.BOLD, 14));
-        lblRMK.setFont(new Font("arial", Font.BOLD, 14));
+        lblTK.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
+        lblMK.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
+        lblRMK.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
 
-        lblTK.setBounds(230, 120, 200, 20);
-        textTK.setBounds(440, 120, 150, 20);
-        lblMK.setBounds(230, 170, 200, 20);
-        textMK.setBounds(440, 170, 150, 20);
-        lblRMK.setBounds(230, 230, 200, 20);
-        textRMK.setBounds(440, 230, 150, 20);
+        lblTK.setBounds(230, 120, 200, 30); // Tăng kích thước chiều cao
+        textTK.setBounds(440, 120, 250, 30); // Tăng kích thước chiều cao và chiều rộng
+        lblMK.setBounds(230, 170, 200, 30); // Tăng kích thước chiều cao
+        textMK.setBounds(440, 170, 250, 30); // Tăng kích thước chiều cao và chiều rộng
+        lblRMK.setBounds(180, 230, 250, 30); // Tăng kích thước chiều cao
+        textRMK.setBounds(440, 230, 250, 30); // Tăng kích thước chiều cao và chiều rộng
 
         btnFinish = new JButton("Hoàn tất");
+        btnFinish.setFont(new Font("Arial", Font.BOLD, 18)); // Tăng kích thước phông chữ
 
         pHead = new JPanel();
         pContent = new JPanel();
         pFooter = new JPanel();
         pHead.setPreferredSize(new Dimension(0, 100));
-        pHead.setBackground(Color.GRAY);
+        pHead.setBackground(new Color(180,204,227));
         pContent.setPreferredSize(new Dimension(0, 0));
         pContent.setBackground(color);
         pFooter.setPreferredSize(new Dimension(0, 100));
-        pFooter.setBackground(Color.GRAY);
+        pFooter.setBackground(new Color(180,204,227));
 
         pContent.setLayout(null);
-        lbl1.setBounds(30, 30, 300, 40);
-        checkHS.setBounds(360, 37, 100, 27);
-        checkGV.setBounds(480, 37, 100, 27);
+        lbl1.setBounds(30, 30, 400, 40); // Tăng kích thước chiều rộng và chiều cao
+        checkHS.setBounds(450, 37, 150, 27); // Tăng kích thước chiều rộng
+        checkGV.setBounds(600, 37, 150, 27); // Tăng kích thước chiều rộng
         pContent.add(lbl1);
         pContent.add(checkHS);
         pContent.add(checkGV);
@@ -125,7 +119,7 @@ public final class ChangeAccount extends JPanel implements MouseListener, Action
         pContent.add(textRMK);
         pContent.add(btnFinish);
 
-        btnFinish.setBounds(380, 330, 100, 30);
+        btnFinish.setBounds(380, 330, 150, 40); // Tăng kích thước chiều rộng và chiều cao
         btnFinish.setOpaque(true);
 
         this.add(pHead, BorderLayout.NORTH);
@@ -161,11 +155,6 @@ public final class ChangeAccount extends JPanel implements MouseListener, Action
         textRMK.setText("");
     }
 
-    // public static void main(String[] args) {
-    //     ChangeAccount change = new ChangeAccount(850, 670);
-    //     change.setVisible(true);
-    // }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == checkHS) {
@@ -173,44 +162,27 @@ public final class ChangeAccount extends JPanel implements MouseListener, Action
         } else if (e.getSource() == checkGV) {
             textTK.setText("GV");
         }
-
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnFinish) {
-
             if (areFieldsEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -230,7 +202,6 @@ public final class ChangeAccount extends JPanel implements MouseListener, Action
                     "Bạn có chắc sửa mật khẩu này không này",
                     "Tài khoản",
                     JOptionPane.YES_NO_OPTION,
-
                     JOptionPane.QUESTION_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
                 JOptionPane.showMessageDialog(this,
@@ -241,9 +212,5 @@ public final class ChangeAccount extends JPanel implements MouseListener, Action
                 clearTextFields();
             }
         }
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'actionPerformed'");
     }
-
 }
