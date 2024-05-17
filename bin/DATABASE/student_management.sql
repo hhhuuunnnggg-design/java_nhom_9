@@ -892,12 +892,6 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('admin', 'admin', 'admin', 1),
-('GV2', 'Phường 2, Gò Vấp', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV3', 'Trảng Bàng', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV001', 'huynhgiavi', '', 1),
 ('GV1', 'GV1@', 'GV', 1),
 ('GV2', 'GV2@', 'GV', 1),
 ('GV3', 'GV3@', 'GV', 1),

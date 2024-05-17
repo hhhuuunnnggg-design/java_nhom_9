@@ -48,5 +48,8 @@
       "lib/poi-ooxml-lite-5.2.3.jar"
     ]
   },
-  "java.debug.settings.onBuildFailureProceed": true
+  "java.debug.settings.onBuildFailureProceed": true,
+  "cSpell.words": [
+    "Taikhoan"
+  ]
 }
