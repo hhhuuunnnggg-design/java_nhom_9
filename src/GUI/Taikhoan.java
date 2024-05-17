@@ -117,6 +117,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         btnXoa.addMouseListener(this);
         btnSua.addMouseListener(this);
         btnFind.addMouseListener(this);
+        btnReset.addMouseListener(this);
         JsearchText.addMouseListener(this);
         btnExpExcel.addMouseListener(this);
     }
@@ -423,7 +424,22 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         tf[3].setText(enable);
 
     }
+    public void resetTable() {
+        // Xóa toàn bộ dữ liệu trong bảng
+        // int rowCount = tblmodel.getRowCount();
+        // for (int i = rowCount - 1; i >= 0; i--) {
+        //     tblmodel.removeRow(i);
+        // }
+        // Tải lại dữ liệu từ nguồn dữ liệu mới vào bảng
 
+            // Khởi tạo lại bảng với dữ liệu mới
+            clearTextFields();
+            t.repaint(); // Cập nhật hiển thị của bảng
+            t.setRowSorter(new TableRowSorter<>(tblmodel));
+    }
+    
+    
+    
     public void btnAdd_actionPerformed() {
         if (checkEmpty()) {
             JOptionPane.showMessageDialog(this, "Hãy điền đầy đủ các thông tin", "Error",
@@ -687,11 +703,11 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
             System.out.println("Button Find clicked");
             btnFind_actionPerformed();
         } else if (e.getSource() == btnReset) {
-            System.out.println("Button Find clicked");
-            clearTextFields();
+            System.out.println("Button Reset clicked");
+            resetTable();
         } else if (e.getSource() == btnExpExcel) {
             try {
-                System.out.println("Button Find clicked");
+                System.out.println("Button Export clicked");
                 exportExcel();
             } catch (IOException ex) {
                 ex.printStackTrace();
