@@ -7,7 +7,9 @@ public class gopykien {
     JFrame f;
     JPanel mainPanel;
     JLabel[] label;
-    JTextField txtHeader, txtContent;
+    JTextField txtHeader;
+    JTextArea txtContent;
+    JButton btnGui; // Added button
 
     public gopykien() {
         f = new JFrame();
@@ -28,15 +30,21 @@ public class gopykien {
         }
         label[0].setText("Tiêu đề:"); // Adjusted label index
         label[0].setBounds(150, 50, 100, 30); // Adjusted position
-        label[1].setText("Nhập nội dung thông báo:"); // Adjusted label index
+        label[1].setText("Nhập ý kiến đóng góp:"); // Adjusted label index
         label[1].setBounds(150, 100, 250, 30); // Adjusted position
 
         txtHeader = new JTextField();
         txtHeader.setBounds(250, 50, 400, 30); // Adjusted position and size
         txtHeader.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and bold
-        txtContent = new JTextField();
+        
+        txtContent = new JTextArea(); // Changed from JTextField to JTextArea
         txtContent.setBounds(150, 150, 600, 300); // Adjusted position and size
         txtContent.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and bold
+        txtContent.setLineWrap(true); // Enable text wrapping
+        txtContent.setWrapStyleWord(true); // Wrap at word boundaries
+
+        btnGui = new JButton("Gửi"); // Create button
+        btnGui.setBounds(700, 500, 100, 30); // Set position and size
 
         // Add components to main panel
         for (JLabel jLabel : label) {
@@ -44,6 +52,7 @@ public class gopykien {
         }
         mainPanel.add(txtHeader);
         mainPanel.add(txtContent);
+        mainPanel.add(btnGui); // Add button to panel
 
         f.add(mainPanel);
         f.setVisible(true);

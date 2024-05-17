@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2024 at 08:20 AM
+-- Generation Time: May 17, 2024 at 08:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -892,6 +892,12 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('admin', 'admin', 'admin', 1),
+('GV2', 'Phường 2, Gò Vấp', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV3', 'Trảng Bàng', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV001', 'huynhgiavi', '', 1),
 ('GV1', 'GV1@', 'GV', 1),
 ('GV2', 'GV2@', 'GV', 1),
 ('GV3', 'GV3@', 'GV', 1),
@@ -948,9 +954,8 @@ CREATE TABLE `ykien` (
   `tieudeyk` text DEFAULT NULL,
   `noidungyk` text DEFAULT NULL,
   `thoigianyk` varchar(50) DEFAULT NULL,
-  `tenhs` varchar(50) NOT NULL,
-  `tenlop` varchar(50) NOT NULL,
-  `trangthai` varchar(50) NOT NULL
+  `tenhs` varchar(50) DEFAULT NULL,
+  `trangthai` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

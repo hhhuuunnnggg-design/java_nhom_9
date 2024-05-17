@@ -11,7 +11,16 @@ public class ThongBaoDTO {
     public ThongBaoDTO() {
     }
 
-    // Getters and Setters
+    
+    public ThongBaoDTO(String idnguoigui, String tieudetb, String noidungtb, String thoigiantb, String loaitb) {
+        this.idnguoigui = idnguoigui;
+        this.tieudetb = tieudetb;
+        this.noidungtb = noidungtb;
+        this.thoigiantb = thoigiantb;
+        this.loaitb = loaitb;
+    }
+
+
     public String getIdnguoigui() {
         return idnguoigui;
     }

@@ -8,7 +8,9 @@ public class admin_gui_tb {
     JPanel mainPanel;
     JLabel[] label;
     JCheckBox checkboxHS, checkboxGV;
-    JTextField txtHeader, txtContent;
+    JTextField txtHeader;
+    JTextArea txtContent;
+    JButton btnGui;
 
     public admin_gui_tb() {
         f = new JFrame();
@@ -46,9 +48,16 @@ public class admin_gui_tb {
         txtHeader = new JTextField();
         txtHeader.setBounds(300, 100, 300, 30);
         txtHeader.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and bold
-        txtContent = new JTextField();
+        
+        txtContent = new JTextArea();
         txtContent.setBounds(150, 200, 600, 300);
         txtContent.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and bold
+        txtContent.setLineWrap(true); // Enable text wrapping
+        txtContent.setWrapStyleWord(true); // Wrap at word boundaries
+        
+        btnGui = new JButton("Gui");
+        btnGui.setBounds(700, 550, 100, 30); // Adjusted position and size
+        btnGui.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and bold
 
         // Add components to main panel
         for (JLabel jLabel : label) {
@@ -58,6 +67,7 @@ public class admin_gui_tb {
         mainPanel.add(checkboxGV);
         mainPanel.add(txtHeader);
         mainPanel.add(txtContent);
+        mainPanel.add(btnGui);
 
         f.add(mainPanel);
         f.setVisible(true);

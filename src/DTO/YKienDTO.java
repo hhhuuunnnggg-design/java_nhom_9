@@ -6,12 +6,22 @@ public class YKienDTO {
     private String noidungyk;
     private String thoigianyk;
     private String tenhs;
-    private String tenlop;
     private String trangthai;
 
     // Constructor
     public YKienDTO() {
     }
+    
+
+    public YKienDTO(String idnguoigui, String tieudeyk, String noidungyk, String thoigianyk, String tenhs) {
+        this.idnguoigui = idnguoigui;
+        this.tieudeyk = tieudeyk;
+        this.noidungyk = noidungyk;
+        this.thoigianyk = thoigianyk;
+        this.tenhs = tenhs;
+        this.trangthai = "Chưa xem";
+    }
+
 
     // Getters and Setters
     public String getIdnguoigui() {
@@ -54,13 +64,6 @@ public class YKienDTO {
         this.tenhs = tenhs;
     }
 
-    public String getTenlop() {
-        return tenlop;
-    }
-
-    public void setTenlop(String tenlop) {
-        this.tenlop = tenlop;
-    }
 
     public String getTrangthai() {
         return trangthai;
@@ -79,7 +82,6 @@ public class YKienDTO {
                 ", noidungyk='" + noidungyk + '\'' +
                 ", thoigianyk='" + thoigianyk + '\'' +
                 ", tenhs='" + tenhs + '\'' +
-                ", tenlop='" + tenlop + '\'' +
                 ", trangthai='" + trangthai + '\'' +
                 '}';
     }
