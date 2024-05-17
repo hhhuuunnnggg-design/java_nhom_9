@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2024 at 07:49 AM
+-- Generation Time: May 17, 2024 at 08:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -35,7 +35,7 @@ CREATE TABLE `chitietdiem` (
   `HocKyid` int(11) NOT NULL,
   `HeSoid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL DEFAULT '',
-  `Diem` int(11) DEFAULT NULL
+  `Diem` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -534,7 +534,7 @@ CREATE TABLE `diemtbhocky` (
   `HocSinhid` varchar(5) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL,
-  `DiemTrungBinh` float NOT NULL
+  `DiemTrungBinh` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -692,10 +692,10 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 CREATE TABLE `kqhocsinhcanam` (
   `HocSinhid` varchar(5) NOT NULL,
   `NamHocid` varchar(50) NOT NULL,
-  `HocLuc` varchar(50) NOT NULL,
-  `HanhKiem` varchar(10) NOT NULL DEFAULT 'Tốt',
-  `Diemtb` float NOT NULL,
-  `KetQua` varchar(50) NOT NULL
+  `HocLuc` varchar(50) DEFAULT NULL,
+  `HanhKiem` varchar(10) DEFAULT 'Tốt',
+  `Diemtb` float DEFAULT NULL,
+  `KetQua` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -866,11 +866,11 @@ INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
 --
 
 CREATE TABLE `thongbao` (
-  `stt` varchar(10) NOT NULL,
   `idnguoigui` varchar(11) NOT NULL,
   `tieudetb` text DEFAULT NULL,
   `noidungtb` text DEFAULT NULL,
-  `thoigiantb` varchar(11) DEFAULT NULL
+  `thoigiantb` varchar(11) DEFAULT NULL,
+  `loaitb` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -950,11 +950,13 @@ INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 --
 
 CREATE TABLE `ykien` (
-  `stt` varchar(10) NOT NULL,
   `idnguoigui` varchar(10) NOT NULL,
   `tieudeyk` text DEFAULT NULL,
   `noidungyk` text DEFAULT NULL,
-  `thoigianyk` varchar(50) DEFAULT NULL
+  `thoigianyk` varchar(50) DEFAULT NULL,
+  `tenhs` varchar(50) NOT NULL,
+  `tenlop` varchar(50) NOT NULL,
+  `trangthai` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1026,12 +1028,6 @@ ALTER TABLE `phancong`
 --
 ALTER TABLE `phanlop`
   ADD PRIMARY KEY (`HocSinhid`,`Lopid`);
-
---
--- Indexes for table `ykien`
---
-ALTER TABLE `ykien`
-  ADD PRIMARY KEY (`stt`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
