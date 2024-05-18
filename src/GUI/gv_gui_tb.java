@@ -260,14 +260,25 @@ public class gv_gui_tb {
                 JOptionPane.showMessageDialog(null, "Bạn chưa chọn đối tượng muốn gửi thông báo");
                 return;
             }
+            if (txtContent.getText().equals("") && txtHeader.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Thông báo không thể bỏ trống cả tiêu đề và nội dung");
+                return;
+            }
             ThongBaoDTO tb = new ThongBaoDTO(magiaovien, txtHeader.getText(), txtContent.getText(), String.valueOf(currDate.getYearAndDate()+" "+currDate.getTime()),loaitb);
 
             System.out.println("up thong bao to data");
 
             tbbus.add(tb);
+            JOptionPane.showMessageDialog(null, "Thông báo đã được gửi");
+            resetText();
+        }
+        public void resetText(){
+            txtContent.setText("");
+            txtHeader.setText("");
+            radioButtonHS.setSelected(false);
+            radioButtonLop.setSelected(false);
 
         }
-        
     }
     public static void main(String[] args) {
         new gv_gui_tb("GV3");
