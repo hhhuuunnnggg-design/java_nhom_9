@@ -14,6 +14,9 @@ public class CurrentDateTime {
     public String getYearAndDate(){
         return String.valueOf(currentDateTime.getDayOfMonth()+"-"+currentDateTime.getMonthValue()+"-"+this.getYear());
     }
+    public LocalDateTime getCurrentDateTime() {
+        return currentDateTime;
+    }
     public String getTime() {
         // Get the hour, minute, and second components
         int hour = currentDateTime.getHour();

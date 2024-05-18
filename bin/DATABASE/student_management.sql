@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2024 at 08:35 PM
+-- Generation Time: May 18, 2024 at 12:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -681,7 +681,7 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 ('HS6', 'Lý Văn Hưng', 'Nam', '23/10/2006', '0854321098', '456/32 Lý Thường Kiệt, Phường 6, Quận 11, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS7', 'Trần Văn Hòa', 'Nam', '17/7/2006', '0932109876', '789/32 Nguyễn Thị Minh Khai, Phường 3, Quận 1, TP.HCM,', 'Chưa thanh toán', '', 1),
 ('HS8', ' Phan Thị Hằng', 'Nữ', '30/5/2006', '0945671234', '567/89 Trần Não, Phường Bình An, Quận 2, TP.HCM', 'Chưa thanh toán', '', 1),
-('HS9', 'Võ Văn Đức huhu hh', 'Nam', '10/02/2007', '0978965432', '234/56 Cách Mạng Tháng 8, Phường 10, Quận 3, TP.HCM', 'Chưa thanh toán', '', 1);
+('HS9', 'Võ Văn Đức', 'Nam', '10/02/2007', '0978965432', '234/56 Cách Mạng Tháng 8, Phường 10, Quận 3, TP.HCM', 'Chưa thanh toán', '', 1);
 
 -- --------------------------------------------------------
 
@@ -869,9 +869,17 @@ CREATE TABLE `thongbao` (
   `idnguoigui` varchar(11) NOT NULL,
   `tieudetb` text DEFAULT NULL,
   `noidungtb` text DEFAULT NULL,
-  `thoigiantb` varchar(11) DEFAULT NULL,
+  `thoigiantb` varchar(50) DEFAULT NULL,
   `loaitb` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `thongbao`
+--
+
+INSERT INTO `thongbao` (`idnguoigui`, `tieudetb`, `noidungtb`, `thoigiantb`, `loaitb`) VALUES
+('GV3', 'day la tieu de gui toi hs20', 'chieu ra cong truong gap tao', '2024-05-18T17:41:34.739769100', 'HS20'),
+('GV3', 'cai nay gui toi nguyen cai lop 10a1', 'fix lai cai datetime tai vi dai qua', '18-5-2024 17:45:10', '10');
 
 -- --------------------------------------------------------
 

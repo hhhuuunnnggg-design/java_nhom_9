@@ -133,6 +133,9 @@ public class PhanCongBUS {
         PhanCongBUS phanCongBUS = new PhanCongBUS(1);
 
         // Display all PhanCongDTO
-        phanCongBUS.printAllAttributes();
+        
+        for (PhanCongDTO pc : phanCongBUS.search("GV3", null, null)) {
+            System.out.println(pc.toString());
+        }
     }
 }

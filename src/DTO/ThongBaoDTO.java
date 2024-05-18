@@ -5,7 +5,7 @@ public class ThongBaoDTO {
     private String tieudetb;
     private String noidungtb;
     private String thoigiantb;
-    private String loaitb;
+    private String loaitb;//id nguoi nhan
 
     // Constructor
     public ThongBaoDTO() {
