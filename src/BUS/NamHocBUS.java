@@ -146,23 +146,7 @@ public class NamHocBUS {
         return search;
     }
     
-    // public ArrayList<NamHocDTO> search(String id, String NamHoc) {
-    //     ArrayList<NamHocDTO> searchResult = new ArrayList<>();
-        
-    //     id = id == null ? "" : id;
-    //     NamHoc = (NamHoc == null || NamHoc.equals("Tất cả")) ? "" : NamHoc;
-    
-    //     for (NamHocDTO nh : dsnh) {
-    //         String academicYear = nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc();
-    //         if (nh.getNamHocID().contains(id) && academicYear.equals(NamHoc)) {
-    //             searchResult.add(nh);
-    //         }
-    //     }
-        
-    //     return searchResult;
-    // }
-    
-    
+
     public ArrayList<NamHocDTO> getList() {
         return dsnh;
     }
