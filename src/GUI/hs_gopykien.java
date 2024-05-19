@@ -1,17 +1,30 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class gopykien {
+import BUS.HocSinhBUS;
+import BUS.ThongBaoBUS;
+import BUS.YKienBUS;
+import DTO.CurrentDateTime;
+import DTO.YKienDTO;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class hs_gopykien {
     JFrame f;
     JPanel mainPanel;
     JLabel[] label;
     JTextField txtHeader;
     JTextArea txtContent;
     JButton btnGui; // Added button
+    private String mahocsinh;
+    HocSinhBUS hsbus = new HocSinhBUS(1);
+    YKienBUS ykbus = new YKienBUS(1);
 
-    public gopykien() {
+    public hs_gopykien(String mahocsinh) {
+        this.mahocsinh = mahocsinh;
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setLayout(new BorderLayout());
@@ -45,7 +58,7 @@ public class gopykien {
 
         btnGui = new JButton("Gửi"); // Create button
         btnGui.setBounds(700, 500, 100, 30); // Set position and size
-
+        btnGui.addActionListener(new SendBtnListener());
         // Add components to main panel
         for (JLabel jLabel : label) {
             mainPanel.add(jLabel);
@@ -58,7 +71,29 @@ public class gopykien {
         f.setVisible(true);
     }
 
+    public class SendBtnListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            CurrentDateTime currDate = new CurrentDateTime();
+
+            if (txtContent.getText().equals("") && txtHeader.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Thông báo không thể bỏ trống cả tiêu đề và nội dung");
+                return;
+            }
+            System.out.println("tao yk dto");
+            YKienDTO yk = new YKienDTO(mahocsinh, txtHeader.getText(), txtContent.getText(), currDate.getFormatDateTime(), hsbus.get(mahocsinh).getTenHocSinh());
+
+            System.out.println("up yk to data");
+            ykbus.add(yk);
+            JOptionPane.showMessageDialog(null, "Ý kiến đã được gửi");
+            resetText();
+        }
+        public void resetText(){
+            txtContent.setText("");
+            txtHeader.setText("");
+        }
+    }
     public static void main(String[] args) {
-        new gopykien();
+        new hs_gopykien("HS3");
     }
 }

@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class gv_gui_tb {
+public class gv_guiTB {
     JFrame f;
     JPanel mainPanel, background;
     JLabel[] label;
@@ -44,7 +44,7 @@ public class gv_gui_tb {
     PhanCongBUS pcbus = new PhanCongBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
     ThongBaoBUS tbbus = new ThongBaoBUS(1);
-    public gv_gui_tb(String magiaovien) {
+    public gv_guiTB(String magiaovien) {
         this.magiaovien = magiaovien;
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -281,6 +281,6 @@ public class gv_gui_tb {
         }
     }
     public static void main(String[] args) {
-        new gv_gui_tb("GV3");
+        new gv_guiTB("GV3");
     }
 }
