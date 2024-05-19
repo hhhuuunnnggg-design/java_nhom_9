@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -16,15 +17,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -38,13 +42,11 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
-
 import com.toedter.calendar.JDateChooser;
 
-import BUS.ChangeAcc_BUS;
-import BUS.QLHS_BUS;
+import BUS.QLPhanCongBUS;
 import DTO.HocSinhDTO;
-import DTO.Account_DTO;
+import DTO.QLPhanCongDTO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,18 +70,18 @@ import org.apache.poi.ss.usermodel.Workbook;
  *
  * @author vhuyn
  */
-public final class QuanLiHocSinh extends JPanel implements MouseListener, ActionListener {
-    private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai, img;
+public final class QuanLiPhanCong extends JFrame implements MouseListener, ActionListener {
     private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi, lblimg;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
-    // private JTable tbl;
     private JScrollPane scrollpane;
     JTextField[] tf;
     JButton[] buttons;
     JTable t;
     int width, height;
     private JComboBox<String> searchselectBox;
+    private JComboBox<String> searchselectBox1;
+    private JComboBox<String> searchselectBox2;
     private final Border raisedBevel = BorderFactory.createRaisedBevelBorder();
     Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
     private Color defaultColor;
@@ -88,13 +90,19 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     DefaultTableModel model;
     TableRowSorter<DefaultTableModel> sorter;
     JDateChooser dateChooser;
-    JComboBox<String> genderComboBox;
-    QLHS_BUS hsBUS = new QLHS_BUS();
+    JComboBox<String> phanlopComboBox;
+    JComboBox<String> phanmonComboBox;
     private static String pathAnhdd = "";
 
-    ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
+    QLPhanCongBUS pcBUS = new QLPhanCongBUS();
 
-    public QuanLiHocSinh(int width, int height) throws SQLException {
+    private String magv;
+    private String tengiaovien;
+    private String tenlop;
+    private String tenmon;
+    private JComboBox phangiaoviencomboBox;
+
+    public QuanLiPhanCong(int width, int height) throws SQLException {
         this.width = width;
         this.height = height;
         init();
@@ -110,18 +118,19 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         JsearchText.addMouseListener(this);
         btnExpExcel.addActionListener(this);
         btnExpExcel.addMouseListener(this);
+        phangiaoviencomboBox.addActionListener(this);
     }
 
     public void init() throws SQLException {
 
-        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Color myColor = new Color(99, 116, 198);
         Color searchPanel = new Color(180, 204, 227);
         this.setLayout(new BorderLayout());
         JPanel p3 = SearchHocSinh();
         // p3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,0,0) , 4
         // , true));
-        p3.setPreferredSize(new Dimension(0, 60));
+        p3.setPreferredSize(new Dimension(0, 50));
         p3.setBackground(searchPanel);
 
         JPanel p1 = JHocsinh();
@@ -132,7 +141,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 350));
+        p2.setPreferredSize(new Dimension(0, 345));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -140,8 +149,8 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         this.add(p3, BorderLayout.NORTH);
         this.setSize(new Dimension(width, height));
         this.setVisible(true);
-        // this.setLocationRelativeTo(null);
-        // this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     public JPanel SearchHocSinh() {
@@ -153,25 +162,34 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
 
         java.net.URL imageURL_Search = getClass().getResource("/image/search_qlhs.png");
         ImageIcon orgIcon_Search = new ImageIcon(imageURL_Search);
-        Image scaleImg_Search = orgIcon_Search.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image scaleImg_Search = orgIcon_Search.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 
         JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Search));
         imgSearch.setBackground(imgSearchlbl);
-        imgSearch.setPreferredSize(new Dimension(50, 50));
+        imgSearch.setPreferredSize(new Dimension(40, 40));
 
         JsearchText = new JTextField();
-        JsearchText.setPreferredSize(new Dimension(300, 40));
+        JsearchText.setPreferredSize(new Dimension(200, 30));
 
         JLabel lblSearch = new JLabel("Tìm kiếm theo: ");
         lblSearch.setFont(new Font("arial", Font.BOLD, 14));
-        String searchOption[] = { "Mã học sinh", "Họ và tên" };
+
+        pcBUS.listTenmh();
+        pcBUS.listTenlop();
+        ArrayList<String> listlop = pcBUS.getTenLopList();
+        ArrayList<String> listmh = pcBUS.getTenMHList();
+
+        String searchOption[] = { "None", "Mã giáo viên", "Họ và tên" };
         searchselectBox = new JComboBox<>(searchOption);
+
+        searchselectBox1 = new JComboBox<>(listlop.toArray(new String[0]));
+
+        searchselectBox2 = new JComboBox<>(listmh.toArray(new String[0]));
 
         java.net.URL imageURL = getClass().getResource("/image/home.png");
         ImageIcon originalIcon = new ImageIcon(imageURL); // Tạo ImageIcon từ đường dẫn
 
-        // Chỉnh kích thước ảnh
-        Image scaledImage = originalIcon.getImage().getScaledInstance(120, 40, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(80, 40, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         btnReset = new JButton(scaledIcon);
 
@@ -179,13 +197,15 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         btnReset.setForeground(Color.WHITE);
         Font font = new Font("Arial", Font.BOLD, 12);
         btnReset.setFont(font);
-        btnReset.setPreferredSize(new Dimension(120, 40));
+        btnReset.setPreferredSize(new Dimension(80, 40));
         // btnReset.setOpaque(true);
 
         JSearch.add(imgSearch);
         JSearch.add(JsearchText);
         JSearch.add(lblSearch);
         JSearch.add(searchselectBox);
+        JSearch.add(searchselectBox1);
+        JSearch.add(searchselectBox2);
         JSearch.add(btnReset);
 
         return JSearch;
@@ -195,7 +215,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     public JPanel JChucnang() {
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
-        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
+        Pchucnang.setLayout(new FlowLayout(0, 5, 5));
 
         java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
         ImageIcon orgIcon = new ImageIcon(imageURL_Add);
@@ -236,7 +256,10 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         btnExpExcel.setBorder(raisedBevel);
         btnExpExcel.setBackground(myColor);
 
-        Pchucnang.setBackground(myColor);
+        Color c = new Color(204, 204, 255);
+        // Pchucnang.setBackground(myColor);
+        Pchucnang.setBackground(c);
+
         defaultColor = btnThem.getBackground();
         Pchucnang.add(btnThem);
         Pchucnang.add(btnXoa);
@@ -249,78 +272,77 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
         Phocsinh.setLayout(null);
-        String[] arrHocsinh = { "Mã học sinh", "Tên học sinh", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
-                "Chọn ảnh" };
-        int length = arrHocsinh.length;
+        pcBUS.listMagv();
+        pcBUS.listTenmh();
+        pcBUS.listTenlop();
+        ArrayList<String> listlop = pcBUS.getTenLopList();
+        ArrayList<String> listmh = pcBUS.getTenMHList();
+        ArrayList<String> listmagv = pcBUS.getMaGVList();
+
+        String[] arrphancong = { "Mã Giáo Viên", "Tên Giáo Viên", "Phân Lớp", "Phân Môn" };
+
+        int length = arrphancong.length;
         tf = new JTextField[length];
         buttons = new JButton[length];
+
         Phocsinh.setLayout(null);
+
         int toadoXbutton = 190;
         int toadoYbutton = 10;
         int toadoXTextfield = 330;
         int toadoYTextfield = 10;
         int x = 230;
         int y = 15;
-        for (int i = 0; i < arrHocsinh.length; i++) {
+        for (int i = 0; i < length; i++) {
+            buttons[i] = new JButton(arrphancong[i]);
+            buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+            buttons[i].setHorizontalAlignment(JButton.CENTER);
+            buttons[i].setName("btn" + i);
 
-            if (i == 6) {
-                buttons[i] = new JButton(arrHocsinh[i]);
-                buttons[i].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        chooseImage();
-                    }
-                });
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
-                buttons[i].setForeground(Color.RED);
-                buttons[i].setHorizontalAlignment(JButton.CENTER);
-                buttons[i].setName("btn" + i);
-                Phocsinh.add(buttons[i]);
-            } else {
-                buttons[i] = new JButton(arrHocsinh[i]);
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
-                buttons[i].setHorizontalAlignment(JButton.CENTER);
-                buttons[i].setName("btn" + i);
-            }
-
-            toadoYbutton = toadoYbutton + 35;
+            toadoYbutton = toadoYbutton + 35 + 20;
             Phocsinh.add(buttons[i]);
-            if (i == 3) {
-                dateChooser = new JDateChooser();
-                dateChooser.setDateFormatString("dd/MM/yyyy");
-                dateChooser.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
-                Phocsinh.add(dateChooser);
-                toadoYTextfield = toadoYTextfield + 35;
 
+            if (i == 0) {
+                phangiaoviencomboBox = new JComboBox<>(listmagv.toArray(new String[0]));
+                phangiaoviencomboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                Phocsinh.add(phangiaoviencomboBox);
+                toadoYTextfield = toadoYTextfield + 35 + 20;
             } else if (i == 2) {
-                String[] genders = { "Nam", "Nữ", "Khác" };
-                genderComboBox = new JComboBox<>(genders);
-                genderComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
-                Phocsinh.add(genderComboBox);
-                toadoYTextfield = toadoYTextfield + 35;
-
+                phanlopComboBox = new JComboBox<>(listlop.toArray(new String[0]));
+                phanlopComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                Phocsinh.add(phanlopComboBox);
+                toadoYTextfield = toadoYTextfield + 35 + 20;
+            } else if (i == 3) {
+                phanmonComboBox = new JComboBox<>(listmh.toArray(new String[0]));
+                phanmonComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                Phocsinh.add(phanmonComboBox);
+                toadoYTextfield = toadoYTextfield + 35 + 20;
             } else {
                 tf[i] = new JTextField();
                 tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(border);
                 tf[i].setName("text" + i);
-                toadoYTextfield = toadoYTextfield + 35;
+                toadoYTextfield = toadoYTextfield + 35 + 20;
                 Phocsinh.add(tf[i]);
             }
             y = y + 35;
         }
         x = x + 180;
+        tf[1].setEditable(false);
+        tf[1].setFocusable(false);
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 3, 170, y);
-        Phocsinh.add(Pchucnang);
-
+        Pchucnang.setBounds(660, 3, 165, y + 75);
         lblimg = new JLabel();
-        lblimg.setBounds(0, 0, 180, y);
-        lblimg.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
+        lblimg.setBounds(0, 0, 180, y + 80);
+        lblimg.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(5, 5, 5), 4, true));
+        lblimg.setOpaque(true);
+        lblimg.setBackground(Color.BLACK);
         lblimg.setOpaque(true);
         Phocsinh.add(lblimg);
-        Phocsinh.setPreferredSize(new Dimension(x, y));
+        Phocsinh.add(Pchucnang);
+
+        Phocsinh.setPreferredSize(new Dimension(x, y + 75));
 
         return Phocsinh;
     }
@@ -330,23 +352,20 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 340));
-        String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
-                "Ảnh chân dung" };
+        scrollpane.setPreferredSize(new Dimension(835, 370));
+        String[] header = { "Mã giáo viên", "Tên Giáo Viên", "Tên lớp", "Tên Môn" };
 
-        if (hsBUS.getList() == null)
-            hsBUS.listHS();
-        ArrayList<HocSinhDTO> hs = hsBUS.getList();
-        Object[][] rowData = new Object[hs.size()][7];
-        for (int i = 0; i < hs.size(); i++) {
-            HocSinhDTO student = hs.get(i);
-            rowData[i][0] = student.getHocSinhID();
-            rowData[i][1] = student.getTenHocSinh();
-            rowData[i][2] = student.getGioiTinh();
-            rowData[i][3] = student.getNgaySinh();
-            rowData[i][4] = student.getDiaChi();
-            rowData[i][5] = student.getDienThoai();
-            rowData[i][6] = student.getIMG();
+        Integer lenght = header.length;
+        pcBUS.listPC();
+        ArrayList<QLPhanCongDTO> dspc = pcBUS.getList();
+
+        Object[][] rowData = new Object[dspc.size()][lenght];
+        for (int i = 0; i < dspc.size(); i++) {
+            QLPhanCongDTO pc = dspc.get(i);
+            rowData[i][0] = pc.getMagv();
+            rowData[i][1] = pc.getTengv();
+            rowData[i][2] = pc.getLop();
+            rowData[i][3] = pc.getMon();
         }
 
         Font font = new Font("Arial", Font.BOLD, 12);
@@ -373,62 +392,17 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         return scrollpane;
     }
 
-    public void chooseImage() {
-        JFileChooser fileChooser = new JFileChooser();
-        // Thiết lập chế độ chỉ cho phép chọn file
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        // Hiển thị hộp thoại chọn file
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            // Lấy đường dẫn của tập tin hình ảnh được chọn
-            String imagePath = fileChooser.getSelectedFile().getAbsolutePath();
-            // Hiển thị đường dẫn trong JTextField
-            String fileName = fileChooser.getSelectedFile().getName();
-            pathAnhdd = fileName;
-            tf[6].setText(fileName);
-
-            // Tạo một ImageIcon từ đường dẫn hình ảnh
-            ImageIcon imageIcon = new ImageIcon(imagePath);
-
-            // Chỉnh kích thước của hình ảnh để phù hợp với JLabel
-            Image image = imageIcon.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
-                    Image.SCALE_SMOOTH);
-
-            // Tạo một ImageIcon mới từ hình ảnh đã được điều chỉnh kích thước
-            ImageIcon scaledImageIcon = new ImageIcon(image);
-
-            // Hiển thị hình ảnh trên JLabel
-            lblimg.setIcon(scaledImageIcon);
-
-        }
-    }
-
     public void addRow() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = dateChooser.getDate();
-        String dateString = sdf.format(date); // Convert Date to String
+        String magv = (String) phangiaoviencomboBox.getSelectedItem();
+        String tengv = tf[1].getText();
+        String tenlop = (String) phanlopComboBox.getSelectedItem();
+        String tenmon = (String) phanmonComboBox.getSelectedItem();
+        Object rowdata[] = { magv, tengv, tenlop, tenmon };
 
-        // Lấy các giá trị từ các trường nhập
+        QLPhanCongDTO pc = new QLPhanCongDTO(magv, tengv, tenlop, tenmon);
+        pcBUS.add(pc);
 
-        Integer countHS = +hsBUS.CountHS() + 1;
-        System.out.println("Số lượng học sinh: " + countHS);
-        String hocSinhID = "HS" + countHS;
-        // String hocSinhID = tf[0].getText();
-        String tenHocSinh = tf[1].getText();
-        String gioiTinh = (String) genderComboBox.getSelectedItem();
-        String ngaySinh = dateString;
-        String diaChi = tf[4].getText();
-        String soDienThoai = tf[5].getText();
-        String IMG = tf[6].getText();
-        System.out.println(diaChi);
-        HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh,
-                soDienThoai, diaChi);
-        hocSinh.setIMG(IMG);
-
-        hsBUS.addHS(hocSinh);
-
-        Object[] rowData = { hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
-        tblmodel.addRow(rowData);
+        tblmodel.addRow(rowdata);
         clearTextFields();
     }
 
@@ -437,33 +411,33 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         if (row != -1) {
             tblmodel.removeRow(row);
         }
-        String hocSinhID = tf[0].getText();
-        hsBUS.deleteHS(hocSinhID);
+
+        String magv = (String) phangiaoviencomboBox.getSelectedItem();
+        String tenmonhoc = (String) phanmonComboBox.getSelectedItem();
+        String tenlop = (String) phanlopComboBox.getSelectedItem();
+        QLPhanCongDTO pc = new QLPhanCongDTO(magv, "", tenlop, tenmonhoc);
+        pcBUS.delete(pc);
+
         clearTextFields();
     }
 
     public void updateRow() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = dateChooser.getDate();
-        String dateString = sdf.format(date);
+        String magv = (String) phangiaoviencomboBox.getSelectedItem();
+        String tengv = tf[1].getText();
+        String tenlop = (String) phanlopComboBox.getSelectedItem();
+        String tenmon = (String) phanmonComboBox.getSelectedItem();
+        Object[] rowData = { magv, tengv, tenlop, tenmon };
+        QLPhanCongDTO pc = new QLPhanCongDTO(magv, tengv, tenlop, tenmon);
+        if (pcBUS.checkExist(pc)) {
+            JOptionPane.showMessageDialog(this, "Đã tồn tại sự phân công này", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            System.out.println("lỗi");
+        }
 
-        // Lấy các giá trị từ các trường nhập
-        String hocSinhID = tf[0].getText();
-        String tenHocSinh = tf[1].getText();
-        String gioiTinh = (String) genderComboBox.getSelectedItem();
-        String ngaySinh = dateString;
-        String soDienThoai = tf[4].getText();
-        String diaChi = tf[5].getText();
-        String IMG = tf[6].getText();
+        pcBUS.update(pc);
 
-        HocSinhDTO hocSinh = new HocSinhDTO(hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi,
-                soDienThoai);
-        hocSinh.setIMG(IMG);
-
-        // Gọi phương thức addHS() từ lớp QLHS_BUS để thêm học sinh vào cơ sở dữ liệu
-        hsBUS.updateHS(hocSinh);
-
-        Object[] rowData = { hocSinhID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
+        JOptionPane.showMessageDialog(this, "Sủa thành công", "Success", JOptionPane.DEFAULT_OPTION);
 
         int row = t.getSelectedRow();
         tblmodel.removeRow(row);
@@ -472,50 +446,38 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     }
 
     public void clearTextFields() {
-        tf[0].setText("");
-        tf[1].setText("");
-        genderComboBox.setSelectedItem(2);
-        dateChooser.setDate(null);
-        tf[4].setText("");
-        tf[5].setText("");
-        tf[6].setText("");
-        lblimg.setIcon(null);
+        phangiaoviencomboBox.setSelectedItem("None");
+        phanlopComboBox.setSelectedItem("None");
+        phanmonComboBox.setSelectedItem("None");
+        tf[1].setText("none");
     }
 
     public boolean checkEmpty() {
-        boolean isEmpty = tf[0].getText().isEmpty() ||
-                tf[1].getText().isEmpty() ||
-                tf[4].getText().isEmpty() ||
-                tf[5].getText().isEmpty();
-
-        boolean isGenderEmpty = genderComboBox.getSelectedIndex() == -1;
-
-        boolean isDateEmpty = dateChooser.getDate() == null;
-
-        return isEmpty || isGenderEmpty || isDateEmpty;
+        if (phangiaoviencomboBox.getSelectedItem() == "None"
+                || phangiaoviencomboBox.getSelectedItem().toString().isEmpty() || tf[1].getText().isEmpty()
+                || phanlopComboBox.getSelectedItem() == "None"
+                || phanlopComboBox.getSelectedItem().toString().isEmpty() || phanmonComboBox.getSelectedItem() == "None"
+                || phanmonComboBox.getSelectedItem().toString().isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
         int row = t.getSelectedRow();
-        mahs = (String) t.getValueAt(row, 0);
-        hoten = (String.valueOf(t.getValueAt(row, 1)));
-        gioitinh = (String.valueOf(t.getValueAt(row, 2)));
-        namsinh = (String.valueOf(t.getValueAt(row, 3)));
-        diachi = (String.valueOf(t.getValueAt(row, 4)));
-        sodienthoai = (String.valueOf(t.getValueAt(row, 5)));
-        img = (String.valueOf(t.getValueAt(row, 6)));
+        magv = (String) t.getValueAt(row, 0);
+        tengiaovien = (String.valueOf(t.getValueAt(row, 1)));
+        tenlop = (String.valueOf(t.getValueAt(row, 2)));
+        tenmon = (String.valueOf(t.getValueAt(row, 3)));
 
-        tf[0].setText(mahs);
-        tf[1].setText(hoten);
-        genderComboBox.setSelectedItem(gioitinh);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = sdf.parse(namsinh);
-        dateChooser.setDate(date);
-        tf[4].setText(diachi);
-        tf[5].setText(sodienthoai);
-        tf[6].setText(img);
+        phangiaoviencomboBox.setSelectedItem(magv);
+        tf[1].setText(tengiaovien);
+        phanlopComboBox.setSelectedItem(tenlop);
+        phanmonComboBox.setSelectedItem(tenmon);
+        String img = null;
 
-        if (!img.isEmpty()) {
+        img = pcBUS.getIMG(magv);
+        if (img != null) {
             String path = "/image/Avatar/" + img;
             java.net.URL imgHS = getClass().getResource(path);
             ImageIcon orgIcon_HS = new ImageIcon(imgHS);
@@ -529,7 +491,6 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         } else {
             lblimg.setIcon(null);
         }
-
     }
 
     public void btnAdd_actionPerformed() {
@@ -539,19 +500,20 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
             return;
         }
 
-        // String mahs = tf[0].getText();
-        // System.out.println(mahs);
+        String magv = (String) phangiaoviencomboBox.getSelectedItem();
+        String tenlop = (String) phanlopComboBox.getSelectedItem();
+        String tenmon = (String) phanmonComboBox.getSelectedItem();
 
-        // if (hsBUS.checkMaHS(mahs) == true) {
-        // JOptionPane.showMessageDialog(this, "Mã học sinh này đã tồn tại", "CHECK",
-        // JOptionPane.ERROR_MESSAGE);
-        // return;
-        // }
-
-        JOptionPane.showMessageDialog(this, "Mã học sinh tăng tự động", "Lưu ý", JOptionPane.INFORMATION_MESSAGE);
+        QLPhanCongDTO pc = new QLPhanCongDTO(magv, "", tenlop, tenmon);
+        if (pcBUS.checkExist(pc)) {
+            JOptionPane.showMessageDialog(this, "Đã tồn tại sự phân công này", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            System.out.println("lỗi");
+        }
 
         int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn Thêm học sinh này",
+                "Bạn có chắc muốn Thêm sự phân công này",
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION,
 
@@ -561,33 +523,31 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
                     "Thêm thành công",
                     "Chức năng thêm",
                     JOptionPane.INFORMATION_MESSAGE);
-            System.out.println("Ban chon them");
-            tf[0].requestFocus();
-            autoCreateAccount();
+            tf[1].requestFocus();
             addRow();
         }
     }
 
+    public void clearSelectSearch() {
+        phangiaoviencomboBox.setSelectedItem("None");
+        phanlopComboBox.setSelectedItem("None");
+        phanmonComboBox.setSelectedItem("None");
+    }
+
     public void btnDelete_actionPerformed() {
-        String mahs = tf[0].getText();
-        System.out.println(mahs);
-        if (mahs.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Hãy nhập ID học sinh cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
+        if (checkEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy điền đầy đủ các thông tin", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (hsBUS.checkMaHS(mahs) == false) {
-            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn xóa thành viên này",
+                "Bạn có chắc muốn xóa sự phân công này này",
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION,
 
                 JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
-            System.out.println("Ban chon đồn ý xóa");
             deleteRow();
         } else if (result == JOptionPane.NO_OPTION) {
             System.out.println("Bạn chọn không đồng ý xóa");
@@ -595,20 +555,14 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     }
 
     public void btnSua_actionPerformed() {
-        String mahs = tf[0].getText();
-
-        if (mahs.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Hãy nhập ID học sinh cần sửa", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (hsBUS.checkMaHS(mahs) == false) {
-            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
+        if (checkEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy điền đầy đủ các thông tin", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn sửa học sinh này",
+                "Bạn có chắc muốn sửa sự phân công này",
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION,
 
@@ -622,23 +576,41 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     }
 
     public void btnFind_actionPerformed() {
-        searchText = JsearchText.getText().trim();
+        String searchText = JsearchText.getText().trim();
         String selectedOption = (String) searchselectBox.getSelectedItem();
-        if (searchText.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Vui lòng nhập thông tin tìm kiếm",
-                    "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        String selectedLop = (String) searchselectBox1.getSelectedItem();
+        String selectedMh = (String) searchselectBox2.getSelectedItem();
+
         model = (DefaultTableModel) t.getModel();
         sorter = new TableRowSorter<>(model);
         t.setRowSorter(sorter);
-        if (selectedOption.equals("Mã học sinh")) {
-            sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
-        } else if (selectedOption.equals("Họ và tên")) {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
+
+        ArrayList<RowFilter<Object, Object>> filters = new ArrayList<>();
+
+        if (!searchText.isEmpty()) {
+            if (selectedOption.equals("Mã giáo viên")) {
+                filters.add(RowFilter.regexFilter(searchText, 0));
+            } else if (selectedOption.equals("Họ và tên")) {
+                filters.add(RowFilter.regexFilter("(?i)" + searchText, 1));
+            }
         }
+
+        if (!selectedLop.equals("None")) {
+            filters.add(RowFilter.regexFilter(selectedLop, 2));
+        }
+
+        if (!selectedMh.equals("None")) {
+            filters.add(RowFilter.regexFilter(selectedMh, 3));
+        }
+
+        RowFilter<Object, Object> combinedFilter;
+        if (filters.size() > 0) {
+            combinedFilter = RowFilter.andFilter(filters);
+        } else {
+            combinedFilter = null; // No filter
+        }
+
+        sorter.setRowFilter(combinedFilter);
     }
 
     public void exportExcel() throws IOException {
@@ -651,61 +623,32 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
             String path = chooser.getSelectedFile().toString().concat(".xls");
 
             Workbook workbook = new HSSFWorkbook();
-            Sheet sheet = workbook.createSheet("DanhSachHocSinh");
-            Row headerRow = sheet.createRow(0); // Header row at index 0
-            String[] headers = { "STT", "HocSinhID", "Tên học sinh", "Giới Tính", "Năm Sinh", "Địa chỉ", "SĐT" };
+            Sheet sheet = workbook.createSheet("DanhSachPhanCong");
+            Row headerRow = sheet.createRow(0);
+            String[] headers = { "Mã giáo viên", "Tên Giáo Viên", "Tên lớp", "Tên Môn" };
 
-            // Creating header cells
             for (int i = 0; i < headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(headers[i]);
             }
 
-            ArrayList<HocSinhDTO> dshs = hsBUS.getList();
-            for (int i = 0; i < dshs.size(); i++) {
-                Row row = sheet.createRow(i + 1); // Data rows start from index 1
+            for (int i = 0; i < tblmodel.getRowCount(); i++) {
+                Row row = sheet.createRow(i + 1);
 
-                HocSinhDTO hocSinh = dshs.get(i);
-                System.out.println(hocSinh.getDiaChi());
-
-                row.createCell(0).setCellValue(i + 1);
-                row.createCell(1).setCellValue(hocSinh.getHocSinhID());
-                row.createCell(2).setCellValue(hocSinh.getTenHocSinh());
-                row.createCell(3).setCellValue(hocSinh.getGioiTinh());
-                row.createCell(4).setCellValue(hocSinh.getNgaySinh());
-                row.createCell(5).setCellValue(hocSinh.getDiaChi());
-                row.createCell(6).setCellValue(hocSinh.getDienThoai());
+                for (int j = 0; j < tblmodel.getColumnCount(); j++) {
+                    Cell cell = row.createCell(j);
+                    cell.setCellValue(tblmodel.getValueAt(i, j).toString());
+                }
             }
 
-            // String path = "D:/Coding/N2_HK2/DAJAVA/java_nhom_9/Excel/hsss.xlsx";
-            File file = new File(path);
-            if (file.exists()) {
-                file.delete();
-            }
-            file.createNewFile();
-
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
+            try (FileOutputStream fos = new FileOutputStream(path)) {
                 workbook.write(fos);
-                // workbook.close();
-                // fos.close();
-                System.out.println("Excel file exported successfully to: " + path);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle exception
             }
-            JOptionPane.showMessageDialog(this, "IN THÀNH CÔNG");
-            Desktop.getDesktop().open(file);
 
+            JOptionPane.showMessageDialog(this, "Dữ liệu đã được xuất thành công.", "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE);
+            Desktop.getDesktop().open(new File(path));
         }
-    }
-
-    public void autoCreateAccount() {
-        accBUS = new ChangeAcc_BUS();
-        String username = tf[0].getText();
-        String password = tf[5].getText();
-        Account_DTO acc = new Account_DTO(username, password);
-        accBUS.Add(acc);
     }
 
     @Override
@@ -713,46 +656,36 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         if (e.getSource() == JsearchText) {
             clearTextFields();
         }
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
 
         if (e.getSource() == btnThem) {
-            btnThem.setBackground(Color.red);
+            btnThem.setBackground(Color.green);
         }
         if (e.getSource() == btnXoa) {
-            btnXoa.setBackground(Color.red);
+            btnXoa.setBackground(Color.green);
         }
         if (e.getSource() == btnSua) {
-            btnSua.setBackground(Color.red);
+            btnSua.setBackground(Color.green);
         }
         if (e.getSource() == btnFind) {
-            btnFind.setBackground(Color.red);
+            btnFind.setBackground(Color.green);
         }
         if (e.getSource() == btnExpExcel) {
             btnExpExcel.setBackground(Color.green);
         }
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 
     @Override
@@ -768,13 +701,17 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         } else if (e.getSource() == btnExpExcel) {
             btnExpExcel.setBackground(defaultColor);
         }
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == phangiaoviencomboBox) {
+            String magv = (String) phangiaoviencomboBox.getSelectedItem();
+            String tengv = pcBUS.getName(magv);
+            tf[1].setText(tengv);
+        }
+
         if (e.getSource() == btnThem) {
             btnAdd_actionPerformed();
 
@@ -803,5 +740,10 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
             }
         }
 
+    }
+
+    public static void main(String[] args) throws SQLException {
+        QuanLiPhanCong pc = new QuanLiPhanCong(850, 670);
+        pc.setVisible(true);
     }
 }
