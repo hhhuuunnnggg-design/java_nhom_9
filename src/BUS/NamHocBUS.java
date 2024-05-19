@@ -28,6 +28,56 @@ public class NamHocBUS {
         }
         return null;
     }
+    // theem
+    public void addNH(NamHocDTO nh) {
+        dsnh.add(nh);
+        NamHocDAO nhDAO =new NamHocDAO();
+        nhDAO.Add(nh);
+    }
+    // xoa
+    public void deleteNH(String manh) {
+        for (NamHocDTO nh : dsnh) {
+            if (nh.getNamHocID().equals(manh)) {
+                // dshs.remove(mahs);
+                NamHocDAO nhDAO = new NamHocDAO();
+                nhDAO.delete(manh);
+                return;
+            }
+        }
+    }
+    // cập nhật
+    public void updateNH(NamHocDTO s) {
+        for (int i = 0; i < dsnh.size(); i++) {
+            if (dsnh.get(i).getNamHocID().equals(s.getNamHocID())) {
+                dsnh.set(i, s);
+                NamHocDAO hsDAO = new NamHocDAO();
+                hsDAO.Update(s);
+                return;
+            }
+        }
+    }
+
+    // kiem tra ma
+    public boolean checkMaNH(String manh) {
+        NamHocDAO hsDao = new NamHocDAO();
+        dsnh = new ArrayList<>();
+        dsnh = hsDao.checkMaNH();
+        for (NamHocDTO nh : dsnh) {
+            System.out.println(nh.getNamHocID());
+            if (nh.getNamHocID().equals(manh)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void listNH() {
+        NamHocDAO nhDAO = new NamHocDAO();
+        dsnh = new ArrayList<>();
+        dsnh = nhDAO.list();
+    }
+    
+
     public NamHocDTO getByName(String tennamhoc)
     {
         for(NamHocDTO nh : dsnh )
@@ -50,7 +100,16 @@ public class NamHocBUS {
         }
         return null;
     }
-
+    public String getByAcademicYear(String academicYear) {
+        for (NamHocDTO nh : dsnh) {
+            String namHocID = nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc();
+            if (namHocID.equals(academicYear)) {
+                return nh.getNamHocID();
+            }
+        }
+        return null;
+    }
+    
     public void list()
     {
         NamHocDAO nhDATA = new NamHocDAO();

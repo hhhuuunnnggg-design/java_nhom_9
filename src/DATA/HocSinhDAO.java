@@ -81,8 +81,8 @@ public class HocSinhDAO {
          mySQL.executeUpdate(sql);
     }
     
-    public void delete(String id)
-    {
+    public void delete(String id){
+    
         MySQLConnect mySQL = new MySQLConnect();
         String sql = "UPDATE hocsinh SET enable = 0 WHERE HocSinhid='"+id+"'";
         mySQL.executeUpdate(sql);

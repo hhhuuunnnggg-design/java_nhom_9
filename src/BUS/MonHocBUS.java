@@ -17,6 +17,23 @@ public class MonHocBUS {
         
     }
 
+    // theem
+    public void addMH(MonHocDTO mh) {
+        dsmh.add(mh);
+        MonHocDAO hsDAO = new MonHocDAO();
+        hsDAO.add(mh);
+    }
+    // xoa
+    public void deleteMH(String mamh) {
+        for (MonHocDTO mh : dsmh) {
+            if (mh.getMonHocID().equals(mamh)) {
+                // dshs.remove(mahs);
+                MonHocDAO mhDAO = new MonHocDAO();
+                mhDAO.delete(mamh);
+                return;
+            }
+        }
+    }
     //search by id mon hoc
     public MonHocDTO get(String id)
     {
@@ -28,6 +45,17 @@ public class MonHocBUS {
             }
         }
         return null;
+    }
+    // get/set
+    public void updateMH(MonHocDTO s) {
+        for (int i = 0; i < dsmh.size(); i++) {
+            if (dsmh.get(i).getMonHocID().equals(s.getMonHocID())) {
+                dsmh.set(i, s);
+                MonHocDAO mhDAO = new MonHocDAO();
+                mhDAO.Update(s);
+                return;
+            }
+        }
     }
     public MonHocDTO getByName(String tenmh)
     {
@@ -42,12 +70,26 @@ public class MonHocBUS {
     }
     public void list()
     {
-        MonHocDAO mhDATA = new MonHocDAO();
+        MonHocDAO mhDAO = new MonHocDAO();
         dsmh = new ArrayList<>();
-        dsmh = mhDATA.list();
+        dsmh = mhDAO.list();
+    }
+  
+     // kiem tra ma môn học
+    public boolean checkMaMH(String mamh) {
+        MonHocDAO mhDao = new MonHocDAO();
+        dsmh = new ArrayList<>();
+        dsmh = mhDao.checkMaMH();
+        for (MonHocDTO mh : dsmh) {
+            System.out.println(mh.getMonHocID());
+            if (mh.getMonHocID().equals(dsmh)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean check(String id)
+    public boolean checkMH(String id)
     {
         for(MonHocDTO mh : dsmh)
         {
@@ -76,7 +118,7 @@ public class MonHocBUS {
         return search;
     }
 
-    
+   
     public ArrayList<MonHocDTO> getList() {
         return dsmh;
     }

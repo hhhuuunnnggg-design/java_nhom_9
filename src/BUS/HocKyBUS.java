@@ -53,6 +53,16 @@ public class HocKyBUS {
         }
         return null;
     }
+    public String getHocKyIDFromTenHocKy(String tenHocKy) {
+        for (HocKyDTO hk : dshk) {
+            if (hk.getTenHocKy().equalsIgnoreCase(tenHocKy)) {
+                return hk.getHocKyID();
+            }
+        }
+        return null; // hoặc giá trị mặc định phù hợp với ứng dụng của bạn
+    }
+    
+    
     public boolean check(String id)
     {
         for(HocKyDTO hk : dshk)

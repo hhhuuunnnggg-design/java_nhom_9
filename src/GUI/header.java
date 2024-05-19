@@ -26,6 +26,9 @@ public class header extends JPanel{
         height = h;
         init();
     }
+    public header() {
+        //TODO Auto-generated constructor stub
+    }
     public void init()
     {
         setLayout(null);

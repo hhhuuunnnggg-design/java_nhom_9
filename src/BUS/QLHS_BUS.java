@@ -11,14 +11,14 @@ public class QLHS_BUS {
 
     public QLHS_BUS() {
     }
-
+    
     public void listHS() {
         QLHS_DAO hsDAO = new QLHS_DAO();
 
         dshs = new ArrayList<>();
         dshs = hsDAO.list();
     }
-
+    
     // theem
     public void addHS(HocSinhDTO hs) {
         dshs.add(hs);

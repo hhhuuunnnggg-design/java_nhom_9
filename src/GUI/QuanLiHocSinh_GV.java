@@ -250,7 +250,7 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
-            }
+           }
         });
 
         return scrollpane;

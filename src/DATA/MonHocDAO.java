@@ -52,6 +52,46 @@ public class MonHocDAO {
             
             mySQL.executeUpdate(sql);
     }
-    
+   public void  add(MonHocDTO mh){
+    MySQLConnect mysql = new MySQLConnect();
+    String sql = "INSERT INTO monhoc VALUES (";
+        sql += "'"+mh.getMonHocID()+"',";
+        sql += "'"+mh.getTenMonHoc()+"')";
+        System.out.println(sql);
+        mySQL.executeUpdate(sql);
+   }
+  
+    public void delete(String id)
+    {
+        MySQLConnect mySQL = new MySQLConnect();
+        String sql = "DELETE monhoc WHERE MonHocid ='"+id+"'";
+        mySQL.executeUpdate(sql);
+        System.out.println(sql);
+    }
+    public void Update(MonHocDTO mh) {
+        MySQLConnect mysql = new MySQLConnect();
+        String sql = "UPDATE monhoc SET ";
+        sql += "MonHocid  = '" + mh.getMonHocID() + "' ,";
+        sql += "TenMonHoc = '" + mh.getTenMonHoc() + "' ,";
+        sql += "WHERE HocSinhid='" + mh.getMonHocID() + "'";
+        mysql.executeUpdate(sql);
+        System.out.println(sql); // Đoạn này để kiểm tra xem câu lệnh SQL có đúng không
+    }
 
+    public ArrayList<MonHocDTO> checkMaMH() {
+        ArrayList<MonHocDTO> dsmh = new ArrayList<>();
+
+        String sql = "SELECT MonHocid  FROM monhoc";
+        ResultSet rs = mySQL.executeQuery(sql);
+        try {
+            while (rs.next()) {
+                String mamh = rs.getString("MonHocid");
+                MonHocDTO monhoc = new MonHocDTO(mamh, "");            
+                dsmh.add(monhoc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsmh;
+    }
 }
