@@ -398,7 +398,7 @@ public class diemHS extends JPanel {
     private class PrintListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            loaddatatoTable();
+            // loaddatatoTable();
             if (tblModel.getRowCount()==0) {
             JOptionPane.showMessageDialog(null, "Không có dữ liệu để in!");
             }
