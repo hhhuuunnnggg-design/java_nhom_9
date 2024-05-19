@@ -62,12 +62,7 @@ public class DTB_HocKyDAO {
         mySQL.executeUpdate(sql);
     }
 
-    
-    
-    
-    
-    
-    
+
     public void add(DTB_HocKyDTO ctd) {
         MySQLConnect mySQL = new MySQLConnect();
          String sql = "INSERT INTO diemtbhocky VALUES (";

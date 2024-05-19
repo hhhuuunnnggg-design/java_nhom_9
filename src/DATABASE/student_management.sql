@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2024 at 06:13 AM
+-- Generation Time: May 18, 2024 at 12:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -605,10 +605,10 @@ CREATE TABLE `giaovien` (
 --
 
 INSERT INTO `giaovien` (`GiaoVienid`, `TenGiaoVien`, `GioiTinh`, `NamSinh`, `DiaChi`, `DienThoai`, `IMG`, `enable`) VALUES
-('GV1', 'Nguyễn Quốc Liêm', 'nam', '28/07/1997', '455/40 An Dương Vương', '0982134576', NULL, 1),
-('GV2', 'Phạm Thị Loan', 'nữ', '13/12/1989', 'Phường 2, Gò Vấp', '0831054319', NULL, 1),
-('GV3', 'Huỳnh Văn Hiền', 'nam', '11/06/1985', 'Trảng Bàng', '0957461238', NULL, 1),
-('GV4', 'Trương Công Hùng', 'nam', '22/03/1991', 'Tân Châu Tây Ninh', '0754218514', NULL, 1);
+('GV1', 'Nguyễn Quốc Liêm', 'nam', '28/07/1997', '455/40 An Dương Vương', '0982134576', '001.jpg', 1),
+('GV2', 'Phạm Thị Loan', 'nữ', '13/12/1989', 'Phường 2, Gò Vấp', '0831054319', '002.jpg', 1),
+('GV3', 'Huỳnh Văn Hiền', 'nam', '11/06/1985', 'Trảng Bàng', '0957461238', '003.jpg', 1),
+('GV4', 'Nguyen Dinh Hung', 'Nam', '11/06/1985', 'Trảng Bàng', '0957461238', '003.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -672,13 +672,16 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 ('HS25', ' Hoàng Văn Hưng', 'Nam', '30/6/2008', '0954321098', '890/12 Phạm Ngọc Thạch, Phường 7, Quận 12, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS26', 'Đặng Văn Hoàng', 'Nam', '27/12/2008', '0965432198', '123/45 Trần Hưng Đạo, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS27', 'Trần Thị Hằng', 'Nữ', '3/5/2008', '0912345678', '456/78 Nguyễn Văn Quá, Phường 10, Quận Tân Bình, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS28', 'Huỳnh Gia Vĩ', 'Nam', '27/12/2008', '0965432198', '123/45 Trần Hưng Đạo, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS29', 'Lê Thị Ánh Vĩ', 'Nữ', '07/08/2007', 'Bình Định', '0965432198', 'Chưa thanh toán', 'anhavt3.jpg', 0),
 ('HS3', 'Trần Thị Mai', 'Nữ', '20/9/2006', '0978123456', '789/10 Nguyễn Huệ, Phường 2, Quận 10, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS30', 'Huỳnh Vĩ', 'Nam', '14/02/2008', '0987654321', '789/32 Lê Lợi, Phường 6, Quận 9, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS4', 'Hoàng Văn Tuấn', 'Nam', '15/12/2006', '0865432198', '321/54 Trần Hưng Đạo, Phường 9, Quận 5, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS5', 'Nguyễn Thị Lan', 'Nữ', '8/4/2006', '0912345678', '987/65 Đường số 10, Phường 8, Quận 7, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS6', 'Lý Văn Hưng', 'Nam', '23/10/2006', '0854321098', '456/32 Lý Thường Kiệt, Phường 6, Quận 11, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS7', 'Trần Văn Hòa', 'Nam', '17/7/2006', '0932109876', '789/32 Nguyễn Thị Minh Khai, Phường 3, Quận 1, TP.HCM,', 'Chưa thanh toán', '', 1),
 ('HS8', ' Phan Thị Hằng', 'Nữ', '30/5/2006', '0945671234', '567/89 Trần Não, Phường Bình An, Quận 2, TP.HCM', 'Chưa thanh toán', '', 1),
-('HS9', 'Võ Văn Đức', 'Nam', ' 10/2/2007', '0978965432', '234/56 Cách Mạng Tháng 8, Phường 10, Quận 3, TP.HCM', 'Chưa thanh toán', '', 1);
+('HS9', 'Võ Văn Đức', 'Nam', '10/02/2007', '0978965432', '234/56 Cách Mạng Tháng 8, Phường 10, Quận 3, TP.HCM', 'Chưa thanh toán', '', 1);
 
 -- --------------------------------------------------------
 
@@ -859,6 +862,28 @@ INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `thongbao`
+--
+
+CREATE TABLE `thongbao` (
+  `idnguoigui` varchar(11) NOT NULL,
+  `tieudetb` text DEFAULT NULL,
+  `noidungtb` text DEFAULT NULL,
+  `thoigiantb` varchar(50) DEFAULT NULL,
+  `loaitb` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `thongbao`
+--
+
+INSERT INTO `thongbao` (`idnguoigui`, `tieudetb`, `noidungtb`, `thoigiantb`, `loaitb`) VALUES
+('GV3', 'day la tieu de gui toi hs20', 'chieu ra cong truong gap tao', '2024-05-18T17:41:34.739769100', 'HS20'),
+('GV3', 'cai nay gui toi nguyen cai lop 10a1', 'fix lai cai datetime tai vi dai qua', '18-5-2024 17:45:10', '10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -874,7 +899,13 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
-('admin', 'admin', 'admin', 1);
+('admin', 'admin', 'admin', 1),
+('GV2', 'Phường 2, Gò Vấp', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV3', 'Trảng Bàng', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV001', 'huynhgiavi', '', 1),
 ('GV1', 'GV1@', 'GV', 1),
 ('GV2', 'GV2@', 'GV', 1),
 ('GV3', 'GV3@', 'GV', 1),
@@ -905,7 +936,36 @@ INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('HS22', 'HS22@', 'HS', 1),
 ('HS23', 'HS23@', 'HS', 1),
 ('HS24', 'HS24@', 'HS', 1),
-('HS25', 'HS25@', 'HS', 1);
+('HS25', 'HS25@', 'HS', 1),
+('GV2', 'Phường 2, Gò Vấp', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV4', 'Tân Châu Tây Ninh', 'user', 1),
+('GV', 'Tân Châu Tây Ninh', 'user', 1),
+('GV3', 'Trảng Bàng', 'user', 1),
+('GV1', '0982134576', 'user', 1),
+('HS26', '123/45 Trần Hưng Đạo, Phường 8, Quận 4, TP.HCM', 'user', 1),
+('HS2', '0901234567', 'user', 1),
+('HS11', '0965432198', 'user', 1),
+('HS29', '0965432198', 'user', 1),
+('HS24', '0987654321', 'user', 1),
+('GV2', '0831054319', 'user', 1),
+('GV3', '0957461238', 'user', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ykien`
+--
+
+CREATE TABLE `ykien` (
+  `idnguoigui` varchar(10) NOT NULL,
+  `tieudeyk` text DEFAULT NULL,
+  `noidungyk` text DEFAULT NULL,
+  `thoigianyk` varchar(50) DEFAULT NULL,
+  `tenhs` varchar(50) DEFAULT NULL,
+  `trangthai` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --

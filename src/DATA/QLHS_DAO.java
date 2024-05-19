@@ -53,7 +53,7 @@ public class QLHS_DAO {
         mysql.executeUpdate(sql);
         System.out.println(sql); // Đoạn này để kiểm tra xem câu lệnh SQL có đúng không
     }
-
+    
     public void Add(HocSinhDTO hs) {
         MySQLConnect mysql = new MySQLConnect();
         String sql = "INSERT INTO hocsinh VALUE (";
