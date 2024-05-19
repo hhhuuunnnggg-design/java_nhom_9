@@ -4,23 +4,30 @@ public class user {
    private String username;
    private String password;
    private String role;
-   public user (String username, String password, String role) {
+   private String enable;
+   public user (String username, String password, String role, String enable) {
         this.username = username;
         this.password = password;
         this.role = role;
-      
+        this.enable = enable;
     }
 
-    public String username() {
+    public String getusername() {
         return username;
     }
-    public String password() {
+    public String getpassword() {
         return password;
     }
-    public String role() {
+    public String getrole() {
         return role;
     }
+    public String getenable(){
+        return enable;
+    }
 
+    public void setEnabled(String enable){
+        this.enable = enable;
+    }
     public void setusername(String username) {
         this.username = username;
     }

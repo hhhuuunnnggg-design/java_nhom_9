@@ -471,8 +471,6 @@ public class QuanLyDiem extends JPanel{
                 return;
             }
         }
-
-
     }
 
     public void updateData(){
@@ -581,9 +579,7 @@ public class QuanLyDiem extends JPanel{
 
                 deleteData();
 
-                
-                resetOutput();
-            }
+                }
             else{
                 return;
             }
@@ -628,7 +624,7 @@ public class QuanLyDiem extends JPanel{
             System.out.println(dtb);
             kqbus.delete(diemnamhoc);
             System.out.println(diemnamhoc);
-            
+
         Object[] rowData = {outputID, outputTenHS, outputLop, outputMon, outputHeid, "", outputHK,"", outputNam, ""};
         int row = t.getSelectedRow();
         tblModel.removeRow(row);

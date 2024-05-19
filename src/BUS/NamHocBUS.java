@@ -89,6 +89,17 @@ public class NamHocBUS {
         }
         return null;
     }
+    public NamHocDTO getByStartYear(int namhientai)
+    {
+        for(NamHocDTO nh : dsnh )
+        {
+            if(nh.getNamHocBatDau()==namhientai)
+            {
+                return nh;
+            }
+        }
+        return null;
+    }
 
     public void list()
     {
@@ -151,20 +162,7 @@ public class NamHocBUS {
         // Create an instance of NamHocBUS
         NamHocBUS namHocBUS = new NamHocBUS(1);
     
-        String academicYearToSearch = "Tất cả";
-        ArrayList<NamHocDTO> searchResult = namHocBUS.search(null, academicYearToSearch);
-    
-        // Print the search result
-        if (!searchResult.isEmpty()) {
-            System.out.println("Search Result for Academic Year " + academicYearToSearch + ":");
-            for (NamHocDTO nh : searchResult) {
-                System.out.println(nh);
-            }
-        } else {
-            System.out.println("No result found for Academic Year " + academicYearToSearch);
-        }
-
-        System.out.println(namHocBUS.getByName("2024-2025").getNamHocID());;
+        System.out.println(namHocBUS.getByStartYear(2024).getNamHocID());
     }
     
 }
