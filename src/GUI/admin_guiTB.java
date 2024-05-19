@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class admin_gui_tb {
+public class admin_guiTB {
     JFrame f;
     JPanel mainPanel;
     JLabel[] label;
@@ -21,7 +21,7 @@ public class admin_gui_tb {
 
     ThongBaoBUS tbbus = new ThongBaoBUS(1);
 
-    public admin_gui_tb() {
+    public admin_guiTB() {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setLayout(new BorderLayout());
@@ -115,10 +115,9 @@ public class admin_gui_tb {
             txtHeader.setText("");
             checkboxGV.setSelected(false);
             checkboxHS.setSelected(false);
-
         }
     }
     public static void main(String[] args) {
-        new admin_gui_tb();
+        new admin_guiTB();
     }
 }
