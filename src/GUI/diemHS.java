@@ -109,7 +109,6 @@ public class diemHS extends JPanel {
         dshk = hkbus.getList();
         c2 = new JComboBox<>();
         List<HocKyDTO> dshk = hkbus.getList();
-        c2.addItem("Tất cả");
         for (HocKyDTO hk : dshk) {
             c2.addItem(hk.getTenHocKy());
         }
@@ -117,7 +116,6 @@ public class diemHS extends JPanel {
         dshk = hkbus.getList();
         c3 = new JComboBox<>();
         List<NamHocDTO> dsnh = nhbus.getList();
-        c3.addItem("Tất cả");
         for (NamHocDTO nh : dsnh) {
             String idnamhoc = nh.getNamHocID();
             c3.addItem(nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc());
@@ -164,11 +162,9 @@ public class diemHS extends JPanel {
         diemPanel.setPreferredSize(new Dimension(850, 0));
         diemPanel.setVisible(true);
         
-        JScrollPane tableScrollPane = initTable(); // Create JScrollPane for table
-        diemPanel.add(tableScrollPane); // Add table to diemPanel
+        diemPanel.add(initTable()); 
         loaddatatoTable();
-        JPanel LoaiPanel = PanelLoai(); // Create PanelLoai
-        diemPanel.add(LoaiPanel); // Add PanelLoai to the bottom of diemPanel
+        diemPanel.add(PanelLoai()); 
     }
     
     
@@ -178,6 +174,7 @@ public class diemHS extends JPanel {
         loaiPanel.setBackground(new Color(180, 204, 227));
         loaiPanel.setVisible(true);
         addComponentsToPanel();
+        
         return loaiPanel;
     }
     
@@ -284,43 +281,45 @@ public class diemHS extends JPanel {
         dsnh = nhbus.getList();
         dspl = plbus.getList();
         
-        String mahocsinh = "HS1"; 
+        mahocsinh = "HS1"; 
         int stt = 1;
-        HKY = (String) c2.getSelectedItem(); // Gán giá trị cho biến HKY
-        NH = (String) c3.getSelectedItem(); // Gán giá trị cho biến NH
-        System.out.println(HKY);
-
-        for (HocKyDTO hk : dshk) {
-        String TenHK = hk.getTenHocKy();
-        }
-        for (NamHocDTO nh : dsnh) {
-            String idnamhoc = nh.getNamHocID();
-            String TenNH = nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc();
-        }
-
+        String HKY =(String) c2.getSelectedItem();//họcky1
+        String NH = (String) c3.getSelectedItem(); //2024-2025
+           
+        // && ctbus.get(hkbus.get(HKY).getHocKyID()).getHocKyID().equals(mh)
         for (MonHocDTO mh : dsmon) {
             double diem15 = 0, diem1Tiet = 0, diemHocKy = 0;
             int heSo15 = 0, heSo1Tiet = 0, heSoHocKy = 0;
+            for (NamHocDTO nh : dsnh) {
+                System.out.println(nhbus.getByAcademicYear(NH));
+                for (HocKyDTO hk : dshk) {
+                    String TenHK = hk.getTenHocKy();
+                    System.out.println(hkbus.getHocKyIDFromTenHocKy(HKY));
                     for (ChiTietDiemDTO ct : dsct) {
-                        if (ct.getHocSinhID().equals(mahocsinh) && ct.getMonHocID().equals(mh.getMonHocID())) {
-                            System.out.println("Subject: " + mh.getTenMonHoc()); // Debug statement
-                            System.out.println("HeSoID: " + ct.getHeSoID() + ", Diem: " + ct.getDiem()); // Debug statement
-                            System.out.println("HK: " + ct.getHocKyID() + ", Nam: " + ct.getNamHocID()); // Debug statement
+                        if (ct.getHocSinhID().equals(mahocsinh) && ct.getMonHocID().equals(mh.getMonHocID()) && ct.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY)) && ct.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
+                            // System.out.println("Subject: " + mh.getTenMonHoc()); // Debug statement
+                            // System.out.println("HeSoID: " + ct.getHeSoID() + ", Diem: " + ct.getDiem()); // Debug statement
+                            // System.out.println("HK: " + ct.getHocKyID() + ", Nam: " + ct.getNamHocID()); // Debug statement
 
                             // && tenHK.equals("Học kỳ 1") && NHHT.equals("2024-2025")
-                            if (ct.getHeSoID() == 1 && ct.getHocKyID().equals("1") && ct.getNamHocID().equals("giapthin")) {
+                            if (ct.getHeSoID() == 1 && ct.getNamHocID().equals("giapthin")) {
                                 diem15 = ct.getDiem();
                                 heSo15 = ct.getHeSoID();
                             }
-                             else if (ct.getHeSoID() == 2 && ct.getHocKyID().equals("1") && ct.getNamHocID().equals("giapthin")) {
+                             else if (ct.getHeSoID() == 2 && ct.getNamHocID().equals("giapthin")) {
                                 diem1Tiet = ct.getDiem();
                                 heSo1Tiet = ct.getHeSoID();
-                            } else if (ct.getHeSoID() == 3 && ct.getHocKyID().equals("1") && ct.getNamHocID().equals("giapthin")) {
+                            } else if (ct.getHeSoID() == 3 && ct.getNamHocID().equals("giapthin")) {
                                 diemHocKy = ct.getDiem();
                                 heSoHocKy = ct.getHeSoID();
                             }
                         }
+                        else{
+                            String[] rowData = new String[0];
                     }
+                    }
+                }
+            }
             System.out.println("Diem 15': " + diem15 + ", Diem 1 tiet: " + diem1Tiet + ", Diem Hoc Ky: " + diemHocKy); // Debug statement
             
             double tbm = (diem15 * heSo15 + diem1Tiet * heSo1Tiet + diemHocKy * heSoHocKy) / (heSo15 + heSo1Tiet + heSoHocKy);
@@ -343,45 +342,34 @@ public class diemHS extends JPanel {
     private class ShowFilterListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String monhoc = (String) c1.getSelectedItem();
-            String hocki = (String) c2.getSelectedItem();
-            String namhoc = (String) c3.getSelectedItem();
-
-            if (sorter == null) {
-                sorter = new TableRowSorter<>(tblModel);
-                t.setRowSorter(sorter);
+            String HKY = (String) c2.getSelectedItem();
+            String NH = (String) c3.getSelectedItem();
+            // Cập nhật lại PanelDiem
+            try {
+                updatePanelDiem();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-
-            List<RowFilter<Object, Object>> filters = new ArrayList<>();
-
-            if (!monhoc.equals("Tất cả")) {
-                RowFilter<Object, Object> filterMonHoc = RowFilter.regexFilter(monhoc, 1); // Index 1 for "Môn học"
-                filters.add(filterMonHoc);
-            }
-
-            if (!hocki.equals("Tất cả")) {
-                RowFilter<Object, Object> filterHocKy = RowFilter.regexFilter(hocki, 2); // Adjust index for "Học kỳ"
-                filters.add(filterHocKy);
-            }
-
-            if (!namhoc.equals("Tất cả")) {
-                RowFilter<Object, Object> filterNamHoc = RowFilter.regexFilter(namhoc, 3); // Adjust index for "Năm học"
-                filters.add(filterNamHoc);
-            }
-
-            RowFilter<Object, Object> combinedFilter = RowFilter.andFilter(filters);
-            sorter.setRowFilter(combinedFilter);
-
+            
             // Update serial numbers after filtering
             updateSerialNumbers();
         }
-
+    
         private void updateSerialNumbers() {
             for (int i = 0; i < tblModel.getRowCount(); i++) {
                 tblModel.setValueAt(i + 1, i, 0); // Update the STT column
             }
         }
     }
+    
+    public void updatePanelDiem() throws SQLException {
+        remove(diemPanel); // Xóa diemPanel khỏi diemHS
+        PanelDiem(); // Gọi lại PanelDiem để cập nhật dữ liệu mới
+        add(diemPanel, BorderLayout.CENTER); // Thêm diemPanel vào diemHS
+        revalidate(); // Cập nhật giao diện
+        repaint(); // Vẽ lại giao diện
+    }
+    
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Điểm Học Sinh");
