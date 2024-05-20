@@ -112,9 +112,9 @@ public class diemHS extends JPanel {
         dshk = hkbus.getList();
         c2 = new JComboBox<>();
         List<HocKyDTO> dshk = hkbus.getList();
-        for (HocKyDTO hk : dshk) {
-            c2.addItem(hk.getTenHocKy());
-        }
+            for (HocKyDTO hk : dshk) {
+                c2.addItem(hk.getTenHocKy());
+            }
 
         dshk = hkbus.getList();
         c3 = new JComboBox<>();
