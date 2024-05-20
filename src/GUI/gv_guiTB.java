@@ -219,8 +219,8 @@ public class gv_guiTB {
                     }
                 }
             }
-                
         }
+        
         private class RadioBtnHSListener implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
