@@ -9,7 +9,8 @@ import BUS.*;
 import DTO.*;
 
 public class TTTK_HS extends JPanel {
-    private JTextField tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10;
+    private JTextField tf3, tf4, tf5, tf6, tf7, tf8, tf9;
+    private JTextArea tf10;
     private JLabel jl2, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14;
     private JPanel rightPanel;
     private String username;
@@ -29,19 +30,18 @@ public class TTTK_HS extends JPanel {
         this.setLayout(new BorderLayout());
 
         rightPanel = new JPanel(new GridBagLayout());
-        rightPanel.setPreferredSize(new Dimension(850, 670));
+        rightPanel.setPreferredSize(new Dimension(width, height));
         rightPanel.setBackground(new Color(180, 204, 227));
 
         addComponentsToPanel();
         this.add(rightPanel, BorderLayout.CENTER);
 
         loaddatatoPanel();
-        lockTextFields();
 
         this.setVisible(true);
     }
 
-    private void addComponentsToPanel() {
+    void addComponentsToPanel() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 30, 0, 30);
 
@@ -69,10 +69,26 @@ public class TTTK_HS extends JPanel {
         // tf9 = createTextField(gbc, 1, 8);
 
         jl14 = createLabel("Địa chỉ:", gbc, 0, 8);
-        tf10 = createTextField(gbc, 1, 8);
+        tf10 = createTextArea(gbc, 1, 8); // Thay thế phần tạo JTextField cho tf10 bằng createTextArea
+        tf10.setFocusable(false);
+
+        lockTextFields();
 
     }
-
+    private JTextArea createTextArea(GridBagConstraints gbc, int x, int y) {
+        JTextArea textArea = new JTextArea();
+        textArea.setFont(textArea.getFont().deriveFont(Font.BOLD, 18));
+        textArea.setBackground(Color.WHITE);
+        textArea.setLineWrap(true); // Cho phép wrap dòng
+        textArea.setWrapStyleWord(true); // Wrap từ nguyên một từ
+        textArea.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(300, 60)); // Kích thước của JScrollPane
+        gbc.gridx = x;
+        gbc.gridy = y;
+        rightPanel.add(scrollPane, gbc);
+        return textArea;
+    }
     private JLabel createLabel(String text, GridBagConstraints gbc, int x, int y) {
         JLabel label = new JLabel(text);
         label.setPreferredSize(new Dimension(150, 40));
@@ -130,7 +146,6 @@ public class TTTK_HS extends JPanel {
                             }
                         }
                     }
-                    
                 }
             }
         }
@@ -141,11 +156,16 @@ public class TTTK_HS extends JPanel {
         //     }
         // }
     }
+    
+    public JPanel getPanel() {
+        return this;
+    }
+    
     public static void main(String[] args) throws SQLException {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 800);
-        TTTK_HS panel = new TTTK_HS(1000, 800, "HS2");
+        frame.setSize(850, 670);
+        TTTK_HS panel = new TTTK_HS(850, 670, "HS2");
         frame.add(panel);
         frame.setVisible(true);
     }

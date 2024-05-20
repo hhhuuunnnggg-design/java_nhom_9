@@ -69,7 +69,20 @@ public class TTTK_GV extends JPanel {
         // Khóa tất cả các trường văn bản để không cho chỉnh sửa
         lockTextFields();
     }
-
+    private JTextArea createTextArea(GridBagConstraints gbc, int x, int y) {
+        JTextArea textArea = new JTextArea();
+        textArea.setFont(textArea.getFont().deriveFont(Font.BOLD, 18));
+        textArea.setBackground(Color.WHITE);
+        textArea.setLineWrap(true); // Cho phép wrap dòng
+        textArea.setWrapStyleWord(true); // Wrap từ nguyên một từ
+        textArea.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(300, 60)); // Kích thước của JScrollPane
+        gbc.gridx = x;
+        gbc.gridy = y;
+        rightPanel.add(scrollPane, gbc);
+        return textArea;
+    }
     private JLabel createLabel(String text, GridBagConstraints gbc, int x, int y) {
         JLabel label = new JLabel(text);
         label.setPreferredSize(new Dimension(150, 40));

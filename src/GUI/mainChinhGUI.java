@@ -1,4 +1,5 @@
 package GUI;
+
 import javax.swing.*;
 
 import DTO.user;
@@ -17,10 +18,7 @@ import model.navItem;
  */
 public class mainChinhGUI extends JFrame implements MouseListener {
     protected static Object title_tentk;
-    private JButton test;
-    private String userID;
     private String userName;
-    private String role;
     private boolean flag = true;
     private JPanel header, nav, main;
     private int DEFAULT_HEIGHT = 700, DEFALUT_WIDTH = 1060;
@@ -29,7 +27,6 @@ public class mainChinhGUI extends JFrame implements MouseListener {
 
     public mainChinhGUI(String username) throws SQLException {
         this.userName = username;
-        Toolkit screen = Toolkit.getDefaultToolkit();
         init();
         setTitle("Quản lý học sinh ");
     }
@@ -51,8 +48,6 @@ public class mainChinhGUI extends JFrame implements MouseListener {
         header.setPreferredSize(new Dimension(DEFALUT_WIDTH, 40));
 
         header hmain = new header(DEFALUT_WIDTH, 40);
-
-
 
         System.out.println(userName);
 
@@ -93,18 +88,18 @@ public class mainChinhGUI extends JFrame implements MouseListener {
         });
 
         header.add(hmain);
-        
-        if(userName.equals("admin")){
+
+        if (userName.equals("admin")) {
 
             nav = new JPanel(null);
             Color my_color_jleft = new Color(50, 48, 128);
             nav.setBackground(my_color_jleft);
             nav.setPreferredSize(new Dimension(220, DEFAULT_HEIGHT));
-    
+
             JScrollPane scroll = new JScrollPane(nav);
             scroll.getVerticalScrollBar().setPreferredSize(new Dimension(1, 100));
             scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
-    
+
             navItem = new ArrayList<>();
             navItem.add("Quản lý giáo viên :Shop_20px.png:Shop_20px_active.png");
             navItem.add("Quản Lý Học Sinh:QLSP_20px.png:QLSP_20px_active.png");
@@ -112,23 +107,27 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             navItem.add("Đổi Password:KhachHang_20px.png:KhachHang_20px_active.png");
             navItem.add("Thanh toán học phí:ThongKe_20px.png:ThongKe_20px_active.png");
             navItem.add("Quản lý điểm:CongCu_20px.png:CongCu_20px_active.png");
-   
+
             outNav();
-    
+
             /************ PHẦN MAIN ( HIỂN THỊ ) **************************/
             main = new JPanel(null);
             main.setBackground(Color.white);
             navObj.get(0).doActive();
             changeMainInfo(0);
-    
+
             /**************************************************************/
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> 67804e15201b72e665274f33bb13e74ae8451836
             add(header, BorderLayout.NORTH);
             add(scroll, BorderLayout.WEST);
             add(main, BorderLayout.CENTER);
-    
+
             setVisible(true);
-        }else{
+        } else {
             String quyen;
             if (userName.length() >= 2) {
                 quyen = userName.substring(0, 2);
@@ -137,36 +136,33 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             }
             System.out.println(quyen);
 
-            if(quyen.equals("HS")){
+            if (quyen.equals("HS")) {
                 System.out.println("da vao hoc sinh");
                 nav = new JPanel(null);
                 Color my_color_jleft = new Color(50, 48, 128);
                 nav.setBackground(my_color_jleft);
                 nav.setPreferredSize(new Dimension(220, DEFAULT_HEIGHT));
-        
+
                 JScrollPane scroll = new JScrollPane(nav);
                 scroll.getVerticalScrollBar().setPreferredSize(new Dimension(1, 100));
                 scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
-        
+
                 navItem = new ArrayList<>();
                 navItem.add("Xem điểm :Shop_20px.png:Shop_20px_active.png");
                 navItem.add("Thông tin tài khoản học sinh:QLSP_20px.png:QLSP_20px_active.png");
                 navItem.add("Đổi mật khẩu:NhanVien_20px.png:NhanVien_20px_active.png");
-                
-                
-        
+
                 outNav();
-        
-         
+
                 main = new JPanel(null);
                 main.setBackground(Color.white);
                 navObj.get(0).doActive();
                 changeMainForHS(0);
-        
+
                 add(header, BorderLayout.NORTH);
                 add(scroll, BorderLayout.WEST);
                 add(main, BorderLayout.CENTER);
-        
+
                 setVisible(true);
             }
             if (quyen.equals("GV")) {
@@ -175,36 +171,31 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 Color my_color_jleft = new Color(50, 48, 128);
                 nav.setBackground(my_color_jleft);
                 nav.setPreferredSize(new Dimension(220, DEFAULT_HEIGHT));
-        
+
                 JScrollPane scroll = new JScrollPane(nav);
                 scroll.getVerticalScrollBar().setPreferredSize(new Dimension(1, 100));
                 scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
-       
+
                 navItem = new ArrayList<>();
                 navItem.add("Quản lí điểm :Shop_20px.png:Shop_20px_active.png");
                 navItem.add("Quản lí học sinh:QLSP_20px.png:QLSP_20px_active.png");
                 navItem.add("Thông tin tài khoản:NhanVien_20px.png:NhanVien_20px_active.png");
                 navItem.add("Đổi mật khẩu:KhachHang_20px.png:KhachHang_20px_active.png");
                 outNav();
-        
-                
+
                 main = new JPanel(null);
                 main.setBackground(Color.white);
                 navObj.get(0).doActive();
                 changeMainForGV(0);
-        
-             
-        
+
                 add(header, BorderLayout.NORTH);
                 add(scroll, BorderLayout.WEST);
                 add(main, BorderLayout.CENTER);
-        
+
                 setVisible(true);
             }
         }
 
-        
-        
     }
 
     @Override
@@ -213,31 +204,30 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             navItem item = navObj.get(i); // lấy vị trí item trong menu
             if (e.getSource() == item) {
                 item.doActive(); // Active NavItem đc chọn
-                if(userName.equals("admin")){
+                if (userName.equals("admin")) {
                     changeMainInfo(i);
-                }else{
+                } else {
                     String quyen;
                     if (userName.length() >= 2) {
                         quyen = userName.substring(0, 2);
                     } else {
                         quyen = userName;
                     }
-                    if(quyen.equals("HS")){
+                    if (quyen.equals("HS")) {
                         changeMainForHS(i);
                     }
-                    if(quyen.equals("GV")){
+                    if (quyen.equals("GV")) {
                         changeMainForGV(i);
                     }
                 }
-                
+
             } else {
                 item.noActive();
             }
         }
     }
 
-
-    public void changeMainForHS(int i){
+    public void changeMainForHS(int i) {
         switch (i) {
             case 0:
                 main.removeAll();
@@ -249,39 +239,39 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 }
                 main.repaint();
                 main.revalidate();
-                break;  
+                break;
             case 1:
                 main.removeAll();
                 try {
-                    main.add(new TTTK_HS(850,670,userName));
+                    main.add(new TTTK_HS(850, 670, userName));
                 } catch (SQLException e) {
                     System.out.println("khong vao duoc");
                     e.printStackTrace();
                 }
                 main.repaint();
                 main.revalidate();
-                break;  
+                break;
             case 2:
                 main.removeAll();
-                main.add(new DoiMK(850,670,userName));
+                main.add(new DoiMK(850, 670, userName));
                 main.repaint();
                 main.revalidate();
-                break;  
+                break;
             default:
                 break;
         }
     }
 
-    public void changeMainForGV(int i){
-        
+    public void changeMainForGV(int i) {
+
         switch (i) {
-            case 0: 
+            case 0:
                 main.removeAll();
-                main.add(new QuanLyDiem(850,670));
+                main.add(new QuanLyDiem(850, 670));
                 main.repaint();
                 main.revalidate();
-                break;                            
-            case 1: 
+                break;
+            case 1:
                 main.removeAll();
                 main.removeAll();
                 try {
@@ -294,25 +284,24 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 break;
 
             case 2:
-            main.removeAll();
+                main.removeAll();
                 try {
-                    main.add(new TTTK_GV(850, 670,userName));
+                    main.add(new TTTK_GV(850, 670, userName));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            main.repaint();
-            main.revalidate();
-            break;
+                main.repaint();
+                main.revalidate();
+                break;
 
             case 3: // THÔNG TIN TÀI KHOẢN HS VÀ GV
                 main.removeAll();
                 main.repaint();
-                main.add(new DoiMK(850, 670,userName));
+                main.add(new DoiMK(850, 670, userName));
                 main.revalidate();
-            break;
+                break;
         }
     }
-
 
     public void changeMainInfo(int i) {
         switch (i) {
@@ -327,9 +316,6 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-                            
-
-
             case 1: // QUẢN LÝ Hoc Sinh
                 main.removeAll();
                 main.removeAll();
@@ -342,39 +328,38 @@ public class mainChinhGUI extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case 2: //THỐNG KÊ
+            case 2: // THỐNG KÊ
                 main.removeAll();
                 try {
-                    main.add(new ThongKe(850,670));                
-                }
-                    catch (SQLException e) {
+                    main.add(new ThongKe(850, 670));
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 main.repaint();
                 main.revalidate();
-            break;
+                break;
 
-            case 3: 
+            case 3:
                 main.removeAll();
                 main.add(new ChangeAccount(850, 670));
                 main.repaint();
                 main.revalidate();
-            break;
+                break;
 
-            case 4: 
+            case 4:
                 main.removeAll();
                 main.add(new ThanhToanHocPhi());
                 main.repaint();
                 main.revalidate();
-            break;
+                break;
 
-            case 5: 
+            case 5:
                 main.removeAll();
-                main.add(new QuanLyDiem(850,670));
+                main.add(new QuanLyDiem(850, 670));
                 main.repaint();
                 main.revalidate();
-            break;
-        
+                break;
+
             // Other cases as needed
         }
     }
@@ -387,7 +372,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             String iconActive = navItem.get(i).split(":")[2];
             navObj.add(new navItem(s, new Rectangle(0, 200 + 50 * i, 220, 50), icon, iconActive));
             navObj.get(i).addMouseListener(this);
-    }
+        }
 
         nav.removeAll();
         JLabel profile = new JLabel(new ImageIcon("./src/image/profile_150px.png"));
@@ -423,6 +408,6 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             e.printStackTrace();
         }
 
-    // new mainChinhGUI();
+        // new mainChinhGUI();
     }
 }
