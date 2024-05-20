@@ -42,9 +42,11 @@ public class NamHocBUS {
                 NamHocDAO nhDAO = new NamHocDAO();
                 nhDAO.delete(manh);
                 return;
-            }
+           }
         }
     }
+    
+    
     // cập nhật
     public void updateNH(NamHocDTO s) {
         for (int i = 0; i < dsnh.size(); i++) {
@@ -56,15 +58,28 @@ public class NamHocBUS {
             }
         }
     }
+    
 
     // kiem tra ma
-    public boolean checkMaNH(String manh) {
-        NamHocDAO hsDao = new NamHocDAO();
-        dsnh = new ArrayList<>();
-        dsnh = hsDao.checkMaNH();
-        for (NamHocDTO nh : dsnh) {
-            System.out.println(nh.getNamHocID());
-            if (nh.getNamHocID().equals(manh)) {
+    // public boolean checkMaNH(String manh) {
+    //     NamHocDAO hsDao = new NamHocDAO();
+    //     dsnh = new ArrayList<>();
+    //     dsnh = hsDao.checkMaNH();
+    //     for (NamHocDTO nh : dsnh) {
+    //         System.out.println(nh.getNamHocID());
+    //         if (nh.getNamHocID().equals(manh)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    public boolean checkMaNH(String id)
+    {
+        for(NamHocDTO nh : dsnh)
+        {
+            if(nh.getNamHocID().equals(id))
+            {
                 return true;
             }
         }
@@ -100,7 +115,16 @@ public class NamHocBUS {
         }
         return null;
     }
-
+    public String getByAcademicYear(String academicYear) {
+        for (NamHocDTO nh : dsnh) {
+            String namHocID = nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc();
+            if (namHocID.equals(academicYear)) {
+                return nh.getNamHocID();
+            }
+        }
+        return null;
+    }
+    
     public void list()
     {
         NamHocDAO nhDATA = new NamHocDAO();
@@ -137,23 +161,7 @@ public class NamHocBUS {
         return search;
     }
     
-    // public ArrayList<NamHocDTO> search(String id, String NamHoc) {
-    //     ArrayList<NamHocDTO> searchResult = new ArrayList<>();
-        
-    //     id = id == null ? "" : id;
-    //     NamHoc = (NamHoc == null || NamHoc.equals("Tất cả")) ? "" : NamHoc;
-    
-    //     for (NamHocDTO nh : dsnh) {
-    //         String academicYear = nh.getNamHocBatDau() + "-" + nh.getNamHocKetThuc();
-    //         if (nh.getNamHocID().contains(id) && academicYear.equals(NamHoc)) {
-    //             searchResult.add(nh);
-    //         }
-    //     }
-        
-    //     return searchResult;
-    // }
-    
-    
+
     public ArrayList<NamHocDTO> getList() {
         return dsnh;
     }

@@ -23,17 +23,31 @@ public class MonHocBUS {
         MonHocDAO hsDAO = new MonHocDAO();
         hsDAO.add(mh);
     }
+   
     // xoa
+//    public void deleteMH(String mamh) {
+//         for (MonHocDTO mh : dsmh) {
+//             if (mh.getMonHocID().equals(mamh)) {
+//                 MonHocDAO mhDAO = new MonHocDAO();
+//                 mhDAO.delete(mamh);
+//                 dsmh.remove(mh); // Xóa môn học khỏi danh sách
+//                 System.out.println("Đã xóa MonHoc với ID: " + mamh); // Thông báo đăng nhập
+//                 return;
+//             }
+//         }
+//         System.out.println("Không tìm thấy MonHoc với ID " + mamh + " trong danh sách."); // Thông báo đăng nhập nếu không tìm thấy
+//     }
     public void deleteMH(String mamh) {
-        for (MonHocDTO mh : dsmh) {
-            if (mh.getMonHocID().equals(mamh)) {
+        for (MonHocDTO hs : dsmh) {
+            if (hs.getMonHocID().equals(mamh)) {
                 // dshs.remove(mahs);
-                MonHocDAO mhDAO = new MonHocDAO();
-                mhDAO.delete(mamh);
+                MonHocDAO hsDAO = new MonHocDAO();
+                hsDAO.delete(mamh);
                 return;
             }
         }
     }
+
     //search by id mon hoc
     public MonHocDTO get(String id)
     {
@@ -76,13 +90,25 @@ public class MonHocBUS {
     }
   
      // kiem tra ma môn học
-    public boolean checkMaMH(String mamh) {
-        MonHocDAO mhDao = new MonHocDAO();
-        dsmh = new ArrayList<>();
-        dsmh = mhDao.checkMaMH();
+    // public boolean checkMaMH(String mamh) {
+    //     MonHocDAO mhDao = new MonHocDAO();
+    //     dsmh = new ArrayList<>();
+    //     dsmh = mhDao.checkMaMH();
+    //     for (MonHocDTO mh : dsmh) {
+    //         System.out.println(mh.getMonHocID());
+    //         if (mh.getMonHocID().equals(dsmh)) {
+    //             return true;
+    //        }
+    //     }
+    //     return false;
+    // }
+
+    public boolean checkMaMH(String id) {
+        // Cập nhật danh sách người dùng từ cơ sở dữ liệu
+        list();
+        
         for (MonHocDTO mh : dsmh) {
-            System.out.println(mh.getMonHocID());
-            if (mh.getMonHocID().equals(dsmh)) {
+            if (mh.getMonHocID().equals(id)) {
                 return true;
             }
         }
@@ -118,7 +144,7 @@ public class MonHocBUS {
         return search;
     }
 
-   
+  
     public ArrayList<MonHocDTO> getList() {
         return dsmh;
     }

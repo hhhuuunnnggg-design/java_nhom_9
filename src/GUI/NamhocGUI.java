@@ -85,7 +85,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public final class NamhocGUI extends JFrame implements MouseListener, ActionListener {
     private String manamhoc,namhocbatdau, namhocketthuc;
-    private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi;
+    private JLabel lblManh, lblTenhs, lblGioitinh, lblDiachi;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
     // private JTable tbl;
@@ -179,7 +179,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
 
         JLabel lblSearch = new JLabel("Tìm kiếm theo: ");
         lblSearch.setFont(new Font("arial", Font.BOLD, 14));
-        String searchOption[] = { "Mã năm học","Năm học bắt đầu" };
+        String searchOption[] = { "Mã năm học","Năm học bắt đầu","Năm học kết thúc" };
         searchselectBox = new JComboBox<>(searchOption);
 
         java.net.URL imageURL = getClass().getResource("/image/home.png");
@@ -206,10 +206,10 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         return JSearch;
 
     }
-
+   
     public JPanel JChucnang() {
-         Color myColor = Color.RED;
-        //Color myColor = new Color(99, 116, 198);
+         //Color myColor = Color.PINK;
+        Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
         Pchucnang.setLayout(new FlowLayout(0, 5, 10));
 
@@ -298,7 +298,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                 buttons[i].setName("btn" + i);
             }
 
-            toadoYbutton = toadoYbutton + 35;
+            toadoYbutton = toadoYbutton + 80;
             Phocsinh.add(buttons[i]);
 
              {
@@ -307,14 +307,14 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(border);
                 tf[i].setName("text" + i);
-                toadoYTextfield = toadoYTextfield + 35;
+                toadoYTextfield = toadoYTextfield + 80;
                 Phocsinh.add(tf[i]);
             }
             y = y + 35;
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 3, 170, y);
+        Pchucnang.setBounds(660, 3, 170, 300);
         Phocsinh.add(Pchucnang);
 
         Phocsinh.setPreferredSize(new Dimension(x, y));
@@ -396,20 +396,17 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
     }
 
     public void addRow() {
-        
+       
         String NamHocid  = tf[0].getText();
         int NamBatDau = Integer.parseInt(tf[1].getText());
         int NamKetThuc = Integer.parseInt(tf[2].getText());
         NamHocDTO namhoc=new NamHocDTO(NamHocid, NamBatDau, NamKetThuc);
-        
-        
         nhBUS.addNH(namhoc);
-        
-
         Object[] rowData = { NamHocid, NamBatDau, NamKetThuc};
         tblmodel.addRow(rowData);
         clearTextFields();
     }
+    
 
     public void deleteRow() {
         int row = t.getSelectedRow();
@@ -426,16 +423,9 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         String NamHocid  = tf[0].getText();
         int NamBatDau = Integer.parseInt(tf[1].getText());
         int NamKetThuc = Integer.parseInt(tf[2].getText());
-
-        
-
         NamHocDTO namhoc = new NamHocDTO(NamHocid, NamBatDau, NamKetThuc);
-        //hocSinh.setIMG(IMG);
-        // Gọi phương thức addHS() từ lớp QLHS_BUS để thêm học sinh vào cơ sở dữ liệu
         nhBUS.updateNH(namhoc);
-
         Object[] rowData = { NamHocid, NamBatDau, NamKetThuc };
-
         int row = t.getSelectedRow();
         tblmodel.removeRow(row);
         tblmodel.addRow(rowData);
@@ -454,11 +444,11 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                 tf[1].getText().isEmpty() ||
                 tf[2].getText().isEmpty();
 
-        boolean isGenderEmpty = genderComboBox.getSelectedIndex() == -1;
+        
 
         
 
-        return isEmpty || isGenderEmpty ;
+        return isEmpty ;
     }
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
@@ -492,20 +482,20 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                     JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Ban chon them");
             tf[0].requestFocus();
-            autoCreateAccount();
+           // autoCreateAccount();
             addRow();
         }
     }
 
     public void btnDelete_actionPerformed() {
-        String mahs = tf[0].getText();
-        System.out.println(mahs);
-        if (mahs.isEmpty()) {
+        String manh = tf[0].getText();
+        System.out.println(manh);
+        if (manh.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Hãy nhập ID năm học cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (nhBUS.checkMaNH(mahs) == false) {
+        if (nhBUS.checkMaNH(manh) == false) {
             JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -516,7 +506,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
 
                 JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
-            System.out.println("Ban chon đồn ý xóa");
+            System.out.println("Ban chon dong y xóa");
             deleteRow();
         } else if (result == JOptionPane.NO_OPTION) {
             System.out.println("Bạn chọn không đồng ý xóa");
@@ -524,20 +514,20 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
     }
 
     public void btnSua_actionPerformed() {
-        String mahs = tf[0].getText();
+        String manh = tf[0].getText();
 
-        if (mahs.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Hãy nhập ID học sinh cần sửa", "Error", JOptionPane.ERROR_MESSAGE);
+        if (manh.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập ID năm học cần sửa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (nhBUS.checkMaNH(mahs) == false) {
+        if (nhBUS.checkMaNH(manh) == false) {
             JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn sửa học sinh này",
+                "Bạn có chắc muốn sửa năm học này",
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION,
 
@@ -551,21 +541,31 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
     }
 
     public void btnFind_actionPerformed() {
-        searchText = JsearchText.getText().trim();
+        String searchText = JsearchText.getText().trim();
         String selectedOption = (String) searchselectBox.getSelectedItem();
+
         if (searchText.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(null,
                     "Vui lòng nhập thông tin tìm kiếm",
                     "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
+
         model = (DefaultTableModel) t.getModel();
         sorter = new TableRowSorter<>(model);
         t.setRowSorter(sorter);
-        if (selectedOption.equals("Mã học sinh")) {
-            sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
-        } else if (selectedOption.equals("Họ và tên")) {
+
+        // Debugging output
+        System.out.println("searchText: " + searchText);
+        System.out.println("selectedOption: " + selectedOption);
+
+        if (selectedOption.equals("Mã năm học")) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 0));
+        } else if (selectedOption.equals("Năm học bắt đầu")) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
+        }
+        else if (selectedOption.equals("Năm học kết thúc")) {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
         }
     }
@@ -626,13 +626,13 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         }
     }
 
-    public void autoCreateAccount() {
-        accBUS = new ChangeAcc_BUS();
-        String username = tf[0].getText();
-        String password = tf[5].getText();
-        Account_DTO acc = new Account_DTO(username, password);
-        accBUS.Add(acc);
-    }
+    // public void autoCreateAccount() {
+    //     accBUS = new ChangeAcc_BUS();
+    //     String username = tf[0].getText();
+    //     String password = tf[5].getText();
+    //     Account_DTO acc = new Account_DTO(username, password);
+    //     accBUS.Add(acc);
+    // }
 
     @Override
     public void mouseClicked(MouseEvent e) {
