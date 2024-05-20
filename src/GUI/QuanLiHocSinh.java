@@ -28,6 +28,7 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
 import com.toedter.calendar.JDateChooser;
 
 import BUS.ChangeAcc_BUS;
@@ -46,23 +47,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-// import org.apache.poi.ss.usermodel.*;
-// import org.apache.poi.xssf.usermodel.XSSFCell;
-// import org.apache.poi.xssf.usermodel.XSSFRow;
-// import org.apache.poi.xssf.usermodel.XSSFSheet;
-// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-// import org.apache.poi.common.io.FileOutputStream;
-/*
-* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-*/
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
-// import org.apache.poi.ss.usermodel.Row;
-// import org.apache.commons.io.*;;
 
 /**
  *
@@ -292,7 +281,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
                 Phocsinh.add(dateChooser);
                 toadoYTextfield = toadoYTextfield + 35;
 
-            } else if (i == 2) { // Thay thế TextField của giới tính bằng JComboBox
+            } else if (i == 2) {
                 String[] genders = { "Nam", "Nữ", "Khác" };
                 genderComboBox = new JComboBox<>(genders);
                 genderComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
@@ -331,7 +320,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
         scrollpane.setPreferredSize(new Dimension(835, 340));
-                String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
+        String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
                 "Ảnh chân dung" };
 
         if (hsBUS.getList() == null)
@@ -410,7 +399,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
 
         // Lấy các giá trị từ các trường nhập
 
-        Integer countHS =+ hsBUS.CountHS() + 1;
+        Integer countHS = +hsBUS.CountHS() + 1;
         System.out.println("Số lượng học sinh: " + countHS);
         String hocSinhID = "HS" + countHS;
         // String hocSinhID = tf[0].getText();
