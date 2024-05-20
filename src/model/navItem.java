@@ -15,15 +15,15 @@ import javax.swing.JPanel;
  *
  * @author Shadow
  */
-public class navItem extends JPanel implements MouseListener{
-    private JLabel lb,icon;
+public class navItem extends JPanel implements MouseListener, ActionListener {
+    private JLabel lb, icon;
     private Color hover = new Color(100, 113, 140);
     private Color normal = new Color(67, 76, 94);
-    private boolean active ;
-    private String name,img,imgActive,imgHover;
+    private boolean active;
+    private String name, img, imgActive, imgHover;
     private Rectangle rec = new Rectangle();
-    public navItem(String s,Rectangle r,String img,String imgActive )
-    {
+
+    public navItem(String s, Rectangle r, String img, String imgActive) {
         name = s;
         lb = new JLabel(name);
         this.img = img;
@@ -33,8 +33,8 @@ public class navItem extends JPanel implements MouseListener{
         rec = r;
         init();
     }
-    public navItem(String s,Rectangle r,String img,String imgActive,String imgHover,Color hover)
-    {
+
+    public navItem(String s, Rectangle r, String img, String imgActive, String imgHover, Color hover) {
         name = s;
         lb = new JLabel(name);
         this.img = img;
@@ -45,82 +45,76 @@ public class navItem extends JPanel implements MouseListener{
         this.hover = hover;
         init();
     }
-    public navItem(String s,Rectangle r)
-    {
+
+    public navItem(String s, Rectangle r) {
         lb = new JLabel(s);
         icon = new JLabel();
         rec = r;
         init();
     }
-    
-    public void setColorNormal(Color e)
-    {
+
+    public void setColorNormal(Color e) {
         this.normal = e;
         setBackground(normal);
-        repaint();   
+        repaint();
     }
-    
-    public JPanel isButton()
-    {
-        icon.setBounds(new Rectangle(rec.width/4 + 2 , rec.height/4, 50, 30));
+
+    public JPanel isButton() {
+        icon.setBounds(new Rectangle(rec.width / 4 + 2, rec.height / 4, 50, 30));
         normal = null;
         setBackground(normal);
-//        repaint();
+        // repaint();
         return this;
     }
-    public void init()
-    {
+
+    public void init() {
 
         addMouseListener(this);
-        Font font = new Font("Segoe UI",Font.BOLD,13);
+        Font font = new Font("Segoe UI", Font.BOLD, 13);
         setLayout(null);
         setBounds(rec);
-        
-        icon.setIcon(new ImageIcon("./src/image/"+img));
+
+        icon.setIcon(new ImageIcon("./src/image/" + img));
         icon.setBackground(Color.white);
-        icon.setBounds(new Rectangle(rec.width/7 , rec.height/4, 50, 30));
-        
+        icon.setBounds(new Rectangle(rec.width / 7, rec.height / 4, 50, 30));
+
         lb.setFont(font);
         lb.setForeground(Color.white);
-        lb.setBounds(new Rectangle(rec.width/4+10, rec.height/4, 150, 30));
-           
-        if(active)
-        {
+        lb.setBounds(new Rectangle(rec.width / 4 + 10, rec.height / 4, 150, 30));
+
+        if (active) {
             setBackground(Color.WHITE);
-        }
-        else
-        {
+        } else {
             setBackground(normal);
-        } 
+        }
         add(icon);
         add(lb);
-        
+
     }
-    public void setActive(boolean a)
-    {
+
+    public void setActive(boolean a) {
         active = a;
-        
+
     }
 
     public String getName() {
         return name;
     }
-    
-    public void doActive()
-    {
+
+    public void doActive() {
         active = true;
-        icon.setIcon(new ImageIcon("./src/image/"+imgActive));
+        icon.setIcon(new ImageIcon("./src/image/" + imgActive));
         lb.setForeground(Color.BLACK);
         setBackground(Color.WHITE);
     }
-    public void noActive()
-    {
+
+    public void noActive() {
         active = false;
-        icon.setIcon(new ImageIcon("./src/image/"+img));
+        icon.setIcon(new ImageIcon("./src/image/" + img));
         lb.setForeground(Color.WHITE);
         setBackground(normal);
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -128,15 +122,15 @@ public class navItem extends JPanel implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-//        active = true;
-//        if(active)
-//        {
-//            setBackground(Color.WHITE);
-//        }
-//        else
-//        {
-//            setBackground(null);
-//        } 
+        // active = true;
+        // if(active)
+        // {
+        // setBackground(Color.WHITE);
+        // }
+        // else
+        // {
+        // setBackground(null);
+        // }
     }
 
     @Override
@@ -145,20 +139,22 @@ public class navItem extends JPanel implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if(!active)
-        {
+        if (!active) {
             setBackground(hover);
-            icon.setIcon(new ImageIcon("./src/image/"+imgHover));
+            icon.setIcon(new ImageIcon("./src/image/" + imgHover));
         }
     }
 
     @Override
-    public void mouseExited(MouseEvent e){
-        if(!active)
-        {
+    public void mouseExited(MouseEvent e) {
+        if (!active) {
             setBackground(normal);
-            icon.setIcon(new ImageIcon("./src/image/"+img));
+            icon.setIcon(new ImageIcon("./src/image/" + img));
         }
     }
-}
 
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+}

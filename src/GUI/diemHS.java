@@ -99,7 +99,7 @@ public class diemHS extends JPanel {
         b3 = new JLabel("Năm học");
         b2.setFont(new Font(b2.getFont().getName(), Font.BOLD, 18));
         b3.setFont(new Font(b3.getFont().getName(), Font.BOLD, 18));
-        
+
         // b1.setBackground(new Color(180, 204, 227));
         b2.setBackground(new Color(180, 204, 227));
         b3.setBackground(new Color(180, 204, 227));
@@ -218,7 +218,7 @@ public class diemHS extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 30);
-       
+
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.insets = new Insets(15, 0, 0, 0);
         jl1 = createLabel("Điểm trung bình học kỳ:", gbc1, 0, 2);
@@ -255,14 +255,14 @@ public class diemHS extends JPanel {
                         && dtbhk.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY))
                         && dtbhk.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
                     tf1.setText(String.valueOf(dtbhk.getDiemTrungBinh()));
-                    tf1a.setText("\""+hkbus.getHocKyIDFromTenHocKy(HKY)+"\"");
+                    tf1a.setText("\"" + hkbus.getHocKyIDFromTenHocKy(HKY) + "\"");
                 }
             }
             if (kq.getHocSinhID().equals(mahocsinh) && kq.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
                 tf2.setText(String.valueOf(kq.getDiemTrungBinhNam()));
                 tf3.setText(String.valueOf(kq.getHocLuc()));
                 tf4.setText(String.valueOf(kq.getHanhKiem()));
-                tf2a.setText("\""+NH+"\""); 
+                tf2a.setText("\"" + NH + "\"");
             }
 
         }
@@ -470,23 +470,23 @@ public class diemHS extends JPanel {
                     g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
                     g2d.scale(0.5, 0.5);
                     jframe.printAll(g2d);
-    
+
                     return PAGE_EXISTS;
                 }
             });
-                    boolean doPrint = job.printDialog();
-                if (doPrint) {
-                    try {
-                        job.print();
-                    } catch (PrinterException e) {
-                        e.printStackTrace();
-                    }
+            boolean doPrint = job.printDialog();
+            if (doPrint) {
+                try {
+                    job.print();
+                } catch (PrinterException e) {
+                    e.printStackTrace();
                 }
+            }
             System.out.println("User clicked Yes");
         } else {
             JOptionPane.showMessageDialog(null, "In đã bị hủy!"); // Show message to indicate printing canceled
             System.out.println("Thoát in!");
-            return; 
+            return;
         }
     }
 
@@ -521,19 +521,19 @@ public class diemHS extends JPanel {
         repaint(); // Vẽ lại giao diện
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Điểm Học Sinh");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 700);
-        frame.setLocationRelativeTo(null);
+    // public static void main(String[] args) {
+    // JFrame frame = new JFrame("Điểm Học Sinh");
+    // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // frame.setSize(900, 700);
+    // frame.setLocationRelativeTo(null);
 
-        try {
-            diemHS testdiemPanel = new diemHS("HS1");
-            frame.add(testdiemPanel);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    // try {
+    // diemHS testdiemPanel = new diemHS("HS1");
+    // frame.add(testdiemPanel);
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // }
 
-        frame.setVisible(true);
-    }
+    // frame.setVisible(true);
+    // }
 }

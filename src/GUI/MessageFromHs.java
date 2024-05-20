@@ -76,15 +76,16 @@ public class MessageFromHs extends JPanel implements ActionListener {
     public void init() {
 
         this.setSize(new Dimension(width, height));
+        // this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JPanel p1 = JSearch();
         p1.setPreferredSize(new Dimension(0, 40));
-        p1.setBackground(new Color(99,116,198)); // Light blue background
+        p1.setBackground(new Color(99, 116, 198)); // Light blue background
 
         JPanel p2 = JHeader();
         p2.setPreferredSize(new Dimension(0, 200));
-        p2.setBackground(new Color(180,204,227)); // Light cyan background
+        p2.setBackground(new Color(180, 204, 227)); // Light cyan background
 
         JPanel p3 = new JPanel();
         p3.setPreferredSize(new Dimension(0, 300));
@@ -192,7 +193,6 @@ public class MessageFromHs extends JPanel implements ActionListener {
         return pHead;
     }
 
-    
     public JScrollPane init_table() {
         String[] header = { "Mã học sinh", "Tên học sinh", "Thời gian gửi", "Tiêu đề", "Nội dung", "Trạng thái",
         };
@@ -395,14 +395,10 @@ public class MessageFromHs extends JPanel implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(850, 670);
-        MessageFromHs panel = new MessageFromHs(850, 670);
-        frame.add(panel);
-        frame.setVisible(true);
-    }
+    // public static void main(String[] args) {
+    // MessageFromHs frame = new MessageFromHs(850, 670);
+    // frame.setVisible(true);
+    // }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnReset) {

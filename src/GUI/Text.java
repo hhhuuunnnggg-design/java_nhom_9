@@ -22,7 +22,7 @@ import model.navItem;
  *
  * @author Shadow
  */
-public class Text extends JFrame implements MouseListener {
+public class Text extends JFrame implements MouseListener, ActionListener {
     protected static Object title_tentk;
     private JButton test;
     private String userID;
@@ -39,12 +39,14 @@ public class Text extends JFrame implements MouseListener {
     ArrayList<chitietquyenDTO> listChitietquyen;
     ArrayList<chucnangDTO> listchucnang;
     ArrayList<String> macn;
+    private model.navItem item;
 
     public Text(String username) throws SQLException {
         this.userName = username;
         Toolkit screen = Toolkit.getDefaultToolkit();
         init();
         setTitle("Quản lý học sinh ");
+        // item.addMouseListener(this);
     }
 
     public void init() throws SQLException {
@@ -78,8 +80,8 @@ public class Text extends JFrame implements MouseListener {
         hmain.add(btnLogOut.isButton());
         btnLogOut.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                lognGUI lg = new lognGUI();
-                dispose();
+                TestDN lg = new TestDN();
+                lg.dispose();
             }
         });
         // }
@@ -116,7 +118,7 @@ public class Text extends JFrame implements MouseListener {
             nav = new JPanel(null);
             Color my_color_jleft = new Color(50, 48, 128);
             nav.setBackground(my_color_jleft);
-            nav.setPreferredSize(new Dimension(220, DEFAULT_HEIGHT));
+            nav.setPreferredSize(new Dimension(220, DEFAULT_HEIGHT + 100));
 
             JScrollPane scroll = new JScrollPane(nav);
             scroll.getVerticalScrollBar().setPreferredSize(new Dimension(1, 100));
@@ -132,6 +134,7 @@ public class Text extends JFrame implements MouseListener {
             listchucnang = pqBUS.getlistchucnang();
 
             navItem = new ArrayList<>();
+            macn = new ArrayList<>();
 
             for (int i = 0; i < listChitietquyen.size(); i++) {
                 chitietquyenDTO ctq = listChitietquyen.get(i);
@@ -142,24 +145,25 @@ public class Text extends JFrame implements MouseListener {
                         System.out.println(cn.getTenchucnang());
                         String text = cn.getTenchucnang() + ":Shop_20px.png:Shop_20px_active.png";
                         navItem.add(text);
-                        macn = new ArrayList<>();
                         macn.add(cn.getMachucnang());
+                        System.out.println(cn.getMachucnang());
                     }
                 }
             }
-            // navItem.add("Quản lý giáo viên :Shop_20px.png:Shop_20px_active.png");
-            // navItem.add("Quản Lý Học Sinh:QLSP_20px.png:QLSP_20px_active.png");
-            // navItem.add("Thống kê:NhanVien_20px.png:NhanVien_20px_active.png");
-            // navItem.add("Đổi Password:KhachHang_20px.png:KhachHang_20px_active.png");
-            // navItem.add("Thanh toán học phí:ThongKe_20px.png:ThongKe_20px_active.png");
-            // navItem.add("Quản lý điểm:CongCu_20px.png:CongCu_20px_active.png");
-            System.out.println(navItem);
+
+            System.out.println(navItem.size());
             outNav();
 
             main = new JPanel(null);
             main.setBackground(Color.white);
+
             navObj.get(0).doActive();
-            changeMainInfo("CN1");
+            System.out.println("navObj" + navObj.size());
+
+            String start = macn.get(0);
+            System.out.println(start);
+
+            changeMainInfo(start);
 
             add(header, BorderLayout.NORTH);
             add(scroll, BorderLayout.WEST);
@@ -167,33 +171,40 @@ public class Text extends JFrame implements MouseListener {
 
             setVisible(true);
         }
+        for (navItem n : navObj) {
+            n.addMouseListener(this); // Already existing
+            // n.addActionListener(this); // Add this line to add ActionListener
+        }
 
     }
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {
+        String ma;
         for (int i = 0; i < navObj.size(); i++) {
-            navItem item = navObj.get(i); // lấy vị trí item trong menu
+            item = navObj.get(i); // lấy vị trí item trong menu
             if (e.getSource() == item) {
                 item.doActive(); // Active NavItem đc chọn
-                String ma = macn.get(i);
+                ma = macn.get(i);
+                System.out.println("Mã chức năg" + ma);
                 try {
                     changeMainInfo(ma);
                 } catch (SQLException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             } else {
                 item.noActive();
             }
         }
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
     }
 
     public void changeMainInfo(String macn) throws SQLException {
         switch (macn) {
             case "CN1": // QUẢN LÝ Hoc Sinh
-                main.removeAll();
                 main.removeAll();
                 try {
                     main.add(new QuanLiHocSinh(850, 670));
@@ -204,7 +215,7 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-                case "CN2": // QUẢN LÝ Giao Vien
+            case "CN2": // QUẢN LÝ Giao Vien
                 main.removeAll();
                 try {
                     main.add(new QLGV(850, 670));
@@ -236,7 +247,7 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN5": //Phân công
+            case "CN5": // Phân công
                 main.removeAll();
                 try {
                     main.add(new QuanLiPhanCong(850, 670));
@@ -247,7 +258,7 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN6": //Quản lý Tài khoản
+            case "CN6": // Quản lý Tài khoản
                 main.removeAll();
                 try {
                     main.add(new Taikhoan(850, 670));
@@ -258,26 +269,26 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN7": //Thanh toán học phí
+            case "CN7": // Quản lý điểm
                 main.removeAll();
-                main.add(new ThanhToanHocPhi(850, 670));
+                // main.add(new QuanLyDiem(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN8": //Xem ý kiến HS
+            case "CN8": // Xem ý kiến HS
                 main.removeAll();
                 main.add(new MessageFromHs(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN9"://Quản lý điểm
+            case "CN9":// Thanh toán học phí
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                main.add(new ThanhToanHocPhi(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
 
-            case "CN10": //Thống kê
+            case "CN10": // Thống kê
                 main.removeAll();
                 try {
                     main.add(new ThongKe(850, 670));
@@ -288,14 +299,14 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN11": //Thông báo đến HS/GV
+            case "CN11": // Thông báo đến HS/GV
                 main.removeAll();
                 main.add(new admin_guiTB(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
 
-            case "CN12": //Danh sách HS
+            case "CN12": // Danh sách HS
                 main.removeAll();
                 try {
                     main.add(new QuanLiHocSinh_GV(850, 670));
@@ -306,17 +317,17 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN13": //Nhập điểm
+            case "CN13": // Nhập điểm
                 main.removeAll();
                 main.add(new GVQuanLyDiem(850, 670, userName));
                 main.repaint();
                 main.revalidate();
                 break;
 
-            case "CN14": //Thông tin tài khoản GV
+            case "CN14": // Thông tin tài khoản GV
                 main.removeAll();
                 try {
-                    main.add(new TTTK_GV(850, 670,userName));
+                    main.add(new TTTK_GV(850, 670, userName));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -324,22 +335,22 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN15": //Giáo viên gửi thông  báo -> HS
+            case "CN15": // Giáo viên gửi thông báo -> HS
                 main.removeAll();
                 main.add(new gv_guiTB(850, 670, userName));
                 main.repaint();
                 main.revalidate();
                 break;
 
-            case "CN16"://GV nhận thông báo
+            case "CN16":// GV nhận thông báo
                 break;
-            case "CN17": //Đổi mật khẩu HS/GV
+            case "CN17": // Đổi mật khẩu HS/GV
                 main.removeAll();
                 main.add(new DoiMK(850, 670, userName));
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN18": //Xem điểm HS
+            case "CN18": // Xem điểm HS
                 main.removeAll();
                 try {
                     main.add(new diemHS(userName));
@@ -352,7 +363,7 @@ public class Text extends JFrame implements MouseListener {
                 break;
             case "CN19":
                 main.removeAll();
-                main.add(new hs_gopykien(850, 670,userName));
+                main.add(new hs_gopykien(850, 670, userName));
                 main.repaint();
                 main.revalidate();
                 break;
@@ -366,9 +377,9 @@ public class Text extends JFrame implements MouseListener {
                 }
                 main.repaint();
                 main.revalidate();
-                break; 
-            case "CN21": //HS nhận thông báo
-                break; 
+                break;
+            case "CN21": // HS nhận thông báo
+                break;
         }
     }
 
