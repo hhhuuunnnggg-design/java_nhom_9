@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.HeadlessException;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,23 +59,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-// import org.apache.poi.ss.usermodel.*;
-// import org.apache.poi.xssf.usermodel.XSSFCell;
-// import org.apache.poi.xssf.usermodel.XSSFRow;
-// import org.apache.poi.xssf.usermodel.XSSFSheet;
-// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-// import org.apache.poi.common.io.FileOutputStream;
-/*
-* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-*/
+
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
-// import org.apache.poi.ss.usermodel.Row;
-// import org.apache.commons.io.*;;
 
 /**
  *
@@ -82,10 +72,10 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public final class QLGV extends JPanel implements MouseListener, ActionListener {
     private String mahs, hoten, gioitinh, diachi, namsinh, sodienthoai, img;
-    private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi, lblimg;
+    private JLabel  lblimg;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
-    // private JTable tbl;
+    // private JTable tbl
     private JScrollPane scrollpane;
     JTextField[] tf;
     JButton[] buttons;
@@ -364,8 +354,7 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
             rowData[i][5] = student.getDienThoai();
             rowData[i][6] = student.getIMG();
         }
-     
-
+    
         Font font = new Font("Arial", Font.BOLD, 12);
         Color title_color = new Color(31, 28, 77);
         t.getTableHeader().setBackground(title_color);
@@ -373,8 +362,6 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         t.getTableHeader().setFont(font);
         Color select = new Color(102, 178, 255);
         t.setSelectionBackground(select);
-
-       
 
         tblmodel = new DefaultTableModel(rowData, header);
         t.setModel(tblmodel);

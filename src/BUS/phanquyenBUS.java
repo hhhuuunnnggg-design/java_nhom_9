@@ -1,9 +1,6 @@
 package BUS;
 
 import java.util.ArrayList;
-
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
-
 import DATA.phanquyenDAO;
 import DTO.chitietquyenDTO;
 import DTO.chucnangDTO;
@@ -34,42 +31,35 @@ public class phanquyenBUS {
     }
 
     public ArrayList<phanquyenDTO> getlistquyen() {
-
         return dsquyen;
-
     }
 
     public ArrayList<chucnangDTO> getlistchucnang() {
         return dschucnang;
     }
 
-    public void addQuyen(phanquyenDTO newQuyen) {
-        phanquyenDAO dao = new phanquyenDAO();
-        dao.addQuyen(newQuyen);
+    public static void main(String[] args) {
+        phanquyenBUS phanquyenBUS = new phanquyenBUS();
+
+        // Ensure the lists are initialized
+        phanquyenBUS.listquyen();
+        phanquyenBUS.listchucnang();
+
+        // Print out all phanquyenDTO objects
+        ArrayList<phanquyenDTO> allQuyen = phanquyenBUS.getlistquyen();
+        for (phanquyenDTO quyen : allQuyen) {
+            System.out.println("MaQuyen: " + quyen.getMaquyen());
+            System.out.println("TenQuyen: " + quyen.getTenquyen());
+            System.out.println("-------------------------");
+        }
+
+        // // Print out all chucnangDTO objects
+        // ArrayList<chucnangDTO> allChucNang = phanquyenBUS.getlistchucnang();
+        // for (chucnangDTO chucNang : allChucNang) {
+        // System.out.println("MaChucNang: " + chucNang.getMaChucNang());
+        // System.out.println("TenChucNang: " + chucNang.getTenChucNang());
+        // System.out.println("-------------------------");
+        // }
     }
 
-    public boolean checkExist(String maquyen) {
-        phanquyenDAO dao = new phanquyenDAO();
-        return dao.checkExist(maquyen);
-    }
-
-    public void addChitietquyen(chitietquyenDTO ctq) {
-        phanquyenDAO dao = new phanquyenDAO();
-        dao.addChitietquyen(ctq);
-
-    }
-
-    public ArrayList<chitietquyenDTO> getListchitietquyen() {
-        return dschitietquyen;
-    }
-
-    public void deleteQuyen(String maquyen) {
-        phanquyenDAO dao = new phanquyenDAO();
-        dao.deleteQuyen(maquyen);
-    }
-
-    public void deleteChitietquyen(String maquyen) {
-        phanquyenDAO dao = new phanquyenDAO();
-        dao.deteleChitietQuyen(maquyen);
-    }
 }
