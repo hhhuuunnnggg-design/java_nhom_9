@@ -44,4 +44,10 @@ public class MessageFromHsBUS {
         dao.Update(uptt);
     }
 
+    public String getIMG(String mahs) {
+        String img = null;
+        MessageFromHsDAO dao = new MessageFromHsDAO();
+        img = dao.getIMG(mahs);
+        return img;
+    }
 }
