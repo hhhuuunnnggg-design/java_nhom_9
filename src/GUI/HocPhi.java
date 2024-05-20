@@ -18,6 +18,7 @@ import BUS.MonHocBUS;
 import BUS.NamHocBUS;
 import BUS.PhanLopBUS;
 import DTO.ChiTietDiemDTO;
+import DTO.CurrentDateTime;
 import DTO.DTB_HocKyDTO;
 import DTO.HocKyDTO;
 import DTO.HocSinhDTO;
@@ -58,6 +59,8 @@ public class HocPhi {
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
 
+    CurrentDateTime currTime = new CurrentDateTime();
+    int namhientai = currTime.getYear();
     public HocPhi() {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,7 +231,26 @@ public class HocPhi {
     dsdtb = dtbbus.getList();
     dshk = hkbus.getList();
     dsnh = nhbus.getList();
-    
+
+    String idnam = null;
+    for (NamHocDTO nh : dsnh){
+        if(nh.getNamHocBatDau()==namhientai){
+            System.out.println("so sanh nam");
+            idnam = nh.getNamHocID();
+            break;
+        }
+    }
+
+    for (HocSinhDTO hs : dshs){
+
+        String idhs = hs.getHocSinhID();
+        if(plbus.get(idhs, idnam) != null)
+            continue;
+        else break;
+        String[] rowData = new String[]{
+            
+        };
+        }
     }
 
 

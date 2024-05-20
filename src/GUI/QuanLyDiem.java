@@ -546,7 +546,7 @@ public class QuanLyDiem extends JPanel{
             System.out.println(diemnamhoc);
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-    //thay doi diem khi nhap du 
+    //thay doi diem khi nhap du
     //ham tinh diem
     //update diem
         resetOutput();
