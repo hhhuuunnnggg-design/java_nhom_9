@@ -4,12 +4,15 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
+import java.awt.event.*;
+import java.awt.print.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.TableRowSorter;
 import java.util.List;
 import java.util.ArrayList;
+import java.awt.*;
+import java.sql.*;
 
 import BUS.ChiTietDiemBUS;
 import BUS.DTB_HocKyBUS;
@@ -30,23 +33,21 @@ import DTO.MonHocDTO;
 import DTO.NamHocDTO;
 import DTO.PhanLopDTO;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.sql.*;
-
 public class diemHS extends JPanel {
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, btnPanel, diemPanel, loaiPanel;
     private JLabel b1, b2, b3, jl1, jl2, jl3, jl4;
     private JTextField tf1, tf2, tf3, tf4;
     private JComboBox<String> c1, c2, c3;
     private JLabel l1;
-    private JButton filterBtn;
+    private JButton filterBtn, printBtn;
     private JScrollPane scrollPane;
     private JTable t;
     private DefaultTableModel tblModel;
     private String mahocsinh;
     private String HKY;
     private String NH;
+    boolean hasData = false; // Track if any data was added to the table
+
     ArrayList<HocSinhDTO> dshs;
     ArrayList<KQ_HocSinhCaNamDTO> dskq;
     ArrayList<MonHocDTO> dsmon;
@@ -71,6 +72,8 @@ public class diemHS extends JPanel {
 
     public diemHS(String mahocsinh) throws SQLException {
         this.mahocsinh = mahocsinh;
+        this.NH = NH;
+        this.HKY = HKY;
         setLayout(new BorderLayout());
         setSize(850, 670);
 
@@ -132,10 +135,21 @@ public class diemHS extends JPanel {
 
         filterBtn.addActionListener(new ShowFilterListener());
 
+        printBtn = new JButton("In");
+        printBtn.setBackground(new Color(31, 28, 77));
+        printBtn.setForeground(Color.WHITE);
+        printBtn.setPreferredSize(new Dimension(70, 30));
+        printBtn.addActionListener(new PrintListener());
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         btnPanel.add(filterBtn, gbc);
+
+        GridBagConstraints gbc1 = new GridBagConstraints();
+        gbc1.gridx = 0;
+        gbc1.gridy = 1;
+        btnPanel.add(printBtn, gbc1);
 
         radioPanel.add(b2);
         radioPanel.add(b3);
@@ -179,12 +193,35 @@ public class diemHS extends JPanel {
     }
     
     private void addComponentsToPanel() {
+        ArrayList<HocSinhDTO> dshs;
+        ArrayList<KQ_HocSinhCaNamDTO> dskq;
+        ArrayList<MonHocDTO> dsmon;
+        ArrayList<ChiTietDiemDTO> dsct;
+        ArrayList<HocKyDTO> dshk;
+        ArrayList<DTB_HocKyDTO> dsdtb;
+        ArrayList<NamHocDTO> dsnh;
+        ArrayList<PhanLopDTO> dspl;
+        ArrayList<LopDTO> dslop;
+        dshs = hsbus.getList();
+        dskq = kqbus.getList();
+        dsmon = mhbus.getList();
+        dsct = ctbus.getList();
+        dsdtb = dtbbus.getList();
+        dshk = hkbus.getList();
+        dsnh = nhbus.getList();
+        dspl = plbus.getList();
+
+        String HKY =(String) c2.getSelectedItem(); // họcky1
+        String NH = (String) c3.getSelectedItem(); // 2024-2025
+    
+        boolean hasData = false; // Track if any data was added to the table
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
 
         jl1 = createLabel("Điểm trung bình học kỳ:", gbc, 0, 2);
         tf1 = createTextField(gbc, 1, 2);
-
+        
         jl2 = createLabel("Điểm trung bình cả năm:", gbc, 0, 3);
         tf2 = createTextField(gbc, 1, 3);
 
@@ -193,6 +230,22 @@ public class diemHS extends JPanel {
 
         jl4 = createLabel("Xếp loại hạnh kiểm:", gbc, 0, 5);
         tf4 = createTextField(gbc, 1, 5);
+
+        for (KQ_HocSinhCaNamDTO kq : dskq){
+                for (DTB_HocKyDTO dtbhk : dsdtb){
+                    if (dtbhk.getHocSinhID().equals(mahocsinh) && dtbhk.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY)) && dtbhk.getNamHocID().equals(nhbus.getByAcademicYear(NH))){
+                        System.out.println(hkbus.getHocKyIDFromTenHocKy(HKY));
+                        tf1.setText(String.valueOf(dtbhk.getDiemTrungBinh()));
+                    }
+                    }
+                if (kq.getHocSinhID().equals(mahocsinh) && kq.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
+                    tf2.setText(String.valueOf(kq.getDiemTrungBinhNam()));
+                    tf3.setText(String.valueOf(kq.getHocLuc()));
+                    tf4.setText(String.valueOf(kq.getHanhKiem()));
+                }
+                
+            }
+            
 
         lockTextFields();
 
@@ -211,12 +264,22 @@ public class diemHS extends JPanel {
         return label;
     }
     
-
+    public String getNH(){
+        ArrayList<KQ_HocSinhCaNamDTO> dskq;
+        dskq = kqbus.getList();
+        String NH = (String) c3.getSelectedItem(); // 2024-2025
+        for(KQ_HocSinhCaNamDTO kq : dskq){
+            if (kq.getHocSinhID().equals(mahocsinh) && kq.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
+                NH = kq.getNamHocID();
+            }
+        }
+        return NH;
+    }
     private JTextField createTextField(GridBagConstraints gbc, int x, int y) {
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(100, 30));
         textField.setFont(textField.getFont().deriveFont(Font.BOLD, 18));
-        textField.setHorizontalAlignment(SwingConstants.LEFT); // Set horizontal alignment to LEFT
+        textField.setHorizontalAlignment(JTextField.CENTER); // Set horizontal alignment to LEFT
         textField.setBackground(Color.WHITE);
         gbc.gridx = x;
         gbc.gridy = y;
@@ -281,63 +344,100 @@ public class diemHS extends JPanel {
         dsnh = nhbus.getList();
         dspl = plbus.getList();
         
-        mahocsinh = "HS1"; 
         int stt = 1;
-        String HKY =(String) c2.getSelectedItem();//họcky1
-        String NH = (String) c3.getSelectedItem(); //2024-2025
-           
-        // && ctbus.get(hkbus.get(HKY).getHocKyID()).getHocKyID().equals(mh)
+        String HKY =(String) c2.getSelectedItem(); // họcky1
+        String NH = (String) c3.getSelectedItem(); // 2024-2025
+        
         for (MonHocDTO mh : dsmon) {
             double diem15 = 0, diem1Tiet = 0, diemHocKy = 0;
             int heSo15 = 0, heSo1Tiet = 0, heSoHocKy = 0;
             for (NamHocDTO nh : dsnh) {
-                System.out.println(nhbus.getByAcademicYear(NH));
+                if (nhbus.getByAcademicYear(NH) == null) continue;
                 for (HocKyDTO hk : dshk) {
-                    String TenHK = hk.getTenHocKy();
-                    System.out.println(hkbus.getHocKyIDFromTenHocKy(HKY));
+                    if (hkbus.getHocKyIDFromTenHocKy(HKY) == null) continue;
                     for (ChiTietDiemDTO ct : dsct) {
                         if (ct.getHocSinhID().equals(mahocsinh) && ct.getMonHocID().equals(mh.getMonHocID()) && ct.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY)) && ct.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
-                            // System.out.println("Subject: " + mh.getTenMonHoc()); // Debug statement
-                            // System.out.println("HeSoID: " + ct.getHeSoID() + ", Diem: " + ct.getDiem()); // Debug statement
-                            // System.out.println("HK: " + ct.getHocKyID() + ", Nam: " + ct.getNamHocID()); // Debug statement
-
-                            // && tenHK.equals("Học kỳ 1") && NHHT.equals("2024-2025")
-                            if (ct.getHeSoID() == 1 && ct.getNamHocID().equals("giapthin")) {
+                            if (ct.getHeSoID() == 1) {
                                 diem15 = ct.getDiem();
                                 heSo15 = ct.getHeSoID();
-                            }
-                             else if (ct.getHeSoID() == 2 && ct.getNamHocID().equals("giapthin")) {
+                            } else if (ct.getHeSoID() == 2) {
                                 diem1Tiet = ct.getDiem();
                                 heSo1Tiet = ct.getHeSoID();
-                            } else if (ct.getHeSoID() == 3 && ct.getNamHocID().equals("giapthin")) {
+                            } else if (ct.getHeSoID() == 3) {
                                 diemHocKy = ct.getDiem();
                                 heSoHocKy = ct.getHeSoID();
                             }
                         }
-                        else{
-                            String[] rowData = new String[0];
-                    }
                     }
                 }
             }
-            System.out.println("Diem 15': " + diem15 + ", Diem 1 tiet: " + diem1Tiet + ", Diem Hoc Ky: " + diemHocKy); // Debug statement
             
-            double tbm = (diem15 * heSo15 + diem1Tiet * heSo1Tiet + diemHocKy * heSoHocKy) / (heSo15 + heSo1Tiet + heSoHocKy);
-            String formattedTBM = String.format("%.1f", tbm);
-            String[] rowData = new String[] {
-                String.valueOf(stt),
-                mh.getTenMonHoc(),
-                String.valueOf(diem15),
-                String.valueOf(diem1Tiet),
-                String.valueOf(diemHocKy),
-                formattedTBM
-            };
-            tblModel.addRow(rowData);
-            stt++; // Increment serial number
+            if (diem15 != 0 || diem1Tiet != 0 || diemHocKy != 0) {
+                double tbm = (diem15 * heSo15 + diem1Tiet * heSo1Tiet + diemHocKy * heSoHocKy) / (heSo15 + heSo1Tiet + heSoHocKy);
+                String formattedTBM = String.format("%.1f", tbm);
+                String[] rowData = new String[] {
+                    String.valueOf(stt),
+                    mh.getTenMonHoc(),
+                    String.valueOf(diem15),
+                    String.valueOf(diem1Tiet),
+                    String.valueOf(diemHocKy),
+                    formattedTBM
+                };
+                tblModel.addRow(rowData);
+                stt++; // Increment serial number
+                hasData = true; // Mark that data was added
+            }
+        }
+    
+        if (!hasData) {
+            tblModel.setRowCount(0);
+            JOptionPane.showMessageDialog(null, "Không có dữ liệu!");
         }
     }
-    
-    
+
+    private class PrintListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // loaddatatoTable();
+            if (tblModel.getRowCount()==0) {
+            JOptionPane.showMessageDialog(null, "Không có dữ liệu để in!");
+            }
+            else {
+            printPanel(diemPanel);
+            }
+        }
+    }
+    private void printPanel(JPanel panel) {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName("Print Panel");
+
+        job.setPrintable(new Printable() {
+            @Override
+            public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                if (pageIndex > 0) {
+                    return NO_SUCH_PAGE;
+                }
+
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+                g2d.scale(0.5, 0.5);  // Scale down the panel if needed
+
+                panel.printAll(g2d);
+
+                return PAGE_EXISTS;
+            }
+        });
+
+        boolean doPrint = job.printDialog();
+        if (doPrint) {
+            try {
+                job.print();
+            } catch (PrinterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private class ShowFilterListener implements ActionListener {
         @Override

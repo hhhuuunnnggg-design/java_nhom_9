@@ -36,6 +36,8 @@ public class TTTK_HS extends JPanel {
         this.add(rightPanel, BorderLayout.CENTER);
 
         loaddatatoPanel();
+        lockTextFields();
+
         this.setVisible(true);
     }
 
@@ -58,15 +60,16 @@ public class TTTK_HS extends JPanel {
         jl11 = createLabel("Lớp:", gbc, 0, 6);
         tf7 = createTextField(gbc, 1, 6);
 
-        jl12 = createLabel("Học lực:", gbc, 0, 7);
+        // jl12 = createLabel("Học lực:", gbc, 0, 7);
+        // tf8 = createTextField(gbc, 1, 7);
+
+        jl12 = createLabel("Điện thoại:", gbc, 0, 7);
         tf8 = createTextField(gbc, 1, 7);
+        // jl13 = createLabel("Hạnh kiểm:", gbc, 0, 8);
+        // tf9 = createTextField(gbc, 1, 8);
 
-        jl13 = createLabel("Hạnh kiểm:", gbc, 0, 8);
-        tf9 = createTextField(gbc, 1, 8);
-
-        jl14 = createLabel("Địa chỉ:", gbc, 0, 9);
-        tf10 = createTextField(gbc, 1, 9);
-        lockTextFields();
+        jl14 = createLabel("Địa chỉ:", gbc, 0, 8);
+        tf10 = createTextField(gbc, 1, 8);
 
     }
 
@@ -74,8 +77,8 @@ public class TTTK_HS extends JPanel {
         JLabel label = new JLabel(text);
         label.setPreferredSize(new Dimension(150, 40));
         label.setFont(label.getFont().deriveFont(Font.BOLD, 18));
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
+        label.setHorizontalAlignment(SwingConstants.LEFT); // Set horizontal alignment to LEFT
+        label.setVerticalAlignment(SwingConstants.TOP); // Set vertical alignment to TOP
         gbc.gridx = x;
         gbc.gridy = y;
         gbc.anchor = GridBagConstraints.WEST;
@@ -101,37 +104,49 @@ public class TTTK_HS extends JPanel {
         tf6.setEditable(false);
         tf7.setEditable(false);
         tf8.setEditable(false);
+        tf10.setEditable(false);
     }
-    public void loaddatatoPanel() {
+    public void loaddatatoPanel() throws SQLException {
         ArrayList<HocSinhDTO> dshs = hsbus.getList();
         ArrayList<NamHocDTO> dsnh = nhbus.getList();
         ArrayList<KQ_HocSinhCaNamDTO> dsKQ = kqbus.getList();
         ArrayList<PhanLopDTO> dsPL = plbus.getList();
         ArrayList<LopDTO> dsLop = Lopbus.getList();
-
+        diemHS dhs = new diemHS(username);
         for (HocSinhDTO hs : dshs) {
             if (username.equals(hs.getHocSinhID())) {  // Sử dụng username để lấy thông tin học sinh
                 String idhs = hs.getHocSinhID();
                 for (NamHocDTO nam : dsnh) {
                     for (PhanLopDTO pl : dsPL) {
                         for (LopDTO lop : dsLop) {
-                            if (pl.getNamHocID().equals("giapthin")) {
-                                String idnam = nam.getNamHocID();
-                                String hanhkiem = kqbus.get(idhs, idnam) != null ? kqbus.get(idhs, idnam).getHanhKiem() : "";
-                                String hocluc = kqbus.get(idhs, idnam) != null ? kqbus.get(idhs, idnam).getHocLuc() : "";
+                            if (pl.getNamHocID().equals(dhs.getNH())) {
                                 tf3.setText(idhs);
                                 tf4.setText(hs.getTenHocSinh());
                                 tf5.setText(hs.getGioiTinh());
                                 tf6.setText(hs.getNgaySinh());
                                 tf7.setText(lop.getTenLop());
-                                tf8.setText(hocluc);
-                                tf9.setText(hanhkiem);
+                                tf8.setText(hs.getDienThoai());
                                 tf10.setText(hs.getDiaChi());
                             }
                         }
                     }
+                    
                 }
             }
         }
+        // for (KQ_HocSinhCaNamDTO kq : dsKQ){
+        //     if (kq.getHocSinhID().equals(username) && kq.getNamHocID().equals(dhs.getNH())) {
+        //         tf8.setText(String.valueOf(kq.getHocLuc()));
+        //         tf9.setText(String.valueOf(kq.getHanhKiem()));
+        //     }
+        // }
+    }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 800);
+        TTTK_HS panel = new TTTK_HS(1000, 800, "HS2");
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }
