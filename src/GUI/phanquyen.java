@@ -1,5 +1,7 @@
 package GUI;
 
+import DTO.chitietquyenDTO;
+import DTO.chucnangDTO;
 import DTO.phanquyenDTO;
 
 import java.awt.BorderLayout;
@@ -7,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -37,6 +40,8 @@ public class phanquyen extends JFrame implements ActionListener {
     private JPanel psearch;
     private DefaultTableModel model;
     private ArrayList<phanquyenDTO> dsquyen;
+    private ArrayList<chucnangDTO> dschucnang;
+    private ArrayList<chitietquyenDTO> dschitietquyen;
     private phanquyenBUS pqBUS;
     private JButton btnAdd, btnEdit, btnDelete;
 
@@ -47,6 +52,7 @@ public class phanquyen extends JFrame implements ActionListener {
         btnAdd.addActionListener(this);
         btnEdit.addActionListener(this);
         btnDelete.addActionListener(this);
+        this.setLocationRelativeTo(null);
     }
 
     public void init() {
@@ -137,36 +143,72 @@ public class phanquyen extends JFrame implements ActionListener {
         if (e.getSource() == btnAdd) {
             showAddDialog();
         } else if (e.getSource() == btnEdit) {
-            // Edit logic
+            int selectedRow = t.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để sửa.", "Cảnh báo",
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
+                showEditDialog();
+            }
         } else if (e.getSource() == btnDelete) {
-            // Delete logic
+            int selectedRow = t.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để xóa.", "Cảnh báo",
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
+                String maquyen = (String) t.getValueAt(selectedRow, 0);
+                int result = JOptionPane.showConfirmDialog(this, "Bạn có chắc xóa quyền này không", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    model.removeRow(selectedRow);
+                    pqBUS.deleteQuyen(maquyen);
+                    pqBUS.deleteChitietquyen(maquyen);
+                    JOptionPane.showMessageDialog(this, "Xóa thành công");
+                }
+            }
         }
     }
 
     private void showAddDialog() {
+        // Lấy kích thước màn hình
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int dialogWidth = (int) (screenSize.width * 0.5);
+        int dialogHeight = (int) (screenSize.height * 0.5);
+
         JDialog addDialog = new JDialog(this, "Thêm Quyền", true);
-        addDialog.setSize(400, 300);
+        addDialog.setSize(dialogWidth, dialogHeight);
         addDialog.setLayout(new BorderLayout());
 
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel inputPanel = new JPanel(new FlowLayout(1, 10, 10));
         JLabel lblMaQuyen = new JLabel("Mã Quyền:");
         JTextField txtMaQuyen = new JTextField();
+        txtMaQuyen.setPreferredSize(new Dimension(150, 25));
         JLabel lblTenQuyen = new JLabel("Tên Quyền:");
         JTextField txtTenQuyen = new JTextField();
+        txtTenQuyen.setPreferredSize(new Dimension(150, 25));
 
         inputPanel.add(lblMaQuyen);
         inputPanel.add(txtMaQuyen);
         inputPanel.add(lblTenQuyen);
         inputPanel.add(txtTenQuyen);
 
-        JPanel checkBoxPanel = new JPanel(new GridLayout(0, 1));
-        JCheckBox cbx1 = new JCheckBox("Chức năng 1");
-        JCheckBox cbx2 = new JCheckBox("Chức năng 2");
-        JCheckBox cbx3 = new JCheckBox("Chức năng 3");
-        // Add more checkboxes as needed
-        checkBoxPanel.add(cbx1);
-        checkBoxPanel.add(cbx2);
-        checkBoxPanel.add(cbx3);
+        pqBUS.listchucnang();
+        dschucnang = pqBUS.getlistchucnang();
+        // System.out.println(dschucnang.size());
+
+        int rows = (int) Math.sqrt(dschucnang.size());
+        int cols = (int) Math.ceil((double) dschucnang.size() / rows);
+
+        JPanel checkBoxPanel = new JPanel(new GridLayout(rows, cols));
+
+        JCheckBox[] cbx = new JCheckBox[dschucnang.size()];
+        for (int i = 0; i < dschucnang.size(); i++) {
+            chucnangDTO cn = dschucnang.get(i);
+            cbx[i] = new JCheckBox(cn.getTenchucnang());
+            cbx[i].setActionCommand(cn.getMachucnang());
+            checkBoxPanel.add(cbx[i]);
+        }
 
         JButton btnSave = new JButton("Lưu");
         btnSave.addActionListener(new ActionListener() {
@@ -174,27 +216,165 @@ public class phanquyen extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 String maquyen = txtMaQuyen.getText();
                 String tenquyen = txtTenQuyen.getText();
-                // Gather selected checkboxes if needed
+                dschitietquyen = new ArrayList<>();
+                for (int i = 0; i < cbx.length; i++) {
+                    if (cbx[i].isSelected()) {
+                        chitietquyenDTO ctq = new chitietquyenDTO(maquyen, cbx[i].getActionCommand());
+                        System.out.println(ctq.getMachucnang());
+                        dschitietquyen.add(ctq);
+                    }
+                }
 
-                if (!maquyen.isEmpty() && !tenquyen.isEmpty()) {
-                    // Add save logic
-                    // e.g., save to database or list
+                if (!maquyen.isEmpty() && !tenquyen.isEmpty() && !dschitietquyen.isEmpty()) {
+                    if (pqBUS.checkExist(maquyen)) {
+                        JOptionPane.showMessageDialog(addDialog, "Mã quyền đã tồn tại", "Cảnh báo",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     phanquyenDTO newQuyen = new phanquyenDTO(maquyen, tenquyen);
-                    // pqBUS.addQuyen(newQuyen);
                     dsquyen.add(newQuyen);
+                    pqBUS.addQuyen(newQuyen);
+                    for (int i = 0; i < dschitietquyen.size(); i++) {
+                        System.out.println(dschitietquyen.size());
+                        chitietquyenDTO ctq = dschitietquyen.get(i);
+                        pqBUS.addChitietquyen(ctq);
+
+                    }
                     model.addRow(new Object[] { maquyen, tenquyen });
                     addDialog.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(addDialog, "Vui lòng nhập đủ thông tin.", "Lỗi",
+                    JOptionPane.showMessageDialog(addDialog,
+                            "Vui lòng nhập đủ thông tin và chọn ít nhất một chức năng.", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
         addDialog.add(inputPanel, BorderLayout.NORTH);
-        addDialog.add(checkBoxPanel, BorderLayout.CENTER);
+        addDialog.add(new JScrollPane(checkBoxPanel), BorderLayout.CENTER);
         addDialog.add(btnSave, BorderLayout.SOUTH);
+        addDialog.setLocationRelativeTo(this);
 
         addDialog.setVisible(true);
     }
+
+    private void showEditDialog() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int dialogWidth = (int) (screenSize.width * 0.5);
+        int dialogHeight = (int) (screenSize.height * 0.5);
+
+        JDialog editDialog = new JDialog(this, "Sửa Quyền", true);
+        editDialog.setSize(dialogWidth, dialogHeight);
+        editDialog.setLayout(new BorderLayout());
+
+        JPanel inputPanel = new JPanel(new FlowLayout(1, 10, 10));
+        JLabel lblMaQuyen = new JLabel("Mã Quyền:");
+        JTextField txtMaQuyen = new JTextField();
+        txtMaQuyen.setPreferredSize(new Dimension(150, 25));
+        JLabel lblTenQuyen = new JLabel("Tên Quyền:");
+        JTextField txtTenQuyen = new JTextField();
+        txtTenQuyen.setPreferredSize(new Dimension(150, 25));
+
+        inputPanel.add(lblMaQuyen);
+        inputPanel.add(txtMaQuyen);
+        inputPanel.add(lblTenQuyen);
+        inputPanel.add(txtTenQuyen);
+
+        int selectedRow = t.getSelectedRow();
+        String maQuyen = (String) model.getValueAt(selectedRow, 0);
+        String tenQuyen = (String) model.getValueAt(selectedRow, 1);
+        txtMaQuyen.setText(maQuyen);
+        txtTenQuyen.setText(tenQuyen);
+
+        pqBUS.listchucnang();
+        dschucnang = pqBUS.getlistchucnang();
+
+        int rows = (int) Math.sqrt(dschucnang.size());
+        int cols = (int) Math.ceil((double) dschucnang.size() / rows);
+
+        JPanel checkBoxPanel = new JPanel(new GridLayout(rows, cols));
+
+        JCheckBox[] cbx = new JCheckBox[dschucnang.size()];
+        for (int i = 0; i < dschucnang.size(); i++) {
+            chucnangDTO cn = dschucnang.get(i);
+            cbx[i] = new JCheckBox(cn.getTenchucnang());
+            cbx[i].setActionCommand(cn.getMachucnang());
+            checkBoxPanel.add(cbx[i]);
+        }
+
+        pqBUS.listChiTietQuyen(maQuyen);
+        dschitietquyen = new ArrayList<>();
+        dschitietquyen = pqBUS.getListchitietquyen();
+        pqBUS.listchucnang();
+        dschucnang = new ArrayList<>();
+        dschucnang = pqBUS.getlistchucnang();
+
+        for (int i = 0; i < dschitietquyen.size(); i++) {
+            chitietquyenDTO ctq = dschitietquyen.get(i);
+            System.out.println(ctq.getMachucnang());
+            System.out.println("so sánh");
+            System.out.println(cbx[i].getActionCommand());
+
+            for (int j = 0; j < dschucnang.size(); j++) {
+                if (cbx[j].getActionCommand().equals(ctq.getMachucnang())) {
+                    cbx[j].setSelected(true);
+                }
+            }
+        }
+
+        JButton btnSave = new JButton("Lưu");
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String newmaquyen = txtMaQuyen.getText();
+                String newtenquyen = txtTenQuyen.getText();
+                dschitietquyen = new ArrayList<>();
+
+                for (int i = 0; i < dschucnang.size(); i++) {
+                    if (cbx[i].isSelected()) {
+                        chitietquyenDTO ctq = new chitietquyenDTO(newmaquyen, cbx[i].getActionCommand());
+                        System.out.println(ctq.getMachucnang());
+                        dschitietquyen.add(ctq);
+                    }
+                }
+                pqBUS.deleteQuyen(maQuyen);
+                pqBUS.deleteChitietquyen(maQuyen);
+
+                if (!newmaquyen.isEmpty() && !newtenquyen.isEmpty() && !dschitietquyen.isEmpty()) {
+                    if (pqBUS.checkExist(newmaquyen)) {
+                        JOptionPane.showMessageDialog(editDialog, "Mã quyền đã tồn tại", "Cảnh báo",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    phanquyenDTO newQuyen = new phanquyenDTO(newmaquyen, newtenquyen);
+                    dsquyen.add(newQuyen);
+                    pqBUS.addQuyen(newQuyen);
+                    for (int i = 0; i < dschitietquyen.size(); i++) {
+                        System.out.println(dschitietquyen.size());
+                        chitietquyenDTO ctq = dschitietquyen.get(i);
+                        pqBUS.addChitietquyen(ctq);
+
+                    }
+                    model.removeRow(selectedRow);
+                    model.addRow(new Object[] { newmaquyen, newtenquyen });
+                    JOptionPane.showMessageDialog(editDialog, "Sửa quyền thành công");
+                    editDialog.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(editDialog,
+                            "Vui lòng nhập đủ thông tin và chọn ít nhất một chức năng.", "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+        });
+
+        editDialog.add(inputPanel, BorderLayout.NORTH);
+        editDialog.add(new JScrollPane(checkBoxPanel), BorderLayout.CENTER);
+        editDialog.add(btnSave, BorderLayout.SOUTH);
+        editDialog.setLocationRelativeTo(this);
+
+        editDialog.setVisible(true);
+    }
+
 }

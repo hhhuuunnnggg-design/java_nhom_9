@@ -53,7 +53,7 @@ public class QLHS_DAO {
         mysql.executeUpdate(sql);
         System.out.println(sql); // Đoạn này để kiểm tra xem câu lệnh SQL có đúng không
     }
-    
+
     public void Add(HocSinhDTO hs) {
         MySQLConnect mysql = new MySQLConnect();
         String sql = "INSERT INTO hocsinh VALUE (";
@@ -108,6 +108,23 @@ public class QLHS_DAO {
             e.printStackTrace(); // Xử lý ngoại lệ
         }
         return count;
+    }
+
+    public String getRole(String username) {
+        MySQLConnect mysql = new MySQLConnect();
+        String role = "";
+        String sql = "SELect * FROM user WHERE username = '" + username + "'";
+        try {
+            ResultSet rs = mySQL.executeQuery(sql);
+
+            if (rs.next()) {
+                role = rs.getString("role");
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Xử lý ngoại lệ
+        }
+        return role;
     }
 
 }

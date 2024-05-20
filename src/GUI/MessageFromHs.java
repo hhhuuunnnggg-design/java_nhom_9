@@ -193,6 +193,7 @@ public class MessageFromHs extends JFrame implements ActionListener {
         return pHead;
     }
 
+    
     public JScrollPane init_table() {
         String[] header = { "Mã học sinh", "Tên học sinh", "Thời gian gửi", "Tiêu đề", "Nội dung", "Trạng thái",
         };
