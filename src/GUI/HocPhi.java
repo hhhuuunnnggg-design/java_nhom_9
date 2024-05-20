@@ -38,8 +38,8 @@ import DTO.MonHocDTO;
 import DTO.NamHocDTO;
 import DTO.PhanLopDTO;
 
-public class HocPhi {
-    JFrame f;
+public class HocPhi extends JPanel{
+    // JFrame f;
     JPanel topPanel, btPanel, mainTop, midPanel, mainMid, btnMid;
     JLabel l1, labelLop, l2, l3;
     JComboBox<String> option1, optionLop, optionHP;
@@ -48,6 +48,7 @@ public class HocPhi {
     private DefaultTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
+    private int height, width;
     String outputID, outputTenHS, outputLop, outputNgaySinh, outputSDT, outputHocPhi, outputStatus, outputTime;
 
     ArrayList <HocSinhDTO> dshs;
@@ -74,13 +75,13 @@ public class HocPhi {
     CurrentDateTime currTime = new CurrentDateTime();
     int namhientai = currTime.getYear();
 
-    public HocPhi() {
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
-        f.setLocationRelativeTo(null);
-        f.setResizable(false);
+    public HocPhi(int width, int height) {
+        // f = new JFrame();
+        this.width = width;
+        this.height = height;
+        setLayout(new BorderLayout());
+        setSize(width, height);
+       
 
         mainTop = new JPanel();
         mainTop.setLayout(new BorderLayout());
@@ -232,15 +233,15 @@ public class HocPhi {
 
         midPanel.add(btnMid, BorderLayout.EAST);
         
-        f.add(initTable(), BorderLayout.SOUTH);
+        add(initTable(), BorderLayout.SOUTH);
 
         // Then load data into the table
         loaddatatoTable();
 
         // Add other panels
-        f.add(mainTop, BorderLayout.NORTH);
-        f.add(midPanel, BorderLayout.CENTER);
-        f.setVisible(true);
+        add(mainTop, BorderLayout.NORTH);
+        add(midPanel, BorderLayout.CENTER);
+        setVisible(true);
     }
 
 
@@ -348,7 +349,7 @@ public class HocPhi {
                 hpbus.add(hp);
                 System.out.println("up data to hoc phi");
     
-                JOptionPane.showMessageDialog(f, "Thanh toán thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Thanh toán thành công", "Success", JOptionPane.INFORMATION_MESSAGE);
                 Object[] rowData = {outputID, outputTenHS, outputLop, outputNgaySinh, outputSDT, "1.850.000", "Đã thanh toán",outputTime};
                 int row = t.getSelectedRow();
                 tblModel.removeRow(row);
@@ -546,6 +547,11 @@ public class HocPhi {
     }
     
     public static void main(String[] args) {
-        new HocPhi();
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        HocPhi panel = new HocPhi(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

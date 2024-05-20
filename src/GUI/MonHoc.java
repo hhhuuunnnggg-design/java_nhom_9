@@ -67,7 +67,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public final class MonHoc extends JFrame implements MouseListener, ActionListener {
+public final class MonHoc extends JPanel implements MouseListener, ActionListener {
     private String mmh, tmh;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
@@ -92,6 +92,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
     public MonHoc(int width, int height) throws SQLException {
         this.width = width;
         this.height = height;
+        this.setSize(width, height);
         init();
         btnThem.addMouseListener(this);
         btnXoa.addMouseListener(this);
@@ -656,12 +657,12 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            new MonHoc(850, 760);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        MonHoc panel = new MonHoc(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

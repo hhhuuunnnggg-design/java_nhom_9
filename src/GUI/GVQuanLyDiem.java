@@ -45,7 +45,7 @@ import DTO.PhanLopDTO;
  */
 public class GVQuanLyDiem extends JPanel{
     String magiaovien;
-    private JFrame f;
+    // private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, btnPanel2, contentPanel, detailPanel, main_detailPanel;
     private JLabel b1, b3, b4, b5, b6;
     private JComboBox<String> optionLop, optionHe, optionHocky, optionNam;
@@ -78,13 +78,14 @@ public class GVQuanLyDiem extends JPanel{
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
     PhanCongBUS pcbus = new PhanCongBUS(1);
-
-    public GVQuanLyDiem(String magiaovien) {
+    int width, height;
+    public GVQuanLyDiem(int width,int height  ,String magiaovien) {
         this.magiaovien = magiaovien;
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
+        this.width = width;
+        this.height = height;
+        // f = new JFrame();
+        setLayout(new BorderLayout());
+        setSize(width, height);
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -215,7 +216,7 @@ public class GVQuanLyDiem extends JPanel{
         topPanel.add(selectPanel, BorderLayout.CENTER);
         topPanel.add(btnPanel, BorderLayout.EAST);
 
-        f.add(topPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
 
         btnPanel2.add(delBtn, gbcExportBtn);
         btnPanel2.add(editBtn, gbcShowBtn);
@@ -227,8 +228,8 @@ public class GVQuanLyDiem extends JPanel{
         contentPanel.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
         contentPanel.add(detailPanel, BorderLayout.NORTH);
-        f.add(contentPanel);
-        f.setVisible(true);
+        add(contentPanel);
+        setVisible(true);
 
         filterBtn.addActionListener(new FilterBtnListener());
         editBtn.addActionListener(new EditBtnListener());
@@ -705,7 +706,12 @@ Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, die
             }
             return (float) -1;
     }
-    public static void main(String[] args) {
-        new GVQuanLyDiem("GV2");
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        GVQuanLyDiem panel = new GVQuanLyDiem(850, 670, "GV1");
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

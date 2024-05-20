@@ -22,14 +22,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class gv_guiTB {
-    JFrame f;
+public class gv_guiTB extends JPanel{
+    // JFrame f;
     JPanel mainPanel, background;
     JLabel[] label;
     JRadioButton radioButtonHS, radioButtonLop;
     JTextField txtHeader, txtLop, txtHS;
     JTextArea txtContent;
     JButton btnGui;
+    int width, height;
     private String magiaovien, idhs,idlop;
     CurrentDateTime currDate = new CurrentDateTime();
     int namhientai = currDate.getYear();
@@ -44,14 +45,14 @@ public class gv_guiTB {
     PhanCongBUS pcbus = new PhanCongBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
     ThongBaoBUS tbbus = new ThongBaoBUS(1);
-    public gv_guiTB(String magiaovien) {
+    public gv_guiTB(int width, int height,String magiaovien) {
         this.magiaovien = magiaovien;
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
-        f.setLocationRelativeTo(null);
-        f.setResizable(false);
+        this.width = width;
+        this.height = height;
+        // f = new JFrame();
+        setLayout(new BorderLayout());
+        setSize(width, height);
+        
     
         background = new JPanel();
         background.setLayout(new BorderLayout());
@@ -128,8 +129,8 @@ public class gv_guiTB {
         mainPanel.add(btnGui);
     
         background.add(mainPanel);
-        f.add(background);
-        f.setVisible(true);
+        add(background);
+        setVisible(true);
     }
     
     
@@ -280,7 +281,12 @@ public class gv_guiTB {
 
         }
     }
-    public static void main(String[] args) {
-        new gv_guiTB("GV3");
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        gv_guiTB panel = new gv_guiTB(850, 670,"GV3");
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }
