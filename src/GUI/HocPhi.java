@@ -64,7 +64,6 @@ public class HocPhi {
     ArrayList<NamHocDTO> dsnh;
     ArrayList<PhanLopDTO> dspl;
     ArrayList<LopDTO> dslop;
-    ArrayList<HocPhiDTO> dshp;
     
     PhanLopBUS plbus = new PhanLopBUS(1);
     LopBUS lopbus = new LopBUS(1);
@@ -470,44 +469,6 @@ public class HocPhi {
         return midFee;
     }
     
-    // public class SettingBtnListener implements ActionListener {
-
-    //     @Override
-    //     public void actionPerformed(ActionEvent e) {
-    //         // Create a JXDatePicker
-    //         JXDatePicker datePicker = new JXDatePicker();
-    //         // Set the minimum date to today
-    //         datePicker.setDate(new Date());
-    //         datePicker.setFormats("yyyy-MM-dd");
-    
-    //         // Create a JPanel to hold the datePicker
-    //         JPanel panel = new JPanel();
-    //         panel.add(datePicker);
-    
-    //         // Show a JOptionPane with the datePicker panel
-    //         int result = JOptionPane.showConfirmDialog(null, panel, "Select a date", JOptionPane.OK_CANCEL_OPTION);
-    //         if (result == JOptionPane.OK_OPTION) {
-    //             // Get the selected date
-    //             Date selectedDate = datePicker.getDate();
-    //             LocalDate selectedLocalDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                
-    //             // Compare selected date with today
-    //             LocalDate currentDate = LocalDate.now();
-    //             if (selectedLocalDate.isAfter(currentDate)) {
-    //                 // Show confirmation dialog
-    //                 int confirmation = JOptionPane.showConfirmDialog(null,
-    //                         "Are you sure you want to choose this date?", "Confirmation", JOptionPane.YES_NO_OPTION);
-    //                 if (confirmation == JOptionPane.YES_OPTION) {
-    //                     // User confirmed, do something with the selected date
-    //                     System.out.println("Selected date: " + selectedLocalDate);
-    //                 }
-    //             } else {
-    //                 // Selected date is not valid
-    //                 JOptionPane.showMessageDialog(null, "Please select a date after today.");
-    //             }
-    //         }
-    //     }
-    // }
     public static void main(String[] args) {
         new HocPhi();
     }
