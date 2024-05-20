@@ -38,6 +38,40 @@ public class phanquyenBUS {
         return dschucnang;
     }
 
+    public ArrayList<chitietquyenDTO> getListchitietquyen() {
+        return dschitietquyen;
+    }
+
+    public void addQuyen(phanquyenDTO newQuyen) {
+        phanquyenDAO dao = new phanquyenDAO();
+        dao.addQuyen(newQuyen);
+    }
+
+    public boolean checkExist(String maquyen) {
+        phanquyenDAO dao = new phanquyenDAO();
+        return dao.checkExist(maquyen);
+    }
+
+    public void addChitietquyen(chitietquyenDTO ctq) {
+        phanquyenDAO dao = new phanquyenDAO();
+        dao.addChitietquyen(ctq);
+
+    }
+
+    // public ArrayList<chitietquyenDTO> getListchitietquyen() {
+    // return dschitietquyen;
+    // }
+
+    public void deleteQuyen(String maquyen) {
+        phanquyenDAO dao = new phanquyenDAO();
+        dao.deleteQuyen(maquyen);
+    }
+
+    public void deleteChitietquyen(String maquyen) {
+        phanquyenDAO dao = new phanquyenDAO();
+        dao.deteleChitietQuyen(maquyen);
+    }
+
     public static void main(String[] args) {
         phanquyenBUS phanquyenBUS = new phanquyenBUS();
 
