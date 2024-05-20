@@ -110,7 +110,7 @@ public class MonHocDAO {
         String sql = "UPDATE monhoc SET TenMonHoc = ? WHERE MonHocid = ?";
         java.sql.Connection con = null;
         java.sql.PreparedStatement ps = null;
-        
+       
         try {
             con = MyConnection.getConnection();
             if (con != null) {
