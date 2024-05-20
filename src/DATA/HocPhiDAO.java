@@ -20,10 +20,10 @@ public class HocPhiDAO {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 HocPhiDTO hocPhi = new HocPhiDTO();
-                hocPhi.setIdhs(rs.getInt("idhs"));
-                hocPhi.setIdnh(rs.getInt("idnh"));
+                hocPhi.setIdhs(rs.getString("idhs"));
+                hocPhi.setIdnh(rs.getString("idnh"));
                 hocPhi.setThoigian(rs.getString("thoigian"));
-                hocPhi.setStatus(rs.getString("status"));
+                hocPhi.setStatus(rs.getInt("status"));
                 dsHocPhi.add(hocPhi);
             }
         } catch (SQLException e) {
@@ -37,28 +37,48 @@ public class HocPhiDAO {
         String sql = "UPDATE hocphi SET thoigian = ?, status = ? WHERE idhs = ?";
         try (PreparedStatement ps = mySQL.getConnection().prepareStatement(sql)) {
             ps.setString(1, hocPhi.getThoigian());
-            ps.setString(2, hocPhi.getStatus());
-            ps.setInt(3, hocPhi.getIdhs());
+            ps.setInt(2, hocPhi.getStatus());
+            ps.setString(3, hocPhi.getIdhs());
             ps.executeUpdate();
+            
+            // Update the HocPhi field in the hocsinh table only if status is 1
+            if (0==(hocPhi.getStatus())) {
+                String updateHocPhiSql = "UPDATE hocsinh SET HocPhi = 'Chưa thanh toán' WHERE HocSinhid = ?";
+                try (PreparedStatement updatePs = mySQL.getConnection().prepareStatement(updateHocPhiSql)) {
+                    updatePs.setString(1, hocPhi.getIdhs());
+                    updatePs.executeUpdate();
+                }
+            }
         } catch (SQLException e) {
             System.err.println("Error in HocPhiDAO.set()");
             e.printStackTrace();
         }
     }
+    
 
     public void add(HocPhiDTO hocPhi) {
         String sql = "INSERT INTO hocphi (idhs, idnh, thoigian, status) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = mySQL.getConnection().prepareStatement(sql)) {
-            ps.setInt(1, hocPhi.getIdhs());
-            ps.setInt(2, hocPhi.getIdnh());
+            ps.setString(1, hocPhi.getIdhs());
+            ps.setString(2, hocPhi.getIdnh());
             ps.setString(3, hocPhi.getThoigian());
-            ps.setString(4, hocPhi.getStatus());
+            ps.setInt(4, hocPhi.getStatus());
             ps.executeUpdate();
+            
+            // Update the HocPhi field in the hocsinh table only if status is 1
+            if (1 == hocPhi.getStatus()) {
+                String updateHocPhiSql = "UPDATE hocsinh SET HocPhi = 'Đã thanh toán' WHERE HocSinhid = ?";
+                try (PreparedStatement updatePs = mySQL.getConnection().prepareStatement(updateHocPhiSql)) {
+                    updatePs.setString(1, hocPhi.getIdhs());
+                    updatePs.executeUpdate();
+                }
+            }
         } catch (SQLException e) {
             System.err.println("Error in HocPhiDAO.add()");
             e.printStackTrace();
         }
     }
+    
 
     public void delete(int idhs) {
         String sql = "DELETE FROM hocphi WHERE idhs = ?";

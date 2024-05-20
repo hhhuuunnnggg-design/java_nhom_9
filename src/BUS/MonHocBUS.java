@@ -12,7 +12,10 @@ public class MonHocBUS {
         list();
     }
     
-    public MonHocBUS(){}
+    public MonHocBUS()
+    {
+        
+    }
 
     // theem
     public void addMH(MonHocDTO mh) {
@@ -20,7 +23,20 @@ public class MonHocBUS {
         MonHocDAO hsDAO = new MonHocDAO();
         hsDAO.add(mh);
     }
-   //xóa
+   
+    // xoa
+//    public void deleteMH(String mamh) {
+//         for (MonHocDTO mh : dsmh) {
+//             if (mh.getMonHocID().equals(mamh)) {
+//                 MonHocDAO mhDAO = new MonHocDAO();
+//                 mhDAO.delete(mamh);
+//                 dsmh.remove(mh); // Xóa môn học khỏi danh sách
+//                 System.out.println("Đã xóa MonHoc với ID: " + mamh); // Thông báo đăng nhập
+//                 return;
+//             }
+//         }
+//         System.out.println("Không tìm thấy MonHoc với ID " + mamh + " trong danh sách."); // Thông báo đăng nhập nếu không tìm thấy
+//     }
     public void deleteMH(String mamh) {
         for (MonHocDTO hs : dsmh) {
             if (hs.getMonHocID().equals(mamh)) {
@@ -32,9 +48,19 @@ public class MonHocBUS {
         }
     }
 
-    
+    //search by id mon hoc
+    public MonHocDTO get(String id)
+    {
+        for(MonHocDTO mh : dsmh )
+        {
+            if(mh.getMonHocID().equals(id))
+            {
+                return mh;
+            }
+        }
+        return null;
+    }
     // get/set
-    //cập nhật
     public void updateMH(MonHocDTO s) {
         for (int i = 0; i < dsmh.size(); i++) {
             if (dsmh.get(i).getMonHocID().equals(s.getMonHocID())) {
@@ -45,7 +71,6 @@ public class MonHocBUS {
             }
         }
     }
-    //k thấy có tác dụng gì
     public MonHocDTO getByName(String tenmh)
     {
         for(MonHocDTO mh : dsmh )
@@ -57,14 +82,27 @@ public class MonHocBUS {
         }
         return null;
     }
-
     public void list()
     {
         MonHocDAO mhDAO = new MonHocDAO();
         dsmh = new ArrayList<>();
         dsmh = mhDAO.list();
     }
-    //kiếm tra theo mã
+  
+     // kiem tra ma môn học
+    // public boolean checkMaMH(String mamh) {
+    //     MonHocDAO mhDao = new MonHocDAO();
+    //     dsmh = new ArrayList<>();
+    //     dsmh = mhDao.checkMaMH();
+    //     for (MonHocDTO mh : dsmh) {
+    //         System.out.println(mh.getMonHocID());
+    //         if (mh.getMonHocID().equals(dsmh)) {
+    //             return true;
+    //        }
+    //     }
+    //     return false;
+    // }
+
     public boolean checkMaMH(String id) {
         // Cập nhật danh sách người dùng từ cơ sở dữ liệu
         list();
@@ -89,18 +127,6 @@ public class MonHocBUS {
         return false;
     }
 
-    //tim kiếm id
-    public MonHocDTO get(String id)
-    {
-        for(MonHocDTO mh : dsmh )
-        {
-            if(mh.getMonHocID().equals(id))
-            {
-                return mh;
-            }
-        }
-        return null;
-    }
     public ArrayList<MonHocDTO> search(String id,String monhoc)
     {
         ArrayList<MonHocDTO> search = new ArrayList<>();
@@ -126,6 +152,20 @@ public class MonHocBUS {
         // Create an instance of MonHocBUS
         MonHocBUS monHocBUS = new MonHocBUS(1);
     
+        // // Search for MonHocDTO with TenMonHoc="Toan"
+        // String subjectToSearch = "Tất cả";
+        // ArrayList<MonHocDTO> searchResult = monHocBUS.search(null, subjectToSearch);
+    
+        // // Print the search result
+        // if (!searchResult.isEmpty()) {
+        //     System.out.println("Search Result for Subject " + subjectToSearch + ":");
+        //     for (MonHocDTO mh : searchResult) {
+        //         System.out.println(mh);
+        //     }
+        // } else {
+        //     System.out.println("No result found for Subject " + subjectToSearch);
+        // }
+        System.out.println(monHocBUS.getByName("Vật Lý").getMonHocID());
     }
     
 }

@@ -8,8 +8,11 @@ import java.util.ArrayList;
 public class HocPhiBUS {
     private ArrayList<HocPhiDTO> dsHocPhi;
 
-    public HocPhiBUS() {
+    public HocPhiBUS(int i) {
         list();
+    }
+
+    public HocPhiBUS() {
     }
 
     public void list() {
@@ -21,9 +24,9 @@ public class HocPhiBUS {
         return dsHocPhi;
     }
 
-    public HocPhiDTO get(int idhs) {
+    public HocPhiDTO get(String idhs, String idnh) {
         for (HocPhiDTO hocPhi : dsHocPhi) {
-            if (hocPhi.getIdhs() == idhs) {
+            if (hocPhi.getIdhs().equals(idhs) && hocPhi.getIdnh().equals(idnh)) {
                 return hocPhi;
             }
         }
@@ -38,7 +41,7 @@ public class HocPhiBUS {
 
     public void set(HocPhiDTO hocPhi) {
         for (int i = 0; i < dsHocPhi.size(); i++) {
-            if (dsHocPhi.get(i).getIdhs() == hocPhi.getIdhs()) {
+            if (dsHocPhi.get(i).getIdhs().equals(hocPhi.getIdhs())) {
                 dsHocPhi.set(i, hocPhi);
                 HocPhiDAO hocPhiDAO = new HocPhiDAO();
                 hocPhiDAO.set(hocPhi);
@@ -47,16 +50,16 @@ public class HocPhiBUS {
         }
     }
 
-    public void delete(int idhs) {
-        for (HocPhiDTO hocPhi : dsHocPhi) {
-            if (hocPhi.getIdhs() == idhs) {
-                dsHocPhi.remove(hocPhi);
-                HocPhiDAO hocPhiDAO = new HocPhiDAO();
-                hocPhiDAO.delete(idhs);
-                return;
-            }
-        }
-    }
+    // public void delete(String idhs) {
+    //     for (HocPhiDTO hocPhi : dsHocPhi) {
+    //         if (hocPhi.getIdhs().equals(idhs)) {
+    //             dsHocPhi.remove(hocPhi);
+    //             HocPhiDAO hocPhiDAO = new HocPhiDAO();
+    //             hocPhiDAO.delete(idhs);
+    //             return;
+    //         }
+    //     }
+    // }
 
     public static void main(String[] args) {
         HocPhiBUS hocPhiBUS = new HocPhiBUS();

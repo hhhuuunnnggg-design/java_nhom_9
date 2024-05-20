@@ -26,6 +26,7 @@ import BUS.KQ_HocSinhCaNamBUS;
 import BUS.LopBUS;
 import BUS.MonHocBUS;
 import BUS.NamHocBUS;
+import BUS.PhanCongBUS;
 import BUS.PhanLopBUS;
 import DTO.ChiTietDiemDTO;
 import DTO.DTB_HocKyDTO;
@@ -35,6 +36,7 @@ import DTO.KQ_HocSinhCaNamDTO;
 import DTO.LopDTO;
 import DTO.MonHocDTO;
 import DTO.NamHocDTO;
+import DTO.PhanCongDTO;
 import DTO.PhanLopDTO;
 
 
@@ -43,19 +45,18 @@ import DTO.PhanLopDTO;
  *
  * @author PHUONG ANH
  */
-public class QuanLyDiem extends JPanel{
-    // private JFrame f;
+public class GVQuanLyDiem extends JPanel{
+    String magiaovien;
+    private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, btnPanel2, contentPanel, detailPanel, main_detailPanel;
-    private JLabel b1, b2, b3, b4, b5, b6;
-    private JComboBox<String> optionLop, optionMon, optionHe, optionHocky, optionNam;
+    private JRadioButton b1, b2, b3, b4, b5, b6;
+    private JComboBox<String> optionLop, optionHe, optionHocky, optionNam;
     private JTextField s, inputID, outputDiem;
     private JLabel l1, l2;
     private JButton filterBtn, editBtn, delBtn;
     private NonEditableTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
-    int width;
-    int height;
     private static String outputID, outputHeid, outputMon, outputHK, outputNam, outputDiemhk, outputDiemcanam, outputTenHS, outputLop;
 
     ArrayList <HocSinhDTO> dshs;
@@ -67,7 +68,8 @@ public class QuanLyDiem extends JPanel{
     ArrayList<NamHocDTO> dsnh;
     ArrayList<PhanLopDTO> dspl;
     ArrayList<LopDTO> dslop;
-    
+    ArrayList<PhanCongDTO> dspc;
+
     PhanLopBUS plbus = new PhanLopBUS(1);
     LopBUS lopbus = new LopBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
@@ -77,11 +79,14 @@ public class QuanLyDiem extends JPanel{
     HocKyBUS hkbus = new HocKyBUS(1);
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
-    public QuanLyDiem(int width, int height) {
-    this.width = width;
-    this.height = height;
-    this.setLayout(new BorderLayout());
-    this.setSize(new Dimension(width, height));
+    PhanCongBUS pcbus = new PhanCongBUS(1);
+
+    public GVQuanLyDiem(String magiaovien) {
+        this.magiaovien = magiaovien;
+        f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setLayout(new BorderLayout());
+        f.setSize(850, 670);
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -100,30 +105,39 @@ public class QuanLyDiem extends JPanel{
         radioPanel.setOpaque(false);
         radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 0));
 
-        b1 = new JLabel("Lớp");
-        b2 = new JLabel("Môn học");
-        b3 = new JLabel("Mã HS");
-        b4 = new JLabel("Hệ điểm");
-        b5 = new JLabel("Học kỳ");
-        b6 = new JLabel("Năm học");
+        b1 = new JRadioButton("Lớp");
+        b2 = new JRadioButton("Môn học");
+        b3 = new JRadioButton("Mã HS");
+        b4 = new JRadioButton("Hệ điểm");
+        b5 = new JRadioButton("Học kỳ");
+        b6 = new JRadioButton("Năm học");
 
         JRadioButton dummyButton = new JRadioButton();
         dummyButton.setVisible(false);
 
-        JLabel[] buttons = {b1, b2, b3, b4, b5, b6};        
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(b1);
+        buttonGroup.add(b2);
+        buttonGroup.add(b3);
+        buttonGroup.add(b4);
+        buttonGroup.add(b5);
+        buttonGroup.add(b6);
+        buttonGroup.add(dummyButton);
+        
+        JRadioButton[] buttons = {b1, b2, b3, b4, b5, b6};
+
         Color color = new Color(180, 204, 227);
-        for (JLabel button : buttons) {
+        for (JRadioButton button : buttons) {
             button.setBackground(color);
         }
 
         dropdownPanel = new JPanel();
         dropdownPanel.setOpaque(false);
-        dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 36, 0));
 
         String[] c1 = {"Tất cả","10A1" ,"11A1", "12A1"};
         optionLop = new JComboBox<>(c1);
-        String[] c2 = {"Tất cả","Toán", "Vật Lý", "Hóa Học", "Anh Văn"};
-        optionMon = new JComboBox<>(c2);
+
         inputID = new JTextField(6);
         String[] c3 = {"Tất cả","(1): 15 phút", "(2): 1 tiết", "(3): Thi"};
         optionHe = new JComboBox<>(c3);
@@ -155,6 +169,12 @@ public class QuanLyDiem extends JPanel{
         filterBtn.setPreferredSize(new Dimension(110, 30));
         filterBtn.setBackground(new Color(31, 28, 77));
         filterBtn.setForeground(Color.WHITE);
+
+        JButton deselectButton = new JButton("Xóa lựa chọn");
+        deselectButton.addActionListener(e -> {
+            buttonGroup.clearSelection(); // Deselect all buttons
+        });
+        deselectButton.setPreferredSize(new Dimension(110, 30));
 
         detailPanel = new JPanel();
         detailPanel.setLayout(new BorderLayout());
@@ -191,6 +211,7 @@ public class QuanLyDiem extends JPanel{
         detailPanel.add(main_detailPanel);
 
 /////////
+        btnPanel.add(deselectButton, gbcShowBtn );
         btnPanel.add(filterBtn,gbcExportBtn);
 
         totalPanel.add(l2);
@@ -205,7 +226,6 @@ public class QuanLyDiem extends JPanel{
         
         dropdownPanel.add(inputID);
         dropdownPanel.add(optionLop);
-        dropdownPanel.add(optionMon);
         dropdownPanel.add(optionHe);
         dropdownPanel.add(optionHocky);
         dropdownPanel.add(optionNam);
@@ -218,7 +238,7 @@ public class QuanLyDiem extends JPanel{
         topPanel.add(selectPanel, BorderLayout.CENTER);
         topPanel.add(btnPanel, BorderLayout.EAST);
 
-        this.add(topPanel, BorderLayout.NORTH);
+        f.add(topPanel, BorderLayout.NORTH);
 
         btnPanel2.add(delBtn, gbcExportBtn);
         btnPanel2.add(editBtn, gbcShowBtn);
@@ -230,8 +250,8 @@ public class QuanLyDiem extends JPanel{
         contentPanel.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
         contentPanel.add(detailPanel, BorderLayout.NORTH);
-        this.add(contentPanel);
-        this.setVisible(true);
+        f.add(contentPanel);
+        f.setVisible(true);
 
         filterBtn.addActionListener(new FilterBtnListener());
         editBtn.addActionListener(new EditBtnListener());
@@ -342,7 +362,7 @@ public class QuanLyDiem extends JPanel{
         public void actionPerformed(ActionEvent e) {
             tblModel.setRowCount(0);
             String id_hs = inputID.getText().trim().toUpperCase();
-            String monhoc = (String) optionMon.getSelectedItem();
+            String monhoc = mhbus.get(pcbus.get(magiaovien).getMonHocID()).getTenMonHoc();
             String tenlop = (String) optionLop.getSelectedItem();
 
             //không có table hệ số =))))
@@ -708,5 +728,9 @@ public class QuanLyDiem extends JPanel{
             }
             return (float) -1;
     }
+    public static void main(String[] args) {
+        new GVQuanLyDiem("HS2");
 
+        
+    }
 }
