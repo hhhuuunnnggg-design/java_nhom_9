@@ -36,7 +36,7 @@ import javax.swing.border.Border;
 import com.toedter.calendar.JDateChooser;
 import BUS.MessageFromHsBUS;
 
-public class MessageFromHs extends JFrame implements ActionListener {
+public class MessageFromHs extends JPanel implements ActionListener {
 
     private JTextField jf_ngaygui, jf_tieude;
     JTextArea jf_noidung;
@@ -76,7 +76,6 @@ public class MessageFromHs extends JFrame implements ActionListener {
     public void init() {
 
         this.setSize(new Dimension(width, height));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JPanel p1 = JSearch();
@@ -397,7 +396,11 @@ public class MessageFromHs extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        MessageFromHs frame = new MessageFromHs(850, 670);
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        MessageFromHs panel = new MessageFromHs(850, 670);
+        frame.add(panel);
         frame.setVisible(true);
     }
 
