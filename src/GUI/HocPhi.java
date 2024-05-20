@@ -55,13 +55,8 @@ public class HocPhi {
     private JTable t;
     String outputID, outputTenHS, outputLop, outputNgaySinh, outputSDT, outputHocPhi, outputStatus, outputTime;
 
-<<<<<<< HEAD
     ArrayList <HocSinhDTO> dshs;
     ArrayList <KQ_HocSinhCaNamDTO> dskq;
-=======
-    ArrayList<HocSinhDTO> dshs;
-    ArrayList<KQ_HocSinhCaNamDTO> dskq;
->>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
     ArrayList<MonHocDTO> dsmon;
     ArrayList<ChiTietDiemDTO> dsct;
     ArrayList<HocKyDTO> dshk;
@@ -69,12 +64,8 @@ public class HocPhi {
     ArrayList<NamHocDTO> dsnh;
     ArrayList<PhanLopDTO> dspl;
     ArrayList<LopDTO> dslop;
-<<<<<<< HEAD
     ArrayList<HocPhiDTO> dshp;
     
-=======
-
->>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
     PhanLopBUS plbus = new PhanLopBUS(1);
     LopBUS lopbus = new LopBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
@@ -245,7 +236,6 @@ public class HocPhi {
         btnMid.add(confirmBtn, gbcBtnMid);
 
         midPanel.add(btnMid, BorderLayout.EAST);
-<<<<<<< HEAD
         
         f.add(initTable(), BorderLayout.SOUTH);
 
@@ -253,15 +243,11 @@ public class HocPhi {
         loaddatatoTable();
 
         // Add other panels
-=======
-
->>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
         f.add(mainTop, BorderLayout.NORTH);
         f.add(midPanel, BorderLayout.CENTER);
         f.setVisible(true);
     }
 
-<<<<<<< HEAD
 
     public JScrollPane initTable() {
         t = new JTable();
@@ -285,82 +271,17 @@ public class HocPhi {
         
         t.setRowHeight(40);
         JTableHeader header = t.getTableHeader();
-=======
-    private void loaddatatoTable() {
-        tblModel.setRowCount(0);
-
-        dshs = hsbus.getList();
-        dskq = kqbus.getList();
-        dsmon = mhbus.getList();
-        dsct = ctbus.getList();
-        dsdtb = dtbbus.getList();
-        dshk = hkbus.getList();
-        dsnh = nhbus.getList();
-
-        String idnam = null;
-        for (NamHocDTO nh : dsnh) {
-            if (nh.getNamHocBatDau() == namhientai) {
-                System.out.println("so sanh nam");
-                idnam = nh.getNamHocID();
-                break;
-            }
-        }
-
-        for (HocSinhDTO hs : dshs) {
-
-            String idhs = hs.getHocSinhID();
-            if (plbus.get(idhs, idnam) != null)
-                continue;
-            else
-                break;
-            String[] rowData = new String[] {
-
-            };
-        }
-    }
-
-    public JScrollPane initTable() {
-        JTable anotherTable = new JTable();
-        anotherTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        JScrollPane anotherScrollPane = new JScrollPane(anotherTable);
-        anotherScrollPane.setPreferredSize(new Dimension(0, 300));
-
-        String[] headers = { "ID HS", "Họ Tên", "Lớp", "Ngày Sinh", "SDT", "Học Phí", "Tình trạng học phí",
-                "Thời gian thanh toán" };
-        int editableColumnIndex = 5; // Index of the "Học Phí" column
-        NonEditableTableModel anotherTableModel = new NonEditableTableModel(headers, 0, editableColumnIndex);
-        anotherTable.setModel(anotherTableModel);
-
-        // Set preferred column widths
-        anotherTable.getColumnModel().getColumn(0).setPreferredWidth(80);
-        anotherTable.getColumnModel().getColumn(1).setPreferredWidth(180);
-        anotherTable.getColumnModel().getColumn(2).setPreferredWidth(60);
-        anotherTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-        anotherTable.getColumnModel().getColumn(4).setPreferredWidth(120);
-        anotherTable.getColumnModel().getColumn(5).setPreferredWidth(100);
-        anotherTable.getColumnModel().getColumn(6).setPreferredWidth(150);
-        anotherTable.getColumnModel().getColumn(7).setPreferredWidth(150); // New column
-
-        anotherTable.setRowHeight(40);
-        JTableHeader header = anotherTable.getTableHeader();
->>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
         header.setBackground(new Color(31, 28, 77));
         header.setForeground(Color.WHITE);
         header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
 
-<<<<<<< HEAD
         ((DefaultTableCellRenderer)t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-=======
-        ((DefaultTableCellRenderer) anotherTable.getTableHeader().getDefaultRenderer())
-                .setHorizontalAlignment(JLabel.CENTER);
->>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < tblModel.getColumnCount(); i++) {
             t.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-<<<<<<< HEAD
         t.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -587,12 +508,6 @@ public class HocPhi {
     //         }
     //     }
     // }
-=======
-
-        return anotherScrollPane;
-    }
-
->>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
     public static void main(String[] args) {
         new HocPhi();
     }
