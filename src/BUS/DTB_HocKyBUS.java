@@ -64,18 +64,12 @@ public class DTB_HocKyBUS {
         
         return null;
     }
-    
+        
     public void list()
     {
         DTB_HocKyDAO dtbDATA = new DTB_HocKyDAO();
         dsdtb = new ArrayList<>();
         dsdtb = dtbDATA.list();
-    }
-    public void add(DTB_HocKyDTO dtb)
-    {
-        dsdtb.add(dtb);
-        DTB_HocKyDAO dtbDATA = new DTB_HocKyDAO();
-        dtbDATA.add(dtb);
     }
 
     public void delete(DTB_HocKyDTO s)
@@ -93,21 +87,33 @@ public class DTB_HocKyBUS {
             }
         }
     }
-    public void set(DTB_HocKyDTO s)
+    public void add(DTB_HocKyDTO dtb)
     {
+        dsdtb.add(dtb);
+        DTB_HocKyDAO dtbDATA = new DTB_HocKyDAO();
+        dtbDATA.add(dtb);
+    }
+
+    public void set(DTB_HocKyDTO s){
+        boolean found = false;
         for(int i = 0 ; i < dsdtb.size() ; i++)
         {
-            if(dsdtb.get(i).getHocSinhID().equals(s.getHocSinhID())&&
-            dsdtb.get(i).getNamHocID().equals(s.getNamHocID())&&
+            if(dsdtb.get(i).getHocSinhID().equals(s.getHocSinhID()) &&
+            dsdtb.get(i).getNamHocID().equals(s.getNamHocID()) &&
             dsdtb.get(i).getHocKyID().equals(s.getHocKyID()))
             {
                 dsdtb.set(i, s);
                 DTB_HocKyDAO dtbDATA = new DTB_HocKyDAO();
                 dtbDATA.set(s);
-                return;
+                found = true;
+                break;
             }
         }
+        if (!found) {
+            add(s);
+        }
     }
+
     public boolean check(String id)
     {
         for(DTB_HocKyDTO dtb : dsdtb)

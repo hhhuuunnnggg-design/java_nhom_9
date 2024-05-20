@@ -10,25 +10,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class admin_guiTB {
-    JFrame f;
+public class admin_guiTB extends JPanel{
+    // JFrame f;
     JPanel mainPanel;
     JLabel[] label;
     JCheckBox checkboxHS, checkboxGV;
     JTextField txtHeader;
     JTextArea txtContent;
     JButton btnGui;
-
+    int width, height;
     ThongBaoBUS tbbus = new ThongBaoBUS(1);
 
-    public admin_guiTB() {
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
-        f.setLocationRelativeTo(null);
-        f.setResizable(false);
-
+    public admin_guiTB(int width, int height) {
+        // f = new JFrame();
+        this.width = width;
+        this.height = height;
+        setLayout(new BorderLayout());
+        setSize(width, height);
+        
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBackground(new Color(180, 204, 227));
@@ -78,8 +77,8 @@ public class admin_guiTB {
         mainPanel.add(txtContent);
         mainPanel.add(btnGui);
 
-        f.add(mainPanel);
-        f.setVisible(true);
+        add(mainPanel);
+        setVisible(true);
     }
     public class SendNotiBtnListener implements ActionListener {
         @Override
@@ -116,8 +115,5 @@ public class admin_guiTB {
             checkboxGV.setSelected(false);
             checkboxHS.setSelected(false);
         }
-    }
-    public static void main(String[] args) {
-        new admin_guiTB();
     }
 }

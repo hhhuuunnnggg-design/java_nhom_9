@@ -77,18 +77,22 @@ public class KQ_HocSinhCaNamDAO {
     
 
     public void add(KQ_HocSinhCaNamDTO kqHS) {
+        float diemFloat = kqHS.getDiemTrungBinhNam() != null ? kqHS.getDiemTrungBinhNam() : -1; // Default value if null
+        String diem = diemFloat >= 0 ? String.valueOf(diemFloat) : "NULL";
+    
         MySQLConnect mySQL = new MySQLConnect();
-        String sql = "INSERT INTO kqhocsinhcanam VALUES (";
-                sql += "'"+kqHS.getHocSinhID()+"',";
-                sql += "'"+kqHS.getNamHocID()+"',";
-                sql += "'"+kqHS.getHocLuc()+"',";
-                sql += "'"+kqHS.getHanhKiem()+"',";
-                sql += "'"+kqHS.getDiemTrungBinhNam()+"',";
-                sql += "'"+kqHS.getKetQua()+"')";
-
+        String sql = "INSERT INTO kqhocsinhcanam (HocSinhID, NamHocID, HocLuc, HanhKiem, Diemtb, KetQua) VALUES (";
+        sql += "'" + kqHS.getHocSinhID() + "',";
+        sql += "'" + kqHS.getNamHocID() + "',";
+        sql += "'" + kqHS.getHocLuc() + "',";
+        sql += "'" + kqHS.getHanhKiem() + "',";
+        sql += (diem.equals("NULL") ? diem : "'" + diem + "'") + ",";
+        sql += "'" + kqHS.getKetQua() + "')";
+    
         System.out.println(sql);
         mySQL.executeUpdate(sql);
     }
+    
 
     public void delete(KQ_HocSinhCaNamDTO kqHS) {
         MySQLConnect mySQL = new MySQLConnect();

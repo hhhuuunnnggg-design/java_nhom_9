@@ -70,7 +70,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  *
  * @author vhuyn
  */
-public final class QuanLiPhanCong extends JFrame implements MouseListener, ActionListener {
+public final class QuanLiPhanCong extends JPanel implements MouseListener, ActionListener {
     private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi, lblimg;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
@@ -123,7 +123,6 @@ public final class QuanLiPhanCong extends JFrame implements MouseListener, Actio
 
     public void init() throws SQLException {
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Color myColor = new Color(99, 116, 198);
         Color searchPanel = new Color(180, 204, 227);
         this.setLayout(new BorderLayout());
@@ -149,8 +148,7 @@ public final class QuanLiPhanCong extends JFrame implements MouseListener, Actio
         this.add(p3, BorderLayout.NORTH);
         this.setSize(new Dimension(width, height));
         this.setVisible(true);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
+       
     }
 
     public JPanel SearchHocSinh() {

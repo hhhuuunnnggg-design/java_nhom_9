@@ -28,16 +28,17 @@ public class ThanhToanHocPhi extends JPanel{
     JTextField txtSearch, txthoten, txtlop, txtngaysinh, txtdienthoai, txtStatus;
     JLabel l1,l2;
     JButton btnSearch, btnConfirm;
-
+    int width, height;
     HocSinhBUS dsHS = new HocSinhBUS(1);
     PhanLopBUS dsPL = new PhanLopBUS(1);
     LopBUS dsLop = new LopBUS(1);
 
-    public ThanhToanHocPhi(){
-        
-        
+    public ThanhToanHocPhi(int width, int height){
+        this.width = width;
+        this.height = height;
+
         this.setLayout(new BorderLayout());
-        this.setSize(850, 670);
+        this.setSize(width,height);
                 
         topPanel=new JPanel();
         topPanel.setPreferredSize(new Dimension(0,80));

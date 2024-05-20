@@ -1,12 +1,12 @@
 package DTO;
 
 public class HocPhiDTO {
-    private int idhs;
-    private int idnh;
+    private String idhs;
+    private String idnh;
     private String thoigian;
-    private String status;
+    private int status;
 
-    public HocPhiDTO(int idhs, int idnh, String thoigian, String status) {
+    public HocPhiDTO(String idhs, String idnh, String thoigian, int status) {
         this.idhs = idhs;
         this.idnh = idnh;
         this.thoigian = thoigian;
@@ -28,35 +28,39 @@ public class HocPhiDTO {
                 '}';
     }
 
-    public int getIdhs() {
-        return idhs;
-    }
 
-    public void setIdhs(int idhs) {
-        this.idhs = idhs;
-    }
 
-    public int getIdnh() {
-        return idnh;
-    }
-
-    public void setIdnh(int idnh) {
-        this.idnh = idnh;
-    }
 
     public String getThoigian() {
         return thoigian;
+    }
+
+    public String getIdnh() {
+        return idnh;
+    }
+
+    public void setIdnh(String idnh) {
+        this.idnh = idnh;
     }
 
     public void setThoigian(String thoigian) {
         this.thoigian = thoigian;
     }
 
-    public String getStatus() {
+
+    public String getIdhs() {
+        return idhs;
+    }
+
+    public void setIdhs(String idhs) {
+        this.idhs = idhs;
+    }
+
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

@@ -12,71 +12,62 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class hs_gopykien {
-    JFrame f;
-    JPanel mainPanel;
+public class hs_gopykien extends JPanel {
     JLabel[] label;
     JTextField txtHeader;
     JTextArea txtContent;
-    JButton btnGui; // Added button
+    JButton btnGui;
     private String mahocsinh;
+    int width, height;
     HocSinhBUS hsbus = new HocSinhBUS(1);
     YKienBUS ykbus = new YKienBUS(1);
 
-    public hs_gopykien(String mahocsinh) {
+    public hs_gopykien(int width, int height, String mahocsinh) {
         this.mahocsinh = mahocsinh;
-        f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLayout(new BorderLayout());
-        f.setSize(850, 670);
-        f.setLocationRelativeTo(null);
-        f.setResizable(false);
+        this.height = height;
+        this.width = width;
+        setSize(width, height);
+        setLayout(null);
+        setBackground(new Color(180, 204, 227));
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(null);
-        mainPanel.setBackground(new Color(180, 204, 227));
-
-        label = new JLabel[2]; // Adjusted label count
-        for (int i = 0; i < 2; i++) { // Adjusted loop range
+        label = new JLabel[2];
+        for (int i = 0; i < 2; i++) {
             label[i] = new JLabel();
-            label[i].setFont(new Font("Arial", Font.BOLD, 16)); // Set font size and bold
+            label[i].setFont(new Font("Arial", Font.BOLD, 16));
         }
-        label[0].setText("Tiêu đề:"); // Adjusted label index
-        label[0].setBounds(150, 50, 100, 30); // Adjusted position
-        label[1].setText("Nhập ý kiến đóng góp:"); // Adjusted label index
-        label[1].setBounds(150, 100, 250, 30); // Adjusted position
+        label[0].setText("Tiêu đề:");
+        label[0].setBounds(150, 50, 100, 30);
+        label[1].setText("Nhập ý kiến đóng góp:");
+        label[1].setBounds(150, 100, 250, 30);
 
         txtHeader = new JTextField();
-        txtHeader.setBounds(250, 50, 400, 30); // Adjusted position and size
-        txtHeader.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and bold
+        txtHeader.setBounds(250, 50, 500, 30);
+        txtHeader.setFont(new Font("Arial", Font.BOLD, 14));
         
-        txtContent = new JTextArea(); // Changed from JTextField to JTextArea
-        txtContent.setBounds(150, 150, 600, 300); // Adjusted position and size
-        txtContent.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and bold
-        txtContent.setLineWrap(true); // Enable text wrapping
-        txtContent.setWrapStyleWord(true); // Wrap at word boundaries
+        txtContent = new JTextArea();
+        txtContent.setBounds(150, 150, 600, 300);
+        txtContent.setFont(new Font("Arial", Font.BOLD, 14));
+        txtContent.setLineWrap(true);
+        txtContent.setWrapStyleWord(true);
 
-        btnGui = new JButton("Gửi"); // Create button
-        btnGui.setBounds(700, 500, 100, 30); // Set position and size
+        btnGui = new JButton("Gửi");
+        btnGui.setBounds(700, 500, 100, 30);
         btnGui.addActionListener(new SendBtnListener());
-        // Add components to main panel
-        for (JLabel jLabel : label) {
-            mainPanel.add(jLabel);
-        }
-        mainPanel.add(txtHeader);
-        mainPanel.add(txtContent);
-        mainPanel.add(btnGui); // Add button to panel
 
-        f.add(mainPanel);
-        f.setVisible(true);
+        for (JLabel jLabel : label) {
+            add(jLabel);
+        }
+        add(txtHeader);
+        add(txtContent);
+        add(btnGui);
     }
 
-    public class SendBtnListener implements ActionListener{
+    public class SendBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             CurrentDateTime currDate = new CurrentDateTime();
 
-            if (txtContent.getText().equals("") && txtHeader.getText().equals("")){
+            if (txtContent.getText().equals("") && txtHeader.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Thông báo không thể bỏ trống cả tiêu đề và nội dung");
                 return;
             }
@@ -88,12 +79,22 @@ public class hs_gopykien {
             JOptionPane.showMessageDialog(null, "Ý kiến đã được gửi");
             resetText();
         }
-        public void resetText(){
+
+        public void resetText() {
             txtContent.setText("");
             txtHeader.setText("");
         }
     }
+
     public static void main(String[] args) {
-        new hs_gopykien("HS3");
+        JFrame frame = new JFrame("Góp Ý Kiến");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+
+        hs_gopykien panel = new hs_gopykien(850,670,"HS3");
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }
