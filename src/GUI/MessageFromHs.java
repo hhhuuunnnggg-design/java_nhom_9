@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,6 +30,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 
 import com.toedter.calendar.JDateChooser;
@@ -79,11 +81,11 @@ public class MessageFromHs extends JFrame implements ActionListener {
 
         JPanel p1 = JSearch();
         p1.setPreferredSize(new Dimension(0, 40));
-        p1.setBackground(new Color(173, 216, 230)); // Light blue background
+        p1.setBackground(new Color(99,116,198)); // Light blue background
 
         JPanel p2 = JHeader();
         p2.setPreferredSize(new Dimension(0, 200));
-        p2.setBackground(new Color(224, 255, 255)); // Light cyan background
+        p2.setBackground(new Color(180,204,227)); // Light cyan background
 
         JPanel p3 = new JPanel();
         p3.setPreferredSize(new Dimension(0, 300));
@@ -169,9 +171,10 @@ public class MessageFromHs extends JFrame implements ActionListener {
         btn_update_status = new JButton("Update TT");
         btn_update_status.setBounds(710, 40, 95, 30);
 
-        img_student = new JLabel("gfggf");
+        img_student = new JLabel();
         img_student.setBounds(630, 110, 130, 150);
         img_student.setBackground(Color.BLACK);
+
         img_student.setOpaque(true);
         anh_the = new JLabel("Ảnh thẻ:");
         anh_the.setBounds(630, 80, 50, 30);
@@ -190,6 +193,7 @@ public class MessageFromHs extends JFrame implements ActionListener {
         return pHead;
     }
 
+    
     public JScrollPane init_table() {
         String[] header = { "Mã học sinh", "Tên học sinh", "Thời gian gửi", "Tiêu đề", "Nội dung", "Trạng thái",
         };
@@ -236,11 +240,28 @@ public class MessageFromHs extends JFrame implements ActionListener {
         String tieude = String.valueOf(t.getValueAt(row, 3));
         String noidung = String.valueOf(t.getValueAt(row, 4));
         String trangthai = String.valueOf(t.getValueAt(row, 5));
-
+        String mahs = String.valueOf(t.getValueAt(row, 0));
         jf_ngaygui.setText(thoigian);
         jf_tieude.setText(tieude);
         jf_noidung.setText(noidung);
         cb_trangthai.setSelectedItem(trangthai);
+        String img = null;
+        System.out.println(mahs);
+        img = mBUS.getIMG(mahs);
+        if (img != null) {
+            String path = "/image/Avatar/" + img;
+            java.net.URL imgHS = getClass().getResource(path);
+            ImageIcon orgIcon_HS = new ImageIcon(imgHS);
+            Image scaleImg_HS = orgIcon_HS.getImage().getScaledInstance(img_student.getWidth(), img_student.getHeight(),
+                    Image.SCALE_SMOOTH);
+
+            ImageIcon scaledImage_HS = new ImageIcon(scaleImg_HS);
+            img_student.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 0, 127), 4, false));
+
+            img_student.setIcon(scaledImage_HS);
+        } else {
+            img_student.setIcon(null);
+        }
     }
 
     public void deleteFields() {
@@ -250,6 +271,8 @@ public class MessageFromHs extends JFrame implements ActionListener {
         cb_trangthai.setSelectedItem("Chưa đọc");
         chonbd.setDate(null);
         chonkt.setDate(null);
+        img_student.setIcon(null);
+        img_student.setBorder(null);
     }
 
     public void filterTable() {

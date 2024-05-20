@@ -31,13 +31,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import com.toedter.calendar.JDateChooser;
-
+import BUS.phanquyenBUS;
+import DTO.phanquyenDTO;
 import BUS.ChangeAcc_BUS;
 import BUS.QLHS_BUS;
 import BUS.User_BUS;
+import BUS.phanquyenBUS;
 // import BUS.user_BUS;
 import DTO.user;
 import DTO.Account_DTO;
+import DTO.HocKyDTO;
+import DTO.phanquyenDTO;
 import DTO.user;
 
 import java.text.ParseException;
@@ -96,8 +100,9 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
     JComboBox<String> genderComboBox;
     User_BUS uBUS = new User_BUS();
     private static String pathAnhdd = "";
-
+    private JComboBox<String> roleComboBox;
     ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
+    phanquyenBUS pqbus = new phanquyenBUS();
 
     public Taikhoan(int width, int height) throws SQLException {
         this.width = width;
@@ -134,7 +139,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         // p3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,0,0) , 4
         // , true));
 
-        p3.setPreferredSize(new Dimension(0, 60));
+        p3.setPreferredSize(new Dimension(0, 50));
         p3.setBackground(searchPanel);
 
         JPanel p1 = JTaikhoan();
@@ -145,7 +150,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 450));
+        p2.setPreferredSize(new Dimension(0, 430));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -158,19 +163,16 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
     }
 
     public JPanel Timtaikhoan() {
-        Color imgSearchlbl = new Color(180, 204, 227);
+        Color imgSearchlbl = new Color(255,222,89);
         Color btnResets = new Color(52, 48, 128);
 
         JPanel JSearch = new JPanel();
         JSearch.setLayout(new FlowLayout(1, 10, 5));
 
-        java.net.URL imageURL_Find = getClass().getResource("/image/btnsearch_qlhs1.png");
-        ImageIcon orgIcon_Find = new ImageIcon(imageURL_Find);
-        Image scaleImg_Find = orgIcon_Find.getImage().getScaledInstance(175, 40, Image.SCALE_SMOOTH);
-
-        btnFind = new JButton(new ImageIcon(scaleImg_Find));
-        btnFind.setPreferredSize(new Dimension(155, 40));
+        btnFind = new JButton("Tìm kiếm");
+        btnFind.setPreferredSize(new Dimension(100, 40));
         btnFind.setBackground(imgSearchlbl);
+        btnFind.setVisible(true);
 
         JsearchText = new JTextField();
         JsearchText.setPreferredSize(new Dimension(300, 40));
@@ -223,7 +225,8 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         java.net.URL imageURL_Del = getClass().getResource("/image/btnDelete.png");
         ImageIcon orgIcon_Del = new ImageIcon(imageURL_Del);
         Image scaleImg_Del = orgIcon_Del.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
-        btnXoa = new JButton(new ImageIcon(scaleImg_Del));
+        btnXoa = new JButton("XÓA",new ImageIcon(scaleImg_Del));
+        btnXoa.setForeground(Color.white);
         btnXoa.setPreferredSize(new Dimension(155, 40));
         btnXoa.setBorder(raisedBevel);
         Pchucnang.add(btnXoa); // Thêm nút vào panel
@@ -259,13 +262,13 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         return Pchucnang;
     }
 
-    public JPanel JTaikhoan() {
+     public JPanel JTaikhoan() {
         JPanel Ptaikhoan = new JPanel();
         Ptaikhoan.setLayout(null);
 
         String[] arrTaikhoan = { "Username", "Password", "Role", "Trạng thái" };
         int length = arrTaikhoan.length;
-        tf = new JTextField[length]; // Ensure tf is initialized
+        tf = new JTextField[length];
         buttons = new JButton[length];
         Ptaikhoan.setLayout(null);
 
@@ -281,22 +284,36 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
             buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
             buttons[i].setHorizontalAlignment(JButton.CENTER);
             buttons[i].setName("btn" + i);
-            toadoYbutton = toadoYbutton + 35;
+            toadoYbutton += 35;
             Ptaikhoan.add(buttons[i]);
 
-            tf[i] = new JTextField();
-            tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
-            tf[i].setFont(new Font("Arial", Font.BOLD, 12));
-            tf[i].setBorder(border);
-            tf[i].setName("text" + i);
-            toadoYTextfield = toadoYTextfield + 35;
-            Ptaikhoan.add(tf[i]);
+            if (i != 2) {
+                tf[i] = new JTextField();
+                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                tf[i].setFont(new Font("Arial", Font.BOLD, 12));
+                tf[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                tf[i].setName("text" + i);
+                toadoYTextfield += 35;
+                Ptaikhoan.add(tf[i]);
+            } else {
+                phanquyenBUS pqbus = new phanquyenBUS();
+                pqbus.listquyen();
+                ArrayList<phanquyenDTO> dsquyen = pqbus.getlistquyen();
 
-            y = y + 35;
+                roleComboBox = new JComboBox<>();
+                    for (phanquyenDTO pq : dsquyen) {
+                        roleComboBox.addItem(pq.getMaquyen());
+                    }
+                roleComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                Ptaikhoan.add(roleComboBox);
+                toadoYTextfield += 35;
+            }
+
+            y += 35;
         }
 
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(530, 40, 300, y - 80);
+        Pchucnang.setBounds(510, 35, 290, y - 70);
         Pchucnang.setBackground(new Color(99, 116, 198));
         Ptaikhoan.add(Pchucnang);
         Ptaikhoan.setPreferredSize(new Dimension(x, y));
@@ -308,7 +325,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(885, 450));
+        scrollpane.setPreferredSize(new Dimension(835, 430));
         String[] header = { "Username", "Password", "Role", "Trạng thái" };
 
         if (uBUS.getList() == null) {
@@ -358,7 +375,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
     public void addRow() {
         String username = tf[0].getText();
         String password = tf[1].getText();
-        String role = tf[2].getText();
+        String role = (String) roleComboBox.getSelectedItem();
         String enable = tf[3].getText();
 
         Object[] rowData = { username, password, role, enable };
@@ -378,35 +395,45 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
     }
 
     public void updateRow() {
-        // Lấy các giá trị từ các trường nhập
+        // Get the values from the text fields and combo box
         String username = tf[0].getText();
         String password = tf[1].getText();
-        String role = tf[2].getText();
+        String role = (String) roleComboBox.getSelectedItem(); // Get the selected item from the combo box
         String enable = tf[3].getText();
-        user User = new user(username, password, role, enable);
-
-        // Gọi phương thức addHS() từ lớp QLHS_BUS để thêm học sinh vào cơ sở dữ liệu
-        uBUS.updateuser(User);
-
-        Object[] rowData = { username, password, role, enable };
-
+    
+        // Create a new user object with updated values
+        user updatedUser = new user(username, password, role, enable);
+    
+        // Update the user in the database
+        uBUS.updateuser(updatedUser);
+    
+        // Get the index of the selected row
         int row = t.getSelectedRow();
-        tblmodel.removeRow(row);
-        tblmodel.addRow(rowData);
+    
+        // Update the values in the table model
+        tblmodel.setValueAt(username, row, 0);
+        tblmodel.setValueAt(password, row, 1);
+        tblmodel.setValueAt(role, row, 2);
+        tblmodel.setValueAt(enable, row, 3);
+    
+        // Clear the text fields
         clearTextFields();
     }
+    
 
     public void clearTextFields() {
         tf[0].setText("");
         tf[1].setText("");
-        tf[2].setText("");
+        // tf[2].setText("");
         tf[3].setText("");
+        // tf[4].setText("");
+
     }
 
     public boolean checkEmpty() {
         boolean isEmpty = tf[0].getText().isEmpty() ||
                 tf[1].getText().isEmpty() ||
-                tf[2].getText().isEmpty() ||
+                
                 tf[3].getText().isEmpty();
 
         return isEmpty;
@@ -418,13 +445,30 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         password = (String.valueOf(t.getValueAt(row, 1)));
         role = (String.valueOf(t.getValueAt(row, 2)));
         enable = (String.valueOf(t.getValueAt(row, 3)));
-
+    
+        // Set text fields
         tf[0].setText(user);
         tf[1].setText(password);
-        tf[2].setText(role);
         tf[3].setText(enable);
-
+    
+        // Set role combo box
+        String selectedRole = (String) t.getValueAt(row, 2);
+        int index = findIndexOfRole(selectedRole);
+        if (index != -1) {
+            roleComboBox.setSelectedIndex(index);
+        }
     }
+    
+    private int findIndexOfRole(String selectedRole) {
+        for (int i = 0; i < roleComboBox.getItemCount(); i++) {
+            if (roleComboBox.getItemAt(i).equals(selectedRole)) {
+                return i;
+            }
+        }
+        return -1; // If not found
+    }
+    
+    
     public void resetTable() {
         // Xóa toàn bộ dữ liệu trong bảng
         // int rowCount = tblmodel.getRowCount();
@@ -516,7 +560,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         }
 
         int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn sửa học sinh này",
+                "Bạn có chắc muốn sửa tài khoản này",
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION,
 
@@ -562,7 +606,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("DanhSachTaikhoan");
             Row headerRow = sheet.createRow(0); // Header row at index 0
-            String[] headers = { "STT", "username", "Password", "role", "enable" };
+            String[] headers = { "STT", "username", "Password", "role", "enable"};
 
             // Creating header cells
             for (int i = 0; i < headers.length; i++) {
@@ -610,7 +654,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
     public void autoCreateAccount() {
         String username = tf[0].getText();
         String password = tf[1].getText();
-        String role = tf[2].getText();
+        String role = (String) roleComboBox.getSelectedItem();
         String enable = tf[3].getText();
         
         // Kiểm tra xem thông tin người dùng nhập vào có hợp lệ không
@@ -662,7 +706,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
             btnSua.setBackground(Color.red);
         }
         if (e.getSource() == btnFind) {
-            btnFind.setBackground(Color.red);
+            btnFind.setBackground(new Color(200,175,73));
         }
         if (e.getSource() == btnExpExcel) {
             btnExpExcel.setBackground(Color.green);
@@ -681,7 +725,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         } else if (e.getSource() == btnSua) {
             btnSua.setBackground(defaultColor);
         } else if (e.getSource() == btnFind) {
-            btnFind.setBackground(defaultColor);
+            btnFind.setBackground(new Color(255,222,89));
         } else if (e.getSource() == btnExpExcel) {
             btnExpExcel.setBackground(defaultColor);
         }
@@ -722,7 +766,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         // Tạo cửa sổ JFrame và thiết lập các thuộc tính cơ bản
         JFrame frame = new JFrame("Tài khoản");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 700);
+        frame.setSize(850, 670);
         frame.setLocationRelativeTo(null); // Đặt vị trí ở giữa màn hình
 
         // Tạo một đối tượng của DoiMK và thêm nó vào JFrame

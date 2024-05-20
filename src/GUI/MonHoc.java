@@ -69,7 +69,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public final class MonHoc extends JFrame implements MouseListener, ActionListener {
     private String mmh, tmh;
-   // private JLabel lblMahs, lblTenhs, lblGioitinh, lblDiachi;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
     private JScrollPane scrollpane;
@@ -81,15 +80,15 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
     private final Border raisedBevel = BorderFactory.createRaisedBevelBorder();
     Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
     private Color defaultColor;
-    private String searchText;
     private JTextField JsearchText;
     DefaultTableModel model;
     TableRowSorter<DefaultTableModel> sorter;
     JDateChooser dateChooser;
+    
     JComboBox<String> genderComboBox;
     MonHocBUS mhBUS=new MonHocBUS();
     private static String pathAnhdd = "";
-    ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
+   // ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
     public MonHoc(int width, int height) throws SQLException {
         this.width = width;
         this.height = height;
@@ -107,12 +106,11 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         btnExpExcel.addActionListener(this);
         btnExpExcel.addMouseListener(this);
     }
+//gui
     public void init() throws SQLException {
         //main
         //Color myColor = Color.RED;
         Color myColor = new Color(99, 116, 198);
-
-
         //top
         Color searchPanel = new Color(180, 204, 227);
        //Color searchPanel = Color.RED;
@@ -142,7 +140,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         this.setVisible(true);
 
     }
-
+//tìm kiếm, 
     public JPanel SearchHocSinh() {
         Color imgSearchlbl = new Color(180, 204, 227);
         Color btnResets = new Color(52, 48, 128);
@@ -153,7 +151,6 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         java.net.URL imageURL_Search = getClass().getResource("/image/search_qlhs.png");
         ImageIcon orgIcon_Search = new ImageIcon(imageURL_Search);
         Image scaleImg_Search = orgIcon_Search.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-
         JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Search));
         imgSearch.setBackground(imgSearchlbl);
         imgSearch.setPreferredSize(new Dimension(50, 50));
@@ -168,7 +165,6 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
 
         java.net.URL imageURL = getClass().getResource("/image/home.png");
         ImageIcon originalIcon = new ImageIcon(imageURL); // Tạo ImageIcon từ đường dẫn
-
         // Chỉnh kích thước ảnh
         Image scaledImage = originalIcon.getImage().getScaledInstance(120, 40, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -247,7 +243,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         return Pchucnang;
     }
 
-    //tra
+    //xắp xep vị trí
     public JPanel JMonHoc() {
         JPanel PMonHoc = new JPanel();
         PMonHoc.setLayout(null);
@@ -263,27 +259,11 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         int x = 230;
         int y = 15;
         for (int i = 0; i < arrMonHoc.length; i++) {
-
-            if (i == 6) {
-                buttons[i] = new JButton(arrMonHoc[i]);
-                buttons[i].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                       // chooseImage();
-                    }
-                });
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
-                buttons[i].setForeground(Color.RED);
-                buttons[i].setHorizontalAlignment(JButton.CENTER);
-                buttons[i].setName("btn" + i);
-                PMonHoc.add(buttons[i]);
-            } else {
-                buttons[i] = new JButton(arrMonHoc[i]);
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
-                buttons[i].setHorizontalAlignment(JButton.CENTER);
-                buttons[i].setName("btn" + i);
-            }
-
+            buttons[i] = new JButton(arrMonHoc[i]);
+            buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+            buttons[i].setHorizontalAlignment(JButton.CENTER);
+            buttons[i].setName("btn" + i);
+            
             toadoYbutton = toadoYbutton + 80;
             PMonHoc.add(buttons[i]);
 
@@ -305,14 +285,13 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         PMonHoc.setPreferredSize(new Dimension(x, y));
         return PMonHoc;
     }
-
-    public JScrollPane initTable() throws SQLException {
-
+//main
+    public  JScrollPane initTable() throws SQLException {
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
         scrollpane.setPreferredSize(new Dimension(835, 340));
-                String[] header = { "Mã môn học", "Tên Môn Học."};
+        String[] header = { "Mã môn học", "Tên Môn Học."};
                
         if (mhBUS.getList() == null)
             mhBUS.list();
@@ -395,7 +374,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
 
     public boolean checkEmpty() {
         boolean isEmpty = tf[0].getText().isEmpty() ||
-                tf[1].getText().isEmpty();
+        tf[1].getText().isEmpty();
         return isEmpty ;
     }
 
@@ -561,7 +540,6 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
             }
             JOptionPane.showMessageDialog(this, "IN THÀNH CÔNG");
             Desktop.getDesktop().open(file);
-
         }
     }
 
@@ -676,7 +654,6 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
                 e1.printStackTrace();
             }
         }
-
     }
 
     public static void main(String[] args) {

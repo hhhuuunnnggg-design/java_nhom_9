@@ -10,8 +10,16 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import java.awt.event.*;
+import java.awt.print.*;
+import javax.swing.table.TableRowSorter;
+import java.util.List;
+import java.util.ArrayList;
+import java.sql.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
@@ -29,8 +37,6 @@ import DTO.HocSinhDTO;
 import DTO.KQ_HocSinhCaNamDTO;
 import DTO.NamHocDTO;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -44,7 +50,7 @@ public class ThongKe extends JPanel{
     private JLabel b1, b2, b3, b4, b5;
     private JComboBox<String> optionHL, optionHK, optionHP, optionNH, optionKQ;
     private JTextField s;
-    private JButton showBtn, exportBtn;
+    private JButton showBtn, exportBtn, printBtn;
     private DefaultTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
@@ -145,6 +151,12 @@ public class ThongKe extends JPanel{
         exportBtn.setBackground(new Color(0, 83, 22));
         exportBtn.setForeground(Color.WHITE);
 
+        printBtn = new JButton("In file");
+        printBtn.setBackground(new Color(255, 87, 87));
+        printBtn.setForeground(Color.WHITE);
+        printBtn.setPreferredSize(new Dimension(100, 30));
+        printBtn.addActionListener(new PrintListener());
+
         GridBagConstraints gbcShowBtn = new GridBagConstraints();
         gbcShowBtn.gridx = 0;
         gbcShowBtn.gridy = 0;
@@ -156,6 +168,12 @@ public class ThongKe extends JPanel{
         gbcExportBtn.gridy = 1;
         gbcExportBtn.insets = new Insets(5, 0, 5, 10);
         btnPanel.add(exportBtn, gbcExportBtn);
+
+        GridBagConstraints gbcprintBtn = new GridBagConstraints();
+        gbcprintBtn.gridx = 0;
+        gbcprintBtn.gridy = 2;
+        gbcprintBtn.insets = new Insets(5, 0, 5, 10);
+        btnPanel.add(printBtn, gbcprintBtn);
 
         totalPanel.add(l2);
         totalPanel.add(s);
@@ -270,7 +288,12 @@ public class ThongKe extends JPanel{
     }
 
     public static void main(String[] args) throws SQLException {
-        new ThongKe(850,670);
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        ThongKe panel = new ThongKe(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
     private class expBtnListener implements ActionListener {
@@ -416,5 +439,70 @@ public class ThongKe extends JPanel{
             return count;
         }
     }
+    public JPanel getPanel() {
+        return this;
+    }
+    private class PrintListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (tblModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu để in!");
+            }else {
+                JFrame pf = new JFrame();
+                pf.setLayout(new BorderLayout()); // Sử dụng BorderLayout để xếp panel
+                pf.setUndecorated(true);
+                try {
+                    ThongKe tk = new ThongKe(794, 300); // Thiết lập kích thước cho panel thông tin
+                    tk.getPanel();
 
+                    pf.add(tk, BorderLayout.CENTER); // Đặt panel thông tin ở phía trên
+                    pf.setPreferredSize(new Dimension(794, 1123));
+                    pf.pack(); // Đảm bảo phù hợp với nội dung của frame
+                    pf.setVisible(true); // Hiển thị frame sau khi thêm cả hai panel
+                    printPanel(pf);
+                    pf.setVisible(false); // Hiển thị frame sau khi thêm cả hai panel
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    private void printPanel(JFrame jframe) {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName("Print Panel");
+        JOptionPane.showMessageDialog(null, "Đây là nội dung in!");
+        int choice = JOptionPane.showConfirmDialog(null, "Tiến hành in?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            job.setPrintable(new Printable() {
+                @Override
+                public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                    if (pageIndex > 0) {
+                        return NO_SUCH_PAGE;
+                    }
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+                    g2d.scale(0.5, 0.5);
+                    jframe.printAll(g2d);
+    
+                    return PAGE_EXISTS;
+                }
+            });
+                    boolean doPrint = job.printDialog();
+                if (doPrint) {
+                    try {
+                        job.print();
+                    } catch (PrinterException e) {
+                        e.printStackTrace();
+                    }
+                }
+            System.out.println("User clicked Yes");
+        } else {
+            JOptionPane.showMessageDialog(null, "In đã bị hủy!"); // Show message to indicate printing canceled
+            System.out.println("Thoát in!");
+            return; 
+        }
+    }
 }

@@ -47,7 +47,7 @@ public class HocPhi {
     JFrame f;
     JPanel topPanel, btPanel, mainTop, midPanel, mainMid, btnMid;
     JLabel l1, labelLop, l2, l3;
-    JComboBox<String> option1, optionLop, optionHP; 
+    JComboBox<String> option1, optionLop, optionHP;
     JTextField txtIdName, txthoten, txtlop, txtngaysinh, txtdienthoai, txtStatus, txtFee;
     JButton filterBtn, settingBtn, detailBtn, confirmBtn;
     private DefaultTableModel tblModel;
@@ -55,8 +55,13 @@ public class HocPhi {
     private JTable t;
     String outputID, outputTenHS, outputLop, outputNgaySinh, outputSDT, outputHocPhi, outputStatus, outputTime;
 
+<<<<<<< HEAD
     ArrayList <HocSinhDTO> dshs;
     ArrayList <KQ_HocSinhCaNamDTO> dskq;
+=======
+    ArrayList<HocSinhDTO> dshs;
+    ArrayList<KQ_HocSinhCaNamDTO> dskq;
+>>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
     ArrayList<MonHocDTO> dsmon;
     ArrayList<ChiTietDiemDTO> dsct;
     ArrayList<HocKyDTO> dshk;
@@ -64,8 +69,12 @@ public class HocPhi {
     ArrayList<NamHocDTO> dsnh;
     ArrayList<PhanLopDTO> dspl;
     ArrayList<LopDTO> dslop;
+<<<<<<< HEAD
     ArrayList<HocPhiDTO> dshp;
     
+=======
+
+>>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
     PhanLopBUS plbus = new PhanLopBUS(1);
     LopBUS lopbus = new LopBUS(1);
     HocSinhBUS hsbus = new HocSinhBUS(1);
@@ -79,6 +88,7 @@ public class HocPhi {
 
     CurrentDateTime currTime = new CurrentDateTime();
     int namhientai = currTime.getYear();
+
     public HocPhi() {
         f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,11 +96,11 @@ public class HocPhi {
         f.setSize(850, 670);
         f.setLocationRelativeTo(null);
         f.setResizable(false);
-        
+
         mainTop = new JPanel();
         mainTop.setLayout(new BorderLayout());
         mainTop.setPreferredSize(new Dimension(0, 110));
-        mainTop.setBackground(new Color(180,204,227));
+        mainTop.setBackground(new Color(180, 204, 227));
         mainTop.setOpaque(true);
 
         topPanel = new JPanel();
@@ -98,7 +108,7 @@ public class HocPhi {
         topPanel.setOpaque(false);
         l1 = new JLabel("Danh sách hiển thị theo:");
         l1.setFont(new Font("Arial", Font.BOLD, 16));
-        option1 = new JComboBox<>(new String[]{"Mã HS", "Tên HS"});
+        option1 = new JComboBox<>(new String[] { "Mã HS", "Tên HS" });
         labelLop = new JLabel("Lớp:");
         optionLop = new JComboBox<>();
         dslop = lopbus.getList();
@@ -108,10 +118,11 @@ public class HocPhi {
             optionLop.addItem(tenlop); // Use addItem() method instead of add()
         }
         txtIdName = new JTextField();
-        
+
         l3 = new JLabel("Tình trạng học phí:");
 
-        optionHP = new JComboBox<>(new String[]{"Tất cả", "Chưa thanh toán", "Đã thanh toán"}); // Replace with your options
+        optionHP = new JComboBox<>(new String[] { "Tất cả", "Chưa thanh toán", "Đã thanh toán" }); // Replace with your
+                                                                                                   // options
 
         int xOffset = 60;
 
@@ -136,17 +147,16 @@ public class HocPhi {
         topPanel.add(l3);
         topPanel.add(optionHP);
 
-                
         btPanel = new JPanel(new GridBagLayout());
         btPanel.setOpaque(false);
-        btPanel.setPreferredSize(new Dimension(150,0));
+        btPanel.setPreferredSize(new Dimension(150, 0));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weighty = 1;
         gbc.insets = new Insets(5, 0, 0, 0);
         gbc.anchor = GridBagConstraints.CENTER;
-        
+
         filterBtn = new JButton("Filter");
         settingBtn = new JButton("Setting");
 
@@ -165,26 +175,26 @@ public class HocPhi {
         JLabel lblHoten = new JLabel("Họ tên:");
         lblHoten.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and style
         lblHoten.setHorizontalAlignment(SwingConstants.CENTER); // Center alignment
-        
+
         JLabel lblLop = new JLabel("Lớp:");
         lblLop.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and style
         lblLop.setHorizontalAlignment(SwingConstants.CENTER); // Center alignment
-        
+
         JLabel lblNgaysinh = new JLabel("Ngày Sinh:");
         lblNgaysinh.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and style
         lblNgaysinh.setHorizontalAlignment(SwingConstants.CENTER); // Center alignment
-        
+
         JLabel lblDienthoai = new JLabel("SDT:");
         lblDienthoai.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and style
         lblDienthoai.setHorizontalAlignment(SwingConstants.CENTER); // Center alignment
-        
+
         JLabel lblStatus = new JLabel("Tình trạng học phí:");
         lblStatus.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and style
         lblStatus.setHorizontalAlignment(SwingConstants.CENTER); // Center alignment
-        
+
         JLabel lblFee = new JLabel("Học phí:");
         lblFee.setFont(new Font("Arial", Font.BOLD, 14)); // Set font size and style
-        lblFee.setHorizontalAlignment(SwingConstants.CENTER); 
+        lblFee.setHorizontalAlignment(SwingConstants.CENTER);
 
         txthoten = new JTextField(10);
         txtlop = new JTextField(10);
@@ -235,6 +245,7 @@ public class HocPhi {
         btnMid.add(confirmBtn, gbcBtnMid);
 
         midPanel.add(btnMid, BorderLayout.EAST);
+<<<<<<< HEAD
         
         f.add(initTable(), BorderLayout.SOUTH);
 
@@ -242,11 +253,15 @@ public class HocPhi {
         loaddatatoTable();
 
         // Add other panels
+=======
+
+>>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
         f.add(mainTop, BorderLayout.NORTH);
         f.add(midPanel, BorderLayout.CENTER);
         f.setVisible(true);
     }
 
+<<<<<<< HEAD
 
     public JScrollPane initTable() {
         t = new JTable();
@@ -270,17 +285,82 @@ public class HocPhi {
         
         t.setRowHeight(40);
         JTableHeader header = t.getTableHeader();
+=======
+    private void loaddatatoTable() {
+        tblModel.setRowCount(0);
+
+        dshs = hsbus.getList();
+        dskq = kqbus.getList();
+        dsmon = mhbus.getList();
+        dsct = ctbus.getList();
+        dsdtb = dtbbus.getList();
+        dshk = hkbus.getList();
+        dsnh = nhbus.getList();
+
+        String idnam = null;
+        for (NamHocDTO nh : dsnh) {
+            if (nh.getNamHocBatDau() == namhientai) {
+                System.out.println("so sanh nam");
+                idnam = nh.getNamHocID();
+                break;
+            }
+        }
+
+        for (HocSinhDTO hs : dshs) {
+
+            String idhs = hs.getHocSinhID();
+            if (plbus.get(idhs, idnam) != null)
+                continue;
+            else
+                break;
+            String[] rowData = new String[] {
+
+            };
+        }
+    }
+
+    public JScrollPane initTable() {
+        JTable anotherTable = new JTable();
+        anotherTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        JScrollPane anotherScrollPane = new JScrollPane(anotherTable);
+        anotherScrollPane.setPreferredSize(new Dimension(0, 300));
+
+        String[] headers = { "ID HS", "Họ Tên", "Lớp", "Ngày Sinh", "SDT", "Học Phí", "Tình trạng học phí",
+                "Thời gian thanh toán" };
+        int editableColumnIndex = 5; // Index of the "Học Phí" column
+        NonEditableTableModel anotherTableModel = new NonEditableTableModel(headers, 0, editableColumnIndex);
+        anotherTable.setModel(anotherTableModel);
+
+        // Set preferred column widths
+        anotherTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        anotherTable.getColumnModel().getColumn(1).setPreferredWidth(180);
+        anotherTable.getColumnModel().getColumn(2).setPreferredWidth(60);
+        anotherTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+        anotherTable.getColumnModel().getColumn(4).setPreferredWidth(120);
+        anotherTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+        anotherTable.getColumnModel().getColumn(6).setPreferredWidth(150);
+        anotherTable.getColumnModel().getColumn(7).setPreferredWidth(150); // New column
+
+        anotherTable.setRowHeight(40);
+        JTableHeader header = anotherTable.getTableHeader();
+>>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 40));
         header.setBackground(new Color(31, 28, 77));
         header.setForeground(Color.WHITE);
         header.setFont(header.getFont().deriveFont(Font.BOLD, 12));
 
+<<<<<<< HEAD
         ((DefaultTableCellRenderer)t.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+=======
+        ((DefaultTableCellRenderer) anotherTable.getTableHeader().getDefaultRenderer())
+                .setHorizontalAlignment(JLabel.CENTER);
+>>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < tblModel.getColumnCount(); i++) {
             t.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+<<<<<<< HEAD
         t.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -507,6 +587,12 @@ public class HocPhi {
     //         }
     //     }
     // }
+=======
+
+        return anotherScrollPane;
+    }
+
+>>>>>>> 32e1ebca9d41cb8dd602812d4b448648aaf1f007
     public static void main(String[] args) {
         new HocPhi();
     }

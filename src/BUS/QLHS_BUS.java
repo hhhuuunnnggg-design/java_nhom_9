@@ -11,14 +11,14 @@ public class QLHS_BUS {
 
     public QLHS_BUS() {
     }
-    
+
     public void listHS() {
         QLHS_DAO hsDAO = new QLHS_DAO();
 
         dshs = new ArrayList<>();
         dshs = hsDAO.list();
     }
-    
+
     // theem
     public void addHS(HocSinhDTO hs) {
         dshs.add(hs);
@@ -82,4 +82,11 @@ public class QLHS_BUS {
         Integer count = hs.CountHS();
         return count;
     }
+
+    public static String getRole(String username) {
+        QLHS_DAO dao = new QLHS_DAO();
+
+        return dao.getRole(username);
+    }
+
 }
