@@ -102,6 +102,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
     public Taikhoan(int width, int height) throws SQLException {
         this.width = width;
         this.height = height;
+        this.setSize(width, height);
         init();
         
         // Adding action listeners
