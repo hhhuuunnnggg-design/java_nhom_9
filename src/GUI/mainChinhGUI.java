@@ -263,7 +263,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
         switch (i) {
             case 0:
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                // main.add(new QuanLyDiem(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
@@ -344,14 +344,14 @@ public class mainChinhGUI extends JFrame implements MouseListener {
 
             case 4:
                 main.removeAll();
-                main.add(new ThanhToanHocPhi());
+                // main.add(new ThanhToanHocPhi());
                 main.repaint();
                 main.revalidate();
                 break;
 
             case 5:
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                // main.add(new QuanLyDiem(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
