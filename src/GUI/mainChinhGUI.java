@@ -122,7 +122,7 @@ public class mainChinhGUI extends JFrame implements MouseListener {
             changeMainInfo(0);
     
             /**************************************************************/
-    
+   
             add(header, BorderLayout.NORTH);
             add(scroll, BorderLayout.WEST);
             add(main, BorderLayout.CENTER);
