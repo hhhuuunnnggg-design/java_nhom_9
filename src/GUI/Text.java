@@ -177,7 +177,12 @@ public class Text extends JFrame implements MouseListener {
             if (e.getSource() == item) {
                 item.doActive(); // Active NavItem đc chọn
                 String ma = macn.get(i);
-                changeMainInfo(ma);
+                try {
+                    changeMainInfo(ma);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             } else {
                 item.noActive();
             }
@@ -220,16 +225,16 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-        case "CN4": // Quản lý năm học
-            main.removeAll();
-            try {
-                main.add(new NamhocGUI(850, 670));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            main.repaint();
-            main.revalidate();
-            break;
+            case "CN4": // Quản lý năm học
+                main.removeAll();
+                try {
+                    main.add(new NamhocGUI(850, 670));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break;
 
             case "CN5": //Phân công
                 main.removeAll();
@@ -325,7 +330,7 @@ public class Text extends JFrame implements MouseListener {
                 main.repaint();
                 main.revalidate();
                 break;
-                
+
             case "CN16"://GV nhận thông báo
                 break;
             case "CN17": //Đổi mật khẩu HS/GV

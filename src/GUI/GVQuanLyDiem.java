@@ -706,7 +706,12 @@ Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, die
             }
             return (float) -1;
     }
-    public static void main(String[] args) {
-        new GVQuanLyDiem("GV2");
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        GVQuanLyDiem panel = new GVQuanLyDiem(850, 670, "GV1");
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

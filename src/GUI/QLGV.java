@@ -837,4 +837,12 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         }
 
     }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        QLGV panel = new QLGV(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
 }

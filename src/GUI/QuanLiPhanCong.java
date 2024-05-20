@@ -741,7 +741,11 @@ public final class QuanLiPhanCong extends JPanel implements MouseListener, Actio
     }
 
     public static void main(String[] args) throws SQLException {
-        QuanLiPhanCong pc = new QuanLiPhanCong(850, 670);
-        pc.setVisible(true);
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        QuanLiPhanCong panel = new QuanLiPhanCong(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }
