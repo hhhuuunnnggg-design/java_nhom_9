@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2024 at 12:47 PM
+-- Generation Time: May 20, 2024 at 04:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -632,6 +632,19 @@ INSERT INTO `hocky` (`HocKyid`, `TenHocKy`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `hocphi`
+--
+
+CREATE TABLE `hocphi` (
+  `idhs` varchar(10) NOT NULL,
+  `idnh` varchar(22) NOT NULL,
+  `thoigian` varchar(50) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hocsinh`
 --
 
@@ -965,6 +978,15 @@ CREATE TABLE `ykien` (
   `tenhs` varchar(50) DEFAULT NULL,
   `trangthai` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ykien`
+--
+
+INSERT INTO `ykien` (`idnguoigui`, `tieudeyk`, `noidungyk`, `thoigianyk`, `tenhs`, `trangthai`) VALUES
+('HS8', 'dday la cai y kien cua HS8', 'nhap y kien cac thu', '19-5-2024 12:21:51', ' Phan Thị Hằng', 'Chưa xem'),
+('HS8', 'y kien cua HS8 test 2', 'nhap y kien', '19-5-2024 12:23:55', ' Phan Thị Hằng', 'Chưa xem'),
+('HS3', 'y kien HS3', 'cnscpoJPOCJPJ', '19-5-2024 12:24:24', 'Trần Thị Mai', 'Chưa xem');
 
 --
 -- Indexes for dumped tables
