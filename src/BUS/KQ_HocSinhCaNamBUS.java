@@ -32,12 +32,6 @@ public class KQ_HocSinhCaNamBUS {
         dskq = new ArrayList<>();
         dskq = kq_kqDATA.list();
     }
-    public void add(KQ_HocSinhCaNamDTO kq)
-    {
-        dskq.add(kq);
-        KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
-        kq_kqDATA.add(kq);
-    }
 
     public void delete(KQ_HocSinhCaNamDTO s)
     {
@@ -54,8 +48,15 @@ public class KQ_HocSinhCaNamBUS {
         }
     }
 
-    public void set(KQ_HocSinhCaNamDTO s)
+    public void add(KQ_HocSinhCaNamDTO kq)
     {
+        dskq.add(kq);
+        KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
+        kq_kqDATA.add(kq);
+    }
+
+    public void set(KQ_HocSinhCaNamDTO s){
+        boolean found = false;
         for(int i = 0 ; i < dskq.size() ; i++)
         {
             if(dskq.get(i).getHocSinhID().equals(s.getHocSinhID()) && dskq.get(i).getNamHocID().equals(s.getNamHocID()))
@@ -64,10 +65,15 @@ public class KQ_HocSinhCaNamBUS {
                 dskq.set(i, s);
                 KQ_HocSinhCaNamDAO kq_kqDATA = new KQ_HocSinhCaNamDAO();
                 kq_kqDATA.set(s);
-                return;
+                found = true;
+                break;
             }
         }
-    }
+        if (!found) {
+            add(s);
+        }
+}
+
     public boolean check(String id)
     {
         for(KQ_HocSinhCaNamDTO kq : dskq)

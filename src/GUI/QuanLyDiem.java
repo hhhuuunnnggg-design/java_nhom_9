@@ -44,7 +44,7 @@ import DTO.PhanLopDTO;
  * @author PHUONG ANH
  */
 public class QuanLyDiem extends JPanel{
-    // private JFrame f;
+    private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, btnPanel2, contentPanel, detailPanel, main_detailPanel;
     private JLabel b1, b2, b3, b4, b5, b6;
     private JComboBox<String> optionLop, optionMon, optionHe, optionHocky, optionNam;
@@ -54,8 +54,7 @@ public class QuanLyDiem extends JPanel{
     private NonEditableTableModel tblModel;
     private JScrollPane scrollPane;
     private JTable t;
-    int width;
-    int height;
+
     private static String outputID, outputHeid, outputMon, outputHK, outputNam, outputDiemhk, outputDiemcanam, outputTenHS, outputLop;
 
     ArrayList <HocSinhDTO> dshs;
@@ -77,11 +76,11 @@ public class QuanLyDiem extends JPanel{
     HocKyBUS hkbus = new HocKyBUS(1);
     KQ_HocSinhCaNamBUS kqbus = new KQ_HocSinhCaNamBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
-    public QuanLyDiem(int width, int height) {
-    this.width = width;
-    this.height = height;
-    this.setLayout(new BorderLayout());
-    this.setSize(new Dimension(width, height));
+    public QuanLyDiem() {
+        f = new JFrame();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setLayout(new BorderLayout());
+        f.setSize(850, 670);
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -98,7 +97,7 @@ public class QuanLyDiem extends JPanel{
 
         radioPanel = new JPanel();
         radioPanel.setOpaque(false);
-        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 0));
+        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
 
         b1 = new JLabel("Lớp");
         b2 = new JLabel("Môn học");
@@ -218,7 +217,7 @@ public class QuanLyDiem extends JPanel{
         topPanel.add(selectPanel, BorderLayout.CENTER);
         topPanel.add(btnPanel, BorderLayout.EAST);
 
-        this.add(topPanel, BorderLayout.NORTH);
+        f.add(topPanel, BorderLayout.NORTH);
 
         btnPanel2.add(delBtn, gbcExportBtn);
         btnPanel2.add(editBtn, gbcShowBtn);
@@ -230,8 +229,8 @@ public class QuanLyDiem extends JPanel{
         contentPanel.add(initTable(), BorderLayout.CENTER);
         loaddatatoTable();
         contentPanel.add(detailPanel, BorderLayout.NORTH);
-        this.add(contentPanel);
-        this.setVisible(true);
+        f.add(contentPanel);
+        f.setVisible(true);
 
         filterBtn.addActionListener(new FilterBtnListener());
         editBtn.addActionListener(new EditBtnListener());
@@ -377,7 +376,8 @@ public class QuanLyDiem extends JPanel{
                         String idnamhoc = nh.getNamHocID();
                         String idhs = hs.getHocSinhID();
                         String idlop = lop.getLopID();
-                        if(plbus.get(idhs, idnamhoc).getLopID().equals(idlop)){
+                        
+                        if((plbus.get(idhs, idnamhoc)!=null) && plbus.get(idhs, idnamhoc).getLopID().equals(idlop)){
                             for(HocKyDTO hk : dshk){
     
                                 String idhk = hk.getHocKyID();
@@ -533,8 +533,18 @@ public class QuanLyDiem extends JPanel{
         }
 
         
-        Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, String.valueOf(diem), hkbus.get(idhk).getTenHocKy(),
-            String.valueOf(diemHK), outputNam, String.valueOf(diemCanam)};
+       // Check if any diem value is -1
+boolean anyNegative = (diem == -1 || diemHK == -1 || diemCanam == -1);
+
+// Convert diem values to empty string if any is -1
+String diemString = (anyNegative && diem == -1) ? "" : String.valueOf(diem);
+String diemHKString = (anyNegative && diemHK == -1) ? "" : String.valueOf(diemHK);
+String diemCanamString = (anyNegative && diemCanam == -1) ? "" : String.valueOf(diemCanam);
+
+// Create rowData with adjusted diem values
+Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, diemString, hkbus.get(idhk).getTenHocKy(),
+        diemHKString, outputNam, diemCanamString};
+
             
             int row = t.getSelectedRow();
             tblModel.removeRow(row);
@@ -708,5 +718,7 @@ public class QuanLyDiem extends JPanel{
             }
             return (float) -1;
     }
-
+public static void main(String[] args) {
+    new QuanLyDiem();
+}
 }

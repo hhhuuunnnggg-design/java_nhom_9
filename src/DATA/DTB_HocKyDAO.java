@@ -39,40 +39,41 @@ public class DTB_HocKyDAO {
     
     public void set(DTB_HocKyDTO ctd) {
         MySQLConnect mySQL = new MySQLConnect();
-        String diemTrungBinh =String.valueOf(ctd.getDiemTrungBinh());
-        System.out.println("String.valueOf(ctd.getDiemTrungBinh())");
-        System.out.println(diemTrungBinh);
-        // Check if DiemTrungBinh is less than 0, if so, set it to empty string
-        if (Float.parseFloat(diemTrungBinh) < 0 || String.valueOf(ctd.getDiemTrungBinh())==null) {
-            diemTrungBinh ="NULL";
+        String diemTrungBinh = ctd.getDiemTrungBinh() != null ? String.valueOf(ctd.getDiemTrungBinh()) : "NULL";
+        
+        // Check if DiemTrungBinh is less than 0, if so, set it to NULL
+        if (ctd.getDiemTrungBinh() != null && ctd.getDiemTrungBinh() < 0) {
+            diemTrungBinh = "NULL";
         }
+    
         String sql = "UPDATE diemtbhocky SET ";
         sql += "HocSinhid='" + ctd.getHocSinhID() + "', ";
         sql += "HocKyid='" + ctd.getHocKyID() + "', ";
         sql += "NamHocid='" + ctd.getNamHocID() + "', ";
-        sql += "DiemTrungBinh='" + diemTrungBinh + "' ";
+        sql += "DiemTrungBinh=" + diemTrungBinh + " "; // Remove quotes around diemTrungBinh
         
         // Concatenating conditions for WHERE clause
         sql += " WHERE HocSinhid='" + ctd.getHocSinhID() + "' AND ";
         sql += "HocKyid='" + ctd.getHocKyID() + "' AND ";
         sql += "NamHocid='" + ctd.getNamHocID() + "'";
-        
+    
         System.out.println(sql);
-        
+    
         mySQL.executeUpdate(sql);
     }
 
-
     public void add(DTB_HocKyDTO ctd) {
+        String diemTrungBinh =( ctd.getDiemTrungBinh() != null ) && (ctd.getDiemTrungBinh()<0.0)? String.valueOf(ctd.getDiemTrungBinh()) : "NULL";
+    
         MySQLConnect mySQL = new MySQLConnect();
-         String sql = "INSERT INTO diemtbhocky VALUES (";
-                sql += "'"+ctd.getHocSinhID()+"',";
-                sql += "'"+ctd.getHocKyID()+"',";
-                sql += "'"+ctd.getNamHocID()+"',";
-                sql += "'"+ctd.getDiemTrungBinh()+"')";
-
-         System.out.println(sql);
-         mySQL.executeUpdate(sql);
+        String sql = "INSERT INTO diemtbhocky (HocSinhID, HocKyID, NamHocID, DiemTrungBinh) VALUES (";
+        sql += "'" + ctd.getHocSinhID() + "',";
+        sql += "'" + ctd.getHocKyID() + "',";
+        sql += "'" + ctd.getNamHocID() + "',";
+        sql += (diemTrungBinh.equals("NULL") ? diemTrungBinh : "'" + diemTrungBinh + "'") + ")";
+        
+        System.out.println(sql);
+        mySQL.executeUpdate(sql);
     }
     
     public void delete(DTB_HocKyDTO ctd) {

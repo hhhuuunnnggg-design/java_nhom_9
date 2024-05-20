@@ -39,8 +39,6 @@ import DTO.NamHocDTO;
 import DTO.PhanCongDTO;
 import DTO.PhanLopDTO;
 
-
-
 /**
  *
  * @author PHUONG ANH
@@ -49,7 +47,7 @@ public class GVQuanLyDiem extends JPanel{
     String magiaovien;
     // private JFrame f;
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, totalPanel, btnPanel, btnPanel2, contentPanel, detailPanel, main_detailPanel;
-    private JRadioButton b1, b2, b3, b4, b5, b6;
+    private JLabel b1, b3, b4, b5, b6;
     private JComboBox<String> optionLop, optionHe, optionHocky, optionNam;
     private JTextField s, inputID, outputDiem;
     private JLabel l1, l2;
@@ -104,31 +102,17 @@ public class GVQuanLyDiem extends JPanel{
 
         radioPanel = new JPanel();
         radioPanel.setOpaque(false);
-        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 0));
+        radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 0));
 
-        b1 = new JRadioButton("Lớp");
-        b2 = new JRadioButton("Môn học");
-        b3 = new JRadioButton("Mã HS");
-        b4 = new JRadioButton("Hệ điểm");
-        b5 = new JRadioButton("Học kỳ");
-        b6 = new JRadioButton("Năm học");
+        b1 = new JLabel("Lớp");
 
-        JRadioButton dummyButton = new JRadioButton();
-        dummyButton.setVisible(false);
-
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(b1);
-        buttonGroup.add(b2);
-        buttonGroup.add(b3);
-        buttonGroup.add(b4);
-        buttonGroup.add(b5);
-        buttonGroup.add(b6);
-        buttonGroup.add(dummyButton);
-        
-        JRadioButton[] buttons = {b1, b2, b3, b4, b5, b6};
-
+        b3 = new JLabel("Mã HS");
+        b4 = new JLabel("Hệ điểm");
+        b5 = new JLabel("Học kỳ");
+        b6 = new JLabel("Năm học");
+        JLabel[] buttons = {b1, b3, b4, b5, b6};       
         Color color = new Color(180, 204, 227);
-        for (JRadioButton button : buttons) {
+        for (JLabel button : buttons) {
             button.setBackground(color);
         }
 
@@ -171,11 +155,6 @@ public class GVQuanLyDiem extends JPanel{
         filterBtn.setBackground(new Color(31, 28, 77));
         filterBtn.setForeground(Color.WHITE);
 
-        JButton deselectButton = new JButton("Xóa lựa chọn");
-        deselectButton.addActionListener(e -> {
-            buttonGroup.clearSelection(); // Deselect all buttons
-        });
-        deselectButton.setPreferredSize(new Dimension(110, 30));
 
         detailPanel = new JPanel();
         detailPanel.setLayout(new BorderLayout());
@@ -212,7 +191,6 @@ public class GVQuanLyDiem extends JPanel{
         detailPanel.add(main_detailPanel);
 
 /////////
-        btnPanel.add(deselectButton, gbcShowBtn );
         btnPanel.add(filterBtn,gbcExportBtn);
 
         totalPanel.add(l2);
@@ -220,7 +198,6 @@ public class GVQuanLyDiem extends JPanel{
 
         radioPanel.add(b3);
         radioPanel.add(b1);
-        radioPanel.add(b2);
         radioPanel.add(b4);
         radioPanel.add(b5);
         radioPanel.add(b6);
@@ -318,7 +295,8 @@ public class GVQuanLyDiem extends JPanel{
     dsdtb = dtbbus.getList();
     dshk = hkbus.getList();
     dsnh = nhbus.getList();
-    
+    String idmon = pcbus.get(magiaovien).getMonHocID();
+    System.out.println("id mon GV :"+idmon);
     for (HocSinhDTO hs : dshs) {
         for (NamHocDTO nh : dsnh) {
             String idnamhoc = nh.getNamHocID();
@@ -327,30 +305,29 @@ public class GVQuanLyDiem extends JPanel{
 
             for (HocKyDTO hk : dshk) {
                 String idhk = hk.getHocKyID();
-                for (MonHocDTO mh : dsmon) {
-                    String idmon = mh.getMonHocID();
-                    for (int heso = 1; heso < 4; heso++) {
-                        String idHocKy = hk.getHocKyID();
-                        String idNamHoc = nh.getNamHocID();
-                        String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
-                        String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
-                        String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
-                        String tenl = lopbus.get(idlop)!=null?lopbus.get(idlop).getTenLop():"";
-                        String[] rowData = new String[]{
-                            idhs,
-                            hsbus.get(idhs).getTenHocSinh(),
-                            tenl,
-                            mhbus.get(idmon).getTenMonHoc(),
-                            String.valueOf(heso),
-                            idDiemHocKy,
-                            hkbus.get(idhk).getTenHocKy(),
-                            idDiemTrungBinhHocKy,
-                            nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
-                            idDiemTrungBinhNam
-                        };
-                        tblModel.addRow(rowData);
-                    }
+
+                for (int heso = 1; heso < 4; heso++) {
+                    String idHocKy = hk.getHocKyID();
+                    String idNamHoc = nh.getNamHocID();
+                    String idDiemHocKy = ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso) != null ? String.valueOf(ctbus.get(idhs, idNamHoc, idHocKy, idmon, heso).getDiem()) : "";
+                    String idDiemTrungBinhHocKy = dtbbus.get(idhs, idNamHoc, idHocKy) != null ? String.valueOf(dtbbus.get(idhs, idNamHoc, idHocKy).getDiemTrungBinh()) : "";
+                    String idDiemTrungBinhNam = kqbus.get(idhs, idNamHoc) != null ? String.valueOf(kqbus.get(idhs, idNamHoc).getDiemTrungBinhNam()) : "";
+                    String tenl = lopbus.get(idlop)!=null?lopbus.get(idlop).getTenLop():"";
+                    String[] rowData = new String[]{
+                        idhs,
+                        hsbus.get(idhs).getTenHocSinh(),
+                        tenl,
+                        mhbus.get(idmon).getTenMonHoc(),
+                        String.valueOf(heso),
+                        idDiemHocKy,
+                        hkbus.get(idhk).getTenHocKy(),
+                        idDiemTrungBinhHocKy,
+                        nhbus.get(idnamhoc).getNamHocBatDau() + "-" + nhbus.get(idnamhoc).getNamHocKetThuc(),
+                        idDiemTrungBinhNam
+                    };
+                    tblModel.addRow(rowData);
                 }
+                
             }
         }
     }
@@ -380,7 +357,6 @@ public class GVQuanLyDiem extends JPanel{
             
             String hocky = (String) optionHocky.getSelectedItem();
             String namhoc = (String) optionNam.getSelectedItem();
-            
             
             dshs = hsbus.search(id_hs, null, null, null, null, null, null);
             dsnh = nhbus.search(null, namhoc);
@@ -425,7 +401,6 @@ public class GVQuanLyDiem extends JPanel{
                                         tblModel.addRow(rowData);
                                     }
                                 }
-    
                             }
                         }
                     }
@@ -493,8 +468,6 @@ public class GVQuanLyDiem extends JPanel{
                 return;
             }
         }
-
-
     }
 
     public void updateData(){
@@ -552,10 +525,19 @@ public class GVQuanLyDiem extends JPanel{
                 diemnamhoc.setHocLuc("Trung Bình");
             }
         }
-
         
-        Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, String.valueOf(diem), hkbus.get(idhk).getTenHocKy(),
-            String.valueOf(diemHK), outputNam, String.valueOf(diemCanam)};
+        // Check if any diem value is -1
+boolean anyNegative = (diem == -1 || diemHK == -1 || diemCanam == -1);
+
+// Convert diem values to empty string if any is -1
+String diemString = (anyNegative && diem == -1) ? "" : String.valueOf(diem);
+String diemHKString = (anyNegative && diemHK == -1) ? "" : String.valueOf(diemHK);
+String diemCanamString = (anyNegative && diemCanam == -1) ? "" : String.valueOf(diemCanam);
+
+// Create rowData with adjusted diem values
+Object[] rowData = {idhs, tenhs, lop, mhbus.get(idmon).getTenMonHoc(), idhe, diemString, hkbus.get(idhk).getTenHocKy(),
+        diemHKString, outputNam, diemCanamString};
+
             
             int row = t.getSelectedRow();
             tblModel.removeRow(row);
@@ -570,9 +552,6 @@ public class GVQuanLyDiem extends JPanel{
             System.out.println(diemnamhoc);
         outputDiem.setText("");
         JOptionPane.showMessageDialog(null, "Cập nhật thành công");
-    //thay doi diem khi nhap du 
-    //ham tinh diem
-    //update diem
         resetOutput();
     }
 
@@ -602,8 +581,6 @@ public class GVQuanLyDiem extends JPanel{
             if (i == JOptionPane.YES_OPTION){
 
                 deleteData();
-
-                
                 resetOutput();
             }
             else{
@@ -730,8 +707,6 @@ public class GVQuanLyDiem extends JPanel{
             return (float) -1;
     }
     public static void main(String[] args) {
-        new GVQuanLyDiem("HS2");
-
-        
+        new GVQuanLyDiem("GV2");
     }
 }

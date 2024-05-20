@@ -73,6 +73,11 @@ public class ChiTietDiemDAO {
     }
     
     public void add(ChiTietDiemDTO ctd) {
+        String diem = String.valueOf(ctd.getDiem());
+        // Check if Diem is less than 0, if so, set it to empty string
+        if (Float.parseFloat(diem) < 0 || String.valueOf(ctd.getDiem())==null) {
+            diem = "NULL";
+        }
         MySQLConnect mySQL = new MySQLConnect();
          String sql = "INSERT INTO chitietdiem VALUES (";
                 sql += "'"+ctd.getHocSinhID()+"',";
@@ -80,7 +85,7 @@ public class ChiTietDiemDAO {
                 sql += "'"+ctd.getHocKyID()+"',";
                 sql += "'"+ctd.getHeSoID()+"',";
                 sql += "'"+ctd.getNamHocID()+"',";
-                sql += "'"+ctd.getDiem()+"')";
+                sql += "'"+diem+"')";
 
          System.out.println(sql);
          mySQL.executeUpdate(sql);
