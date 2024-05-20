@@ -5,12 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.MouseAdapter;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -65,7 +60,6 @@ public class HocPhi extends JPanel{
     ArrayList<NamHocDTO> dsnh;
     ArrayList<PhanLopDTO> dspl;
     ArrayList<LopDTO> dslop;
-    ArrayList<HocPhiDTO> dshp;
     
     PhanLopBUS plbus = new PhanLopBUS(1);
     LopBUS lopbus = new LopBUS(1);
@@ -149,11 +143,12 @@ public class HocPhi extends JPanel{
         gbc.insets = new Insets(5, 0, 0, 0);
         gbc.anchor = GridBagConstraints.CENTER;
 
-        filterBtn = new JButton("Filter");
+        filterBtn = new JButton("Lọc");
         settingBtn = new JButton("Setting");
 
         filterBtn.setPreferredSize(new Dimension(100, 30));
         settingBtn.setPreferredSize(new Dimension(100, 30));
+        filterBtn.addActionListener(new FilterBtnListener());
         //settingBtn.addActionListener(new SettingBtnListener());
         btPanel.add(filterBtn, gbc);
         gbc.gridy = 1;
@@ -221,9 +216,9 @@ public class HocPhi extends JPanel{
         gbcBtnMid.insets = new Insets(5, 0, 0, 0);
         gbcBtnMid.anchor = GridBagConstraints.CENTER;
 
-        detailBtn = new JButton("Detail");
+        detailBtn = new JButton("Chi tiết HP");
         detailBtn.addActionListener(new DetailBtnListener());
-        confirmBtn = new JButton("Confirm");
+        confirmBtn = new JButton("Thanh toán");
 
         detailBtn.setPreferredSize(new Dimension(100, 30));
         confirmBtn.setPreferredSize(new Dimension(100, 30));
@@ -435,6 +430,86 @@ public class HocPhi extends JPanel{
             
         }
     }
+    private class FilterBtnListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tblModel.setRowCount(0);
+            String timkiem = (String) option1.getSelectedItem(); 
+            String tenlop = (String) optionLop.getSelectedItem(); 
+            String hocphi = (String) optionHP.getSelectedItem(); 
+            /////
+            System.out.println("timkiem: " + timkiem); 
+            System.out.println("tenlop: " + tenlop); 
+            System.out.println("hocphi: " + hocphi);
+            String idnam = null;
+            for (NamHocDTO nh : dsnh){
+                if(nh.getNamHocBatDau()==namhientai){
+                    System.out.println("so sanh nam");
+                    idnam = nh.getNamHocID();
+                    System.out.println("id nam "+idnam);
+                    break;
+                }
+            }
+
+            if(txtIdName.getText().isEmpty()){
+                dshs = hsbus.search(null, null, null, null, null, null,hocphi);
+            }
+
+            String matimkiem = txtIdName.getText();
+            System.out.println("txt="+matimkiem);
+
+            dslop = lopbus.search(null, tenlop);
+
+            if(timkiem.equals("Mã HS")){
+                System.err.println("chon ma");
+                dshs = hsbus.search(matimkiem, null, null, null, null, null,hocphi);
+            }
+            if(timkiem.equals("Tên HS")){
+                System.out.println("chon ten");
+                dshs = hsbus.search(null, matimkiem, null, null, null, null,hocphi);
+            }
+
+            for (HocSinhDTO hs :dshs){
+                String idhs =  hs.getHocSinhID();
+                String time = hpbus.get(idhs, idnam)!=null?hpbus.get(idhs, idnam).getThoigian():"";
+                System.out.println("idhs ="+idhs);
+                System.err.println("time="+time);
+                for(LopDTO lop : dslop){
+                    String idlop = lop.getLopID();
+                    System.out.println("idlop="+idlop);
+                    if((plbus.get(idhs, idnam)!=null) && plbus.get(idhs, idnam).getLopID().equals(idlop)){
+                        System.out.println("da loc dc idlop = "+idlop);
+                        System.out.println("ID Học Sinh: " + hs.getHocSinhID());
+                        System.out.println("Tên Học Sinh: " + hs.getTenHocSinh());
+                        System.out.println("Tên Lớp: " + lop.getTenLop());
+                        System.out.println("Ngày Sinh: " + hs.getNgaySinh());
+                        System.out.println("Điện Thoại: " + hs.getDienThoai());
+                        System.out.println("Học Phí: " + hs.getHocPhi());
+                        System.out.println("Thời Gian: " + time);
+
+                        String[] rowData = new String[]{
+                            idhs,
+                            hs.getTenHocSinh(),
+                            lop.getTenLop(),
+                            hs.getNgaySinh(),
+                            hs.getDienThoai(),
+                            "1.850.000",
+                            hs.getHocPhi(),
+                            time
+                        };
+                        tblModel.addRow(rowData);
+                    }
+                }
+            }
+            tblModel.fireTableDataChanged();
+            if (tblModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu ");
+            }
+
+        }
+        
+    }
     private JPanel createFeePanel() {
         JPanel midFee = new JPanel(new GridBagLayout());
         String[] a = {"Học phí cơ bản:", "Phí Cơ sở Vật chất:", "Lệ phí thi:", "Phí Sinh hoạt Ngoại khóa:"};
@@ -471,44 +546,6 @@ public class HocPhi extends JPanel{
         return midFee;
     }
     
-    // public class SettingBtnListener implements ActionListener {
-
-    //     @Override
-    //     public void actionPerformed(ActionEvent e) {
-    //         // Create a JXDatePicker
-    //         JXDatePicker datePicker = new JXDatePicker();
-    //         // Set the minimum date to today
-    //         datePicker.setDate(new Date());
-    //         datePicker.setFormats("yyyy-MM-dd");
-    
-    //         // Create a JPanel to hold the datePicker
-    //         JPanel panel = new JPanel();
-    //         panel.add(datePicker);
-    
-    //         // Show a JOptionPane with the datePicker panel
-    //         int result = JOptionPane.showConfirmDialog(null, panel, "Select a date", JOptionPane.OK_CANCEL_OPTION);
-    //         if (result == JOptionPane.OK_OPTION) {
-    //             // Get the selected date
-    //             Date selectedDate = datePicker.getDate();
-    //             LocalDate selectedLocalDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                
-    //             // Compare selected date with today
-    //             LocalDate currentDate = LocalDate.now();
-    //             if (selectedLocalDate.isAfter(currentDate)) {
-    //                 // Show confirmation dialog
-    //                 int confirmation = JOptionPane.showConfirmDialog(null,
-    //                         "Are you sure you want to choose this date?", "Confirmation", JOptionPane.YES_NO_OPTION);
-    //                 if (confirmation == JOptionPane.YES_OPTION) {
-    //                     // User confirmed, do something with the selected date
-    //                     System.out.println("Selected date: " + selectedLocalDate);
-    //                 }
-    //             } else {
-    //                 // Selected date is not valid
-    //                 JOptionPane.showMessageDialog(null, "Please select a date after today.");
-    //             }
-    //         }
-    //     }
-    // }
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
