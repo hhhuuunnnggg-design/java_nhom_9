@@ -295,15 +295,20 @@ public class Text extends JFrame implements MouseListener {
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN17":
+            case "CN17": //Đổi mật khẩu HS/GV
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                main.add(new DoiMK(850, 670, userName));
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN18":
+            case "CN18": //Xem điểm HS
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                try {
+                    main.add(new diemHS(userName));
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 main.repaint();
                 main.revalidate();
                 break;
@@ -313,6 +318,17 @@ public class Text extends JFrame implements MouseListener {
                 main.repaint();
                 main.revalidate();
                 break;
+            case "CN20": // Xem thông tin tài khoản HS
+                main.removeAll();
+                try {
+                    main.add(new TTTK_HS(850, 670, userName));
+                } catch (SQLException e) {
+                    System.out.println("khong vao duoc");
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break; 
         }
     }
 
