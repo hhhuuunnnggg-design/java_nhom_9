@@ -185,20 +185,9 @@ public class Text extends JFrame implements MouseListener {
 
     }
 
-    public void changeMainInfo(String macn) {
+    public void changeMainInfo(String macn) throws SQLException {
         switch (macn) {
-            case "CN1": // QUẢN LÝ Giao Vien
-                main.removeAll();
-                try {
-                    main.add(new QLGV(850, 670));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                main.repaint();
-                main.revalidate();
-                break;
-
-            case "CN2": // QUẢN LÝ Hoc Sinh
+            case "CN1": // QUẢN LÝ Hoc Sinh
                 main.removeAll();
                 main.removeAll();
                 try {
@@ -210,7 +199,80 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN3": // THỐNG KÊ
+                case "CN2": // QUẢN LÝ Giao Vien
+                main.removeAll();
+                try {
+                    main.add(new QLGV(850, 670));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break;
+            case "CN3": // Quản lý môn học
+                main.removeAll();
+                try {
+                    main.add(new MonHoc(850, 670));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break;
+
+        case "CN4": // Quản lý năm học
+            main.removeAll();
+            try {
+                main.add(new NamhocGUI(850, 670));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            main.repaint();
+            main.revalidate();
+            break;
+
+            case "CN5": //Phân công
+                main.removeAll();
+                try {
+                    main.add(new QuanLiPhanCong(850, 670));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break;
+
+            case "CN6": //Quản lý Tài khoản
+                main.removeAll();
+                try {
+                    main.add(new Taikhoan(850, 670));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
+                break;
+
+            case "CN7": //Thanh toán học phí
+                main.removeAll();
+                main.add(new ThanhToanHocPhi(850, 670));
+                main.repaint();
+                main.revalidate();
+                break;
+            case "CN8": //Xem ý kiến HS
+                main.removeAll();
+                main.add(new MessageFromHs(850, 670));
+                main.repaint();
+                main.revalidate();
+                break;
+            case "CN9"://Quản lý điểm
+                main.removeAll();
+                main.add(new QuanLyDiem(850, 670));
+                main.repaint();
+                main.revalidate();
+                break;
+
+            case "CN10": //Thống kê
                 main.removeAll();
                 try {
                     main.add(new ThongKe(850, 670));
@@ -221,79 +283,50 @@ public class Text extends JFrame implements MouseListener {
                 main.revalidate();
                 break;
 
-            case "CN4":
+            case "CN11": //Thông báo đến HS/GV
                 main.removeAll();
-                main.add(new ChangeAccount(850, 670));
+                main.add(new admin_guiTB(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
 
-            case "CN5":
+            case "CN12": //Danh sách HS
                 main.removeAll();
-                main.add(new ThanhToanHocPhi());
+                try {
+                    main.add(new QuanLiHocSinh_GV(850, 670));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 main.repaint();
                 main.revalidate();
                 break;
 
-            case "CN7":
+            case "CN13": //Nhập điểm
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                main.add(new GVQuanLyDiem(850, 670, userName));
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN8":
+
+            case "CN14": //Thông tin tài khoản GV
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                try {
+                    main.add(new TTTK_GV(850, 670,userName));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN9":
+
+            case "CN15": //Giáo viên gửi thông  báo -> HS
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                main.add(new gv_guiTB(850, 670, userName));
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN10":
-                main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
-                main.repaint();
-                main.revalidate();
-                break;
-            case "CN11":
-                main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
-                main.repaint();
-                main.revalidate();
-                break;
-            case "CN12":
-                main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
-                main.repaint();
-                main.revalidate();
-                break;
-            case "CN13":
-                main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
-                main.repaint();
-                main.revalidate();
-                break;
-            case "CN14":
-                main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
-                main.repaint();
-                main.revalidate();
-                break;
-            case "CN15":
-                main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
-                main.repaint();
-                main.revalidate();
-                break;
-            case "CN16":
-                main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
-                main.repaint();
-                main.revalidate();
+                
+            case "CN16"://GV nhận thông báo
                 break;
             case "CN17": //Đổi mật khẩu HS/GV
                 main.removeAll();
@@ -314,7 +347,7 @@ public class Text extends JFrame implements MouseListener {
                 break;
             case "CN19":
                 main.removeAll();
-                main.add(new QuanLyDiem(850, 670));
+                main.add(new hs_gopykien(850, 670,userName));
                 main.repaint();
                 main.revalidate();
                 break;
@@ -328,6 +361,8 @@ public class Text extends JFrame implements MouseListener {
                 }
                 main.repaint();
                 main.revalidate();
+                break; 
+            case "CN21": //HS nhận thông báo
                 break; 
         }
     }
