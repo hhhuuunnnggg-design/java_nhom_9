@@ -145,7 +145,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 395));
+        p2.setPreferredSize(new Dimension(0, 430));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -260,7 +260,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         JPanel Ptaikhoan = new JPanel();
         Ptaikhoan.setLayout(null);
 
-        String[] arrTaikhoan = { "Username", "Password", "Role", "Trạng thái", "Phân quyền" };
+        String[] arrTaikhoan = { "Username", "Password", "Role", "Trạng thái" };
         int length = arrTaikhoan.length;
         tf = new JTextField[length]; // Ensure tf is initialized
         buttons = new JButton[length];
@@ -293,7 +293,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         }
 
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(510, 50, 290, y - 100);
+        Pchucnang.setBounds(510, 35, 290, y - 70);
         Pchucnang.setBackground(new Color(99, 116, 198));
         Ptaikhoan.add(Pchucnang);
         Ptaikhoan.setPreferredSize(new Dimension(x, y));
@@ -305,8 +305,8 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 395));
-        String[] header = { "Username", "Password", "Role", "Trạng thái", "Phân quyền" };
+        scrollpane.setPreferredSize(new Dimension(835, 430));
+        String[] header = { "Username", "Password", "Role", "Trạng thái" };
 
         if (uBUS.getList() == null) {
             uBUS.list();
@@ -561,7 +561,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("DanhSachTaikhoan");
             Row headerRow = sheet.createRow(0); // Header row at index 0
-            String[] headers = { "STT", "username", "Password", "role", "enable", "Phân quyền"};
+            String[] headers = { "STT", "username", "Password", "role", "enable"};
 
             // Creating header cells
             for (int i = 0; i < headers.length; i++) {
