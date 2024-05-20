@@ -42,9 +42,11 @@ public class NamHocBUS {
                 NamHocDAO nhDAO = new NamHocDAO();
                 nhDAO.delete(manh);
                 return;
-            }
+           }
         }
     }
+    
+    
     // cập nhật
     public void updateNH(NamHocDTO s) {
         for (int i = 0; i < dsnh.size(); i++) {
@@ -56,15 +58,28 @@ public class NamHocBUS {
             }
         }
     }
+    
 
     // kiem tra ma
-    public boolean checkMaNH(String manh) {
-        NamHocDAO hsDao = new NamHocDAO();
-        dsnh = new ArrayList<>();
-        dsnh = hsDao.checkMaNH();
-        for (NamHocDTO nh : dsnh) {
-            System.out.println(nh.getNamHocID());
-            if (nh.getNamHocID().equals(manh)) {
+    // public boolean checkMaNH(String manh) {
+    //     NamHocDAO hsDao = new NamHocDAO();
+    //     dsnh = new ArrayList<>();
+    //     dsnh = hsDao.checkMaNH();
+    //     for (NamHocDTO nh : dsnh) {
+    //         System.out.println(nh.getNamHocID());
+    //         if (nh.getNamHocID().equals(manh)) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    public boolean checkMaNH(String id)
+    {
+        for(NamHocDTO nh : dsnh)
+        {
+            if(nh.getNamHocID().equals(id))
+            {
                 return true;
             }
         }

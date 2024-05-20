@@ -26,7 +26,7 @@ public class MonHocDTO {
     public String toString() {
         return "MonHocDTO{" +
                 "MonHocID='" + MonHocID + '\'' +
-                ", TenMonHoc='" + TenMonHoc + '\'' +
+               ", TenMonHoc='" + TenMonHoc + '\'' +
                 '}';
     }
 }

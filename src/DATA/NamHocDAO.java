@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+
+import DATABASE.MyConnection;
 import DATABASE.MySQLConnect;
 import DTO.NamHocDTO;
 
@@ -57,46 +61,109 @@ public class NamHocDAO {
          mySQL.executeUpdate(sql);
     }
 
-    public void delete(String id){
-        MySQLConnect mySQL=new MySQLConnect();
-        String sql = "DELETE namhoc WHERE NamHocid ='"+id+"'";
-        mySQL.executeQuery(sql);
-        System.out.println(sql);
-    }
-    //SQL thêm
-    public void Add(NamHocDTO nh) {
-        MySQLConnect mysql = new MySQLConnect();
-        String sql = "INSERT INTO namhoc VALUE (";
-        sql += "'" + nh.getNamHocID() + "' ,";
-        sql += "'" + nh.getNamHocBatDau() + "' ,";
-        sql += "'" + nh.getNamHocKetThuc() + "' ,";
-        mysql.executeUpdate(sql);
-    }
-    //sql cập nhật
-    public void Update(NamHocDTO nh) {
-        MySQLConnect mysql = new MySQLConnect();
-        String sql = "UPDATE namhoc SET ";
-        sql += "NamBatDau = '" + nh.getNamHocID() + "' ,";
-        sql += "NamKetThuc = '" + nh.getNamHocBatDau() + "' ,";  
-        sql += "WHERE NamHocid ='" + nh.getNamHocKetThuc() + "'";
-        mysql.executeUpdate(sql);
-        System.out.println(sql); // Đoạn này để kiểm tra xem câu lệnh SQL có đúng không
-    }
-     public ArrayList<NamHocDTO> checkMaNH() {
-        ArrayList<NamHocDTO> dsnh = new ArrayList<>();
-
-        String sql = "SELECT NamHocid  FROM namhoc";
-        ResultSet rs = mySQL.executeQuery(sql);
+    public void delete(String id) {
+        String sql = "DELETE FROM namhoc WHERE NamHocid  = ?";
+        java.sql.Connection con = null;
+        java.sql.PreparedStatement ps = null;
         try {
-            while (rs.next()) {
-                String manh = rs.getString("NamHocid ");
-
-                NamHocDTO hocsinh = new NamHocDTO(manh, 0, 0);
-                dsnh.add(hocsinh);
+            con = MyConnection.getConnection();
+            if (con != null) {
+                ps = con.prepareStatement(sql);
+                ps.setString(1, id);
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Successfully deleted MonHocid: " + id);
+                } else {
+                    System.out.println("No record found with MonHocid: " + id);
+                }
+            } else {
+                System.out.println("Failed to establish connection.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) MyConnection.closeConnection(con);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        return dsnh;
     }
+    //SQL thêm
+    public void Add(NamHocDTO nh) {
+        String sql = "INSERT INTO namhoc (NamHocid  , NamBatDau , NamKetThuc) VALUES ( ?, ?, ?)";
+        try (java.sql.PreparedStatement ps = mySQL.getConnection().prepareStatement(sql)) {
+            ps.setString(1, nh.getNamHocID());
+            ps.setInt(2, nh.getNamHocBatDau());
+            ps.setInt(3, nh.getNamHocKetThuc());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    //sql cập nhật
+    // public void Update(NamHocDTO nh) {
+    //     MySQLConnect mysql = new MySQLConnect();
+    //     String sql = "UPDATE namhoc SET ";
+    //     sql += "NamBatDau = '" + nh.getNamHocID() + "' ,";
+    //     sql += "NamKetThuc = '" + nh.getNamHocBatDau() + "' ,";  
+    //     sql += "WHERE NamHocid ='" + nh.getNamHocKetThuc() + "'";
+    //     mysql.executeUpdate(sql);
+    //     System.out.println(sql); // Đoạn này để kiểm tra xem câu lệnh SQL có đúng không
+    // }
+    //  public ArrayList<NamHocDTO> checkMaNH() {
+    //     ArrayList<NamHocDTO> dsnh = new ArrayList<>();
+
+    //     String sql = "SELECT NamHocid  FROM namhoc";
+    //     ResultSet rs = mySQL.executeQuery(sql);
+    //     try {
+    //         while (rs.next()) {
+    //             String manh = rs.getString("NamHocid ");
+
+    //             NamHocDTO hocsinh = new NamHocDTO(manh, 0, 0);
+    //             dsnh.add(hocsinh);
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return dsnh;
+    // }
+
+   public void Update(NamHocDTO nh) {
+    String sql = "UPDATE namhoc SET NamBatDau = ?, NamKetThuc = ? WHERE NamHocid = ?";
+    java.sql.Connection con = null;
+    java.sql.PreparedStatement ps = null;
+    
+    try {
+        con = MyConnection.getConnection();
+        if (con != null) {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, nh.getNamHocBatDau());
+            ps.setInt(2, nh.getNamHocKetThuc());
+            ps.setString(3, nh.getNamHocID());
+            
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Successfully updated NamHocID: " + nh.getNamHocID());
+            } else {
+                System.out.println("No record found with NamHocID: " + nh.getNamHocID());
+            }
+        } else {
+            System.out.println("Failed to establish connection.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (ps != null) ps.close();
+            if (con != null) MyConnection.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
 }
