@@ -460,35 +460,69 @@ public final class QLGV extends JPanel implements MouseListener, ActionListener 
         clearTextFields();
     }
 
+    // public void updateRow() {
+    //     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    //     Date date = dateChooser.getDate();
+    //     String dateString = sdf.format(date);
+
+    //     // Lấy các giá trị từ các trường nhập
+    //     String giaovienID = tf[0].getText();
+    //     String tenHocSinh = tf[1].getText();
+    //     String gioiTinh = (String) genderComboBox.getSelectedItem();
+    //     String ngaySinh = dateString;
+    //     String soDienThoai = tf[4].getText();
+    //     String diaChi = tf[5].getText();
+    //     String IMG = tf[6].getText();
+
+    //     GiaoVienDTO giaovien = new GiaoVienDTO(giaovienID,ngaySinh, tenHocSinh, gioiTinh, IMG, soDienThoai, diaChi);
+    //    giaovien.setIMG(IMG);
+    //     gvBUS.updateGV(giaovien);
+
+    //     Object[] rowData = { giaovienID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
+    //     int row = t.getSelectedRow();
+    //     tblmodel.removeRow(row);
+    //     tblmodel.addRow(rowData);
+    //     clearTextFields();
+    // }
     public void updateRow() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = dateChooser.getDate();
-        String dateString = sdf.format(date);
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    Date date = dateChooser.getDate();
+    String dateString = sdf.format(date);
 
-        // Lấy các giá trị từ các trường nhập
-        String giaovienID = tf[0].getText();
-        String tenHocSinh = tf[1].getText();
-        String gioiTinh = (String) genderComboBox.getSelectedItem();
-        String ngaySinh = dateString;
-        String soDienThoai = tf[4].getText();
-        String diaChi = tf[5].getText();
-        String IMG = tf[6].getText();
+    // Lấy các giá trị từ các trường nhập
+    String giaovienID = tf[0].getText();
+    String tenGiaoVien = tf[1].getText();
+    String gioiTinh = (String) genderComboBox.getSelectedItem();
+    String ngaySinh = dateString;
+    String soDienThoai = tf[4].getText();
+    String diaChi = tf[5].getText();
+    String IMG = tf[6].getText();
 
-
-
-        GiaoVienDTO giaovien = new GiaoVienDTO(giaovienID,ngaySinh, tenHocSinh, gioiTinh, IMG, soDienThoai, diaChi);
-       giaovien.setIMG(IMG);
-
-
-        gvBUS.updateGV(giaovien);
-
-        Object[] rowData = { giaovienID, tenHocSinh, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
-
-        int row = t.getSelectedRow();
-        tblmodel.removeRow(row);
-        tblmodel.addRow(rowData);
-        clearTextFields();
+    // Kiểm tra xem tất cả các trường nhập đều có giá trị
+    if (giaovienID.isEmpty() || tenGiaoVien.isEmpty() || gioiTinh.isEmpty() || ngaySinh.isEmpty() ||
+        soDienThoai.isEmpty() || diaChi.isEmpty() || IMG.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
+        return;
     }
+
+    // Khởi tạo đối tượng GiaoVienDTO
+    GiaoVienDTO giaovien = new GiaoVienDTO(giaovienID, tenGiaoVien, gioiTinh, IMG, ngaySinh, soDienThoai, diaChi);
+
+    // Gọi phương thức cập nhật từ GiaoVienBUS
+    gvBUS.updateGV(giaovien);
+
+    // Cập nhật bảng nếu quá trình cập nhật cơ sở dữ liệu thành công
+    int row = t.getSelectedRow();
+    if (row != -1) {
+        Object[] rowData = { giaovienID, tenGiaoVien, gioiTinh, ngaySinh, diaChi, soDienThoai, IMG };
+        tblmodel.removeRow(row);
+        tblmodel.insertRow(row, rowData);
+        clearTextFields();
+    } else {
+        JOptionPane.showMessageDialog(null, "Không có hàng nào được chọn để cập nhật");
+    }
+}
+
 
     public void clearTextFields() {
         tf[0].setText("");
