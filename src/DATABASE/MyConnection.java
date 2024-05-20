@@ -3,17 +3,33 @@ package DATABASE;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
 public class MyConnection {
 
-    public static Connection getConnection(){
-        Connection con=null;
+    public static Connection getConnection() {
+        Connection con = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost/student_management?zeroDateTimeBehavior=CONVERT_TO_NULL","root","");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-          System.out.println(e.getMessage());
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(
+                "jdbc:mysql://localhost/student_management?zeroDateTimeBehavior=CONVERT_TO_NULL", 
+                "root", 
+                ""
+            );
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
         }
-      return con;
-    } 
+        return con;
+    }
+
+    public static void closeConnection(Connection con) {
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

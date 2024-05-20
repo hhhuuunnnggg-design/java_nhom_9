@@ -190,10 +190,10 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         return JSearch;
 
     }
-
+    
     public JPanel JChucnang() {
         //màu của chức năng
-       // Color myColor = Color.RED;
+        //Color myColor = Color.RED;
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
         Pchucnang.setLayout(new FlowLayout(0, 5, 10));
@@ -251,7 +251,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
     public JPanel JMonHoc() {
         JPanel PMonHoc = new JPanel();
         PMonHoc.setLayout(null);
-        String[] arrMonHoc = { "Mã Môn Học", "Tên Môn Học", };
+        String[] arrMonHoc = { "Mã Môn Học.", "Tên Môn Học", };
         int length = arrMonHoc.length;
         tf = new JTextField[length];
         buttons = new JButton[length];
@@ -269,7 +269,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
                 buttons[i].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        chooseImage();
+                       // chooseImage();
                     }
                 });
                 buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
@@ -284,29 +284,23 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
                 buttons[i].setName("btn" + i);
             }
 
-            toadoYbutton = toadoYbutton + 35;
+            toadoYbutton = toadoYbutton + 80;
             PMonHoc.add(buttons[i]);
-            if (i == 2) { // Thay thế TextField của giới tính bằng JComboBox
-                String[] genders = { "Nam", "Nữ", "Khác" };
-                genderComboBox = new JComboBox<>(genders);
-                genderComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
-                PMonHoc.add(genderComboBox);
-                toadoYTextfield = toadoYTextfield + 35;
 
-            } else {
+             {
                 tf[i] = new JTextField();
                 tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(border);
                 tf[i].setName("text" + i);
-                toadoYTextfield = toadoYTextfield + 35;
+                toadoYTextfield = toadoYTextfield + 80;
                 PMonHoc.add(tf[i]);
             }
             y = y + 35;
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 3, 170, y);
+        Pchucnang.setBounds(660, 3, 170, 300);
         PMonHoc.add(Pchucnang);
         PMonHoc.setPreferredSize(new Dimension(x, y));
         return PMonHoc;
@@ -323,8 +317,13 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         if (mhBUS.getList() == null)
             mhBUS.list();
         ArrayList<MonHocDTO> mh = mhBUS.getList();
-        Object[][] rowData = new Object[mh.size()][7];
+        if (mh.isEmpty()) {
+            System.out.println("No data found");
+        } else {
+            System.out.println("Data loaded successfully");
+        }
 
+        Object[][] rowData = new Object[mh.size()][2];
         for (int i = 0; i < mh.size(); i++) {
             MonHocDTO monhoc = mh.get(i);
             rowData[i][0] = monhoc.getMonHocID();
@@ -356,32 +355,11 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         return scrollpane;
     }
 
-    public void chooseImage() {
-        JFileChooser fileChooser = new JFileChooser();
-        // Thiết lập chế độ chỉ cho phép chọn file
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        // Hiển thị hộp thoại chọn file
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            // Lấy đường dẫn của tập tin hình ảnh được chọn
-            String imagePath = fileChooser.getSelectedFile().getAbsolutePath();
-            // Hiển thị đường dẫn trong JTextField
-            String fileName = fileChooser.getSelectedFile().getName();
-            pathAnhdd = fileName;
-            //tf[6].setText(fileName);
-
-            // Tạo một ImageIcon từ đường dẫn hình ảnh
-            ImageIcon imageIcon = new ImageIcon(imagePath);
-        }
-    }
-
     public void addRow() {
-        
         String MonHocid = tf[0].getText();
         String TenMonHoc = tf[1].getText();
         MonHocDTO monhoc = new MonHocDTO(MonHocid, TenMonHoc);
         mhBUS.addMH(monhoc);
-
         Object[] rowData = { MonHocid, TenMonHoc };
         tblmodel.addRow(rowData);
         clearTextFields();
@@ -400,7 +378,6 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
     public void updateRow() {
         String MonHocid = tf[0].getText();
         String TenMonHoc = tf[1].getText();
-        String gioiTinh = (String) genderComboBox.getSelectedItem();
         MonHocDTO monhoc =new MonHocDTO(MonHocid, TenMonHoc);
         mhBUS.updateMH(monhoc);
         Object[] rowData = { MonHocid,TenMonHoc };
@@ -419,12 +396,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
     public boolean checkEmpty() {
         boolean isEmpty = tf[0].getText().isEmpty() ||
                 tf[1].getText().isEmpty();
-
-        boolean isGenderEmpty = genderComboBox.getSelectedIndex() == -1;
-
-        boolean isDateEmpty = dateChooser.getDate() == null;
-
-        return isEmpty || isGenderEmpty || isDateEmpty;
+        return isEmpty ;
     }
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
@@ -441,10 +413,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-
-        //JOptionPane.showMessageDialog(this, "Mã môn học tăng tự động", "Lưu ý", JOptionPane.INFORMATION_MESSAGE);
-
+        
         int result = JOptionPane.showConfirmDialog(this,"Bạn có chắc muốn Thêm môn học này","Xác nhận",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
@@ -456,7 +425,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
                     JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Ban chon them");
             tf[0].requestFocus();
-            autoCreateAccount();
+           // autoCreateAccount();
             addRow();
         }
     }
@@ -480,7 +449,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
 
                 JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
-            System.out.println("Ban chon đồn ý xóa");
+            System.out.println("Ban chon dong  y xóa");
             deleteRow();
         } else if (result == JOptionPane.NO_OPTION) {
             System.out.println("Bạn chọn không đồng ý xóa");
@@ -515,21 +484,28 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
     }
 
     public void btnFind_actionPerformed() {
-        searchText = JsearchText.getText().trim();
+        String searchText = JsearchText.getText().trim();
         String selectedOption = (String) searchselectBox.getSelectedItem();
+
         if (searchText.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
+            JOptionPane.showMessageDialog(null,
                     "Vui lòng nhập thông tin tìm kiếm",
                     "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
+
         model = (DefaultTableModel) t.getModel();
         sorter = new TableRowSorter<>(model);
         t.setRowSorter(sorter);
-        if (selectedOption.equals("Mã Môn học")) {
-            sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
-        } else if (selectedOption.equals("Tên môn học")) {
+
+        // Debugging output
+        System.out.println("searchText: " + searchText);
+        System.out.println("selectedOption: " + selectedOption);
+
+        if (selectedOption.equals("Mã Môn Học")) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 0));
+        } else if (selectedOption.equals("Tên Môn Học")) {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
         }
     }
@@ -544,9 +520,9 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
             String path = chooser.getSelectedFile().toString().concat(".xls");
 
             Workbook workbook = new HSSFWorkbook();
-            Sheet sheet = workbook.createSheet("DanhSachHocSinh");
+            Sheet sheet = workbook.createSheet("DanhSachMonHoc");
             Row headerRow = sheet.createRow(0); // Header row at index 0
-            String[] headers = { "STT", "HocSinhID" };
+            String[] headers = { "STT", "Môn học ID", "Tên môn học" };
 
             // Creating header cells
             for (int i = 0; i < headers.length; i++) {
@@ -560,8 +536,9 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
 
                 MonHocDTO monhoc = dsmh.get(i);
                 System.out.println(monhoc.getTenMonHoc());
-                row.createCell(0).setCellValue(monhoc.getMonHocID());
-                row.createCell(1).setCellValue(monhoc.getTenMonHoc());
+                row.createCell(0).setCellValue(i + 1);
+                row.createCell(1).setCellValue(monhoc.getMonHocID());
+                row.createCell(2).setCellValue(monhoc.getTenMonHoc());
                 
             }
 
@@ -588,13 +565,21 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         }
     }
 
-    public void autoCreateAccount() {
-        accBUS = new ChangeAcc_BUS();
-        String username = tf[0].getText();
-        String password = tf[5].getText();
-        Account_DTO acc = new Account_DTO(username, password);
-        accBUS.Add(acc);
-    }
+    // public void autoCreateAccount() {
+    //     accBUS = new ChangeAcc_BUS();
+    //     String username = tf[0].getText();
+    //     String password = tf[5].getText();
+    //     Account_DTO acc = new Account_DTO(username, password);
+    //     accBUS.Add(acc);
+    // }
+    // public void autoCreateAccount() {
+    //     //accBUS = new ChangeAcc_BUS();
+    //     accBUS = new ChangeAcc_BUS();
+    //     String username = tf[0].getText();
+    //     String password = tf[5].getText();
+    //     Account_DTO acc = new Account_DTO(username, password);
+    //     accBUS.Add(acc);
+    // }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -673,6 +658,7 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
             btnDelete_actionPerformed();
 
         } else if (e.getSource() == btnFind) {
+            System.out.println("ban da click vao tim kiem");
             btnFind_actionPerformed();
 
         } else if (e.getSource() == btnReset) {
