@@ -263,27 +263,11 @@ public final class MonHoc extends JFrame implements MouseListener, ActionListene
         int x = 230;
         int y = 15;
         for (int i = 0; i < arrMonHoc.length; i++) {
-
-            if (i == 6) {
-                buttons[i] = new JButton(arrMonHoc[i]);
-                buttons[i].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                       // chooseImage();
-                    }
-                });
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
-                buttons[i].setForeground(Color.RED);
-                buttons[i].setHorizontalAlignment(JButton.CENTER);
-                buttons[i].setName("btn" + i);
-                PMonHoc.add(buttons[i]);
-            } else {
-                buttons[i] = new JButton(arrMonHoc[i]);
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
-                buttons[i].setHorizontalAlignment(JButton.CENTER);
-                buttons[i].setName("btn" + i);
-            }
-
+            buttons[i] = new JButton(arrMonHoc[i]);
+            buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+            buttons[i].setHorizontalAlignment(JButton.CENTER);
+            buttons[i].setName("btn" + i);
+            
             toadoYbutton = toadoYbutton + 80;
             PMonHoc.add(buttons[i]);
 
