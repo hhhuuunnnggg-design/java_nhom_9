@@ -99,4 +99,18 @@ public class MessageFromHsDAO {
         return listSearch;
     }
 
+    public String getIMG(String mahs) {
+        MySQLConnect mysql = new MySQLConnect();
+        String sql = "SELECT IMG FROM hocsinh WHERE HocSinhid = '" + mahs + "'";
+        String img = null;
+        try (PreparedStatement ps = mysql.getConnection().prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                img = rs.getString("IMG");
+            }
+        } catch (Exception e) {
+        }
+        return img;
+    }
+
 }

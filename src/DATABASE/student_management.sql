@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2024 at 12:47 PM
+-- Generation Time: May 20, 2024 at 05:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -527,6 +527,82 @@ INSERT INTO `chitietdiem` (`HocSinhid`, `MonHocid`, `HocKyid`, `HeSoid`, `NamHoc
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `chitietquyen`
+--
+
+CREATE TABLE `chitietquyen` (
+  `maquyen` varchar(50) NOT NULL,
+  `machucnang` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chitietquyen`
+--
+
+INSERT INTO `chitietquyen` (`maquyen`, `machucnang`) VALUES
+('admin', 'CN1'),
+('admin', 'CN2'),
+('admin', 'CN3'),
+('admin', 'CN4'),
+('admin', 'CN5'),
+('admin', 'CN6'),
+('admin', 'CN7'),
+('admin', 'CN8'),
+('admin', 'CN9'),
+('admin', 'CN10'),
+('admin', 'CN11'),
+('GV', 'CN12'),
+('GV', 'CN13'),
+('GV', 'CN14'),
+('GV', 'CN15'),
+('GV', 'CN16'),
+('GV', 'CN17'),
+('HS', 'CN16'),
+('HS', 'CN17'),
+('HS', 'CN18'),
+('HS', 'CN19'),
+('HS', 'CN20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chucnang`
+--
+
+CREATE TABLE `chucnang` (
+  `machucnang` varchar(50) NOT NULL,
+  `tenchucnang` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chucnang`
+--
+
+INSERT INTO `chucnang` (`machucnang`, `tenchucnang`) VALUES
+('CN1', 'QL Học Sinh'),
+('CN2', 'QL Giáo Viên'),
+('CN3', 'QL Môn Học'),
+('CN4', 'QL Năm Học'),
+('CN5', 'QL Phân Công'),
+('CN6', 'QL Tài Khoản'),
+('CN9', 'Thanh Toán HP'),
+('CN8', 'Xem Ý Kiến'),
+('CN7', 'QL Điểm'),
+('CN10', 'Thống Kê'),
+('CN11', 'Thông Báo HS/GV'),
+('CN12', 'Danh sách HS'),
+('CN13', 'Nhập Điểm'),
+('CN14', 'Thông Tin GV'),
+('CN15', 'Gửi Thông Báo'),
+('CN16', 'Nhận Thông Báo'),
+('CN17', 'Đổi mật khấu'),
+('CN18', 'Xem Điểm'),
+('CN19', 'Góp Ý Kiến'),
+('CN20', 'Thông Tin HS');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `diemtbhocky`
 --
 
@@ -628,6 +704,19 @@ CREATE TABLE `hocky` (
 INSERT INTO `hocky` (`HocKyid`, `TenHocKy`) VALUES
 (1, 'Học Kỳ 1'),
 (2, 'Học Kỳ 2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hocphi`
+--
+
+CREATE TABLE `hocphi` (
+  `idhs` varchar(10) NOT NULL,
+  `idnh` varchar(22) NOT NULL,
+  `thoigian` varchar(50) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -862,6 +951,27 @@ INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `quyen`
+--
+
+CREATE TABLE `quyen` (
+  `tenquyen` varchar(50) NOT NULL,
+  `maquyen` varchar(50) NOT NULL,
+  `enable` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `quyen`
+--
+
+INSERT INTO `quyen` (`tenquyen`, `maquyen`, `enable`) VALUES
+('admin', 'admin', 0),
+('Giáo Viên', 'GV', 0),
+('Học Sinh', 'HS', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `thongbao`
 --
 
@@ -872,14 +982,6 @@ CREATE TABLE `thongbao` (
   `thoigiantb` varchar(50) DEFAULT NULL,
   `loaitb` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `thongbao`
---
-
-INSERT INTO `thongbao` (`idnguoigui`, `tieudetb`, `noidungtb`, `thoigiantb`, `loaitb`) VALUES
-('GV3', 'day la tieu de gui toi hs20', 'chieu ra cong truong gap tao', '2024-05-18T17:41:34.739769100', 'HS20'),
-('GV3', 'cai nay gui toi nguyen cai lop 10a1', 'fix lai cai datetime tai vi dai qua', '18-5-2024 17:45:10', '10');
 
 -- --------------------------------------------------------
 
@@ -965,6 +1067,15 @@ CREATE TABLE `ykien` (
   `tenhs` varchar(50) DEFAULT NULL,
   `trangthai` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ykien`
+--
+
+INSERT INTO `ykien` (`idnguoigui`, `tieudeyk`, `noidungyk`, `thoigianyk`, `tenhs`, `trangthai`) VALUES
+('HS8', 'dday la cai y kien cua HS8', 'nhap y kien cac thu', '19-5-2024 12:21:51', ' Phan Thị Hằng', 'Chưa xem'),
+('HS8', 'y kien cua HS8 test 2', 'nhap y kien', '19-5-2024 12:23:55', ' Phan Thị Hằng', 'Chưa xem'),
+('HS3', 'y kien HS3', 'cnscpoJPOCJPJ', '19-5-2024 12:24:24', 'Trần Thị Mai', 'Chưa xem');
 
 --
 -- Indexes for dumped tables
