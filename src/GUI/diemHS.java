@@ -36,7 +36,7 @@ import DTO.PhanLopDTO;
 public class diemHS extends JPanel {
     private JPanel topPanel, radioPanel, dropdownPanel, selectPanel, btnPanel, diemPanel, loaiPanel;
     private JLabel b1, b2, b3, jl1, jl2, jl3, jl4;
-    private JTextField tf1, tf2, tf3, tf4;
+    private JTextField tf1, tf2, tf3, tf4, tf1a, tf2a;
     private JComboBox<String> c1, c2, c3;
     private JLabel l1;
     private JButton filterBtn, printBtn;
@@ -86,18 +86,21 @@ public class diemHS extends JPanel {
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.Y_AXIS));
         selectPanel.setOpaque(false);
 
-        l1 = new JLabel("Xem điểm theo:              ");
+        l1 = new JLabel("Xem điểm theo:");
         l1.setFont(new Font("Arial", Font.BOLD, 20));
-        l1.setBorder(BorderFactory.createEmptyBorder(10, 250, 0, 0));
+        l1.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 20));
 
         radioPanel = new JPanel();
         radioPanel.setOpaque(false);
         radioPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));
 
-        b1 = new JLabel("Môn học");
+        // b1 = new JLabel("Môn học");
         b2 = new JLabel("Học kỳ");
         b3 = new JLabel("Năm học");
-        b1.setBackground(new Color(180, 204, 227));
+        b2.setFont(new Font(b2.getFont().getName(), Font.BOLD, 18));
+        b3.setFont(new Font(b3.getFont().getName(), Font.BOLD, 18));
+        
+        // b1.setBackground(new Color(180, 204, 227));
         b2.setBackground(new Color(180, 204, 227));
         b3.setBackground(new Color(180, 204, 227));
 
@@ -106,15 +109,12 @@ public class diemHS extends JPanel {
         dropdownPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
         dropdownPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-        String[] optionc1 = {"Tất cả", "Toán", "Vật Lý", "Hóa Học", "Anh Văn"};
-        c1 = new JComboBox<>(optionc1);
-
         dshk = hkbus.getList();
         c2 = new JComboBox<>();
         List<HocKyDTO> dshk = hkbus.getList();
-            for (HocKyDTO hk : dshk) {
-                c2.addItem(hk.getTenHocKy());
-            }
+        for (HocKyDTO hk : dshk) {
+            c2.addItem(hk.getTenHocKy());
+        }
 
         dshk = hkbus.getList();
         c3 = new JComboBox<>();
@@ -136,7 +136,7 @@ public class diemHS extends JPanel {
         filterBtn.addActionListener(new ShowFilterListener());
 
         printBtn = new JButton("In");
-        printBtn.setBackground(new Color(31, 28, 77));
+        printBtn.setBackground(new Color(255, 87, 87));
         printBtn.setForeground(Color.WHITE);
         printBtn.setPreferredSize(new Dimension(70, 30));
         printBtn.addActionListener(new PrintListener());
@@ -147,6 +147,7 @@ public class diemHS extends JPanel {
         btnPanel.add(filterBtn, gbc);
 
         GridBagConstraints gbc1 = new GridBagConstraints();
+        gbc1.insets = new Insets(10, 0, 0, 0);
         gbc1.gridx = 0;
         gbc1.gridy = 1;
         btnPanel.add(printBtn, gbc1);
@@ -169,29 +170,28 @@ public class diemHS extends JPanel {
         add(diemPanel, BorderLayout.CENTER);
     }
 
-    public void PanelDiem() throws SQLException{
+    public void PanelDiem() throws SQLException {
         diemPanel = new JPanel();
         diemPanel.setLayout(new BoxLayout(diemPanel, BoxLayout.Y_AXIS)); // Change layout to BoxLayout with Y_AXIS
-        diemPanel.setBackground(new Color(180,204,227));
+        diemPanel.setBackground(new Color(180, 204, 227));
         diemPanel.setPreferredSize(new Dimension(850, 0));
         diemPanel.setVisible(true);
-        
-        diemPanel.add(initTable()); 
+
+        diemPanel.add(initTable());
         loaddatatoTable();
-        diemPanel.add(PanelLoai()); 
+        diemPanel.add(PanelLoai());
     }
-    
-    
+
     public JPanel PanelLoai() {
         loaiPanel = new JPanel(new GridBagLayout());
-        loaiPanel.setPreferredSize(new Dimension(850, 180));
+        loaiPanel.setPreferredSize(new Dimension(850, 250));
         loaiPanel.setBackground(new Color(180, 204, 227));
         loaiPanel.setVisible(true);
         addComponentsToPanel();
-        
+
         return loaiPanel;
     }
-    
+
     private void addComponentsToPanel() {
         ArrayList<HocSinhDTO> dshs;
         ArrayList<KQ_HocSinhCaNamDTO> dskq;
@@ -211,41 +211,61 @@ public class diemHS extends JPanel {
         dsnh = nhbus.getList();
         dspl = plbus.getList();
 
-        String HKY =(String) c2.getSelectedItem(); // họcky1
+        String HKY = (String) c2.getSelectedItem(); // họcky1
         String NH = (String) c3.getSelectedItem(); // 2024-2025
-    
+
         boolean hasData = false; // Track if any data was added to the table
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(0, 0, 0, 30);
+       
+        GridBagConstraints gbc1 = new GridBagConstraints();
+        gbc1.insets = new Insets(15, 0, 0, 0);
+        jl1 = createLabel("Điểm trung bình học kỳ:", gbc1, 0, 2);
 
-        jl1 = createLabel("Điểm trung bình học kỳ:", gbc, 0, 2);
+        GridBagConstraints gbc1a = new GridBagConstraints();
+        gbc1a.insets = new Insets(0, 215, 0, 0);
+        tf1a = createTextField(gbc1a, 0, 2);
+        tf1a.setPreferredSize(new Dimension(30, 25));
+        tf1a.setBackground(new Color(180, 204, 227));
+        tf1a.setBorder(BorderFactory.createLineBorder(new Color(180, 204, 227)));
+
         tf1 = createTextField(gbc, 1, 2);
-        
-        jl2 = createLabel("Điểm trung bình cả năm:", gbc, 0, 3);
+
+        jl2 = createLabel("Điểm trung bình cả năm:", gbc1, 0, 3);
+
+        GridBagConstraints gbc2a = new GridBagConstraints();
+        gbc2a.insets = new Insets(0, 220, 0, 0);
+        tf2a = createTextField(gbc2a, 0, 3);
+        tf2a.setPreferredSize(new Dimension(120, 20));
+        tf2a.setBackground(new Color(180, 204, 227));
+        tf2a.setBorder(BorderFactory.createLineBorder(new Color(180, 204, 227)));
+
         tf2 = createTextField(gbc, 1, 3);
 
-        jl3 = createLabel("Xếp loại học lực:", gbc, 0, 4);
+        jl3 = createLabel("Xếp loại học lực:", gbc1, 0, 4);
         tf3 = createTextField(gbc, 1, 4);
 
-        jl4 = createLabel("Xếp loại hạnh kiểm:", gbc, 0, 5);
+        jl4 = createLabel("Xếp loại hạnh kiểm:", gbc1, 0, 5);
         tf4 = createTextField(gbc, 1, 5);
 
-        for (KQ_HocSinhCaNamDTO kq : dskq){
-                for (DTB_HocKyDTO dtbhk : dsdtb){
-                    if (dtbhk.getHocSinhID().equals(mahocsinh) && dtbhk.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY)) && dtbhk.getNamHocID().equals(nhbus.getByAcademicYear(NH))){
-                        System.out.println(hkbus.getHocKyIDFromTenHocKy(HKY));
-                        tf1.setText(String.valueOf(dtbhk.getDiemTrungBinh()));
-                    }
-                    }
-                if (kq.getHocSinhID().equals(mahocsinh) && kq.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
-                    tf2.setText(String.valueOf(kq.getDiemTrungBinhNam()));
-                    tf3.setText(String.valueOf(kq.getHocLuc()));
-                    tf4.setText(String.valueOf(kq.getHanhKiem()));
+        for (KQ_HocSinhCaNamDTO kq : dskq) {
+            for (DTB_HocKyDTO dtbhk : dsdtb) {
+                if (dtbhk.getHocSinhID().equals(mahocsinh)
+                        && dtbhk.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY))
+                        && dtbhk.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
+                    tf1.setText(String.valueOf(dtbhk.getDiemTrungBinh()));
+                    tf1a.setText("\""+hkbus.getHocKyIDFromTenHocKy(HKY)+"\"");
                 }
-                
             }
-            
+            if (kq.getHocSinhID().equals(mahocsinh) && kq.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
+                tf2.setText(String.valueOf(kq.getDiemTrungBinhNam()));
+                tf3.setText(String.valueOf(kq.getHocLuc()));
+                tf4.setText(String.valueOf(kq.getHanhKiem()));
+                tf2a.setText("\""+NH+"\""); 
+            }
+
+        }
 
         lockTextFields();
 
@@ -263,18 +283,19 @@ public class diemHS extends JPanel {
         loaiPanel.add(label, gbc);
         return label;
     }
-    
-    public String getNH(){
+
+    public String getNH() {
         ArrayList<KQ_HocSinhCaNamDTO> dskq;
         dskq = kqbus.getList();
         String NH = (String) c3.getSelectedItem(); // 2024-2025
-        for(KQ_HocSinhCaNamDTO kq : dskq){
+        for (KQ_HocSinhCaNamDTO kq : dskq) {
             if (kq.getHocSinhID().equals(mahocsinh) && kq.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
                 NH = kq.getNamHocID();
             }
         }
         return NH;
     }
+
     private JTextField createTextField(GridBagConstraints gbc, int x, int y) {
         JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(100, 30));
@@ -287,13 +308,14 @@ public class diemHS extends JPanel {
         loaiPanel.add(textField, gbc);
         return textField;
     }
-    
+
     private void lockTextFields() {
         tf1.setEditable(false);
         tf2.setEditable(false);
         tf3.setEditable(false);
         tf4.setEditable(false);
     }
+
     public JScrollPane initTable() throws SQLException {
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -334,7 +356,7 @@ public class diemHS extends JPanel {
 
     public void loaddatatoTable() {
         tblModel.setRowCount(0); // Clear existing data
-        
+
         dshs = hsbus.getList();
         dskq = kqbus.getList();
         dsmon = mhbus.getList();
@@ -343,20 +365,24 @@ public class diemHS extends JPanel {
         dshk = hkbus.getList();
         dsnh = nhbus.getList();
         dspl = plbus.getList();
-        
+
         int stt = 1;
-        String HKY =(String) c2.getSelectedItem(); // họcky1
+        String HKY = (String) c2.getSelectedItem(); // họcky1
         String NH = (String) c3.getSelectedItem(); // 2024-2025
-        
+
         for (MonHocDTO mh : dsmon) {
             double diem15 = 0, diem1Tiet = 0, diemHocKy = 0;
             int heSo15 = 0, heSo1Tiet = 0, heSoHocKy = 0;
             for (NamHocDTO nh : dsnh) {
-                if (nhbus.getByAcademicYear(NH) == null) continue;
+                if (nhbus.getByAcademicYear(NH) == null)
+                    continue;
                 for (HocKyDTO hk : dshk) {
-                    if (hkbus.getHocKyIDFromTenHocKy(HKY) == null) continue;
+                    if (hkbus.getHocKyIDFromTenHocKy(HKY) == null)
+                        continue;
                     for (ChiTietDiemDTO ct : dsct) {
-                        if (ct.getHocSinhID().equals(mahocsinh) && ct.getMonHocID().equals(mh.getMonHocID()) && ct.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY)) && ct.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
+                        if (ct.getHocSinhID().equals(mahocsinh) && ct.getMonHocID().equals(mh.getMonHocID())
+                                && ct.getHocKyID().equals(hkbus.getHocKyIDFromTenHocKy(HKY))
+                                && ct.getNamHocID().equals(nhbus.getByAcademicYear(NH))) {
                             if (ct.getHeSoID() == 1) {
                                 diem15 = ct.getDiem();
                                 heSo15 = ct.getHeSoID();
@@ -371,24 +397,25 @@ public class diemHS extends JPanel {
                     }
                 }
             }
-            
+
             if (diem15 != 0 || diem1Tiet != 0 || diemHocKy != 0) {
-                double tbm = (diem15 * heSo15 + diem1Tiet * heSo1Tiet + diemHocKy * heSoHocKy) / (heSo15 + heSo1Tiet + heSoHocKy);
+                double tbm = (diem15 * heSo15 + diem1Tiet * heSo1Tiet + diemHocKy * heSoHocKy)
+                        / (heSo15 + heSo1Tiet + heSoHocKy);
                 String formattedTBM = String.format("%.1f", tbm);
                 String[] rowData = new String[] {
-                    String.valueOf(stt),
-                    mh.getTenMonHoc(),
-                    String.valueOf(diem15),
-                    String.valueOf(diem1Tiet),
-                    String.valueOf(diemHocKy),
-                    formattedTBM
+                        String.valueOf(stt),
+                        mh.getTenMonHoc(),
+                        String.valueOf(diem15),
+                        String.valueOf(diem1Tiet),
+                        String.valueOf(diemHocKy),
+                        formattedTBM
                 };
                 tblModel.addRow(rowData);
                 stt++; // Increment serial number
                 hasData = true; // Mark that data was added
             }
         }
-    
+
         if (!hasData) {
             tblModel.setRowCount(0);
             JOptionPane.showMessageDialog(null, "Không có dữ liệu!");
@@ -398,46 +425,70 @@ public class diemHS extends JPanel {
     private class PrintListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // loaddatatoTable();
-            if (tblModel.getRowCount()==0) {
-            JOptionPane.showMessageDialog(null, "Không có dữ liệu để in!");
-            }
-            else {
-            printPanel(diemPanel);
-            }
-        }
-    }
-    private void printPanel(JPanel panel) {
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setJobName("Print Panel");
+            if (tblModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu để in!");
+            } else {
+                JFrame pf = new JFrame();
+                pf.setLayout(new BorderLayout()); // Sử dụng BorderLayout để xếp panel
+                pf.setUndecorated(true);
+                try {
+                    TTTK_HS tt = new TTTK_HS(794, 300, mahocsinh); // Thiết lập kích thước cho panel thông tin
+                    tt.getPanel();
 
-        job.setPrintable(new Printable() {
-            @Override
-            public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
-                if (pageIndex > 0) {
-                    return NO_SUCH_PAGE;
+                    pf.add(tt, BorderLayout.NORTH); // Đặt panel thông tin ở phía trên
+
+                    diemPanel.setPreferredSize(new Dimension(794, 823)); // Thiết lập kích thước cho panel điểm
+                    pf.add(diemPanel, BorderLayout.CENTER); // Đặt panel điểm ở phía dưới
+
+                    pf.setPreferredSize(new Dimension(794, 1123));
+                    pf.pack(); // Đảm bảo phù hợp với nội dung của frame
+                    pf.setVisible(true); // Hiển thị frame sau khi thêm cả hai panel
+                    printPanel(pf);
+                    pf.setVisible(false); // Hiển thị frame sau khi thêm cả hai panel
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
                 }
 
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-                g2d.scale(0.5, 0.5);  // Scale down the panel if needed
-
-                panel.printAll(g2d);
-
-                return PAGE_EXISTS;
-            }
-        });
-
-        boolean doPrint = job.printDialog();
-        if (doPrint) {
-            try {
-                job.print();
-            } catch (PrinterException e) {
-                e.printStackTrace();
             }
         }
     }
 
+    private void printPanel(JFrame jframe) {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName("Print Panel");
+        JOptionPane.showMessageDialog(null, "Đây là nội dung in!");
+        int choice = JOptionPane.showConfirmDialog(null, "Tiến hành in?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            job.setPrintable(new Printable() {
+                @Override
+                public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                    if (pageIndex > 0) {
+                        return NO_SUCH_PAGE;
+                    }
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+                    g2d.scale(0.5, 0.5);
+                    jframe.printAll(g2d);
+    
+                    return PAGE_EXISTS;
+                }
+            });
+                    boolean doPrint = job.printDialog();
+                if (doPrint) {
+                    try {
+                        job.print();
+                    } catch (PrinterException e) {
+                        e.printStackTrace();
+                    }
+                }
+            System.out.println("User clicked Yes");
+        } else {
+            JOptionPane.showMessageDialog(null, "In đã bị hủy!"); // Show message to indicate printing canceled
+            System.out.println("Thoát in!");
+            return; 
+        }
+    }
 
     private class ShowFilterListener implements ActionListener {
         @Override
@@ -450,18 +501,18 @@ public class diemHS extends JPanel {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-            
+
             // Update serial numbers after filtering
             updateSerialNumbers();
         }
-    
+
         private void updateSerialNumbers() {
             for (int i = 0; i < tblModel.getRowCount(); i++) {
                 tblModel.setValueAt(i + 1, i, 0); // Update the STT column
             }
         }
     }
-    
+
     public void updatePanelDiem() throws SQLException {
         remove(diemPanel); // Xóa diemPanel khỏi diemHS
         PanelDiem(); // Gọi lại PanelDiem để cập nhật dữ liệu mới
@@ -469,7 +520,6 @@ public class diemHS extends JPanel {
         revalidate(); // Cập nhật giao diện
         repaint(); // Vẽ lại giao diện
     }
-    
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Điểm Học Sinh");
