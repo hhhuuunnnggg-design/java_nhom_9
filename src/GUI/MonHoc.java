@@ -657,12 +657,12 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            new MonHoc(850, 760);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        MonHoc panel = new MonHoc(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

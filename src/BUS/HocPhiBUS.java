@@ -62,7 +62,7 @@ public class HocPhiBUS {
     // }
 
     public static void main(String[] args) {
-        HocPhiBUS hocPhiBUS = new HocPhiBUS();
+        HocPhiBUS hocPhiBUS = new HocPhiBUS(1);
         ArrayList<HocPhiDTO> dsHocPhi = hocPhiBUS.getList();
 
         for (HocPhiDTO hocPhi : dsHocPhi) {

@@ -277,4 +277,12 @@ public class ThanhToanHocPhi extends JPanel{
                 }
         }
     }
+    public static void main(String[] args)  {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        ThanhToanHocPhi panel = new ThanhToanHocPhi(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
 }

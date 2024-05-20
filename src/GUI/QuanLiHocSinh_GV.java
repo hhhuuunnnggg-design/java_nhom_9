@@ -321,9 +321,13 @@ public final class QuanLiHocSinh_GV extends JPanel implements MouseListener, Act
 
     }
 
-    public static void main(String argv[]) throws SQLException {
-        QuanLiHocSinh_GV sv = new QuanLiHocSinh_GV(850, 670);
-        sv.setVisible(true);
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        QuanLiHocSinh_GV panel = new QuanLiHocSinh_GV(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
     @Override
