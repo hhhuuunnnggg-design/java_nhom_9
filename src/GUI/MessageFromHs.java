@@ -79,11 +79,11 @@ public class MessageFromHs extends JFrame implements ActionListener {
 
         JPanel p1 = JSearch();
         p1.setPreferredSize(new Dimension(0, 40));
-        p1.setBackground(new Color(173, 216, 230)); // Light blue background
+        p1.setBackground(new Color(99,116,198)); // Light blue background
 
         JPanel p2 = JHeader();
         p2.setPreferredSize(new Dimension(0, 200));
-        p2.setBackground(new Color(224, 255, 255)); // Light cyan background
+        p2.setBackground(new Color(180,204,227)); // Light cyan background
 
         JPanel p3 = new JPanel();
         p3.setPreferredSize(new Dimension(0, 300));
