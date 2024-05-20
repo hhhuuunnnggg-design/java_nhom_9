@@ -45,7 +45,7 @@ import java.awt.GridBagConstraints;
 
 import BUS.phanquyenBUS;
 
-public class phanquyen extends JFrame implements ActionListener {
+public class phanquyen extends JPanel implements ActionListener {
 
     private Integer width, height;
     private JTable t;
@@ -226,7 +226,7 @@ public class phanquyen extends JFrame implements ActionListener {
         int dialogWidth = (int) (screenSize.width * 0.5);
         int dialogHeight = (int) (screenSize.height * 0.5);
 
-        JDialog addDialog = new JDialog(this, "Thêm Quyền", true);
+        JDialog addDialog = new JDialog();
         addDialog.setSize(dialogWidth, dialogHeight);
         addDialog.setLayout(new BorderLayout());
 
@@ -313,7 +313,7 @@ public class phanquyen extends JFrame implements ActionListener {
         int dialogWidth = (int) (screenSize.width * 0.5);
         int dialogHeight = (int) (screenSize.height * 0.5);
 
-        JDialog editDialog = new JDialog(this, "Sửa Quyền", true);
+        JDialog editDialog = new JDialog();
         editDialog.setSize(dialogWidth, dialogHeight);
         editDialog.setLayout(new BorderLayout());
         editDialog.setBackground(new Color(180,204,227));

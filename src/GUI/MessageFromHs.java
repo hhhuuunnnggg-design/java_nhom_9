@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -115,8 +116,9 @@ public class MessageFromHs extends JPanel implements ActionListener {
         trangthaiBox.setPreferredSize(new Dimension(100, 25));
 
         btnSearch = new JButton("Tìm kiếm");
+        btnSearch.setBackground(new Color(255, 222, 89));
         btnReset = new JButton("Reset");
-
+        btnReset.setBackground(new Color(217,217,217));
         psearch.add(ngaybatdau);
         psearch.add(chonbd);
         psearch.add(ngayketthuc);
@@ -168,7 +170,8 @@ public class MessageFromHs extends JPanel implements ActionListener {
         cb_trangthai.setBounds(590, 40, 100, 30);
         cb_trangthai.setBorder(border);
 
-        btn_update_status = new JButton("Update TT");
+        btn_update_status = new JButton("Update");
+        btn_update_status.setBackground(new Color(0, 151, 178));
         btn_update_status.setBounds(710, 40, 95, 30);
 
         img_student = new JLabel();
@@ -395,10 +398,14 @@ public class MessageFromHs extends JPanel implements ActionListener {
 
     }
 
-    // public static void main(String[] args) {
-    // MessageFromHs frame = new MessageFromHs(850, 670);
-    // frame.setVisible(true);
-    // }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        MessageFromHs panel = new MessageFromHs(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnReset) {

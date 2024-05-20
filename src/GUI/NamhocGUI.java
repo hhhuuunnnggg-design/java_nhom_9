@@ -723,12 +723,12 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         }
 
     }
-    // public static void main(String[] args) {
-    // try {
-    // new NamhocGUI(850, 760);
-    // } catch (SQLException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        NamhocGUI panel = new NamhocGUI(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
+    }
 }
