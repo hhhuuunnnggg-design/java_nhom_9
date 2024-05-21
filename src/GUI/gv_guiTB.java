@@ -44,7 +44,7 @@ public class gv_guiTB extends JFrame{
     HocSinhBUS hsbus = new HocSinhBUS(1);
     PhanCongBUS pcbus = new PhanCongBUS(1);
     NamHocBUS nhbus = new NamHocBUS(1);
-    ThongBaoBUS tbbus = new ThongBaoBUS(1);
+    ThongBaoBUS tbbus = new ThongBaoBUS();
     public gv_guiTB(int width, int height,String magiaovien) {
         this.magiaovien = magiaovien;
         this.width = width;
@@ -281,11 +281,6 @@ public class gv_guiTB extends JFrame{
 
         }
     }
-<<<<<<< HEAD
-    public static void main(String[] args) {
-        new gv_guiTB("GV3");
-       
-=======
     public static void main(String[] args){
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -293,6 +288,5 @@ public class gv_guiTB extends JFrame{
         gv_guiTB panel = new gv_guiTB(850, 670,"GV3");
         frame.add(panel);
         frame.setVisible(true);
->>>>>>> 8f1481289e17375e04e5990cfcd2f5065b405d59
     }
 }

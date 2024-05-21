@@ -343,6 +343,15 @@ public class Text extends JFrame implements MouseListener, ActionListener {
                 break;
 
             case "CN16":// GV nhận thông báo
+                main.removeAll();
+                try {
+                    main.add(new tb_gv(850,670,userName));
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
                 break;
             case "CN17": // Đổi mật khẩu HS/GV
                 main.removeAll();
@@ -379,6 +388,15 @@ public class Text extends JFrame implements MouseListener, ActionListener {
                 main.revalidate();
                 break;
             case "CN21": // HS nhận thông báo
+                main.removeAll();
+                try {
+                    main.add(new tb_hs(850,670,userName));
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                main.repaint();
+                main.revalidate();
                 break;
         }
     }

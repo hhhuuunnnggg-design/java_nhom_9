@@ -74,13 +74,12 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
     private String idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
-
+    private String username;
     private JScrollPane scrollpane;
     JTextField[] tf;
     JButton[] buttons;
     JTable t;
     int width, height;
-    private String userName;
     private JComboBox<String> searchselectBox;
     private final Border raisedBevel = BorderFactory.createRaisedBevelBorder();
     Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
@@ -100,7 +99,7 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
     public tb_hs(int width, int height,String username) throws SQLException {
         this.width = width;
         this.height = height;
-        this.userName=username;
+        this.username=username;
         System.out.println("dy chinh la "+username);
         init();
         System.out.println("D");
@@ -128,16 +127,18 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
         
         p3.setPreferredSize(new Dimension(0, 60));
         p3.setBackground(searchPanel);
-
+        JLabel label = new JLabel("THÔNG BÁO");
+        label.setFont(new Font("Arial", Font.BOLD, 30));
+        p3.add(label);
         JPanel p1 = JHocsinh();
         p1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
         p1.setBackground(myColor);
-        p1.setPreferredSize(new Dimension(0, 200));
+        p1.setPreferredSize(new Dimension(0, 300));
 
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 320));
+        p2.setPreferredSize(new Dimension(0, 500));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -197,11 +198,11 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
 
         Pchucnang.setBackground(myColor);
         defaultColor = btnThem.getBackground();
-        Pchucnang.add(btnThem);
-        Pchucnang.add(btnXoa);
-        Pchucnang.add(btnSua);
-        Pchucnang.add(btnFind);
-        Pchucnang.add(btnExpExcel);
+        // Pchucnang.add(btnThem);
+        // Pchucnang.add(btnXoa);
+        // Pchucnang.add(btnSua);
+        // Pchucnang.add(btnFind);
+        // Pchucnang.add(btnExpExcel);
         return Pchucnang;
     }
     
@@ -244,12 +245,14 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
             //bootom 35
             toadoYbutton = toadoYbutton +35;
             Phocsinh.add(buttons[i]);
-            if (i == 3) {
-                dateChooser = new JDateChooser();
-                dateChooser.setDateFormatString("dd/MM/yyyy");
-                dateChooser.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
-                Phocsinh.add(dateChooser);
+            if (i == 2) {
+                tf[i] = new JTextField();
+                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                tf[i].setFont(new Font("Arial", Font.BOLD, 12));
+                tf[i].setBorder(border);
+                tf[i].setName("text" + i);
                 toadoYTextfield = toadoYTextfield + 35;
+                Phocsinh.add(tf[i]);
                
             } 
             
@@ -279,23 +282,33 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 310));
+        scrollpane.setPreferredSize(new Dimension(846, 500));
         //"ID người gửi ", "tiêu đề TB", "Nội dung TB", "thời gian TB", "loại thông báo", "",
               
          String[] header = { "ID người gửi", "tiêu đề TB", "Nội dung TB", "thời gian TB" };
 
-        if (tbBUS.getList() == null)
-           tbBUS.list();
+         if (tbBUS.getList() == null) {
+            tbBUS.list();
+        }
         ArrayList<ThongBaoDTO> hs = tbBUS.getList();
-        Object[][] rowData = new Object[hs.size()][5];
-        for (int i = 0; i < hs.size(); i++) {
-            ThongBaoDTO thongbao = hs.get(i);
+        ArrayList<ThongBaoDTO> filteredList = new ArrayList<>();
+        
+        for (ThongBaoDTO thongbao : hs) {
+            if (thongbao.getLoaitb().equals(username) || thongbao.getLoaitb().equals("HS")) { // Kiểm tra nếu loại thông báo khớp với username hoặc "HS"
+                filteredList.add(thongbao);
+            }
+        }
+        
+        // Chuyển filteredList thành mảng hai chiều rowData
+        Object[][] rowData = new Object[filteredList.size()][4];
+        for (int i = 0; i < filteredList.size(); i++) {
+            ThongBaoDTO thongbao = filteredList.get(i);
             rowData[i][0] = thongbao.getIdnguoigui();
             rowData[i][1] = thongbao.getTieudetb();
             rowData[i][2] = thongbao.getNoidungtb();
             rowData[i][3] = thongbao.getThoigiantb();
-          
         }
+        
      
 
         Font font = new Font("Arial", Font.BOLD, 12);
@@ -361,11 +374,11 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
     public void clearTextFields() {
         tf[0].setText("");
         tf[1].setText("");
-        genderComboBox.setSelectedItem(2);
-        dateChooser.setDate(null);
-        tf[4].setText("");
-        tf[5].setText("");
-        tf[6].setText("");
+        // genderComboBox.setSelectedItem(2);
+        // dateChooser.setDate(null);
+        tf[2].setText("");
+        tf[3].setText("");
+        // tf[6].setText("");
        // lblimg.setIcon(null);
     }
 
@@ -390,12 +403,11 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
         tf[0].setText(idnguoigui);
         tf[1].setText(tieudetb);
         tf[2].setText(noidungtb);
-
+        tf[3].setText(thoigiantb);
        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date date = sdf.parse(thoigiantb);
         dateChooser.setDate(date);
-      
 
     }
 
@@ -634,7 +646,7 @@ public final class tb_hs extends JFrame implements MouseListener, ActionListener
     public static void main(String[] args) {
         try {
            // new tb_hs(850, 760);
-           new tb_hs(850, 760, pathAnhdd);
+           new tb_hs(850, 760, "HS27");
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

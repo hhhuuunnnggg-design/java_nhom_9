@@ -19,7 +19,7 @@ public class admin_guiTB extends JPanel{
     JTextArea txtContent;
     JButton btnGui;
     int width, height;
-    ThongBaoBUS tbbus = new ThongBaoBUS(1);
+    ThongBaoBUS tbbus = new ThongBaoBUS();
 
     public admin_guiTB(int width, int height) {
         // f = new JFrame();
