@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class gv_guiTB extends JFrame{
+public class gv_guiTB extends JPanel{
     // JFrame f;
     JPanel mainPanel, background;
     JLabel[] label;
@@ -281,12 +281,12 @@ public class gv_guiTB extends JFrame{
 
         }
     }
-    public static void main(String[] args){
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(850, 670);
-        gv_guiTB panel = new gv_guiTB(850, 670,"GV3");
-        frame.add(panel);
-        frame.setVisible(true);
-    }
+    // public static void main(String[] args){
+    //     JFrame frame = new JFrame();
+    //     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //     frame.setSize(850, 670);
+    //     gv_guiTB panel = new gv_guiTB(850, 670,"GV3");
+    //     frame.add(panel);
+    //     frame.setVisible(true);
+    // }
 }

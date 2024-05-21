@@ -70,7 +70,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  *
  * @author vhuyn
  */
-public final class tb_gv extends JFrame implements MouseListener, ActionListener {
+public final class tb_gv extends JPanel implements MouseListener, ActionListener {
     private String idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
@@ -101,18 +101,6 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
         this.height = height;
         this.username = username;
         init();
-        btnThem.addMouseListener(this);
-        btnXoa.addMouseListener(this);
-        btnSua.addMouseListener(this);
-        btnThem.addActionListener(this);
-        btnSua.addActionListener(this);
-        btnXoa.addActionListener(this);
-        btnFind.addActionListener(this);
-        btnFind.addMouseListener(this);
-        btnReset.addActionListener(this);
-        JsearchText.addMouseListener(this);
-        btnExpExcel.addActionListener(this);
-        btnExpExcel.addMouseListener(this);
     }
 
     public void init() throws SQLException {
@@ -131,12 +119,12 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
         JPanel p1 = JHocsinh();
         p1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
         p1.setBackground(myColor);
-        p1.setPreferredSize(new Dimension(0, 300));
+        p1.setPreferredSize(new Dimension(0, 0));
 
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 500));
+        p2.setPreferredSize(new Dimension(0, 400));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -149,62 +137,6 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
     }
 
 
-
-    public JPanel JChucnang() {
-        Color myColor = new Color(99, 116, 198);
-        JPanel Pchucnang = new JPanel();
-        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
-        // Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
-        // 0, 0), 4, true));
-
-        java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
-        ImageIcon orgIcon = new ImageIcon(imageURL_Add);
-        Image scaleImg = orgIcon.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
-
-        btnThem = new JButton(new ImageIcon(scaleImg));
-        btnThem.setPreferredSize(new Dimension(155, 40));
-        btnThem.setBorder(raisedBevel);
-
-        java.net.URL imageURL_Del = getClass().getResource("/image/btnDelete.png");
-        ImageIcon orgIcon_Del = new ImageIcon(imageURL_Del);
-        Image scaleImg_Del = orgIcon_Del.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
-
-        btnXoa = new JButton(new ImageIcon(scaleImg_Del));
-        btnXoa.setPreferredSize(new Dimension(155, 40));
-        btnXoa.setBorder(raisedBevel);
-
-        java.net.URL imageURL_Edit = getClass().getResource("/image/btnEdit.png");
-        ImageIcon orgIcon_Edit = new ImageIcon(imageURL_Edit);
-        Image scaleImg_Edit = orgIcon_Edit.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
-
-        btnSua = new JButton(new ImageIcon(scaleImg_Edit));
-        btnSua.setPreferredSize(new Dimension(155, 40));
-        btnSua.setBorder(raisedBevel);
-
-        java.net.URL imageURL_Find = getClass().getResource("/image/btnsearch_qlhs1.png");
-        ImageIcon orgIcon_Find = new ImageIcon(imageURL_Find);
-        Image scaleImg_Find = orgIcon_Find.getImage().getScaledInstance(155, 40, Image.SCALE_SMOOTH);
-        btnFind = new JButton(new ImageIcon(scaleImg_Find));
-        btnFind.setPreferredSize(new Dimension(155, 40));
-        btnFind.setBorder(raisedBevel);
-
-        java.net.URL imageURL_ExpExcel = getClass().getResource("/image/export_excel.png");
-        ImageIcon orgIcon_ExpExcel = new ImageIcon(imageURL_ExpExcel);
-        Image scaleImg_ExpExcel = orgIcon_ExpExcel.getImage().getScaledInstance(230, 100, Image.SCALE_SMOOTH);
-        btnExpExcel = new JButton(new ImageIcon(scaleImg_ExpExcel));
-        btnExpExcel.setPreferredSize(new Dimension(155, 40));
-        btnExpExcel.setBorder(raisedBevel);
-        btnExpExcel.setBackground(myColor);
-
-        Pchucnang.setBackground(myColor);
-        defaultColor = btnThem.getBackground();
-        // Pchucnang.add(btnThem);
-        // Pchucnang.add(btnXoa);
-        // Pchucnang.add(btnSua);
-        // Pchucnang.add(btnFind);
-        // Pchucnang.add(btnExpExcel);
-        return Pchucnang;
-    }
     
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
@@ -274,9 +206,6 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
             y = y + 22;
         }
         x = x + 180;
-        JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 3, 170, y);
-        Phocsinh.add(Pchucnang);
 
         Phocsinh.setPreferredSize(new Dimension(x, y));
 
@@ -374,29 +303,6 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
         clearTextFields();
     }
 
-    // public void updateRow() {
-    //     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    //     Date date = dateChooser.getDate();
-    //     String dateString = sdf.format(date);
-
-    //     // Lấy các giá trị từ các trường nhập
-    //     String idnguoigui = tf[0].getText();
-    //     String tieudetb = tf[1].getText();
-    //     String noidungtb = (String) genderComboBox.getSelectedItem();
-    //     String thoigiantb = dateString;
-    //     String loaitb = tf[4].getText();
-
-    //     ThongBaoDTO giaovien = new ThongBaoDTO(idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb);
-    //     tbBUS.updateGV(giaovien);
-
-    //     Object[] rowData = { idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb};
-
-    //     int row = t.getSelectedRow();
-    //     tblmodel.removeRow(row);
-    //     tblmodel.addRow(rowData);
-    //     clearTextFields();
-    // }
-
     public void clearTextFields() {
         tf[0].setText("");
         tf[1].setText("");
@@ -404,18 +310,8 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
         dateChooser.setDate(null);
         tf[2].setText("");
         tf[3].setText("");
-        // tf[6].setText("");
-       // lblimg.setIcon(null);
     }
 
-    public boolean checkEmpty() {
-        boolean isEmpty = tf[0].getText().isEmpty() ||
-                tf[1].getText().isEmpty() ||
-                tf[2].getText().isEmpty();
-
-       //boolean isGenderEmpty = genderComboBox.getSelectedIndex() == -1;
-        return isEmpty;// || isGenderEmpty ;
-    }
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
         int row = t.getSelectedRow();
@@ -438,139 +334,10 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
 
     }
 
-    public void btnAdd_actionPerformed() {
-        if (checkEmpty()) {
-            JOptionPane.showMessageDialog(this, "Hãy điền đầy đủ các thông tin", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    
 
-       
+    
 
-       // JOptionPane.showMessageDialog(this, "Mã giáo viên tăng tự động", "Lưu ý", JOptionPane.INFORMATION_MESSAGE);
-
-        int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn Thêm thông báo này",
-                "Xác nhận",
-                JOptionPane.YES_NO_OPTION,
-
-                JOptionPane.QUESTION_MESSAGE);
-        if (result == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(this,
-                    "Thêm thành công",
-                    "Chức năng thêm",
-                    JOptionPane.INFORMATION_MESSAGE);
-            System.out.println("Ban chon them");
-            tf[0].requestFocus();
-           // autoCreateAccount();
-            addRow();
-        }
-    }
-
-    public void btnDelete_actionPerformed() {
-        String magv = tf[0].getText();
-        System.out.println(magv);
-        if (magv.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Hãy nhập thông tin cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // if (tbBUS. checkMagv(magv) == false) {
-        //     JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
-        //     return;
-        // }
-        int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn xóa thành viên này",
-                "Xác nhận",
-                JOptionPane.YES_NO_OPTION,
-
-                JOptionPane.QUESTION_MESSAGE);
-        if (result == JOptionPane.YES_OPTION) {
-            System.out.println("Ban chon đồn ý xóa");
-            deleteRow();
-        } else if (result == JOptionPane.NO_OPTION) {
-            System.out.println("Bạn chọn không đồng ý xóa");
-        }
-    }
-
-
-    public void btnFind_actionPerformed() {
-        searchText = JsearchText.getText().trim();
-        String selectedOption = (String) searchselectBox.getSelectedItem();
-        if (searchText.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Vui lòng nhập thông tin tìm kiếm",
-                    "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-       }
-        model = (DefaultTableModel) t.getModel();
-        sorter = new TableRowSorter<>(model);
-        t.setRowSorter(sorter);
-        if (selectedOption.equals("Mã giáo viên")) {
-            sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
-        } else if (selectedOption.equals("Họ và tên")) {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
-        }
-    }
-
-    public void exportExcel() throws IOException {
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Tập tin Excel", "xls");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Lưu tệp");
-        chooser.setAcceptAllFileFilterUsed(false);
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            String path = chooser.getSelectedFile().toString().concat(".xls");
-
-            Workbook workbook = new HSSFWorkbook();
-            Sheet sheet = workbook.createSheet("DanhSachHocSinh");
-            Row headerRow = sheet.createRow(0); // Header row at index 0
-            String[] headers = { "STT", "ID Người gửi", "Tiêu đề thông báo", "Nội dung TB", "Thời gian TB" };
-
-            // Creating header cells
-            for (int i = 0; i < headers.length; i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(headers[i]);
-            }
-
-            ArrayList<ThongBaoDTO> dsgv = tbBUS.getList();
-            for (int i = 0; i < dsgv.size(); i++) {
-                Row row = sheet.createRow(i + 1); // Data rows start from index 1
-
-                ThongBaoDTO gv = dsgv.get(i);
-                System.out.println(gv.getIdnguoigui());
-
-                row.createCell(0).setCellValue(gv.getIdnguoigui());
-                row.createCell(1).setCellValue(gv.getTieudetb());
-                row.createCell(2).setCellValue(gv.getNoidungtb());
-                row.createCell(3).setCellValue(gv.getThoigiantb());
-              
-
-            }
-
-            // String path = "D:/Coding/N2_HK2/DAJAVA/java_nhom_9/Excel/hsss.xlsx";
-            File file = new File(path);
-            if (file.exists()) {
-                file.delete();
-            }
-            file.createNewFile();
-
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                workbook.write(fos);
-                // workbook.close();
-                // fos.close();
-                System.out.println("Excel file exported successfully to: " + path);
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle exception
-            }
-            JOptionPane.showMessageDialog(this, "IN THÀNH CÔNG");
-            Desktop.getDesktop().open(file);
-
-        }
-    }
 
 
 
@@ -623,59 +390,17 @@ public final class tb_gv extends JFrame implements MouseListener, ActionListener
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource() == btnThem) {
-            btnThem.setBackground(defaultColor);
-        } else if (e.getSource() == btnXoa) {
-            btnXoa.setBackground(defaultColor);
-        } else if (e.getSource() == btnSua) {
-            btnSua.setBackground(defaultColor);
-        } else if (e.getSource() == btnFind) {
-            btnFind.setBackground(defaultColor);
-        } else if (e.getSource() == btnExpExcel) {
-            btnExpExcel.setBackground(defaultColor);
-        }
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated
-        // from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnThem) {
-            btnAdd_actionPerformed();
-
-        } else if (e.getSource() == btnSua) {
-           // btnSua_actionPerformed();
-
-        } else if (e.getSource() == btnXoa) {
-            btnDelete_actionPerformed();
-
-        } else if (e.getSource() == btnFind) {
-            btnFind_actionPerformed();
-
-        } else if (e.getSource() == btnReset) {
-            JsearchText.setText("");
-            clearTextFields();
-            model = (DefaultTableModel) t.getModel();
-            sorter = new TableRowSorter<>(model);
-            t.setRowSorter(sorter);
-            sorter.setRowFilter(RowFilter.regexFilter("", 0));
-        } else if (e.getSource() == btnExpExcel) {
-            try {
-                exportExcel();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-        }
-
     }
-    public static void main(String[] args) {
-        try {
-            new tb_gv(850, 760,"HS27");
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    // public static void main(String[] args) {
+    //     try {
+    //         new tb_gv(850, 760,"HS27");
+    //     } catch (SQLException e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    // }
 }
