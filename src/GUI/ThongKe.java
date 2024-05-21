@@ -505,4 +505,5 @@ public class ThongKe extends JPanel{
             return; 
         }
     }
+    
 }

@@ -4,17 +4,28 @@ import DTO.chitietquyenDTO;
 import DTO.chucnangDTO;
 import DTO.phanquyenDTO;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import java.awt.event.*;
+import java.awt.print.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.table.TableRowSorter;
+import java.util.List;
+import java.util.ArrayList;
+import java.awt.Font;
+import java.sql.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,11 +39,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+// import org.apache.poi.ss.usermodel.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 
 import BUS.phanquyenBUS;
 
-public class phanquyen extends JFrame implements ActionListener {
+public class phanquyen extends JPanel implements ActionListener {
 
     private Integer width, height;
     private JTable t;
@@ -52,22 +65,20 @@ public class phanquyen extends JFrame implements ActionListener {
         btnAdd.addActionListener(this);
         btnEdit.addActionListener(this);
         btnDelete.addActionListener(this);
-        this.setLocationRelativeTo(null);
     }
 
     public void init() {
         this.setSize(new Dimension(width, height));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JPanel p1 = JSearch();
-        p1.setPreferredSize(new Dimension(0, 40));
-        p1.setBackground(new Color(173, 216, 230)); // Light blue background
+        p1.setPreferredSize(new Dimension(0, 110));
+        p1.setBackground(new Color(99,116,198)); // Light blue background
 
         JPanel p3 = new JPanel();
-        p3.setPreferredSize(new Dimension(0, 300));
+        p3.setPreferredSize(new Dimension(0, 400));
         p3.add(init_table());
-        p3.setBackground(new Color(240, 255, 255)); // Azure background
+        p3.setBackground(new Color(	180, 204, 227)); // Azure background
 
         this.add(p1, BorderLayout.NORTH);
         this.add(p3, BorderLayout.CENTER);
@@ -75,23 +86,55 @@ public class phanquyen extends JFrame implements ActionListener {
 
     public JPanel JSearch() {
         psearch = new JPanel();
-        psearch.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        psearch.setLayout(new GridBagLayout());
+        psearch.setPreferredSize(new Dimension(850, 100));
 
-        // Thêm 3 nút Thêm, Sửa và Xóa
+        // Create the label
+        JLabel label = new JLabel("Chức năng phân quyền");
+        label.setFont(new Font("Arial", Font.BOLD, 20));
+
+        // Create the buttons
         btnAdd = new JButton("Thêm");
-        btnEdit = new JButton("Sửa");
-        btnDelete = new JButton("Xóa");
+        btnAdd.setBackground(new Color(126, 217, 87));
 
-        psearch.add(btnAdd);
-        psearch.add(btnEdit);
-        psearch.add(btnDelete);
+        btnEdit = new JButton("Sửa");
+        btnEdit.setBackground(new Color(200, 175, 73));
+
+        btnDelete = new JButton("Xóa");
+        btnDelete.setBackground(new Color(255, 49, 49)); // Corrected from btnAdd to btnDelete
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
+
+        // Add the label at the top and center
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3; // Span across 3 columns
+        gbc.anchor = GridBagConstraints.CENTER;
+        psearch.add(label, gbc);
+
+        // Add the "Thêm" button
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        psearch.add(btnAdd, gbc);
+
+        // Add the "Sửa" button
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        psearch.add(btnEdit, gbc);
+
+        // Add the "Xóa" button
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        psearch.add(btnDelete, gbc);
 
         return psearch;
     }
 
     public JScrollPane init_table() {
-        String[] header = { "Mã Quyền", "Tên mã quyền" };
-
+        String[] header = { "Mã Quyền", "Tên Mã Quyền" };
         pqBUS = new phanquyenBUS();
         pqBUS.listquyen();
         dsquyen = pqBUS.getlistquyen();
@@ -110,8 +153,12 @@ public class phanquyen extends JFrame implements ActionListener {
         t.getTableHeader().setForeground(Color.WHITE);
         t.setSelectionBackground(new Color(100, 149, 237)); // Cornflower blue selection
         t.setGridColor(new Color(173, 216, 230)); // Light blue grid lines
+        t.setRowHeight(50);
+
+        Font headerFont = t.getTableHeader().getFont();
+        t.getTableHeader().setFont(new Font(headerFont.getName(), Font.BOLD, 16));
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 295));
+        scrollpane.setPreferredSize(new Dimension(846, 178));
         t.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -134,11 +181,14 @@ public class phanquyen extends JFrame implements ActionListener {
         // Clear fields logic if needed
     }
 
-    public static void main(String[] args) {
-        phanquyen frame = new phanquyen(850, 670);
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        phanquyen panel = new phanquyen(850, 670);
+        frame.add(panel);
         frame.setVisible(true);
     }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAdd) {
             showAddDialog();
@@ -176,7 +226,7 @@ public class phanquyen extends JFrame implements ActionListener {
         int dialogWidth = (int) (screenSize.width * 0.5);
         int dialogHeight = (int) (screenSize.height * 0.5);
 
-        JDialog addDialog = new JDialog(this, "Thêm Quyền", true);
+        JDialog addDialog = new JDialog();
         addDialog.setSize(dialogWidth, dialogHeight);
         addDialog.setLayout(new BorderLayout());
 
@@ -263,9 +313,10 @@ public class phanquyen extends JFrame implements ActionListener {
         int dialogWidth = (int) (screenSize.width * 0.5);
         int dialogHeight = (int) (screenSize.height * 0.5);
 
-        JDialog editDialog = new JDialog(this, "Sửa Quyền", true);
+        JDialog editDialog = new JDialog();
         editDialog.setSize(dialogWidth, dialogHeight);
         editDialog.setLayout(new BorderLayout());
+        editDialog.setBackground(new Color(180,204,227));
 
         JPanel inputPanel = new JPanel(new FlowLayout(1, 10, 10));
         JLabel lblMaQuyen = new JLabel("Mã Quyền:");

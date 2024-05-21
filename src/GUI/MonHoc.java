@@ -47,6 +47,7 @@ import DTO.MonHocDTO;
 import BUS.MonHocBUS;
 import DATA.MonHocDAO;
 import DTO.Account_DTO;
+import java.awt.GridLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -131,7 +132,7 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 350));
+        p2.setPreferredSize(new Dimension(0, 400));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -193,7 +194,7 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
         //Color myColor = Color.RED;
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
-        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
+        Pchucnang.setLayout(new GridLayout(3,2,15,15));
 
         java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
         ImageIcon orgIcon = new ImageIcon(imageURL_Add);
@@ -248,40 +249,40 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
     public JPanel JMonHoc() {
         JPanel PMonHoc = new JPanel();
         PMonHoc.setLayout(null);
-        String[] arrMonHoc = { "Mã Môn Học.", "Tên Môn Học", };
+        String[] arrMonHoc = { "Mã Môn", "Tên Môn", };
         int length = arrMonHoc.length;
         tf = new JTextField[length];
         buttons = new JButton[length];
         PMonHoc.setLayout(null);
-        int toadoXbutton = 190;
+        int toadoXbutton = 10;
         int toadoYbutton = 10;
-        int toadoXTextfield = 330;
+        int toadoXTextfield = 150;
         int toadoYTextfield = 10;
         int x = 230;
         int y = 15;
         for (int i = 0; i < arrMonHoc.length; i++) {
             buttons[i] = new JButton(arrMonHoc[i]);
-            buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+            buttons[i].setBounds(toadoXbutton +25, toadoYbutton + 40, 100, 30);
             buttons[i].setHorizontalAlignment(JButton.CENTER);
             buttons[i].setName("btn" + i);
             
-            toadoYbutton = toadoYbutton + 80;
+            toadoYbutton = toadoYbutton + 35;
             PMonHoc.add(buttons[i]);
 
              {
                 tf[i] = new JTextField();
-                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                tf[i].setBounds(toadoXTextfield +25, toadoYTextfield +40, 220, 30);
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(border);
                 tf[i].setName("text" + i);
-                toadoYTextfield = toadoYTextfield + 80;
+                toadoYTextfield = toadoYTextfield + 35;
                 PMonHoc.add(tf[i]);
             }
             y = y + 35;
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 3, 170, 300);
+        Pchucnang.setBounds(510, 20, 290, 150);
         PMonHoc.add(Pchucnang);
         PMonHoc.setPreferredSize(new Dimension(x, y));
         return PMonHoc;
@@ -291,7 +292,7 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 340));
+        scrollpane.setPreferredSize(new Dimension(846, 440));
         String[] header = { "Mã môn học", "Tên Môn Học."};
                
         if (mhBUS.getList() == null)
@@ -657,12 +658,12 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            new MonHoc(850, 760);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        MonHoc panel = new MonHoc(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

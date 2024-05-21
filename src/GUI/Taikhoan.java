@@ -281,7 +281,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
 
         for (int i = 0; i < arrTaikhoan.length; i++) {
             buttons[i] = new JButton(arrTaikhoan[i]);
-            buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+            buttons[i].setBounds(toadoXbutton, toadoYbutton +20, 120, 30);
             buttons[i].setHorizontalAlignment(JButton.CENTER);
             buttons[i].setName("btn" + i);
             toadoYbutton += 35;
@@ -289,7 +289,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
 
             if (i != 2) {
                 tf[i] = new JTextField();
-                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                tf[i].setBounds(toadoXTextfield, toadoYTextfield +20, 320, 30);
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 tf[i].setName("text" + i);
@@ -304,7 +304,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
                     for (phanquyenDTO pq : dsquyen) {
                         roleComboBox.addItem(pq.getMaquyen());
                     }
-                roleComboBox.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                roleComboBox.setBounds(toadoXTextfield, toadoYTextfield +20, 320, 30);
                 Ptaikhoan.add(roleComboBox);
                 toadoYTextfield += 35;
             }
@@ -325,7 +325,7 @@ public final class Taikhoan extends JPanel implements MouseListener, ActionListe
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 430));
+        scrollpane.setPreferredSize(new Dimension(846, 430));
         String[] header = { "Username", "Password", "Role", "Trạng thái" };
 
         if (uBUS.getList() == null) {

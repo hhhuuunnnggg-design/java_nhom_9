@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -36,7 +37,7 @@ import javax.swing.border.Border;
 import com.toedter.calendar.JDateChooser;
 import BUS.MessageFromHsBUS;
 
-public class MessageFromHs extends JFrame implements ActionListener {
+public class MessageFromHs extends JPanel implements ActionListener {
 
     private JTextField jf_ngaygui, jf_tieude;
     JTextArea jf_noidung;
@@ -76,16 +77,16 @@ public class MessageFromHs extends JFrame implements ActionListener {
     public void init() {
 
         this.setSize(new Dimension(width, height));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JPanel p1 = JSearch();
         p1.setPreferredSize(new Dimension(0, 40));
-        p1.setBackground(new Color(99,116,198)); // Light blue background
+        p1.setBackground(new Color(99, 116, 198)); // Light blue background
 
         JPanel p2 = JHeader();
         p2.setPreferredSize(new Dimension(0, 200));
-        p2.setBackground(new Color(180,204,227)); // Light cyan background
+        p2.setBackground(new Color(180, 204, 227)); // Light cyan background
 
         JPanel p3 = new JPanel();
         p3.setPreferredSize(new Dimension(0, 300));
@@ -115,8 +116,9 @@ public class MessageFromHs extends JFrame implements ActionListener {
         trangthaiBox.setPreferredSize(new Dimension(100, 25));
 
         btnSearch = new JButton("Tìm kiếm");
+        btnSearch.setBackground(new Color(255, 222, 89));
         btnReset = new JButton("Reset");
-
+        btnReset.setBackground(new Color(217,217,217));
         psearch.add(ngaybatdau);
         psearch.add(chonbd);
         psearch.add(ngayketthuc);
@@ -168,7 +170,8 @@ public class MessageFromHs extends JFrame implements ActionListener {
         cb_trangthai.setBounds(590, 40, 100, 30);
         cb_trangthai.setBorder(border);
 
-        btn_update_status = new JButton("Update TT");
+        btn_update_status = new JButton("Update");
+        btn_update_status.setBackground(new Color(0, 151, 178));
         btn_update_status.setBounds(710, 40, 95, 30);
 
         img_student = new JLabel();
@@ -193,7 +196,6 @@ public class MessageFromHs extends JFrame implements ActionListener {
         return pHead;
     }
 
-    
     public JScrollPane init_table() {
         String[] header = { "Mã học sinh", "Tên học sinh", "Thời gian gửi", "Tiêu đề", "Nội dung", "Trạng thái",
         };
@@ -219,7 +221,7 @@ public class MessageFromHs extends JFrame implements ActionListener {
         t.setSelectionBackground(new Color(100, 149, 237)); // Cornflower blue selection
         t.setGridColor(new Color(173, 216, 230)); // Light blue grid lines
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 295));
+        scrollpane.setPreferredSize(new Dimension(846, 295));
         t.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -396,8 +398,12 @@ public class MessageFromHs extends JFrame implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
-        MessageFromHs frame = new MessageFromHs(850, 670);
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        MessageFromHs panel = new MessageFromHs(850, 670);
+        frame.add(panel);
         frame.setVisible(true);
     }
 

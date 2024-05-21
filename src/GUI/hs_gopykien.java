@@ -72,7 +72,7 @@ public class hs_gopykien extends JPanel {
                 return;
             }
             System.out.println("tao yk dto");
-            YKienDTO yk = new YKienDTO(mahocsinh, txtHeader.getText(), txtContent.getText(), currDate.getFormatDateTime(), hsbus.get(mahocsinh).getTenHocSinh());
+            YKienDTO yk = new YKienDTO(mahocsinh, txtHeader.getText(), txtContent.getText(), currDate.getdate(), hsbus.get(mahocsinh).getTenHocSinh());
 
             System.out.println("up yk to data");
             ykbus.add(yk);

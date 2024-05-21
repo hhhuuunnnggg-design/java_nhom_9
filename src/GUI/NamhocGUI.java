@@ -1,5 +1,5 @@
 package GUI;
-
+import java.awt.GridLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -48,7 +48,6 @@ import DTO.HocSinhDTO;
 import DTO.NamHocDTO;
 import BUS.NamHocBUS;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,8 +82,8 @@ import org.apache.poi.ss.usermodel.Workbook;
  *
  * @author vhuyn
  */
-public final class NamhocGUI extends JFrame implements MouseListener, ActionListener {
-    private String manamhoc,namhocbatdau, namhocketthuc;
+public final class NamhocGUI extends JPanel implements MouseListener, ActionListener {
+    private String manamhoc, namhocbatdau, namhocketthuc;
     private JLabel lblManh, lblTenhs, lblGioitinh, lblDiachi;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
@@ -147,7 +146,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 350));
+        p2.setPreferredSize(new Dimension(0, 380));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -179,7 +178,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
 
         JLabel lblSearch = new JLabel("Tìm kiếm theo: ");
         lblSearch.setFont(new Font("arial", Font.BOLD, 14));
-        String searchOption[] = { "Mã năm học","Năm học bắt đầu","Năm học kết thúc" };
+        String searchOption[] = { "Mã năm học", "Năm học bắt đầu", "Năm học kết thúc" };
         searchselectBox = new JComboBox<>(searchOption);
 
         java.net.URL imageURL = getClass().getResource("/image/home.png");
@@ -206,12 +205,12 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         return JSearch;
 
     }
-   
+
     public JPanel JChucnang() {
-         //Color myColor = Color.PINK;
+        // Color myColor = Color.PINK;
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
-        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
+        Pchucnang.setLayout(new GridLayout(3,2,15,15));
 
         java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
         ImageIcon orgIcon = new ImageIcon(imageURL_Add);
@@ -265,14 +264,14 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
         Phocsinh.setLayout(null);
-        String[] arrHocsinh = { "Mã năm học", "Năm bắt đầu", "Năm kết thúc"};
+        String[] arrHocsinh = { "Mã năm học", "Năm bắt đầu", "Năm kết thúc" };
         int length = arrHocsinh.length;
         tf = new JTextField[length];
         buttons = new JButton[length];
         Phocsinh.setLayout(null);
-        int toadoXbutton = 190;
+        int toadoXbutton = 10;
         int toadoYbutton = 10;
-        int toadoXTextfield = 330;
+        int toadoXTextfield = 150;
         int toadoYTextfield = 10;
         int x = 230;
         int y = 15;
@@ -293,28 +292,28 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                 Phocsinh.add(buttons[i]);
             } else {
                 buttons[i] = new JButton(arrHocsinh[i]);
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+                buttons[i].setBounds(toadoXbutton +25, toadoYbutton +30, 120, 30);
                 buttons[i].setHorizontalAlignment(JButton.CENTER);
                 buttons[i].setName("btn" + i);
             }
 
-            toadoYbutton = toadoYbutton + 80;
+            toadoYbutton = toadoYbutton + 50;
             Phocsinh.add(buttons[i]);
 
-             {
+            {
                 tf[i] = new JTextField();
-                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                tf[i].setBounds(toadoXTextfield +35, toadoYTextfield +30, 220, 30);
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(border);
                 tf[i].setName("text" + i);
-                toadoYTextfield = toadoYTextfield + 80;
+                toadoYTextfield = toadoYTextfield + 50;
                 Phocsinh.add(tf[i]);
             }
             y = y + 35;
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 3, 170, 300);
+        Pchucnang.setBounds(510, 25, 290, 150);
         Phocsinh.add(Pchucnang);
 
         Phocsinh.setPreferredSize(new Dimension(x, y));
@@ -327,8 +326,8 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 340));
-                String[] header = { "Mã năm học", "Năm bắt đầu", "Năm kết thúc"};
+        scrollpane.setPreferredSize(new Dimension(846, 400));
+        String[] header = { "Mã năm học", "Năm bắt đầu", "Năm kết thúc" };
 
         if (nhBUS.getList() == null)
             nhBUS.listNH();
@@ -383,30 +382,30 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
             ImageIcon imageIcon = new ImageIcon(imagePath);
 
             // Chỉnh kích thước của hình ảnh để phù hợp với JLabel
-            //Image image = imageIcon.getImage().getScaledInstance(lblimg.getWidth(), lblimg.getHeight(),
-                    //Image.SCALE_SMOOTH);
+            // Image image = imageIcon.getImage().getScaledInstance(lblimg.getWidth(),
+            // lblimg.getHeight(),
+            // Image.SCALE_SMOOTH);
 
             // Tạo một ImageIcon mới từ hình ảnh đã được điều chỉnh kích thước
-           // ImageIcon scaledImageIcon = new ImageIcon(image);
+            // ImageIcon scaledImageIcon = new ImageIcon(image);
 
             // Hiển thị hình ảnh trên JLabel
-           // lblimg.setIcon(scaledImageIcon);
+            // lblimg.setIcon(scaledImageIcon);
 
         }
     }
 
     public void addRow() {
-       
-        String NamHocid  = tf[0].getText();
+
+        String NamHocid = tf[0].getText();
         int NamBatDau = Integer.parseInt(tf[1].getText());
         int NamKetThuc = Integer.parseInt(tf[2].getText());
-        NamHocDTO namhoc=new NamHocDTO(NamHocid, NamBatDau, NamKetThuc);
+        NamHocDTO namhoc = new NamHocDTO(NamHocid, NamBatDau, NamKetThuc);
         nhBUS.addNH(namhoc);
-        Object[] rowData = { NamHocid, NamBatDau, NamKetThuc};
+        Object[] rowData = { NamHocid, NamBatDau, NamKetThuc };
         tblmodel.addRow(rowData);
         clearTextFields();
     }
-    
 
     public void deleteRow() {
         int row = t.getSelectedRow();
@@ -419,8 +418,8 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
     }
 
     public void updateRow() {
-        
-        String NamHocid  = tf[0].getText();
+
+        String NamHocid = tf[0].getText();
         int NamBatDau = Integer.parseInt(tf[1].getText());
         int NamKetThuc = Integer.parseInt(tf[2].getText());
         NamHocDTO namhoc = new NamHocDTO(NamHocid, NamBatDau, NamKetThuc);
@@ -429,14 +428,14 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         int row = t.getSelectedRow();
         tblmodel.removeRow(row);
         tblmodel.addRow(rowData);
-       
+
     }
 
     public void clearTextFields() {
         tf[0].setText("");
         tf[1].setText("");
         tf[2].setText("");
-        
+
     }
 
     public boolean checkEmpty() {
@@ -444,11 +443,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                 tf[1].getText().isEmpty() ||
                 tf[2].getText().isEmpty();
 
-        
-
-        
-
-        return isEmpty ;
+        return isEmpty;
     }
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
@@ -482,7 +477,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                     JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Ban chon them");
             tf[0].requestFocus();
-           // autoCreateAccount();
+            // autoCreateAccount();
             addRow();
         }
     }
@@ -564,8 +559,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 0));
         } else if (selectedOption.equals("Năm học bắt đầu")) {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
-        }
-        else if (selectedOption.equals("Năm học kết thúc")) {
+        } else if (selectedOption.equals("Năm học kết thúc")) {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
         }
     }
@@ -582,7 +576,7 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("DanhSachHocSinh");
             Row headerRow = sheet.createRow(0); // Header row at index 0
-            String[] headers = { "Mã năm học", "Năm học bắt đầu", "Năm học kết thúc"};
+            String[] headers = { "Mã năm học", "Năm học bắt đầu", "Năm học kết thúc" };
 
             // Creating header cells
             for (int i = 0; i < headers.length; i++) {
@@ -595,12 +589,12 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
                 Row row = sheet.createRow(i + 1); // Data rows start from index 1
 
                 NamHocDTO namhoc = dsnh.get(i);
-                //System.out.println(hocSinh.getDiaChi());
+                // System.out.println(hocSinh.getDiaChi());
 
                 row.createCell(0).setCellValue(namhoc.getNamHocID());
                 row.createCell(1).setCellValue(namhoc.getNamHocBatDau());
                 row.createCell(2).setCellValue(namhoc.getNamHocKetThuc());
-                
+
             }
 
             // String path = "D:/Coding/N2_HK2/DAJAVA/java_nhom_9/Excel/hsss.xlsx";
@@ -627,11 +621,11 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
     }
 
     // public void autoCreateAccount() {
-    //     accBUS = new ChangeAcc_BUS();
-    //     String username = tf[0].getText();
-    //     String password = tf[5].getText();
-    //     Account_DTO acc = new Account_DTO(username, password);
-    //     accBUS.Add(acc);
+    // accBUS = new ChangeAcc_BUS();
+    // String username = tf[0].getText();
+    // String password = tf[5].getText();
+    // Account_DTO acc = new Account_DTO(username, password);
+    // accBUS.Add(acc);
     // }
 
     @Override
@@ -730,13 +724,12 @@ public final class NamhocGUI extends JFrame implements MouseListener, ActionList
         }
 
     }
-    public static void main(String[] args) {
-        try {
-            new NamhocGUI(850, 760);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        NamhocGUI panel = new NamhocGUI(850, 670);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }
-

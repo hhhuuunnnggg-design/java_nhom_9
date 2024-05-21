@@ -265,7 +265,7 @@ public class gv_guiTB extends JFrame{
                 JOptionPane.showMessageDialog(null, "Thông báo không thể bỏ trống cả tiêu đề và nội dung");
                 return;
             }
-            ThongBaoDTO tb = new ThongBaoDTO(magiaovien, txtHeader.getText(), txtContent.getText(), String.valueOf(currDate.getYearAndDate()+" "+currDate.getTime()),loaitb);
+            ThongBaoDTO tb = new ThongBaoDTO(magiaovien, txtHeader.getText(), txtContent.getText(), String.valueOf(currDate.getdate()),loaitb);
 
             System.out.println("up thong bao to data");
 
@@ -281,8 +281,18 @@ public class gv_guiTB extends JFrame{
 
         }
     }
+<<<<<<< HEAD
     public static void main(String[] args) {
         new gv_guiTB("GV3");
        
+=======
+    public static void main(String[] args){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        gv_guiTB panel = new gv_guiTB(850, 670,"GV3");
+        frame.add(panel);
+        frame.setVisible(true);
+>>>>>>> 8f1481289e17375e04e5990cfcd2f5065b405d59
     }
 }
