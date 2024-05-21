@@ -1,4 +1,5 @@
 package GUI;
+import java.awt.GridLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -145,7 +146,7 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 350));
+        p2.setPreferredSize(new Dimension(0, 380));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -209,7 +210,7 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         // Color myColor = Color.PINK;
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
-        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
+        Pchucnang.setLayout(new GridLayout(3,2,15,15));
 
         java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
         ImageIcon orgIcon = new ImageIcon(imageURL_Add);
@@ -268,9 +269,9 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         tf = new JTextField[length];
         buttons = new JButton[length];
         Phocsinh.setLayout(null);
-        int toadoXbutton = 190;
+        int toadoXbutton = 10;
         int toadoYbutton = 10;
-        int toadoXTextfield = 330;
+        int toadoXTextfield = 150;
         int toadoYTextfield = 10;
         int x = 230;
         int y = 15;
@@ -291,28 +292,28 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
                 Phocsinh.add(buttons[i]);
             } else {
                 buttons[i] = new JButton(arrHocsinh[i]);
-                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
+                buttons[i].setBounds(toadoXbutton +25, toadoYbutton +30, 120, 30);
                 buttons[i].setHorizontalAlignment(JButton.CENTER);
                 buttons[i].setName("btn" + i);
             }
 
-            toadoYbutton = toadoYbutton + 80;
+            toadoYbutton = toadoYbutton + 50;
             Phocsinh.add(buttons[i]);
 
             {
                 tf[i] = new JTextField();
-                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                tf[i].setBounds(toadoXTextfield +35, toadoYTextfield +30, 220, 30);
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(border);
                 tf[i].setName("text" + i);
-                toadoYTextfield = toadoYTextfield + 80;
+                toadoYTextfield = toadoYTextfield + 50;
                 Phocsinh.add(tf[i]);
             }
             y = y + 35;
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(660, 3, 170, 300);
+        Pchucnang.setBounds(510, 25, 290, 150);
         Phocsinh.add(Pchucnang);
 
         Phocsinh.setPreferredSize(new Dimension(x, y));
@@ -325,7 +326,7 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 340));
+        scrollpane.setPreferredSize(new Dimension(835, 400));
         String[] header = { "Mã năm học", "Năm bắt đầu", "Năm kết thúc" };
 
         if (nhBUS.getList() == null)
