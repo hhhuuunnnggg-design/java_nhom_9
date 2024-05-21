@@ -221,7 +221,7 @@ public class MessageFromHs extends JPanel implements ActionListener {
         t.setSelectionBackground(new Color(100, 149, 237)); // Cornflower blue selection
         t.setGridColor(new Color(173, 216, 230)); // Light blue grid lines
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 295));
+        scrollpane.setPreferredSize(new Dimension(846, 295));
         t.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {

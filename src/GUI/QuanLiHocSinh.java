@@ -319,7 +319,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 340));
+        scrollpane.setPreferredSize(new Dimension(846, 340));
         String[] header = { "Mã học sinh", "Họ và tên", "Giới tính", "Năm sinh", "Địa chỉ", "Số điện thoại",
                 "Ảnh chân dung" };
 

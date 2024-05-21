@@ -1,5 +1,5 @@
+
 package GUI;
-import java.awt.GridLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.border.Border;
@@ -42,11 +43,10 @@ import javax.swing.table.TableRowSorter;
 import com.toedter.calendar.JDateChooser;
 
 import BUS.ChangeAcc_BUS;
-
-import DTO.Account_DTO;
-import DTO.HocSinhDTO;
-import DTO.NamHocDTO;
-import BUS.NamHocBUS;
+//------------------
+import BUS.ThongBaoBUS;
+import DATA.ThongBaoDAO;
+import DTO.ThongBaoDTO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,34 +60,21 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-// import org.apache.poi.ss.usermodel.*;
-// import org.apache.poi.xssf.usermodel.XSSFCell;
-// import org.apache.poi.xssf.usermodel.XSSFRow;
-// import org.apache.poi.xssf.usermodel.XSSFSheet;
-// import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-// import org.apache.poi.common.io.FileOutputStream;
-/*
-* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-*/
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
-// import org.apache.poi.ss.usermodel.Row;
-// import org.apache.commons.io.*;;
 
 /**
  *
  * @author vhuyn
  */
-public final class NamhocGUI extends JPanel implements MouseListener, ActionListener {
-    private String manamhoc, namhocbatdau, namhocketthuc;
-    private JLabel lblManh, lblTenhs, lblGioitinh, lblDiachi;
+public final class tb_gv extends JFrame implements MouseListener, ActionListener {
+    private String idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
-    // private JTable tbl;
+
     private JScrollPane scrollpane;
     JTextField[] tf;
     JButton[] buttons;
@@ -99,16 +86,17 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
     private Color defaultColor;
     private String searchText;
     private JTextField JsearchText;
+    private String ma;
     DefaultTableModel model;
     TableRowSorter<DefaultTableModel> sorter;
     JDateChooser dateChooser;
     JComboBox<String> genderComboBox;
-    NamHocBUS nhBUS = new NamHocBUS();
+   
+    ThongBaoBUS tbBUS=new ThongBaoBUS();
     private static String pathAnhdd = "";
-
     ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
 
-    public NamhocGUI(int width, int height) throws SQLException {
+    public tb_gv(int width, int height) throws SQLException {
         this.width = width;
         this.height = height;
         init();
@@ -132,21 +120,20 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         Color myColor = new Color(99, 116, 198);
         Color searchPanel = new Color(180, 204, 227);
         this.setLayout(new BorderLayout());
-        JPanel p3 = SearchHocSinh();
-        // p3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,0,0) , 4
-        // , true));
+        JPanel p3 = new JPanel();
+        
         p3.setPreferredSize(new Dimension(0, 60));
         p3.setBackground(searchPanel);
 
         JPanel p1 = JHocsinh();
         p1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, true));
         p1.setBackground(myColor);
-        p1.setPreferredSize(new Dimension(0, 0));
+        p1.setPreferredSize(new Dimension(0, 200));
 
         JPanel p2 = new JPanel();
         p2.setLayout(new FlowLayout(1, 0, 0));
         p2.add(initTable());
-        p2.setPreferredSize(new Dimension(0, 380));
+        p2.setPreferredSize(new Dimension(0, 320));
         p2.setBackground(Color.gray);
 
         this.add(p1, BorderLayout.CENTER);
@@ -158,59 +145,14 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         // this.setResizable(false);
     }
 
-    public JPanel SearchHocSinh() {
-        Color imgSearchlbl = new Color(180, 204, 227);
-        Color btnResets = new Color(52, 48, 128);
 
-        JPanel JSearch = new JPanel();
-        JSearch.setLayout(new FlowLayout(1, 10, 5));
-
-        java.net.URL imageURL_Search = getClass().getResource("/image/search_qlhs.png");
-        ImageIcon orgIcon_Search = new ImageIcon(imageURL_Search);
-        Image scaleImg_Search = orgIcon_Search.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-
-        JLabel imgSearch = new JLabel(new ImageIcon(scaleImg_Search));
-        imgSearch.setBackground(imgSearchlbl);
-        imgSearch.setPreferredSize(new Dimension(50, 50));
-
-        JsearchText = new JTextField();
-        JsearchText.setPreferredSize(new Dimension(300, 40));
-
-        JLabel lblSearch = new JLabel("Tìm kiếm theo: ");
-        lblSearch.setFont(new Font("arial", Font.BOLD, 14));
-        String searchOption[] = { "Mã năm học", "Năm học bắt đầu", "Năm học kết thúc" };
-        searchselectBox = new JComboBox<>(searchOption);
-
-        java.net.URL imageURL = getClass().getResource("/image/home.png");
-        ImageIcon originalIcon = new ImageIcon(imageURL); // Tạo ImageIcon từ đường dẫn
-
-        // Chỉnh kích thước ảnh
-        Image scaledImage = originalIcon.getImage().getScaledInstance(120, 40, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        btnReset = new JButton(scaledIcon);
-
-        btnReset.setBackground(btnResets);
-        btnReset.setForeground(Color.WHITE);
-        Font font = new Font("Arial", Font.BOLD, 12);
-        btnReset.setFont(font);
-        btnReset.setPreferredSize(new Dimension(120, 40));
-        // btnReset.setOpaque(true);
-
-        JSearch.add(imgSearch);
-        JSearch.add(JsearchText);
-        JSearch.add(lblSearch);
-        JSearch.add(searchselectBox);
-        JSearch.add(btnReset);
-
-        return JSearch;
-
-    }
 
     public JPanel JChucnang() {
-        // Color myColor = Color.PINK;
         Color myColor = new Color(99, 116, 198);
         JPanel Pchucnang = new JPanel();
-        Pchucnang.setLayout(new GridLayout(3,2,15,15));
+        Pchucnang.setLayout(new FlowLayout(0, 5, 10));
+        // Pchucnang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0,
+        // 0, 0), 4, true));
 
         java.net.URL imageURL_Add = getClass().getResource("/image/btnAdd.png");
         ImageIcon orgIcon = new ImageIcon(imageURL_Add);
@@ -260,18 +202,18 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         Pchucnang.add(btnExpExcel);
         return Pchucnang;
     }
-
+    
     public JPanel JHocsinh() {
         JPanel Phocsinh = new JPanel();
         Phocsinh.setLayout(null);
-        String[] arrHocsinh = { "Mã năm học", "Năm bắt đầu", "Năm kết thúc" };
+        String[] arrHocsinh = { "ID người gửi ", "tiêu đề TB", "Nội dung TB", "thời gian TB"};
         int length = arrHocsinh.length;
         tf = new JTextField[length];
         buttons = new JButton[length];
         Phocsinh.setLayout(null);
-        int toadoXbutton = 10;
+        int toadoXbutton = 190;
         int toadoYbutton = 10;
-        int toadoXTextfield = 150;
+        int toadoXTextfield = 330;
         int toadoYTextfield = 10;
         int x = 230;
         int y = 15;
@@ -282,7 +224,7 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
                 buttons[i].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        chooseImage();
+                       // chooseImage();
                     }
                 });
                 buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
@@ -292,28 +234,44 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
                 Phocsinh.add(buttons[i]);
             } else {
                 buttons[i] = new JButton(arrHocsinh[i]);
-                buttons[i].setBounds(toadoXbutton +25, toadoYbutton +30, 120, 30);
+                buttons[i].setBounds(toadoXbutton, toadoYbutton, 120, 30);
                 buttons[i].setHorizontalAlignment(JButton.CENTER);
                 buttons[i].setName("btn" + i);
             }
 
-            toadoYbutton = toadoYbutton + 50;
+            //bootom 35
+            toadoYbutton = toadoYbutton +35;
             Phocsinh.add(buttons[i]);
+            if (i == 3) {
+                dateChooser = new JDateChooser();
+                dateChooser.setDateFormatString("dd/MM/yyyy");
+                dateChooser.setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
+                Phocsinh.add(dateChooser);
+                toadoYTextfield = toadoYTextfield + 35;
+               
+            } 
+            // else if(i==2){
+            //     JTextArea area = new JTextArea();
+            //     area.setBounds(toadoXTextfield, toadoYTextfield, 320, 40);
+            //     Phocsinh.add(area);
+                
+            //      toadoYTextfield = toadoYTextfield + 45;
 
-            {
+            // }
+            else {
                 tf[i] = new JTextField();
-                tf[i].setBounds(toadoXTextfield +35, toadoYTextfield +30, 220, 30);
+                tf[i].setBounds(toadoXTextfield, toadoYTextfield, 320, 30);
                 tf[i].setFont(new Font("Arial", Font.BOLD, 12));
                 tf[i].setBorder(border);
                 tf[i].setName("text" + i);
-                toadoYTextfield = toadoYTextfield + 50;
+                toadoYTextfield = toadoYTextfield + 35;
                 Phocsinh.add(tf[i]);
             }
-            y = y + 35;
+            y = y + 22;
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(510, 25, 290, 150);
+        Pchucnang.setBounds(660, 3, 170, y);
         Phocsinh.add(Pchucnang);
 
         Phocsinh.setPreferredSize(new Dimension(x, y));
@@ -326,19 +284,24 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(846, 400));
-        String[] header = { "Mã năm học", "Năm bắt đầu", "Năm kết thúc" };
+        scrollpane.setPreferredSize(new Dimension(835, 310));
+        //"ID người gửi ", "tiêu đề TB", "Nội dung TB", "thời gian TB", "loại thông báo", "",
+              
+         String[] header = { "ID người gửi", "tiêu đề TB", "Nội dung TB", "thời gian TB" };
 
-        if (nhBUS.getList() == null)
-            nhBUS.listNH();
-        ArrayList<NamHocDTO> nh = nhBUS.getList();
-        Object[][] rowData = new Object[nh.size()][7];
-        for (int i = 0; i < nh.size(); i++) {
-            NamHocDTO namhoc = nh.get(i);
-            rowData[i][0] = namhoc.getNamHocID();
-            rowData[i][1] = namhoc.getNamHocBatDau();
-            rowData[i][2] = namhoc.getNamHocKetThuc();
+        if (tbBUS.getList() == null)
+           tbBUS.list();
+        ArrayList<ThongBaoDTO> hs = tbBUS.getList();
+        Object[][] rowData = new Object[hs.size()][5];
+        for (int i = 0; i < hs.size(); i++) {
+            ThongBaoDTO thongbao = hs.get(i);
+            rowData[i][0] = thongbao.getIdnguoigui();
+            rowData[i][1] = thongbao.getTieudetb();
+            rowData[i][2] = thongbao.getNoidungtb();
+            rowData[i][3] = thongbao.getThoigiantb();
+          
         }
+     
 
         Font font = new Font("Arial", Font.BOLD, 12);
         Color title_color = new Color(31, 28, 77);
@@ -347,6 +310,8 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         t.getTableHeader().setFont(font);
         Color select = new Color(102, 178, 255);
         t.setSelectionBackground(select);
+
+       
 
         tblmodel = new DefaultTableModel(rowData, header);
         t.setModel(tblmodel);
@@ -364,45 +329,24 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         return scrollpane;
     }
 
-    public void chooseImage() {
-        JFileChooser fileChooser = new JFileChooser();
-        // Thiết lập chế độ chỉ cho phép chọn file
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        // Hiển thị hộp thoại chọn file
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            // Lấy đường dẫn của tập tin hình ảnh được chọn
-            String imagePath = fileChooser.getSelectedFile().getAbsolutePath();
-            // Hiển thị đường dẫn trong JTextField
-            String fileName = fileChooser.getSelectedFile().getName();
-            pathAnhdd = fileName;
-            tf[6].setText(fileName);
 
-            // Tạo một ImageIcon từ đường dẫn hình ảnh
-            ImageIcon imageIcon = new ImageIcon(imagePath);
-
-            // Chỉnh kích thước của hình ảnh để phù hợp với JLabel
-            // Image image = imageIcon.getImage().getScaledInstance(lblimg.getWidth(),
-            // lblimg.getHeight(),
-            // Image.SCALE_SMOOTH);
-
-            // Tạo một ImageIcon mới từ hình ảnh đã được điều chỉnh kích thước
-            // ImageIcon scaledImageIcon = new ImageIcon(image);
-
-            // Hiển thị hình ảnh trên JLabel
-            // lblimg.setIcon(scaledImageIcon);
-
-        }
-    }
 
     public void addRow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = dateChooser.getDate();
+        String dateString = sdf.format(date); // Convert Date to String
 
-        String NamHocid = tf[0].getText();
-        int NamBatDau = Integer.parseInt(tf[1].getText());
-        int NamKetThuc = Integer.parseInt(tf[2].getText());
-        NamHocDTO namhoc = new NamHocDTO(NamHocid, NamBatDau, NamKetThuc);
-        nhBUS.addNH(namhoc);
-        Object[] rowData = { NamHocid, NamBatDau, NamKetThuc };
+        String idnguoigui = tf[0].getText();
+        String tieudetb = tf[1].getText();
+        String noidungtb = tf[2].getText();
+        String thoigiantb = dateString;
+       
+
+        ThongBaoDTO thongbao = new ThongBaoDTO(idnguoigui, tieudetb, noidungtb, thoigiantb, thoigiantb);
+
+        tbBUS.add(thongbao);
+
+        Object[] rowData = { idnguoigui, tieudetb, noidungtb, thoigiantb };
         tblmodel.addRow(rowData);
         clearTextFields();
     }
@@ -412,30 +356,43 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         if (row != -1) {
             tblmodel.removeRow(row);
         }
-        String NamHocid = tf[0].getText();
-        nhBUS.deleteNH(NamHocid);
+        String hocSinhID = tf[0].getText();
+        tbBUS.delete(hocSinhID);
         clearTextFields();
     }
 
-    public void updateRow() {
+    // public void updateRow() {
+    //     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    //     Date date = dateChooser.getDate();
+    //     String dateString = sdf.format(date);
 
-        String NamHocid = tf[0].getText();
-        int NamBatDau = Integer.parseInt(tf[1].getText());
-        int NamKetThuc = Integer.parseInt(tf[2].getText());
-        NamHocDTO namhoc = new NamHocDTO(NamHocid, NamBatDau, NamKetThuc);
-        nhBUS.updateNH(namhoc);
-        Object[] rowData = { NamHocid, NamBatDau, NamKetThuc };
-        int row = t.getSelectedRow();
-        tblmodel.removeRow(row);
-        tblmodel.addRow(rowData);
+    //     // Lấy các giá trị từ các trường nhập
+    //     String idnguoigui = tf[0].getText();
+    //     String tieudetb = tf[1].getText();
+    //     String noidungtb = (String) genderComboBox.getSelectedItem();
+    //     String thoigiantb = dateString;
+    //     String loaitb = tf[4].getText();
 
-    }
+    //     ThongBaoDTO giaovien = new ThongBaoDTO(idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb);
+    //     tbBUS.updateGV(giaovien);
+
+    //     Object[] rowData = { idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb};
+
+    //     int row = t.getSelectedRow();
+    //     tblmodel.removeRow(row);
+    //     tblmodel.addRow(rowData);
+    //     clearTextFields();
+    // }
 
     public void clearTextFields() {
         tf[0].setText("");
         tf[1].setText("");
-        tf[2].setText("");
-
+        genderComboBox.setSelectedItem(2);
+        dateChooser.setDate(null);
+        tf[4].setText("");
+        tf[5].setText("");
+        tf[6].setText("");
+       // lblimg.setIcon(null);
     }
 
     public boolean checkEmpty() {
@@ -443,18 +400,28 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
                 tf[1].getText().isEmpty() ||
                 tf[2].getText().isEmpty();
 
-        return isEmpty;
+       //boolean isGenderEmpty = genderComboBox.getSelectedIndex() == -1;
+        return isEmpty;// || isGenderEmpty ;
     }
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) throws ParseException {
         int row = t.getSelectedRow();
-        manamhoc = (String) t.getValueAt(row, 0);
-        namhocbatdau = (String.valueOf(t.getValueAt(row, 1)));
-        namhocketthuc = (String.valueOf(t.getValueAt(row, 2)));
+        
+        idnguoigui= (String) t.getValueAt(row, 0);
+        tieudetb = (String.valueOf(t.getValueAt(row, 1)));
+        noidungtb = (String.valueOf(t.getValueAt(row, 2)));
+        thoigiantb = (String.valueOf(t.getValueAt(row, 3)));
+      
 
-        tf[0].setText(manamhoc);
-        tf[1].setText(namhocbatdau);
-        tf[2].setText(namhocketthuc);
+        tf[0].setText(idnguoigui);
+        tf[1].setText(tieudetb);
+        tf[2].setText(noidungtb);
+
+       
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = sdf.parse(thoigiantb);
+        dateChooser.setDate(date);
+      
 
     }
 
@@ -464,8 +431,13 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+       
+
+       // JOptionPane.showMessageDialog(this, "Mã giáo viên tăng tự động", "Lưu ý", JOptionPane.INFORMATION_MESSAGE);
+
         int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn Thêm năm học này",
+                "Bạn có chắc muốn Thêm thông báo này",
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION,
 
@@ -477,89 +449,54 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
                     JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Ban chon them");
             tf[0].requestFocus();
-            // autoCreateAccount();
+           // autoCreateAccount();
             addRow();
         }
     }
 
     public void btnDelete_actionPerformed() {
-        String manh = tf[0].getText();
-        System.out.println(manh);
-        if (manh.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Hãy nhập ID năm học cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
+        String magv = tf[0].getText();
+        System.out.println(magv);
+        if (magv.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Hãy nhập thông tin cần xóa", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (nhBUS.checkMaNH(manh) == false) {
-            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        // if (tbBUS. checkMagv(magv) == false) {
+        //     JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
+        //     return;
+        // }
         int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn xóa năm học này",
+                "Bạn có chắc muốn xóa thành viên này",
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION,
 
                 JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
-            System.out.println("Ban chon dong y xóa");
+            System.out.println("Ban chon đồn ý xóa");
             deleteRow();
         } else if (result == JOptionPane.NO_OPTION) {
             System.out.println("Bạn chọn không đồng ý xóa");
         }
     }
 
-    public void btnSua_actionPerformed() {
-        String manh = tf[0].getText();
-
-        if (manh.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Hãy nhập ID năm học cần sửa", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (nhBUS.checkMaNH(manh) == false) {
-            JOptionPane.showMessageDialog(this, "Không tồn tại ID này", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int result = JOptionPane.showConfirmDialog(this,
-                "Bạn có chắc muốn sửa năm học này",
-                "Xác nhận",
-                JOptionPane.YES_NO_OPTION,
-
-                JOptionPane.QUESTION_MESSAGE);
-        if (result == JOptionPane.YES_OPTION) {
-            System.out.println("Ban chọn đồng ý sửa");
-            updateRow();
-        } else if (result == JOptionPane.NO_OPTION) {
-            System.out.println("Bạn chọn không đồng ý sửa");
-        }
-    }
 
     public void btnFind_actionPerformed() {
-        String searchText = JsearchText.getText().trim();
+        searchText = JsearchText.getText().trim();
         String selectedOption = (String) searchselectBox.getSelectedItem();
-
         if (searchText.isEmpty()) {
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(this,
                     "Vui lòng nhập thông tin tìm kiếm",
                     "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
             return;
-        }
-
+       }
         model = (DefaultTableModel) t.getModel();
         sorter = new TableRowSorter<>(model);
         t.setRowSorter(sorter);
-
-        // Debugging output
-        System.out.println("searchText: " + searchText);
-        System.out.println("selectedOption: " + selectedOption);
-
-        if (selectedOption.equals("Mã năm học")) {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 0));
-        } else if (selectedOption.equals("Năm học bắt đầu")) {
-            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
-        } else if (selectedOption.equals("Năm học kết thúc")) {
+        if (selectedOption.equals("Mã giáo viên")) {
+            sorter.setRowFilter(RowFilter.regexFilter(searchText, 0));
+        } else if (selectedOption.equals("Họ và tên")) {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText, 1));
         }
     }
@@ -576,7 +513,7 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
             Workbook workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet("DanhSachHocSinh");
             Row headerRow = sheet.createRow(0); // Header row at index 0
-            String[] headers = { "Mã năm học", "Năm học bắt đầu", "Năm học kết thúc" };
+            String[] headers = { "STT", "ID Người gửi", "Tiêu đề thông báo", "Nội dung TB", "Thời gian TB" };
 
             // Creating header cells
             for (int i = 0; i < headers.length; i++) {
@@ -584,16 +521,18 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
                 cell.setCellValue(headers[i]);
             }
 
-            ArrayList<NamHocDTO> dsnh = nhBUS.getList();
-            for (int i = 0; i < dsnh.size(); i++) {
+            ArrayList<ThongBaoDTO> dsgv = tbBUS.getList();
+            for (int i = 0; i < dsgv.size(); i++) {
                 Row row = sheet.createRow(i + 1); // Data rows start from index 1
 
-                NamHocDTO namhoc = dsnh.get(i);
-                // System.out.println(hocSinh.getDiaChi());
+                ThongBaoDTO gv = dsgv.get(i);
+                System.out.println(gv.getIdnguoigui());
 
-                row.createCell(0).setCellValue(namhoc.getNamHocID());
-                row.createCell(1).setCellValue(namhoc.getNamHocBatDau());
-                row.createCell(2).setCellValue(namhoc.getNamHocKetThuc());
+                row.createCell(0).setCellValue(gv.getIdnguoigui());
+                row.createCell(1).setCellValue(gv.getTieudetb());
+                row.createCell(2).setCellValue(gv.getNoidungtb());
+                row.createCell(3).setCellValue(gv.getThoigiantb());
+              
 
             }
 
@@ -620,13 +559,7 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         }
     }
 
-    // public void autoCreateAccount() {
-    // accBUS = new ChangeAcc_BUS();
-    // String username = tf[0].getText();
-    // String password = tf[5].getText();
-    // Account_DTO acc = new Account_DTO(username, password);
-    // accBUS.Add(acc);
-    // }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -699,7 +632,7 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
             btnAdd_actionPerformed();
 
         } else if (e.getSource() == btnSua) {
-            btnSua_actionPerformed();
+           // btnSua_actionPerformed();
 
         } else if (e.getSource() == btnXoa) {
             btnDelete_actionPerformed();
@@ -724,12 +657,12 @@ public final class NamhocGUI extends JPanel implements MouseListener, ActionList
         }
 
     }
-    public static void main(String[] args) throws SQLException {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(850, 670);
-        NamhocGUI panel = new NamhocGUI(850, 670);
-        frame.add(panel);
-        frame.setVisible(true);
+    public static void main(String[] args) {
+        try {
+            new tb_hs(850, 760);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
