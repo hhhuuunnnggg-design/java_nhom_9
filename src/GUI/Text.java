@@ -81,7 +81,7 @@ public class Text extends JFrame implements MouseListener, ActionListener {
         btnLogOut.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 TestDN lg = new TestDN();
-                lg.dispose();
+                dispose();
             }
         });
         // }
@@ -283,7 +283,7 @@ public class Text extends JFrame implements MouseListener, ActionListener {
                 break;
             case "CN9":// Thanh toán học phí
                 main.removeAll();
-                main.add(new ThanhToanHocPhi(850, 670));
+                main.add(new HocPhi(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
@@ -379,8 +379,12 @@ public class Text extends JFrame implements MouseListener, ActionListener {
                 main.revalidate();
                 break;
             case "CN21": // HS nhận thông báo
+                main.removeAll();
+                main.add(new phanquyen(850, 670));
+                main.repaint();
+                main.revalidate();
                 break;
-        }
+            }
     }
 
     public void outNav() {
