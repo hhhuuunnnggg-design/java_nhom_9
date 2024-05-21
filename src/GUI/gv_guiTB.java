@@ -265,7 +265,7 @@ public class gv_guiTB extends JPanel{
                 JOptionPane.showMessageDialog(null, "Thông báo không thể bỏ trống cả tiêu đề và nội dung");
                 return;
             }
-            ThongBaoDTO tb = new ThongBaoDTO(magiaovien, txtHeader.getText(), txtContent.getText(), String.valueOf(currDate.getYearAndDate()+" "+currDate.getTime()),loaitb);
+            ThongBaoDTO tb = new ThongBaoDTO(magiaovien, txtHeader.getText(), txtContent.getText(), String.valueOf(currDate.getdate()),loaitb);
 
             System.out.println("up thong bao to data");
 

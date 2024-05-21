@@ -88,13 +88,13 @@ public class admin_guiTB extends JPanel{
             if (checkboxHS.isSelected()) {
                 loaitb = "HS";
 
-                ThongBaoDTO tb = new ThongBaoDTO("admin", txtHeader.getText(), txtContent.getText(),currDate.getFormatDateTime(),loaitb);
+                ThongBaoDTO tb = new ThongBaoDTO("admin", txtHeader.getText(), txtContent.getText(),currDate.getdate(),loaitb);
                 tbbus.add(tb);
             }
             if (checkboxGV.isSelected()) {
                 loaitb = "GV";
 
-                ThongBaoDTO tb = new ThongBaoDTO("admin", txtHeader.getText(), txtContent.getText(),currDate.getFormatDateTime(),loaitb);
+                ThongBaoDTO tb = new ThongBaoDTO("admin", txtHeader.getText(), txtContent.getText(),currDate.getdate(),loaitb);
                 tbbus.add(tb);
             }
             if(loaitb.isEmpty()) {
