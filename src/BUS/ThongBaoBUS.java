@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ThongBaoBUS {
     private ArrayList<ThongBaoDTO> dsThongBao;
 
-    public ThongBaoBUS(int i) {
+    public ThongBaoBUS() {
         list();
     }
 
@@ -58,7 +58,7 @@ public class ThongBaoBUS {
     }
 
     public static void main(String[] args) {
-        ThongBaoBUS thongBaoBUS = new ThongBaoBUS(1);
+        ThongBaoBUS thongBaoBUS = new ThongBaoBUS();
         ArrayList<ThongBaoDTO> dsThongBao = thongBaoBUS.getList();
 
         for (ThongBaoDTO tb : dsThongBao) {

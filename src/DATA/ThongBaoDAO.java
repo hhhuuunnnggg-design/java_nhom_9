@@ -11,9 +11,10 @@ import java.util.ArrayList;
 
 public class ThongBaoDAO {
     private MySQLConnect mySQL = new MySQLConnect();
-
+    private String username;
     public ArrayList<ThongBaoDTO> list() {
         ArrayList<ThongBaoDTO> dsThongBao = new ArrayList<>();
+
         String sql = "SELECT * FROM thongbao";
         try (PreparedStatement ps = mySQL.getConnection().prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
