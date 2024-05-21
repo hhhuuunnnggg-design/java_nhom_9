@@ -282,7 +282,7 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
         }
         x = x + 180;
         JPanel Pchucnang = JChucnang();
-        Pchucnang.setBounds(510, 20, 290, 120);
+        Pchucnang.setBounds(510, 20, 290, 150);
         PMonHoc.add(Pchucnang);
         PMonHoc.setPreferredSize(new Dimension(x, y));
         return PMonHoc;
@@ -292,7 +292,7 @@ public final class MonHoc extends JPanel implements MouseListener, ActionListene
         t = new JTable();
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(835, 440));
+        scrollpane.setPreferredSize(new Dimension(846, 440));
         String[] header = { "Mã môn học", "Tên Môn Học."};
                
         if (mhBUS.getList() == null)

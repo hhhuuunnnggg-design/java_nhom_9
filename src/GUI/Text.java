@@ -30,7 +30,7 @@ public class Text extends JFrame implements MouseListener, ActionListener {
     private String role;
     private boolean flag = true;
     private JPanel header, nav, main;
-    private int DEFAULT_HEIGHT = 700, DEFALUT_WIDTH = 1060;
+    private int DEFAULT_HEIGHT = 700, DEFALUT_WIDTH = 1070;
     private ArrayList<String> navItem = new ArrayList<>(); // Chứa thông tin có button cho menu gồm
     private ArrayList<navItem> navObj = new ArrayList<>(); // Chứa cái button trên thanh menu
     private QLHS_BUS qlhsBUS;
@@ -271,7 +271,7 @@ public class Text extends JFrame implements MouseListener, ActionListener {
 
             case "CN7": // Quản lý điểm
                 main.removeAll();
-                // main.add(new QuanLyDiem(850, 670));
+                main.add(new QuanLyDiem(850, 670));
                 main.repaint();
                 main.revalidate();
                 break;
