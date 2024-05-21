@@ -88,7 +88,7 @@ public class HocPhi extends JPanel{
         mainTop.setPreferredSize(new Dimension(0, 110));
         mainTop.setBackground(new Color(180, 204, 227));
         mainTop.setOpaque(true);
-
+        
         topPanel = new JPanel();
         topPanel.setLayout(null);
         topPanel.setOpaque(false);
