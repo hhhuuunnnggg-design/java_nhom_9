@@ -1,5 +1,6 @@
 package DTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class CurrentDateTime {
@@ -35,8 +36,11 @@ public class CurrentDateTime {
         return this.getYearAndDate()+" "+this.getTime();
     }
 
+    public String getdate(){
+        return String.valueOf(currentDateTime.toLocalDate());
+    }
     public static void main(String[] args) {
         CurrentDateTime dt = new CurrentDateTime();
-        System.out.println("Current date and time: " + dt.getTime());
+        System.out.println("Current date and time: " + dt.getdate());
     }
 }
