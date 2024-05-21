@@ -45,7 +45,7 @@ import java.awt.GridBagConstraints;
 
 import BUS.phanquyenBUS;
 
-public class phanquyen extends JFrame implements ActionListener {
+public class phanquyen extends JPanel implements ActionListener {
 
     private Integer width, height;
     private JTable t;
@@ -65,12 +65,10 @@ public class phanquyen extends JFrame implements ActionListener {
         btnAdd.addActionListener(this);
         btnEdit.addActionListener(this);
         btnDelete.addActionListener(this);
-        this.setLocationRelativeTo(null);
     }
 
     public void init() {
         this.setSize(new Dimension(width, height));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JPanel p1 = JSearch();
@@ -183,11 +181,14 @@ public class phanquyen extends JFrame implements ActionListener {
         // Clear fields logic if needed
     }
 
-    public static void main(String[] args) {
-        phanquyen frame = new phanquyen(850, 670);
+    public static void main(String[] args) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(850, 670);
+        phanquyen panel = new phanquyen(850, 670);
+        frame.add(panel);
         frame.setVisible(true);
     }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAdd) {
             showAddDialog();
@@ -225,7 +226,7 @@ public class phanquyen extends JFrame implements ActionListener {
         int dialogWidth = (int) (screenSize.width * 0.5);
         int dialogHeight = (int) (screenSize.height * 0.5);
 
-        JDialog addDialog = new JDialog(this, "Thêm Quyền", true);
+        JDialog addDialog = new JDialog();
         addDialog.setSize(dialogWidth, dialogHeight);
         addDialog.setLayout(new BorderLayout());
 
@@ -312,10 +313,10 @@ public class phanquyen extends JFrame implements ActionListener {
         int dialogWidth = (int) (screenSize.width * 0.5);
         int dialogHeight = (int) (screenSize.height * 0.5);
 
-        JDialog editDialog = new JDialog(this, "Sửa Quyền", true);
+        JDialog editDialog = new JDialog();
         editDialog.setSize(dialogWidth, dialogHeight);
         editDialog.setLayout(new BorderLayout());
-        editDialog.setBackground(new Color(	180, 204, 227));
+        editDialog.setBackground(new Color(180,204,227));
 
         JPanel inputPanel = new JPanel(new FlowLayout(1, 10, 10));
         JLabel lblMaQuyen = new JLabel("Mã Quyền:");
