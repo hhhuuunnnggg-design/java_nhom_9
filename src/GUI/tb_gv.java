@@ -70,7 +70,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  *
  * @author vhuyn
  */
-public final class tb_gv extends JFrame implements MouseListener, ActionListener {
+public final class tb_gv extends JPanel implements MouseListener, ActionListener {
     private String idnguoigui, tieudetb, noidungtb, thoigiantb, loaitb;
     private JButton btnThem, btnXoa, btnSua, btnFind, btnReset, btnExpExcel;
     private DefaultTableModel tblmodel;
