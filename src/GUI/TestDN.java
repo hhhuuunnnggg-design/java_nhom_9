@@ -56,9 +56,7 @@ public class TestDN extends JFrame {
 
     public void init() {
 
-        // Calculator Calculator=new Calculator();
         this.setLayout(new BorderLayout());
-        // Tạo font chữ
         Font font1 = new Font("Arical", Font.BOLD, 25);
         Font font2 = new Font("Arical", Font.BOLD, 15);
         // màu backround

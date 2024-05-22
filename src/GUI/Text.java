@@ -347,7 +347,6 @@ public class Text extends JFrame implements MouseListener, ActionListener {
                 try {
                     main.add(new tb_gv(850,670,userName));
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 main.repaint();
@@ -387,29 +386,19 @@ public class Text extends JFrame implements MouseListener, ActionListener {
                 main.repaint();
                 main.revalidate();
                 break;
-            case "CN21": // HS nhận thông báo
+            case "CN21": //phan quyen
                 main.removeAll();
                 main.add(new phanquyen(850, 670));
                 main.repaint();
                 main.revalidate();
-                main.removeAll();
-                try {
-                    main.add(new tb_hs(850,670,userName));
-                } catch (SQLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                main.repaint();
-                main.revalidate();
                 break;
-                case "CN22":// HS nhận thông báo
-                main.removeAll();
-                try {
-                    main.add(new tb_hs(850,670,userName));
-                } catch (SQLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+            case "CN22":// HS nhận thông báo
+            main.removeAll();
+            try {
+                main.add(new tb_hs(850,670,userName));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
                 main.repaint();
                 main.revalidate();
                 break;

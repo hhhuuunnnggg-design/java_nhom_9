@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2024 at 05:37 AM
+-- Generation Time: May 21, 2024 at 07:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -532,36 +532,53 @@ INSERT INTO `chitietdiem` (`HocSinhid`, `MonHocid`, `HocKyid`, `HeSoid`, `NamHoc
 
 CREATE TABLE `chitietquyen` (
   `maquyen` varchar(50) NOT NULL,
-  `machucnang` varchar(50) NOT NULL
+  `machucnang` varchar(50) NOT NULL,
+  `enable` varchar(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `chitietquyen`
 --
 
-INSERT INTO `chitietquyen` (`maquyen`, `machucnang`) VALUES
-('admin', 'CN1'),
-('admin', 'CN2'),
-('admin', 'CN3'),
-('admin', 'CN4'),
-('admin', 'CN5'),
-('admin', 'CN6'),
-('admin', 'CN7'),
-('admin', 'CN8'),
-('admin', 'CN9'),
-('admin', 'CN10'),
-('admin', 'CN11'),
-('GV', 'CN12'),
-('GV', 'CN13'),
-('GV', 'CN14'),
-('GV', 'CN15'),
-('GV', 'CN16'),
-('GV', 'CN17'),
-('HS', 'CN16'),
-('HS', 'CN17'),
-('HS', 'CN18'),
-('HS', 'CN19'),
-('HS', 'CN20');
+INSERT INTO `chitietquyen` (`maquyen`, `machucnang`, `enable`) VALUES
+('admin', 'CN1', '1'),
+('admin', 'CN2', '1'),
+('admin', 'CN3', '1'),
+('admin', 'CN4', '1'),
+('admin', 'CN5', '1'),
+('admin', 'CN6', '1'),
+('admin', 'CN7', '1'),
+('admin', 'CN8', '1'),
+('admin', 'CN9', '1'),
+('admin', 'CN10', '1'),
+('admin', 'CN11', '1'),
+('GV', 'CN12', '1'),
+('GV', 'CN13', '1'),
+('GV', 'CN14', '1'),
+('GV', 'CN15', '1'),
+('GV', 'CN16', '1'),
+('GV', 'CN17', '1'),
+('HS', 'CN16', '1'),
+('HS', 'CN17', '1'),
+('HS', 'CN18', '1'),
+('HS', 'CN19', '1'),
+('HS', 'CN20', '1'),
+('admin', 'CN21', '1'),
+('FFFFF', 'CN1', '0'),
+('FFFFF', 'CN2', '0'),
+('FFFFF', 'CN3', '0'),
+('FFFFF', 'CN4', '0'),
+('FFFFF', 'CN5', '0'),
+('FFFFF', 'CN6', '0'),
+('FFFFF', 'CN1', '1'),
+('FFFFF', 'CN2', '1'),
+('FFFFF', 'CN3', '1'),
+('FFFFF', 'CN4', '1'),
+('FFFFF', 'CN5', '1'),
+('FFFFF', 'CN6', '1'),
+('FFFFF', 'CN8', '1'),
+('FFFFF', 'CN10', '1'),
+('FFFFF', 'CN11', '1');
 
 -- --------------------------------------------------------
 
@@ -598,7 +615,9 @@ INSERT INTO `chucnang` (`machucnang`, `tenchucnang`) VALUES
 ('CN17', 'Đổi mật khấu'),
 ('CN18', 'Xem Điểm'),
 ('CN19', 'Góp Ý Kiến'),
-('CN20', 'Thông Tin HS');
+('CN20', 'Thông Tin HS'),
+('CN21', 'Phân Quyền'),
+('CN22', 'HS NHậnTB');
 
 -- --------------------------------------------------------
 
@@ -718,6 +737,18 @@ CREATE TABLE `hocphi` (
   `status` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `hocphi`
+--
+
+INSERT INTO `hocphi` (`idhs`, `idnh`, `thoigian`, `status`) VALUES
+('HS21', 'giapthin', '21-5-2024 09:41:41', 1),
+('HS10', 'giapthin', '21-5-2024 09:41:54', 1),
+('HS10', 'giapthin', '21-5-2024 11:58:52', 1),
+('HS10', 'giapthin', '21-5-2024 12:04:51', 1),
+('', 'giapthin', '21-5-2024 12:05:00', 1),
+('HS11', 'giapthin', '21-5-2024 12:05:32', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -742,8 +773,8 @@ CREATE TABLE `hocsinh` (
 
 INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoai`, `DiaChi`, `HocPhi`, `IMG`, `enable`) VALUES
 ('HS1', 'Trương Anh Đào', 'Nữ', '12/3/2006', '0987654321', '123/4 Lê Lợi, Phường 7, Quận 1, TP.HCM', 'Đã thanh toán', 'anhavt1.jpg', 1),
-('HS10', 'Nguyễn Thị Ngọc Trinh', 'Nữ', '25/11/2007', '0987654321', '678/90 Nguyễn Tri Phương, Phường 11, Quận 5, TP.HCM', 'Chưa thanh toán', 'anhavt2.jpg', 1),
-('HS11', 'Lê Thị Ánh Tuyết', 'Nữ', '7/8/2007', '0965432198', '345/67 Lê Lợi, Phường 12, Quận 10, TP.HCM', 'Chưa thanh toán', 'anhavt3.jpg', 1),
+('HS10', 'Nguyễn Thị Ngọc Trinh', 'Nữ', '25/11/2007', '0987654321', '678/90 Nguyễn Tri Phương, Phường 11, Quận 5, TP.HCM', 'Đã thanh toán', 'anhavt2.jpg', 1),
+('HS11', 'Lê Thị Ánh Tuyết', 'Nữ', '7/8/2007', '0965432198', '345/67 Lê Lợi, Phường 12, Quận 10, TP.HCM', 'Đã thanh toán', 'anhavt3.jpg', 1),
 ('HS12', 'Trần Văn Minh', 'Nam', '3/4/2007', '0912345678', '890/12 Nguyễn Văn Cừ, Phường 9, Quận Bình Thạnh, TP.HCM', 'Chưa thanh toán', 'anhavt4.jpg', 1),
 ('HS13', ' Phạm Văn Hưng', 'Nam', '16/9/2007', '0909876543', '456/78 Phan Xích Long, Phường 6, Quận Phú Nhuận, TP.HCM', 'Chưa thanh toán', 'anhavt5.jpg', 1),
 ('HS14', 'Đỗ Thị Ngọc Lan', 'Nữ', '29/6/2007', '0987654321', '123/45 Đặng Thùy Trâm, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', 'anhavt6.jpg', 1),
@@ -882,26 +913,27 @@ INSERT INTO `namhoc` (`NamHocid`, `NamBatDau`, `NamKetThuc`) VALUES
 CREATE TABLE `phancong` (
   `GiaoVienid` varchar(5) NOT NULL DEFAULT 'GV',
   `Lopid` int(11) NOT NULL,
-  `MonHocid` varchar(11) NOT NULL
+  `MonHocid` varchar(11) NOT NULL,
+  `enable` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `phancong`
 --
 
-INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`) VALUES
-('GV1', 10, 'TOAN'),
-('GV1', 11, 'TOAN'),
-('GV1', 12, 'TOAN'),
-('GV2', 10, 'LY'),
-('GV2', 11, 'LY'),
-('GV2', 12, 'LY'),
-('GV3', 10, 'HOA'),
-('GV3', 11, 'HOA'),
-('GV3', 12, 'HOA'),
-('GV4', 10, 'ANH'),
-('GV4', 11, 'ANH'),
-('GV4', 12, 'ANH');
+INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`, `enable`) VALUES
+('GV1', 10, 'TOAN', 1),
+('GV1', 11, 'TOAN', 1),
+('GV1', 12, 'TOAN', 1),
+('GV2', 10, 'LY', 1),
+('GV2', 11, 'LY', 1),
+('GV2', 12, 'LY', 1),
+('GV3', 10, 'HOA', 1),
+('GV3', 11, 'HOA', 1),
+('GV3', 12, 'HOA', 1),
+('GV4', 10, 'ANH', 1),
+('GV4', 11, 'ANH', 1),
+('GV4', 12, 'ANH', 1);
 
 -- --------------------------------------------------------
 
@@ -965,9 +997,11 @@ CREATE TABLE `quyen` (
 --
 
 INSERT INTO `quyen` (`tenquyen`, `maquyen`, `enable`) VALUES
-('admin', 'admin', 0),
-('Giáo Viên', 'GV', 0),
-('Học Sinh', 'HS', 0);
+('admin', 'admin', 1),
+('Giáo Viên', 'GV', 1),
+('Học Sinh', 'HS', 1),
+('Vi', 'FFFFF', 0),
+('Vi', 'FFFFF', 1);
 
 -- --------------------------------------------------------
 
@@ -982,6 +1016,14 @@ CREATE TABLE `thongbao` (
   `thoigiantb` varchar(50) DEFAULT NULL,
   `loaitb` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `thongbao`
+--
+
+INSERT INTO `thongbao` (`idnguoigui`, `tieudetb`, `noidungtb`, `thoigiantb`, `loaitb`) VALUES
+('admin', 'thong bao den HS GV', 'noi dung thong bao ', '2024-05-21', 'HS'),
+('admin', 'thong bao den HS GV', 'noi dung thong bao ', '2024-05-21', 'GV');
 
 -- --------------------------------------------------------
 
@@ -1002,12 +1044,6 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('admin', 'admin', 'admin', 1),
-('GV2', 'Phường 2, Gò Vấp', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV3', 'Trảng Bàng', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV001', 'huynhgiavi', '', 1),
 ('GV1', 'GV1@', 'GV', 1),
 ('GV2', 'GV2@', 'GV', 1),
 ('GV3', 'GV3@', 'GV', 1),
@@ -1038,20 +1074,7 @@ INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 ('HS22', 'HS22@', 'HS', 1),
 ('HS23', 'HS23@', 'HS', 1),
 ('HS24', 'HS24@', 'HS', 1),
-('HS25', 'HS25@', 'HS', 1),
-('GV2', 'Phường 2, Gò Vấp', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV4', 'Tân Châu Tây Ninh', 'user', 1),
-('GV', 'Tân Châu Tây Ninh', 'user', 1),
-('GV3', 'Trảng Bàng', 'user', 1),
-('GV1', '0982134576', 'user', 1),
-('HS26', '123/45 Trần Hưng Đạo, Phường 8, Quận 4, TP.HCM', 'user', 1),
-('HS2', '0901234567', 'user', 1),
-('HS11', '0965432198', 'user', 1),
-('HS29', '0965432198', 'user', 1),
-('HS24', '0987654321', 'user', 1),
-('GV2', '0831054319', 'user', 1),
-('GV3', '0957461238', 'user', 1);
+('HS25', 'HS25@', 'HS', 1);
 
 -- --------------------------------------------------------
 

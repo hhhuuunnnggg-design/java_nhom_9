@@ -158,7 +158,7 @@ public class phanquyen extends JPanel implements ActionListener {
         Font headerFont = t.getTableHeader().getFont();
         t.getTableHeader().setFont(new Font(headerFont.getName(), Font.BOLD, 16));
         scrollpane = new JScrollPane(t);
-        scrollpane.setPreferredSize(new Dimension(846, 178));
+        scrollpane.setPreferredSize(new Dimension(846, 400));
         t.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
