@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 07:09 AM
+-- Generation Time: Sep 11, 2024 at 06:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -29,13 +29,14 @@ USE `student_management`;
 -- Table structure for table `chitietdiem`
 --
 
-CREATE TABLE `chitietdiem` (
+CREATE TABLE IF NOT EXISTS `chitietdiem` (
   `HocSinhid` varchar(5) NOT NULL,
   `MonHocid` varchar(11) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `HeSoid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL DEFAULT '',
-  `Diem` float DEFAULT NULL
+  `Diem` float DEFAULT NULL,
+  PRIMARY KEY (`HocSinhid`,`MonHocid`,`HocKyid`,`HeSoid`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -530,7 +531,7 @@ INSERT INTO `chitietdiem` (`HocSinhid`, `MonHocid`, `HocKyid`, `HeSoid`, `NamHoc
 -- Table structure for table `chitietquyen`
 --
 
-CREATE TABLE `chitietquyen` (
+CREATE TABLE IF NOT EXISTS `chitietquyen` (
   `maquyen` varchar(50) NOT NULL,
   `machucnang` varchar(50) NOT NULL,
   `enable` varchar(1) NOT NULL DEFAULT '1'
@@ -586,7 +587,7 @@ INSERT INTO `chitietquyen` (`maquyen`, `machucnang`, `enable`) VALUES
 -- Table structure for table `chucnang`
 --
 
-CREATE TABLE `chucnang` (
+CREATE TABLE IF NOT EXISTS `chucnang` (
   `machucnang` varchar(50) NOT NULL,
   `tenchucnang` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -625,11 +626,12 @@ INSERT INTO `chucnang` (`machucnang`, `tenchucnang`) VALUES
 -- Table structure for table `diemtbhocky`
 --
 
-CREATE TABLE `diemtbhocky` (
+CREATE TABLE IF NOT EXISTS `diemtbhocky` (
   `HocSinhid` varchar(5) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL,
-  `DiemTrungBinh` float DEFAULT NULL
+  `DiemTrungBinh` float DEFAULT NULL,
+  PRIMARY KEY (`HocSinhid`,`HocKyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -684,7 +686,7 @@ INSERT INTO `diemtbhocky` (`HocSinhid`, `HocKyid`, `NamHocid`, `DiemTrungBinh`) 
 -- Table structure for table `giaovien`
 --
 
-CREATE TABLE `giaovien` (
+CREATE TABLE IF NOT EXISTS `giaovien` (
   `GiaoVienid` varchar(5) NOT NULL DEFAULT 'GV',
   `TenGiaoVien` varchar(50) NOT NULL,
   `GioiTinh` varchar(5) NOT NULL,
@@ -692,7 +694,8 @@ CREATE TABLE `giaovien` (
   `DiaChi` varchar(50) NOT NULL,
   `DienThoai` varchar(11) NOT NULL DEFAULT '',
   `IMG` text DEFAULT NULL,
-  `enable` tinyint(1) NOT NULL DEFAULT 1
+  `enable` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`GiaoVienid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -711,9 +714,10 @@ INSERT INTO `giaovien` (`GiaoVienid`, `TenGiaoVien`, `GioiTinh`, `NamSinh`, `Dia
 -- Table structure for table `hocky`
 --
 
-CREATE TABLE `hocky` (
+CREATE TABLE IF NOT EXISTS `hocky` (
   `HocKyid` int(11) NOT NULL,
-  `TenHocKy` varchar(50) NOT NULL
+  `TenHocKy` varchar(50) NOT NULL,
+  PRIMARY KEY (`HocKyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -730,7 +734,7 @@ INSERT INTO `hocky` (`HocKyid`, `TenHocKy`) VALUES
 -- Table structure for table `hocphi`
 --
 
-CREATE TABLE `hocphi` (
+CREATE TABLE IF NOT EXISTS `hocphi` (
   `idhs` varchar(10) NOT NULL,
   `idnh` varchar(22) NOT NULL,
   `thoigian` varchar(50) NOT NULL,
@@ -743,11 +747,9 @@ CREATE TABLE `hocphi` (
 
 INSERT INTO `hocphi` (`idhs`, `idnh`, `thoigian`, `status`) VALUES
 ('HS21', 'giapthin', '21-5-2024 09:41:41', 1),
-('HS10', 'giapthin', '21-5-2024 09:41:54', 1),
-('HS10', 'giapthin', '21-5-2024 11:58:52', 1),
-('HS10', 'giapthin', '21-5-2024 12:04:51', 1),
-('', 'giapthin', '21-5-2024 12:05:00', 1),
-('HS11', 'giapthin', '21-5-2024 12:05:32', 1);
+('HS11', 'giapthin', '21-5-2024 12:05:32', 1),
+('HS1', 'giapthin', '\r\n21-5-2024 12:05:32', 1),
+('HS10', 'giapthin', '\r\n22-5-2024 11:07:44', 1);
 
 -- --------------------------------------------------------
 
@@ -755,7 +757,7 @@ INSERT INTO `hocphi` (`idhs`, `idnh`, `thoigian`, `status`) VALUES
 -- Table structure for table `hocsinh`
 --
 
-CREATE TABLE `hocsinh` (
+CREATE TABLE IF NOT EXISTS `hocsinh` (
   `HocSinhid` varchar(5) NOT NULL DEFAULT 'HS',
   `HoVaTen` varchar(50) NOT NULL,
   `GioiTinh` varchar(50) NOT NULL,
@@ -764,7 +766,8 @@ CREATE TABLE `hocsinh` (
   `DiaChi` text NOT NULL,
   `HocPhi` varchar(20) NOT NULL DEFAULT 'Chưa thanh toán',
   `IMG` text DEFAULT NULL,
-  `enable` tinyint(1) NOT NULL DEFAULT 1
+  `enable` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`HocSinhid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -785,7 +788,7 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 ('HS19', 'Nguyễn Văn Nam', 'Nam', '18/9/2008', '0976543210', '567/89 Phan Chu Trinh, Phường 2, Quận Bình Thạnh, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS2', 'Lê Văn Nam', 'Nam', '5/6/2006', '0901234567', '456/78 Điện Biên Phủ, Phường 5, Quận 3, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS20', 'Phạm Thị Hồng', 'Nữ', '20/7/2008', '0943216789', '678/90 Nguyễn Văn Quá, Phường Tân Hưng, Quận 8, TP.HCM', 'Chưa thanh toán', '', 1),
-('HS21', 'Trần Văn Tuấn', 'Nam', '11/4/2008', '0932109876', '890/12 Bình Long, Phường 3, Quận Gò Vấp, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS21', 'Trần Văn Tuấn', 'Nam', '11/4/2008', '0932109876', '890/12 Bình Long, Phường 3, Quận Gò Vấp, TP.HCM', 'Đã thanh toán', '', 1),
 ('HS22', 'Lý Thị Minh Khai', 'Nữ', ' 25/10/2008', '0923456789', '345/67 Lê Hồng Phong, Phường 4, Quận Tân Bình, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS23', ' Nguyễn Văn Thắng', 'Nam', '8/11/2008', '0912345678', '456/78 Điện Biên Phủ, Phường 5, Quận 11, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS24', 'Phan Thị Ngọc Trâm', 'Nữ', '14/2/2008', '0987654321', '789/32 Lê Lợi, Phường 6, Quận 9, TP.HCM', 'Chưa thanh toán', '', 1),
@@ -795,7 +798,7 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 ('HS28', 'Huỳnh Gia Vĩ', 'Nam', '27/12/2008', '0965432198', '123/45 Trần Hưng Đạo, Phường 8, Quận 4, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS29', 'Lê Thị Ánh Vĩ', 'Nữ', '07/08/2007', 'Bình Định', '0965432198', 'Chưa thanh toán', 'anhavt3.jpg', 0),
 ('HS3', 'Trần Thị Mai', 'Nữ', '20/9/2006', '0978123456', '789/10 Nguyễn Huệ, Phường 2, Quận 10, TP.HCM', 'Chưa thanh toán', '', 1),
-('HS30', 'Huỳnh Vĩ', 'Nam', '14/02/2008', '0987654321', '789/32 Lê Lợi, Phường 6, Quận 9, TP.HCM', 'Chưa thanh toán', '', 1),
+('HS30', 'Huỳnh Vĩ', 'Nam', '14/02/2008', '0987654321', '789/32 Lê Lợi, Phường 6, Quận 9, TP.HCM', 'Chưa thanh toán', '', 0),
 ('HS4', 'Hoàng Văn Tuấn', 'Nam', '15/12/2006', '0865432198', '321/54 Trần Hưng Đạo, Phường 9, Quận 5, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS5', 'Nguyễn Thị Lan', 'Nữ', '8/4/2006', '0912345678', '987/65 Đường số 10, Phường 8, Quận 7, TP.HCM', 'Chưa thanh toán', '', 1),
 ('HS6', 'Lý Văn Hưng', 'Nam', '23/10/2006', '0854321098', '456/32 Lý Thường Kiệt, Phường 6, Quận 11, TP.HCM', 'Chưa thanh toán', '', 1),
@@ -809,13 +812,14 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 -- Table structure for table `kqhocsinhcanam`
 --
 
-CREATE TABLE `kqhocsinhcanam` (
+CREATE TABLE IF NOT EXISTS `kqhocsinhcanam` (
   `HocSinhid` varchar(5) NOT NULL,
   `NamHocid` varchar(50) NOT NULL,
   `HocLuc` varchar(50) DEFAULT NULL,
   `HanhKiem` varchar(10) DEFAULT 'Tốt',
   `Diemtb` float DEFAULT NULL,
-  `KetQua` varchar(50) DEFAULT NULL
+  `KetQua` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`HocSinhid`,`NamHocid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -850,9 +854,10 @@ INSERT INTO `kqhocsinhcanam` (`HocSinhid`, `NamHocid`, `HocLuc`, `HanhKiem`, `Di
 -- Table structure for table `lop`
 --
 
-CREATE TABLE `lop` (
+CREATE TABLE IF NOT EXISTS `lop` (
   `Lopid` int(11) NOT NULL,
-  `TenLop` varchar(50) NOT NULL
+  `TenLop` varchar(50) NOT NULL,
+  PRIMARY KEY (`Lopid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -870,9 +875,10 @@ INSERT INTO `lop` (`Lopid`, `TenLop`) VALUES
 -- Table structure for table `monhoc`
 --
 
-CREATE TABLE `monhoc` (
+CREATE TABLE IF NOT EXISTS `monhoc` (
   `MonHocid` varchar(11) NOT NULL,
-  `TenMonHoc` varchar(50) NOT NULL
+  `TenMonHoc` varchar(50) NOT NULL,
+  PRIMARY KEY (`MonHocid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -891,10 +897,11 @@ INSERT INTO `monhoc` (`MonHocid`, `TenMonHoc`) VALUES
 -- Table structure for table `namhoc`
 --
 
-CREATE TABLE `namhoc` (
+CREATE TABLE IF NOT EXISTS `namhoc` (
   `NamHocid` varchar(50) NOT NULL,
   `NamBatDau` int(50) NOT NULL,
-  `NamKetThuc` int(50) NOT NULL
+  `NamKetThuc` int(50) NOT NULL,
+  PRIMARY KEY (`NamHocid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -910,11 +917,12 @@ INSERT INTO `namhoc` (`NamHocid`, `NamBatDau`, `NamKetThuc`) VALUES
 -- Table structure for table `phancong`
 --
 
-CREATE TABLE `phancong` (
+CREATE TABLE IF NOT EXISTS `phancong` (
   `GiaoVienid` varchar(5) NOT NULL DEFAULT 'GV',
   `Lopid` int(11) NOT NULL,
   `MonHocid` varchar(11) NOT NULL,
-  `enable` int(1) NOT NULL DEFAULT 1
+  `enable` int(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`GiaoVienid`,`Lopid`,`MonHocid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -941,10 +949,11 @@ INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`, `enable`) VALUES
 -- Table structure for table `phanlop`
 --
 
-CREATE TABLE `phanlop` (
+CREATE TABLE IF NOT EXISTS `phanlop` (
   `HocSinhid` varchar(5) NOT NULL,
   `Lopid` int(11) NOT NULL,
-  `NamHocid` varchar(20) NOT NULL
+  `NamHocid` varchar(20) NOT NULL,
+  PRIMARY KEY (`HocSinhid`,`Lopid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -986,7 +995,7 @@ INSERT INTO `phanlop` (`HocSinhid`, `Lopid`, `NamHocid`) VALUES
 -- Table structure for table `quyen`
 --
 
-CREATE TABLE `quyen` (
+CREATE TABLE IF NOT EXISTS `quyen` (
   `tenquyen` varchar(50) NOT NULL,
   `maquyen` varchar(50) NOT NULL,
   `enable` int(50) NOT NULL
@@ -999,9 +1008,7 @@ CREATE TABLE `quyen` (
 INSERT INTO `quyen` (`tenquyen`, `maquyen`, `enable`) VALUES
 ('admin', 'admin', 1),
 ('Giáo Viên', 'GV', 1),
-('Học Sinh', 'HS', 1),
-('Vi', 'FFFFF', 0),
-('Vi', 'FFFFF', 1);
+('Học Sinh', 'HS', 1);
 
 -- --------------------------------------------------------
 
@@ -1009,7 +1016,7 @@ INSERT INTO `quyen` (`tenquyen`, `maquyen`, `enable`) VALUES
 -- Table structure for table `thongbao`
 --
 
-CREATE TABLE `thongbao` (
+CREATE TABLE IF NOT EXISTS `thongbao` (
   `idnguoigui` varchar(11) NOT NULL,
   `tieudetb` text DEFAULT NULL,
   `noidungtb` text DEFAULT NULL,
@@ -1031,7 +1038,7 @@ INSERT INTO `thongbao` (`idnguoigui`, `tieudetb`, `noidungtb`, `thoigiantb`, `lo
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
@@ -1082,7 +1089,7 @@ INSERT INTO `user` (`username`, `password`, `role`, `enable`) VALUES
 -- Table structure for table `ykien`
 --
 
-CREATE TABLE `ykien` (
+CREATE TABLE IF NOT EXISTS `ykien` (
   `idnguoigui` varchar(10) NOT NULL,
   `tieudeyk` text DEFAULT NULL,
   `noidungyk` text DEFAULT NULL,
@@ -1090,85 +1097,6 @@ CREATE TABLE `ykien` (
   `tenhs` varchar(50) DEFAULT NULL,
   `trangthai` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `ykien`
---
-
-INSERT INTO `ykien` (`idnguoigui`, `tieudeyk`, `noidungyk`, `thoigianyk`, `tenhs`, `trangthai`) VALUES
-('HS8', 'dday la cai y kien cua HS8', 'nhap y kien cac thu', '19-5-2024 12:21:51', ' Phan Thị Hằng', 'Chưa xem'),
-('HS8', 'y kien cua HS8 test 2', 'nhap y kien', '19-5-2024 12:23:55', ' Phan Thị Hằng', 'Chưa xem'),
-('HS3', 'y kien HS3', 'cnscpoJPOCJPJ', '19-5-2024 12:24:24', 'Trần Thị Mai', 'Chưa xem');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `chitietdiem`
---
-ALTER TABLE `chitietdiem`
-  ADD PRIMARY KEY (`HocSinhid`,`MonHocid`,`HocKyid`,`HeSoid`) USING BTREE;
-
---
--- Indexes for table `diemtbhocky`
---
-ALTER TABLE `diemtbhocky`
-  ADD PRIMARY KEY (`HocSinhid`,`HocKyid`);
-
---
--- Indexes for table `giaovien`
---
-ALTER TABLE `giaovien`
-  ADD PRIMARY KEY (`GiaoVienid`);
-
---
--- Indexes for table `hocky`
---
-ALTER TABLE `hocky`
-  ADD PRIMARY KEY (`HocKyid`);
-
---
--- Indexes for table `hocsinh`
---
-ALTER TABLE `hocsinh`
-  ADD PRIMARY KEY (`HocSinhid`);
-
---
--- Indexes for table `kqhocsinhcanam`
---
-ALTER TABLE `kqhocsinhcanam`
-  ADD PRIMARY KEY (`HocSinhid`,`NamHocid`);
-
---
--- Indexes for table `lop`
---
-ALTER TABLE `lop`
-  ADD PRIMARY KEY (`Lopid`);
-
---
--- Indexes for table `monhoc`
---
-ALTER TABLE `monhoc`
-  ADD PRIMARY KEY (`MonHocid`);
-
---
--- Indexes for table `namhoc`
---
-ALTER TABLE `namhoc`
-  ADD PRIMARY KEY (`NamHocid`);
-
---
--- Indexes for table `phancong`
---
-ALTER TABLE `phancong`
-  ADD PRIMARY KEY (`GiaoVienid`,`Lopid`,`MonHocid`);
-
---
--- Indexes for table `phanlop`
---
-ALTER TABLE `phanlop`
-  ADD PRIMARY KEY (`HocSinhid`,`Lopid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

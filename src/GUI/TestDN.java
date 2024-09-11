@@ -155,7 +155,7 @@ public class TestDN extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 if (jtf1.getText().equals("")) {
-                    JOptionPane.showMessageDialog(jpright, "Bạn chưa nhập tài khoảng");
+                    JOptionPane.showMessageDialog(jpright, "Bạn chưa nhập tài khoản");
                 }
                 if (String.valueOf(jtf2.getPassword()).equals("")) {
                     JOptionPane.showMessageDialog(jpright, "Bạn chưa nhập mật khẩu");
@@ -182,7 +182,7 @@ public class TestDN extends JFrame {
 
                         } else {
                             System.out.println("NO");
-                            JOptionPane.showMessageDialog(jpright, "Tài khoảng không chính xác");
+                            JOptionPane.showMessageDialog(jpright, "Tài khoản không chính xác");
                         }
                     } catch (SQLException e1) {
                         // TODO Auto-generated catch block

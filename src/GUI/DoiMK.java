@@ -9,7 +9,8 @@ import BUS.DoiMK_BUS;
 import DTO.DoiMK_DTO;
 
 public class DoiMK extends JPanel {
-    private JTextField tfUsername, tfOldPassword, tfNewPassword, tfConfirmPassword;
+    private JTextField tfUsername, tfOldPassword;
+    private JPasswordField tfNewPassword, tfConfirmPassword;
     private JPanel mainP;
     private JLabel jlUsername, jlOldPassword, jlNewPassword, jlConfirmPassword;
     private JButton okButton;
@@ -45,10 +46,10 @@ public class DoiMK extends JPanel {
         tfOldPassword = createTextField(gbc, 1, 3);
     
         jlNewPassword = createLabel("Nhập mật khẩu mới:", gbc, 0, 4);
-        tfNewPassword = createTextField(gbc, 1, 4);
+        tfNewPassword = createPasswordField(gbc, 1, 4);
     
         jlConfirmPassword = createLabel("Nhập lại mật khẩu mới:", gbc, 0, 5);
-        tfConfirmPassword = createTextField(gbc, 1, 5);
+        tfConfirmPassword = createPasswordField(gbc, 1, 5);
     
         okButton = new JButton("OK");
         okButton.setPreferredSize(new Dimension(80, 40));
@@ -86,6 +87,18 @@ public class DoiMK extends JPanel {
 
     private JTextField createTextField(GridBagConstraints gbc, int x, int y) {
         JTextField textField = new JTextField();
+        textField.setPreferredSize(new Dimension(300, 30));
+        textField.setFont(textField.getFont().deriveFont(Font.BOLD, 18));
+        textField.setHorizontalAlignment(JTextField.CENTER);
+        textField.setBackground(Color.WHITE);
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.anchor = GridBagConstraints.EAST; // Căn lề trái trong lưới
+        mainP.add(textField, gbc);
+        return textField;
+    }
+    private JPasswordField createPasswordField(GridBagConstraints gbc, int x, int y) {
+        JPasswordField textField = new JPasswordField();
         textField.setPreferredSize(new Dimension(300, 30));
         textField.setFont(textField.getFont().deriveFont(Font.BOLD, 18));
         textField.setHorizontalAlignment(JTextField.CENTER);
