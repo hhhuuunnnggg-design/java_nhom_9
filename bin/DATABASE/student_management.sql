@@ -30,7 +30,7 @@ USE `student_management`;
 --
 
 CREATE TABLE IF NOT EXISTS `chitietdiem` (
-  `HocSinhid` varchar(5) NOT NULL,
+  `HocSinhid` varchar(10) NOT NULL,
   `MonHocid` varchar(11) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `HeSoid` int(11) NOT NULL,
@@ -627,7 +627,7 @@ INSERT INTO `chucnang` (`machucnang`, `tenchucnang`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `diemtbhocky` (
-  `HocSinhid` varchar(5) NOT NULL,
+  `HocSinhid` varchar(10) NOT NULL,
   `HocKyid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL,
   `DiemTrungBinh` float DEFAULT NULL,
@@ -758,7 +758,7 @@ INSERT INTO `hocphi` (`idhs`, `idnh`, `thoigian`, `status`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `hocsinh` (
-  `HocSinhid` varchar(5) NOT NULL DEFAULT 'HS',
+  `HocSinhid` varchar(10) NOT NULL DEFAULT 'HS',
   `HoVaTen` varchar(50) NOT NULL,
   `GioiTinh` varchar(50) NOT NULL,
   `NgaySinh` varchar(50) NOT NULL,
@@ -813,7 +813,7 @@ INSERT INTO `hocsinh` (`HocSinhid`, `HoVaTen`, `GioiTinh`, `NgaySinh`, `DienThoa
 --
 
 CREATE TABLE IF NOT EXISTS `kqhocsinhcanam` (
-  `HocSinhid` varchar(5) NOT NULL,
+  `HocSinhid` varchar(10) NOT NULL,
   `NamHocid` varchar(50) NOT NULL,
   `HocLuc` varchar(50) DEFAULT NULL,
   `HanhKiem` varchar(10) DEFAULT 'Tốt',
@@ -950,7 +950,7 @@ INSERT INTO `phancong` (`GiaoVienid`, `Lopid`, `MonHocid`, `enable`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `phanlop` (
-  `HocSinhid` varchar(5) NOT NULL,
+  `HocSinhid` varchar(10) NOT NULL,
   `Lopid` int(11) NOT NULL,
   `NamHocid` varchar(20) NOT NULL,
   PRIMARY KEY (`HocSinhid`,`Lopid`)
