@@ -41,6 +41,7 @@ public class Text extends JFrame implements MouseListener, ActionListener {
     ArrayList<String> macn;
     private model.navItem item;
 
+
     public Text(String username) throws SQLException {
         this.userName = username;
         Toolkit screen = Toolkit.getDefaultToolkit();
@@ -117,12 +118,7 @@ public class Text extends JFrame implements MouseListener, ActionListener {
 
             nav = new JPanel(null);
             Color my_color_jleft = new Color(50, 48, 128);
-            nav.setBackground(my_color_jleft);
-            nav.setPreferredSize(new Dimension(220, DEFAULT_HEIGHT + 100));
-
-            JScrollPane scroll = new JScrollPane(nav);
-            scroll.getVerticalScrollBar().setPreferredSize(new Dimension(1, 100));
-            scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
+            
 
             pqBUS = new phanquyenBUS();
             pqBUS.listChiTietQuyen(maquyen);
@@ -135,6 +131,7 @@ public class Text extends JFrame implements MouseListener, ActionListener {
 
             navItem = new ArrayList<>();
             macn = new ArrayList<>();
+
 
             for (int i = 0; i < listChitietquyen.size(); i++) {
                 chitietquyenDTO ctq = listChitietquyen.get(i);
@@ -149,7 +146,15 @@ public class Text extends JFrame implements MouseListener, ActionListener {
                         System.out.println(cn.getMachucnang());
                     }
                 }
+                        
             }
+
+            nav.setBackground(my_color_jleft);
+            nav.setPreferredSize(new Dimension(220, 200 +  navItem.size()*50));
+
+            JScrollPane scroll = new JScrollPane(nav);
+            scroll.getVerticalScrollBar().setPreferredSize(new Dimension(10, 50));
+            scroll.setHorizontalScrollBarPolicy(scroll.HORIZONTAL_SCROLLBAR_NEVER);
 
             System.out.println(navItem.size());
             outNav();
