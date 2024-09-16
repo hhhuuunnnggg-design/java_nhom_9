@@ -32,8 +32,10 @@ import javax.swing.table.TableRowSorter;
 import com.toedter.calendar.JDateChooser;
 
 import BUS.ChangeAcc_BUS;
+import BUS.NamHocBUS;
 import BUS.QLHS_BUS;
 import DTO.HocSinhDTO;
+import DTO.NamHocDTO;
 import DTO.Account_DTO;
 
 import java.text.ParseException;
@@ -67,7 +69,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     JTextField[] tf;
     JButton[] buttons;
     JTable t;
-    int width, height;
+    int width, height, soKhoa;
     private JComboBox<String> searchselectBox;
     private final Border raisedBevel = BorderFactory.createRaisedBevelBorder();
     Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
@@ -80,6 +82,7 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
     JComboBox<String> genderComboBox;
     QLHS_BUS hsBUS = new QLHS_BUS();
     private static String pathAnhdd = "";
+    NamHocBUS nhBUS = new NamHocBUS();
 
     ChangeAcc_BUS accBUS = new ChangeAcc_BUS();
 
@@ -327,6 +330,13 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
             hsBUS.listHS();
         ArrayList<HocSinhDTO> hs = hsBUS.getList();
         Object[][] rowData = new Object[hs.size()][7];
+        if (nhBUS.getList() == null){
+            nhBUS.listNH();}
+        ArrayList<NamHocDTO> nh = nhBUS.getList();
+        for (int i = 0; i < nh.size(); i++) {
+            NamHocDTO namhoc = nh.get(i);
+            soKhoa = namhoc.getNamHocBatDau() - 2000;
+            }
         for (int i = 0; i < hs.size(); i++) {
             HocSinhDTO student = hs.get(i);
             rowData[i][0] = student.getHocSinhID();
@@ -398,10 +408,9 @@ public final class QuanLiHocSinh extends JPanel implements MouseListener, Action
         String dateString = sdf.format(date); // Convert Date to String
 
         // Lấy các giá trị từ các trường nhập
-
         Integer countHS = +hsBUS.CountHS() + 1;
         System.out.println("Số lượng học sinh: " + countHS);
-        String hocSinhID = "HS" + countHS;
+        String hocSinhID = "HSK" + soKhoa + countHS;
         // String hocSinhID = tf[0].getText();
         String tenHocSinh = tf[1].getText();
         String gioiTinh = (String) genderComboBox.getSelectedItem();
